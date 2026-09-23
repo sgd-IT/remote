@@ -1,0 +1,53 @@
+$bg-primary: #0a1628;
+$bg-panel: #0d1e38;
+$bg-panel-light: #122543;
+$border-color: rgba(0, 180, 255, 0.15);
+$border-color-strong: rgba(0, 180, 255, 0.3);
+$primary: #00b4ff;
+$success: #00e676;
+$warning: #ff8c00;
+$danger: #ff4d4f;
+$text-primary: #e8f0fe;
+$text-secondary: #8ba3c7;
+$text-muted: #5a6f8a;
+
+:root {
+  --rc-bg-primary: #{$bg-primary};
+  --rc-bg-panel: #{$bg-panel};
+  --rc-bg-panel-light: #{$bg-panel-light};
+  --rc-border-color: #{$border-color};
+  --rc-border-color-strong: #{$border-color-strong};
+  --rc-primary: #{$primary};
+  --rc-success: #{$success};
+  --rc-warning: #{$warning};
+  --rc-danger: #{$danger};
+  --rc-text-primary: #{$text-primary};
+  --rc-text-secondary: #{$text-secondary};
+  --rc-text-muted: #{$text-muted};
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin scrollbar {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 180, 255, 0.3);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 180, 255, 0.5);
+  }
+}

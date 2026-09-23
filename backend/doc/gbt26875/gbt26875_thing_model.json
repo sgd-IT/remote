@@ -1,0 +1,97 @@
+{
+  "properties": [
+    {"identifier": "alarm_fire",           "name": "系统火警",     "dataType": {"type": "enum", "specs": {"0": "正常", "1": "火警"}}, "accessMode": "r", "description": "TLD1 bit1"},
+    {"identifier": "alarm_fault",          "name": "系统故障",     "dataType": {"type": "enum", "specs": {"0": "正常", "1": "故障"}}, "accessMode": "r", "description": "TLD1 bit2"},
+    {"identifier": "alarm_main_power",     "name": "系统主电状态", "dataType": {"type": "enum", "specs": {"0": "正常", "1": "故障"}}, "accessMode": "r", "description": "TLD1 bit8"},
+    {"identifier": "alarm_backup_power",   "name": "系统备电状态", "dataType": {"type": "enum", "specs": {"0": "正常", "1": "故障"}}, "accessMode": "r", "description": "TLD1 bit9"},
+    {"identifier": "alarm_bus_fault",      "name": "总线故障",     "dataType": {"type": "enum", "specs": {"0": "正常", "1": "故障"}}, "accessMode": "r", "description": "TLD1 bit10"},
+    {"identifier": "alarm_normal_monitor",  "name": "正常监控",     "dataType": {"type": "enum", "specs": {"0": "异常", "1": "正常监控"}}, "accessMode": "r", "description": "TLD1/21 bit0"},
+    {"identifier": "alarm_shield",         "name": "屏蔽状态",     "dataType": {"type": "enum", "specs": {"0": "正常", "1": "屏蔽"}}, "accessMode": "r", "description": "TLD1 bit3"},
+    {"identifier": "alarm_supervised",     "name": "监管状态",     "dataType": {"type": "enum", "specs": {"0": "无", "1": "监管"}}, "accessMode": "r", "description": "TLD1 bit4"},
+    {"identifier": "alarm_activated",      "name": "启动状态",     "dataType": {"type": "enum", "specs": {"0": "无", "1": "启动"}}, "accessMode": "r", "description": "TLD1 bit5"},
+    {"identifier": "alarm_feedback",       "name": "反馈状态",     "dataType": {"type": "enum", "specs": {"0": "无", "1": "反馈"}}, "accessMode": "r", "description": "TLD1 bit6"},
+    {"identifier": "alarm_delay",          "name": "延时状态",     "dataType": {"type": "enum", "specs": {"0": "无", "1": "延时"}}, "accessMode": "r", "description": "TLD1 bit7"},
+    {"identifier": "alarm_manual_mode",    "name": "手动模式",     "dataType": {"type": "enum", "specs": {"0": "自动", "1": "手动"}}, "accessMode": "r", "description": "TLD1 bit11"},
+    {"identifier": "alarm_config_changed", "name": "配置变更标志", "dataType": {"type": "enum", "specs": {"0": "无变更", "1": "有变更"}}, "accessMode": "r", "description": "TLD1 bit12"},
+    {"identifier": "alarm_status_time",    "name": "告警状态时间", "dataType": {"type": "date"}, "accessMode": "r"},
+    {"identifier": "alarm_device_fire",       "name": "装置火警",     "dataType": {"type": "enum", "specs": {"0": "无火警", "1": "火警"}}, "accessMode": "r", "description": "TLD21 bit1 核心告警"},
+    {"identifier": "alarm_device_fault",      "name": "装置故障",     "dataType": {"type": "enum", "specs": {"0": "无故障", "1": "故障"}}, "accessMode": "r", "description": "TLD21 bit2"},
+    {"identifier": "alarm_device_main_power", "name": "装置主电状态", "dataType": {"type": "enum", "specs": {"0": "正常", "1": "故障"}}, "accessMode": "r", "description": "TLD21 bit3"},
+    {"identifier": "alarm_device_backup_power","name": "装置备电状态","dataType": {"type": "enum", "specs": {"0": "正常", "1": "故障"}}, "accessMode": "r", "description": "TLD21 bit4"},
+    {"identifier": "alarm_device_comm",       "name": "装置通信状态", "dataType": {"type": "enum", "specs": {"0": "正常", "1": "故障"}}, "accessMode": "r", "description": "TLD21 bit5"},
+    {"identifier": "alarm_device_line",       "name": "装置线路状态", "dataType": {"type": "enum", "specs": {"0": "正常", "1": "故障"}}, "accessMode": "r", "description": "TLD21 bit6"},
+
+    {"identifier": "info_firmware_ver_major", "name": "固件主版本",   "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}}, "accessMode": "r", "description": "TLD25"},
+    {"identifier": "info_firmware_ver_minor", "name": "固件次版本",   "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}}, "accessMode": "r", "description": "TLD25"},
+    {"identifier": "info_config_desc",        "name": "装置配置描述", "dataType": {"type": "text"}, "accessMode": "r", "description": "TLD26"},
+    {"identifier": "info_system_time",        "name": "装置系统时间", "dataType": {"type": "date"}, "accessMode": "r", "description": "TLD28"}
+  ],
+  "events": [
+    {"identifier": "fire_alarm_event", "name": "火灾报警事件", "outputData": [
+      {"identifier": "event_level", "name": "事件级别", "dataType": {"type": "enum", "specs": {"1": "系统级", "2": "部件级", "3": "装置级"}}},
+      {"identifier": "event_sys_type", "name": "系统类型", "dataType": {"type": "int32"}},
+      {"identifier": "event_sys_addr", "name": "系统地址", "dataType": {"type": "int32"}},
+      {"identifier": "event_comp_type", "name": "部件类型", "dataType": {"type": "int32"}},
+      {"identifier": "event_comp_addr", "name": "部件地址", "dataType": {"type": "text"}},
+      {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}},
+      {"identifier": "event_desc", "name": "事件描述", "dataType": {"type": "text"}}
+    ]},
+    {"identifier": "fault_event", "name": "故障告警事件", "outputData": [
+      {"identifier": "fault_type", "name": "故障类型", "dataType": {"type": "enum", "specs": {"1": "主电故障", "2": "备电故障", "5": "总线故障", "6": "系统故障", "7": "部件故障"}}},
+      {"identifier": "fault_sys_type", "name": "系统类型", "dataType": {"type": "int32"}},
+      {"identifier": "fault_sys_addr", "name": "系统地址", "dataType": {"type": "int32"}},
+      {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}},
+      {"identifier": "event_desc", "name": "事件描述", "dataType": {"type": "text"}}
+    ]},
+    {"identifier": "power_fault_event", "name": "电源故障事件", "outputData": [
+      {"identifier": "power_type", "name": "电源类型", "dataType": {"type": "enum", "specs": {"1": "主电", "2": "备电", "3": "部件电源"}}},
+      {"identifier": "source_type", "name": "来源类型", "dataType": {"type": "int32"}},
+      {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}}
+    ]},
+    {"identifier": "offline_event", "name": "装置离线事件", "outputData": [
+      {"identifier": "last_seen", "name": "最后在线时间", "dataType": {"type": "date"}},
+      {"identifier": "offline_time", "name": "离线时间", "dataType": {"type": "date"}}
+    ]},
+    {"identifier": "prt_alarm_event", "name": "PRT告警事件", "outputData": [
+      {"identifier": "alarm_type", "name": "告警类型", "dataType": {"type": "int32"}},
+      {"identifier": "device_name", "name": "设备名称", "dataType": {"type": "text"}},
+      {"identifier": "location", "name": "设备位置", "dataType": {"type": "text"}},
+      {"identifier": "info", "name": "告警信息", "dataType": {"type": "text"}},
+      {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}},
+      {"identifier": "source", "name": "来源", "dataType": {"type": "text"}}
+    ]},
+    {"identifier": "crt_alarm_event", "name": "CRT告警事件", "outputData": [
+      {"identifier": "alarm_type", "name": "告警类型", "dataType": {"type": "int32"}},
+      {"identifier": "alarm_type_desc", "name": "告警类型描述", "dataType": {"type": "text"}},
+      {"identifier": "event_json", "name": "事件数据", "dataType": {"type": "text"}},
+      {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}},
+      {"identifier": "source", "name": "来源", "dataType": {"type": "text"}}
+    ]},
+    {"identifier": "operation_event", "name": "操作信息事件", "outputData": [
+      {"identifier": "oper_type", "name": "操作类型", "dataType": {"type": "enum", "specs": {"1": "复位", "2": "消音", "3": "手动报警", "4": "警情消除", "5": "自检", "6": "确认", "7": "测试"}}},
+      {"identifier": "oper_sys_type", "name": "系统类型", "dataType": {"type": "int32"}},
+      {"identifier": "oper_sys_addr", "name": "系统地址", "dataType": {"type": "int32"}},
+      {"identifier": "operator_num", "name": "操作员编号", "dataType": {"type": "int32"}},
+      {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}}
+    ]}
+  ],
+  "services": [
+    {"identifier": "sync_device_time", "name": "同步时钟", "inputData": [{"identifier": "target_time", "name": "目标时间", "dataType": {"type": "date"}, "required": true}], "outputData": [{"identifier": "success", "name": "是否成功", "dataType": {"type": "enum", "specs": {"0": "失败", "1": "成功"}}}]},
+    {"identifier": "inspection_cmd", "name": "查岗命令", "inputData": [{"identifier": "timeout_min", "name": "超时分钟", "dataType": {"type": "int32", "specs": {"min": 1, "max": 60}}, "required": false}], "outputData": [{"identifier": "responded", "name": "是否响应", "dataType": {"type": "enum", "specs": {"0": "未响应", "1": "已响应"}}}]},
+    {"identifier": "init_device", "name": "初始化装置", "inputData": [], "outputData": [{"identifier": "success", "name": "是否成功", "dataType": {"type": "enum", "specs": {"0": "失败", "1": "成功"}}}]},
+    {"identifier": "read_system_status", "name": "读系统状态", "inputData": [
+      {"identifier": "query_sys_type", "name": "系统类型", "dataType": {"type": "int32"}, "required": true},
+      {"identifier": "query_sys_addr", "name": "系统地址", "dataType": {"type": "int32"}, "required": true}
+    ], "outputData": [{"identifier": "result_json", "name": "查询结果", "dataType": {"type": "text"}}]},
+    {"identifier": "read_component_status", "name": "读部件状态", "inputData": [
+      {"identifier": "query_sys_type", "name": "系统类型", "dataType": {"type": "int32"}, "required": true},
+      {"identifier": "query_comp_addr", "name": "部件地址", "dataType": {"type": "text"}, "required": true}
+    ], "outputData": [{"identifier": "result_json", "name": "查询结果", "dataType": {"type": "text"}}]},
+    {"identifier": "remote_control", "name": "远程控制", "inputData": [
+      {"identifier": "command_code", "name": "指令码", "dataType": {"type": "text"}, "required": true}
+    ], "outputData": [
+      {"identifier": "success", "name": "是否成功", "dataType": {"type": "enum", "specs": {"0": "失败", "1": "成功"}}},
+      {"identifier": "result_desc", "name": "结果描述", "dataType": {"type": "text"}}
+    ]}
+  ]
+}

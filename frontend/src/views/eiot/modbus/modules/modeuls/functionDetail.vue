@@ -1,0 +1,224 @@
+<template>
+  <el-dialog
+    v-model="state.dialogShow"
+    width="950px"
+    :title="!state.isAdd ? '编辑功能' : '新增功能'"
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    append-to-body
+    destroy-on-close
+  >
+    <el-form v-if="state.dialogShow" class="model-form" :rules="rules" label-width="120px" :model="state.modelForm" ref="modelFormRef">
+      <el-form-item label="功能类型">
+        <el-radio-group :disabled="!state.isAdd" v-model="state.modelForm.type" size="small">
+          <el-radio-button label="property">属性</el-radio-button>
+          <el-radio-button disabled label="service">服务</el-radio-button>
+          <el-radio-button disabled label="event">事件</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+      <property-model
+        ref="propertyModelRef"
+        :property="state.modelForm.raw"
+        :enumItems="state.enumItems"
+        :boolItem="state.boolItem"
+        :isProperty="true"
+        :isUpdate="!state.isAdd"
+      />
+      <el-form-item>
+        <el-button @click="cancelEdit">取消</el-button>
+        <el-button @click="saveThingModel()" type="primary">保存</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
+</template>
+
+<script lang="ts" setup>
+import { ParseProperty } from '@/views/eiot/modbus/util'
+import { ModBusInfoApi } from '@/api/eiot/modbus'
+import { propTypes } from '@/utils/propTypes'
+
+import PropertyModel from '../components/PropertyModel.vue'
+import { useEmitt } from '@/hooks/web/useEmitt'
+
+const props = defineProps({
+  id: propTypes.string.def(''),
+  model: propTypes.object.def({}),
+})
+const state = reactive({
+  isAdd: true,
+  data: {} as any,
+  dialogShow: false,
+  modelForm: {} as any,
+  modelType: '1',
+  model: {} as any,
+  boolItem: {},
+  enumItems: [{}],
+  scriptRules: {
+    model: [{ required: true, message: '设备型号不能为空', trigger: 'blur' }],
+    script: [{ required: true, message: '脚本内容不能为空', trigger: 'blur' }],
+  },
+})
+const rules = reactive({
+  name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+  identifier: [{ required: true, message: '请输入标识符', trigger: 'blur' }],
+})
+watch(
+  () => props.model,
+  (newV) => {
+    state.model = newV
+  }
+)
+const modelFormRef = ref()
+const openDialog = (row?: any, props?: any) => {
+  if (row) {
+    state.modelForm = row
+    state.isAdd = false
+    state.modelType = row.model?.endsWith && row.model.endsWith('_default') ? '1' : '2'
+    if (props.enumItems) state.enumItems = props.enumItems
+    if (props.boolItem) state.boolItem = props.boolItem
+  } else {
+    state.isAdd = true
+    state.modelForm = {
+      type: 'property',
+      identifier: '',
+      name: '',
+      regType: '',
+      regAddr: '',
+      regNum: '1',
+      processor: '',
+      sort: 'AB',
+      raw: {
+        name: '',
+        identifier: '',
+        description: '',
+        regType: '',
+        regAddr: '',
+        regNum: '1',
+        processor: '',
+        sort: 'AB',
+        type: 'property',
+        dataType: {
+          specs: {},
+        },
+        inputData: [],
+        outputData: [],
+        enumItems: [],
+        boolItem: {
+          _true: '',
+          _false: '',
+        },
+      },
+    }
+  }
+  state.dialogShow = true
+}
+const cancelEdit = () => {
+  state.dialogShow = false
+}
+const isSelectType = (type: string | number) => {
+  return type == state.modelForm.type
+}
+const newProperty = () => {
+  return ParseProperty(state.modelForm.raw, state.enumItems, state.boolItem)
+}
+const { emitter } = useEmitt()
+const submitThingModelChange = async () => {
+  if (state.model) {
+      state.model.services = state.model.services || []
+      state.model.properties = state.model.properties || []
+      state.model.events = state.model.events || []
+  }
+  await ModBusInfoApi.saveObjectModel({
+    productKey: props.id,
+    model: JSON.stringify(state.model),
+  });
+  state.dialogShow = false
+  emitter.emit('updateObjectModelX')
+  cancelEdit()
+}
+const propertyModelRef = ref()
+const saveThingModel = async () => {
+  const fun = state.modelForm.type == 'property' ? propertyModelRef.value.validate : modelFormRef.value.validate
+  const valid = await fun()
+  if (valid) {
+    if (state.isAdd) {
+      if (state.modelForm.type == 'property') {
+        if (state.model.properties) {
+          //删除旧的
+          const idx = state.model.properties.findIndex((p: any) => p.identifier == state.modelForm.raw.identifier)
+          if (idx >= 0) {
+            state.model.properties.splice(idx, 1)
+          }
+        } else {
+          state.model.properties = []
+        }
+        state.model.properties.push(newProperty())
+      } else if (state.modelForm.type == 'service') {
+        if (state.model.services) {
+          //删除旧的
+          const idx = state.model.services.findIndex((p: any) => p.identifier == state.modelForm.raw.identifier)
+          if (idx >= 0) {
+            state.model.services.splice(idx, 1)
+          }
+        } else {
+          state.model.services = []
+        }
+
+        state.model.services.push({
+          identifier: state.modelForm.identifier,
+          name: state.modelForm.name,
+          inputData: state.modelForm.raw.inputData,
+          outputData: state.modelForm.raw.outputData,
+        })
+      } else if (state.modelForm.type == 'event') {
+        if (state.model.events) {
+          //删除旧的
+          const idx = state.model.events.findIndex((p: any) => p.identifier == state.modelForm.raw.identifier)
+          if (idx >= 0) {
+            state.model.events.splice(idx, 1)
+          }
+        } else {
+          state.model.events = []
+        }
+
+        state.model.events.push({
+          identifier: state.modelForm.identifier,
+          name: state.modelForm.name,
+          outputData: state.modelForm.raw.outputData,
+        })
+      }
+    } else {
+      if (state.modelForm.type == 'property') {
+        let prop = newProperty()
+        for (var i = 0; i < state.model.properties?.length; i++) {
+          if (state.model.properties[i].identifier == prop.identifier) {
+            state.model.properties[i] = prop
+          }
+        }
+      } else if (state.modelForm.type == 'service') {
+        state.model.services?.forEach((s: any) => {
+          if (s.identifier == state.modelForm.identifier) {
+            s.identifier = state.modelForm.identifier
+            s.name = state.modelForm.name
+            s.inputData = state.modelForm.raw.inputData
+            s.outputData = state.modelForm.raw.outputData
+          }
+        })
+      } else if (state.modelForm.type == 'event') {
+        state.model.events?.forEach((s: any) => {
+          if (s.identifier == state.modelForm.identifier) {
+            s.identifier = state.modelForm.identifier
+            s.name = state.modelForm.name
+            s.outputData = state.modelForm.raw.outputData
+          }
+        })
+      }
+    }
+    submitThingModelChange()
+  }
+}
+
+defineExpose({
+  openDialog,
+})
+</script>

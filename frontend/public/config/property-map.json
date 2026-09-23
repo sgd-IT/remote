@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "sourceCrs": "WGS84",
+  "coordinateOverrides": {},
+  "parkPropertyId": "1018",
+  "parkPropertyCode": "P178582539395641F1",
+  "refreshIntervalMs": 30000,
+  "staleAfterMs": 120000,
+  "requestTimeoutMs": 10000
+}

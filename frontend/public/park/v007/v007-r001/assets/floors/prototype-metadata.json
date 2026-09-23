@@ -1,0 +1,1808 @@
+{
+  "revision": "v007-r001",
+  "stage": "prototype",
+  "blender": "5.2.1 LTS",
+  "generatorSha256": "8e46130dffd39b5280898159b6f7a0cac7e4daa7c6f0c1dc56316440f7d20818",
+  "results": [
+    {
+      "floor": {
+        "id": "T1_F01",
+        "buildingId": "BLD_T1",
+        "floorNumber": 1,
+        "baseY": 0,
+        "topY": 6,
+        "enterable": false,
+        "sourceClass": "DESIGNED",
+        "installedPosition": [
+          0,
+          0,
+          0
+        ],
+        "bounds": {
+          "min": [
+            -27.796934,
+            0,
+            -19.130003
+          ],
+          "max": [
+            27.677102,
+            6,
+            19.056683
+          ]
+        },
+        "envelopeNodes": [
+          "T1_F01_GLASS_N",
+          "T1_F01_GLASS_E",
+          "T1_F01_GLASS_S",
+          "T1_F01_GLASS_W"
+        ],
+        "structureNodes": [
+          "T1_F01_SLAB",
+          "T1_F01_WHITE",
+          "T1_F01_STEEL",
+          "T1_F01_DARK",
+          "T1_F01_SCREEN",
+          "T1_F01_WOOD",
+          "T1_F01_FABRIC",
+          "T1_F01_RED"
+        ],
+        "interiorAssetIds": [
+          "T1_F01_LOD0"
+        ],
+        "deviceIds": [
+          "T1_F01_CAMERA_01",
+          "T1_F01_CAMERA_02",
+          "T1_F01_CAMERA_03",
+          "T1_F01_CAMERA_04",
+          "T1_F01_CAMERA_05",
+          "T1_F01_CAMERA_06",
+          "T1_F01_DETECTOR_01",
+          "T1_F01_DETECTOR_02",
+          "T1_F01_DETECTOR_03",
+          "T1_F01_DETECTOR_04",
+          "T1_F01_DETECTOR_05",
+          "T1_F01_DETECTOR_06",
+          "T1_F01_DETECTOR_07",
+          "T1_F01_DETECTOR_08",
+          "T1_F01_HYDRANT_01",
+          "T1_F01_HYDRANT_02",
+          "T1_F01_ALARM_01",
+          "T1_F01_ALARM_02",
+          "T1_F01_ACCESS_01",
+          "T1_F01_ACCESS_02",
+          "T1_F01_RACK_01",
+          "T1_F01_PUMP_01",
+          "T1_F01_VISITOR_01",
+          "T1_F01_GATE_01",
+          "T1_F01_GATE_02",
+          "T1_F01_GATE_03"
+        ]
+      },
+      "asset": {
+        "id": "T1_F01_LOD0",
+        "url": "/park/v007/v007-r001/assets/floors/t1_f01-lod0.glb",
+        "sha256": "288e0477efcc49b0cdcba8c44726f7ceb8f48d1e8878623bc10e500d0a2d5327",
+        "lod": 0,
+        "triangles": 18540,
+        "textureResidentBytes": 0,
+        "semanticIndexUrl": "/park/v007/v007-r001/contracts/semantic-index.json",
+        "primitives": 12,
+        "bytes": 1192768,
+        "meshLocalBounds": {
+          "min": [
+            -27.796934127807617,
+            0,
+            -19.130002975463867
+          ],
+          "max": [
+            27.677101135253906,
+            6,
+            19.056682586669922
+          ]
+        }
+      },
+      "devices": [
+        {
+          "id": "T1_F01_CAMERA_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            -12,
+            2.9,
+            -7.8
+          ],
+          "pickKey": "PICK_T1_F01_CAMERA_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "BULLET"
+        },
+        {
+          "id": "T1_F01_CAMERA_02",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            14.5,
+            2.9,
+            -7.8
+          ],
+          "pickKey": "PICK_T1_F01_CAMERA_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "DOME"
+        },
+        {
+          "id": "T1_F01_CAMERA_03",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            -18,
+            2.9,
+            7.6
+          ],
+          "pickKey": "PICK_T1_F01_CAMERA_03",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "BULLET"
+        },
+        {
+          "id": "T1_F01_CAMERA_04",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            10,
+            2.9,
+            7.6
+          ],
+          "pickKey": "PICK_T1_F01_CAMERA_04",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "DOME"
+        },
+        {
+          "id": "T1_F01_CAMERA_05",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            -10,
+            3.8,
+            -15
+          ],
+          "pickKey": "PICK_T1_F01_CAMERA_05",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "BULLET"
+        },
+        {
+          "id": "T1_F01_CAMERA_06",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            12,
+            3.8,
+            14
+          ],
+          "pickKey": "PICK_T1_F01_CAMERA_06",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "DOME"
+        },
+        {
+          "id": "T1_F01_DETECTOR_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            -10,
+            3.08,
+            -12
+          ],
+          "pickKey": "PICK_T1_F01_DETECTOR_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F01_DETECTOR_02",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            2,
+            3.08,
+            -12
+          ],
+          "pickKey": "PICK_T1_F01_DETECTOR_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F01_DETECTOR_03",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            13,
+            3.08,
+            -12
+          ],
+          "pickKey": "PICK_T1_F01_DETECTOR_03",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F01_DETECTOR_04",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            22,
+            3.08,
+            -6
+          ],
+          "pickKey": "PICK_T1_F01_DETECTOR_04",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F01_DETECTOR_05",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            -22,
+            3.08,
+            3
+          ],
+          "pickKey": "PICK_T1_F01_DETECTOR_05",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F01_DETECTOR_06",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            -21,
+            3.08,
+            12
+          ],
+          "pickKey": "PICK_T1_F01_DETECTOR_06",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F01_DETECTOR_07",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感温探测器",
+          "localPosition": [
+            -10,
+            3.08,
+            14
+          ],
+          "pickKey": "PICK_T1_F01_DETECTOR_07",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "HEAT"
+        },
+        {
+          "id": "T1_F01_DETECTOR_08",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感温探测器",
+          "localPosition": [
+            4,
+            3.08,
+            14
+          ],
+          "pickKey": "PICK_T1_F01_DETECTOR_08",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "HEAT"
+        },
+        {
+          "id": "T1_F01_HYDRANT_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "HYDRANT",
+          "name": "楼层消火栓箱",
+          "localPosition": [
+            -11.35,
+            1.06,
+            -4.1
+          ],
+          "pickKey": "PICK_T1_F01_HYDRANT_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "所在楼层的消防器材箱，提供固定消火栓及水带等设施。"
+        },
+        {
+          "id": "T1_F01_HYDRANT_02",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "HYDRANT",
+          "name": "楼层消火栓箱",
+          "localPosition": [
+            10.72,
+            1.06,
+            4.1
+          ],
+          "pickKey": "PICK_T1_F01_HYDRANT_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "所在楼层的消防器材箱，提供固定消火栓及水带等设施。"
+        },
+        {
+          "id": "T1_F01_ALARM_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "ALARM",
+          "name": "手动报警与声光组合",
+          "localPosition": [
+            -11.45,
+            1.5,
+            4.7
+          ],
+          "pickKey": "PICK_T1_F01_ALARM_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "手动报警按钮与声光提示组合。"
+        },
+        {
+          "id": "T1_F01_ALARM_02",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "ALARM",
+          "name": "手动报警与声光组合",
+          "localPosition": [
+            10.73,
+            1.5,
+            -4.7
+          ],
+          "pickKey": "PICK_T1_F01_ALARM_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "手动报警按钮与声光提示组合。"
+        },
+        {
+          "id": "T1_F01_ACCESS_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "ACCESS",
+          "name": "通行门禁点",
+          "localPosition": [
+            -18.4,
+            1.55,
+            7.8
+          ],
+          "pickKey": "PICK_T1_F01_ACCESS_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于所在门口的通行身份识别。"
+        },
+        {
+          "id": "T1_F01_ACCESS_02",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "ACCESS",
+          "name": "通行门禁点",
+          "localPosition": [
+            17.3,
+            1.55,
+            -7.8
+          ],
+          "pickKey": "PICK_T1_F01_ACCESS_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于所在门口的通行身份识别。"
+        },
+        {
+          "id": "T1_F01_RACK_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "RACK",
+          "name": "楼层弱电柜",
+          "localPosition": [
+            22,
+            1.35,
+            -14.3
+          ],
+          "pickKey": "PICK_T1_F01_RACK_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "汇集楼层弱电系统线缆与网络设备。"
+        },
+        {
+          "id": "T1_F01_PUMP_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "PUMP",
+          "name": "后台泵阀组件",
+          "localPosition": [
+            22,
+            1,
+            -6
+          ],
+          "pickKey": "PICK_T1_F01_PUMP_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "首层后台设备区的泵阀组件，展示供水管路组织。"
+        },
+        {
+          "id": "T1_F01_VISITOR_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "VISITOR",
+          "name": "访客信息终端",
+          "localPosition": [
+            -4,
+            1.77,
+            -11
+          ],
+          "pickKey": "PICK_T1_F01_VISITOR_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "大堂访客信息终端。"
+        },
+        {
+          "id": "T1_F01_GATE_01",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "GATE",
+          "name": "大堂通行门闸",
+          "localPosition": [
+            -1.9,
+            0.88,
+            -8.4
+          ],
+          "pickKey": "PICK_T1_F01_GATE_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "大堂通行门闸。"
+        },
+        {
+          "id": "T1_F01_GATE_02",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "GATE",
+          "name": "大堂通行门闸",
+          "localPosition": [
+            0,
+            0.88,
+            -8.4
+          ],
+          "pickKey": "PICK_T1_F01_GATE_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "大堂通行门闸。"
+        },
+        {
+          "id": "T1_F01_GATE_03",
+          "assetId": "T1_F01_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F01",
+          "roomId": null,
+          "type": "GATE",
+          "name": "大堂通行门闸",
+          "localPosition": [
+            1.9,
+            0.88,
+            -8.4
+          ],
+          "pickKey": "PICK_T1_F01_GATE_03",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "大堂通行门闸。"
+        }
+      ],
+      "rooms": [],
+      "pickKeys": [
+        "PICK_T1_F01_CAMERA_01",
+        "PICK_T1_F01_CAMERA_02",
+        "PICK_T1_F01_CAMERA_03",
+        "PICK_T1_F01_CAMERA_04",
+        "PICK_T1_F01_CAMERA_05",
+        "PICK_T1_F01_CAMERA_06",
+        "PICK_T1_F01_DETECTOR_01",
+        "PICK_T1_F01_DETECTOR_02",
+        "PICK_T1_F01_DETECTOR_03",
+        "PICK_T1_F01_DETECTOR_04",
+        "PICK_T1_F01_DETECTOR_05",
+        "PICK_T1_F01_DETECTOR_06",
+        "PICK_T1_F01_DETECTOR_07",
+        "PICK_T1_F01_DETECTOR_08",
+        "PICK_T1_F01_HYDRANT_01",
+        "PICK_T1_F01_HYDRANT_02",
+        "PICK_T1_F01_ALARM_01",
+        "PICK_T1_F01_ALARM_02",
+        "PICK_T1_F01_ACCESS_01",
+        "PICK_T1_F01_ACCESS_02",
+        "PICK_T1_F01_RACK_01",
+        "PICK_T1_F01_PUMP_01",
+        "PICK_T1_F01_VISITOR_01",
+        "PICK_T1_F01_GATE_01",
+        "PICK_T1_F01_GATE_02",
+        "PICK_T1_F01_GATE_03"
+      ],
+      "furniture": [
+        {
+          "type": "MEETING_TABLE",
+          "center": [
+            -22,
+            0.228,
+            8
+          ],
+          "seats": 8
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -23,
+            0.228,
+            1.1
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -20,
+            0.228,
+            1.1
+          ],
+          "angle": 0
+        }
+      ],
+      "stats": {
+        "path": "D:\\anwei-Smart-Park\\app\\public\\park\\v006\\v006-r001\\assets\\floors\\t1_f01-lod0.glb",
+        "sha256": "288e0477efcc49b0cdcba8c44726f7ceb8f48d1e8878623bc10e500d0a2d5327",
+        "bytes": 1192768,
+        "triangles": 18540,
+        "primitives": 12,
+        "meshes": 12,
+        "nodes": 39,
+        "materials": 9,
+        "textures": 0,
+        "meshLocalBounds": {
+          "min": [
+            -27.796934127807617,
+            0,
+            -19.130002975463867
+          ],
+          "max": [
+            27.677101135253906,
+            6,
+            19.056682586669922
+          ]
+        }
+      },
+      "ownership": "material-batched geometry; stable empty pick anchors; floor-local positions"
+    },
+    {
+      "floor": {
+        "id": "T1_F02",
+        "buildingId": "BLD_T1",
+        "floorNumber": 2,
+        "baseY": 6.0,
+        "topY": 10.5,
+        "enterable": false,
+        "sourceClass": "DESIGNED",
+        "installedPosition": [
+          0,
+          6.0,
+          0
+        ],
+        "bounds": {
+          "min": [
+            -27.796934,
+            0,
+            -19.130003
+          ],
+          "max": [
+            27.677102,
+            4.5,
+            19.056683
+          ]
+        },
+        "envelopeNodes": [
+          "T1_F02_GLASS_N",
+          "T1_F02_GLASS_E",
+          "T1_F02_GLASS_S",
+          "T1_F02_GLASS_W"
+        ],
+        "structureNodes": [
+          "T1_F02_SLAB",
+          "T1_F02_WHITE",
+          "T1_F02_STEEL",
+          "T1_F02_DARK",
+          "T1_F02_SCREEN",
+          "T1_F02_WOOD",
+          "T1_F02_FABRIC",
+          "T1_F02_RED"
+        ],
+        "interiorAssetIds": [
+          "T1_F02_LOD0"
+        ],
+        "deviceIds": [
+          "T1_F02_CAMERA_01",
+          "T1_F02_CAMERA_02",
+          "T1_F02_CAMERA_03",
+          "T1_F02_CAMERA_04",
+          "T1_F02_DETECTOR_01",
+          "T1_F02_DETECTOR_02",
+          "T1_F02_DETECTOR_03",
+          "T1_F02_DETECTOR_04",
+          "T1_F02_DETECTOR_05",
+          "T1_F02_DETECTOR_06",
+          "T1_F02_DETECTOR_07",
+          "T1_F02_DETECTOR_08",
+          "T1_F02_HYDRANT_01",
+          "T1_F02_HYDRANT_02",
+          "T1_F02_ALARM_01",
+          "T1_F02_ALARM_02",
+          "T1_F02_ACCESS_01",
+          "T1_F02_ACCESS_02",
+          "T1_F02_RACK_01"
+        ]
+      },
+      "asset": {
+        "id": "T1_F02_LOD0",
+        "url": "/park/v007/v007-r001/assets/floors/t1_f02-lod0.glb",
+        "sha256": "252c840adfb99c9bd9b76ac651cfe92353ac93d1d0605505ac7e20ef69980459",
+        "lod": 0,
+        "triangles": 44456,
+        "textureResidentBytes": 0,
+        "semanticIndexUrl": "/park/v007/v007-r001/contracts/semantic-index.json",
+        "primitives": 12,
+        "bytes": 2778900,
+        "meshLocalBounds": {
+          "min": [
+            -27.796934127807617,
+            0,
+            -19.130002975463867
+          ],
+          "max": [
+            27.677101135253906,
+            4.5,
+            19.056682586669922
+          ]
+        }
+      },
+      "devices": [
+        {
+          "id": "T1_F02_CAMERA_01",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            -12,
+            2.9,
+            -7.8
+          ],
+          "pickKey": "PICK_T1_F02_CAMERA_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "BULLET"
+        },
+        {
+          "id": "T1_F02_CAMERA_02",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            14.5,
+            2.9,
+            -7.8
+          ],
+          "pickKey": "PICK_T1_F02_CAMERA_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "DOME"
+        },
+        {
+          "id": "T1_F02_CAMERA_03",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            -18,
+            2.9,
+            7.6
+          ],
+          "pickKey": "PICK_T1_F02_CAMERA_03",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "BULLET"
+        },
+        {
+          "id": "T1_F02_CAMERA_04",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "CAMERA",
+          "name": "网络摄像机",
+          "localPosition": [
+            10,
+            2.9,
+            7.6
+          ],
+          "pickKey": "PICK_T1_F02_CAMERA_04",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于观察入口与公共走道，查看设备位置和功能。",
+          "subtype": "DOME"
+        },
+        {
+          "id": "T1_F02_DETECTOR_01",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            -10,
+            3.08,
+            -12
+          ],
+          "pickKey": "PICK_T1_F02_DETECTOR_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F02_DETECTOR_02",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            2,
+            3.08,
+            -12
+          ],
+          "pickKey": "PICK_T1_F02_DETECTOR_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F02_DETECTOR_03",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            13,
+            3.08,
+            -12
+          ],
+          "pickKey": "PICK_T1_F02_DETECTOR_03",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F02_DETECTOR_04",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            22,
+            3.08,
+            -6
+          ],
+          "pickKey": "PICK_T1_F02_DETECTOR_04",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F02_DETECTOR_05",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            -22,
+            3.08,
+            3
+          ],
+          "pickKey": "PICK_T1_F02_DETECTOR_05",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F02_DETECTOR_06",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感烟探测器",
+          "localPosition": [
+            -21,
+            3.08,
+            12
+          ],
+          "pickKey": "PICK_T1_F02_DETECTOR_06",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "SMOKE"
+        },
+        {
+          "id": "T1_F02_DETECTOR_07",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感温探测器",
+          "localPosition": [
+            -10,
+            3.08,
+            14
+          ],
+          "pickKey": "PICK_T1_F02_DETECTOR_07",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "HEAT"
+        },
+        {
+          "id": "T1_F02_DETECTOR_08",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "DETECTOR",
+          "name": "感温探测器",
+          "localPosition": [
+            4,
+            3.08,
+            14
+          ],
+          "pickKey": "PICK_T1_F02_DETECTOR_08",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于感知所在区域的火灾特征并向系统提供探测信息。",
+          "subtype": "HEAT"
+        },
+        {
+          "id": "T1_F02_HYDRANT_01",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "HYDRANT",
+          "name": "楼层消火栓箱",
+          "localPosition": [
+            -11.35,
+            1.06,
+            -4.1
+          ],
+          "pickKey": "PICK_T1_F02_HYDRANT_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "所在楼层的消防器材箱，提供固定消火栓及水带等设施。"
+        },
+        {
+          "id": "T1_F02_HYDRANT_02",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "HYDRANT",
+          "name": "楼层消火栓箱",
+          "localPosition": [
+            10.72,
+            1.06,
+            4.1
+          ],
+          "pickKey": "PICK_T1_F02_HYDRANT_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "所在楼层的消防器材箱，提供固定消火栓及水带等设施。"
+        },
+        {
+          "id": "T1_F02_ALARM_01",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "ALARM",
+          "name": "手动报警与声光组合",
+          "localPosition": [
+            -11.45,
+            1.5,
+            4.7
+          ],
+          "pickKey": "PICK_T1_F02_ALARM_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "手动报警按钮与声光提示组合。"
+        },
+        {
+          "id": "T1_F02_ALARM_02",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "ALARM",
+          "name": "手动报警与声光组合",
+          "localPosition": [
+            10.73,
+            1.5,
+            -4.7
+          ],
+          "pickKey": "PICK_T1_F02_ALARM_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "手动报警按钮与声光提示组合。"
+        },
+        {
+          "id": "T1_F02_ACCESS_01",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "ACCESS",
+          "name": "通行门禁点",
+          "localPosition": [
+            -18.4,
+            1.55,
+            7.8
+          ],
+          "pickKey": "PICK_T1_F02_ACCESS_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于所在门口的通行身份识别。"
+        },
+        {
+          "id": "T1_F02_ACCESS_02",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "ACCESS",
+          "name": "通行门禁点",
+          "localPosition": [
+            17.3,
+            1.55,
+            -7.8
+          ],
+          "pickKey": "PICK_T1_F02_ACCESS_02",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "用于所在门口的通行身份识别。"
+        },
+        {
+          "id": "T1_F02_RACK_01",
+          "assetId": "T1_F02_LOD0",
+          "buildingId": "BLD_T1",
+          "floorId": "T1_F02",
+          "roomId": null,
+          "type": "RACK",
+          "name": "楼层弱电柜",
+          "localPosition": [
+            22,
+            1.35,
+            -14.3
+          ],
+          "pickKey": "PICK_T1_F02_RACK_01",
+          "role": "DEVICE",
+          "sourceClass": "DESIGNED",
+          "dataOrigin": "STATIC_CONTENT",
+          "sourceBinding": null,
+          "capabilities": [
+            "FOCUS",
+            "DETAIL"
+          ],
+          "description": "汇集楼层弱电系统线缆与网络设备。"
+        }
+      ],
+      "rooms": [],
+      "pickKeys": [
+        "PICK_T1_F02_CAMERA_01",
+        "PICK_T1_F02_CAMERA_02",
+        "PICK_T1_F02_CAMERA_03",
+        "PICK_T1_F02_CAMERA_04",
+        "PICK_T1_F02_DETECTOR_01",
+        "PICK_T1_F02_DETECTOR_02",
+        "PICK_T1_F02_DETECTOR_03",
+        "PICK_T1_F02_DETECTOR_04",
+        "PICK_T1_F02_DETECTOR_05",
+        "PICK_T1_F02_DETECTOR_06",
+        "PICK_T1_F02_DETECTOR_07",
+        "PICK_T1_F02_DETECTOR_08",
+        "PICK_T1_F02_HYDRANT_01",
+        "PICK_T1_F02_HYDRANT_02",
+        "PICK_T1_F02_ALARM_01",
+        "PICK_T1_F02_ALARM_02",
+        "PICK_T1_F02_ACCESS_01",
+        "PICK_T1_F02_ACCESS_02",
+        "PICK_T1_F02_RACK_01"
+      ],
+      "furniture": [
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -11,
+            0.228,
+            -14
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -7.7,
+            0.228,
+            -14
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -4.4,
+            0.228,
+            -14
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -1.1,
+            0.228,
+            -14
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            2.2,
+            0.228,
+            -14
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            5.5,
+            0.228,
+            -14
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            8.8,
+            0.228,
+            -14
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            12.1,
+            0.228,
+            -14
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -11,
+            0.228,
+            -10.4
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -7.7,
+            0.228,
+            -10.4
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -4.4,
+            0.228,
+            -10.4
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -1.1,
+            0.228,
+            -10.4
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            2.2,
+            0.228,
+            -10.4
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            5.5,
+            0.228,
+            -10.4
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            8.8,
+            0.228,
+            -10.4
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            12.1,
+            0.228,
+            -10.4
+          ],
+          "angle": 0
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -11,
+            0.228,
+            11.1
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -7.7,
+            0.228,
+            11.1
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -4.4,
+            0.228,
+            11.1
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -1.1,
+            0.228,
+            11.1
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            2.2,
+            0.228,
+            11.1
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            5.5,
+            0.228,
+            11.1
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            8.8,
+            0.228,
+            11.1
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            12.1,
+            0.228,
+            11.1
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -11,
+            0.228,
+            14.8
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -7.7,
+            0.228,
+            14.8
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -4.4,
+            0.228,
+            14.8
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -1.1,
+            0.228,
+            14.8
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            2.2,
+            0.228,
+            14.8
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            5.5,
+            0.228,
+            14.8
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            8.8,
+            0.228,
+            14.8
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            12.1,
+            0.228,
+            14.8
+          ],
+          "angle": 3.141592653589793
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -24,
+            0.228,
+            1.0
+          ],
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -20.6,
+            0.228,
+            1.0
+          ],
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -24,
+            0.228,
+            4.6
+          ],
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -20.6,
+            0.228,
+            4.6
+          ],
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -24,
+            0.228,
+            8.2
+          ],
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -20.6,
+            0.228,
+            8.2
+          ],
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -24,
+            0.228,
+            11.8
+          ],
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "WORKSTATION",
+          "center": [
+            -20.6,
+            0.228,
+            11.8
+          ],
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "MEETING_TABLE",
+          "center": [
+            22,
+            0.228,
+            -9
+          ],
+          "seats": 8
+        }
+      ],
+      "stats": {
+        "path": "D:\\anwei-Smart-Park\\app\\public\\park\\v006\\v006-r001\\assets\\floors\\t1_f02-lod0.glb",
+        "sha256": "252c840adfb99c9bd9b76ac651cfe92353ac93d1d0605505ac7e20ef69980459",
+        "bytes": 2778900,
+        "triangles": 44456,
+        "primitives": 12,
+        "meshes": 12,
+        "nodes": 32,
+        "materials": 9,
+        "textures": 0,
+        "meshLocalBounds": {
+          "min": [
+            -27.796934127807617,
+            0,
+            -19.130002975463867
+          ],
+          "max": [
+            27.677101135253906,
+            4.5,
+            19.056682586669922
+          ]
+        }
+      },
+      "ownership": "material-batched geometry; stable empty pick anchors; floor-local positions"
+    }
+  ],
+  "sourcePolicy": "Original authored geometry from frozen canonical footprint; F1-F11 designed office layouts; F12 frozen real layout coordinates.",
+  "optimization": "Material batching at authoring plus lower-LOD geometric tessellation and microdetail removal; uncompressed GLB export for deterministic local decoding."
+}

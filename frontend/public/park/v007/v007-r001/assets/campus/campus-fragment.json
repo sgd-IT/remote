@@ -1,0 +1,5486 @@
+{
+  "schemaVersion": "v6-campus-fragment-1",
+  "revision": "v007-r001",
+  "generatedAt": "2026-09-12T04:57:27.433376+00:00",
+  "coordinateFrame": {
+    "units": "metres",
+    "runtime": "X east/Y up/Z plan down",
+    "pixelScaleM": 0.5434782608695652,
+    "pixelOrigin": [
+      1037.6734562500183,
+      454.8420856042286
+    ]
+  },
+  "buildings": [
+    {
+      "id": "BLD_T1",
+      "assetId": "building-t1",
+      "anchor": {
+        "position": [
+          0.0,
+          0,
+          0.0
+        ],
+        "rotationY": -0.746145162666003,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -28.026933670043945,
+          0,
+          -26.552501678466797
+        ],
+        "max": [
+          28.482101440429688,
+          97.5,
+          19.28668212890625
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/building-t1-lod0.glb",
+          "sha256": "b8e42e5d268d1cb845384f68bd0bfce49aa682f1e1b598ad023d774fb54a2eae",
+          "bytes": 972928,
+          "triangles": 85322,
+          "primitives": 12,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -28.026933670043945,
+              0,
+              -26.552501678466797
+            ],
+            "max": [
+              28.482101440429688,
+              97.5,
+              19.28668212890625
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/building-t1-lod1.glb",
+          "sha256": "6733e9d6a1de2b4f517cf24b8d2dcc3e52f47612cb5e3606e9ed02b7bac08a1a",
+          "bytes": 421448,
+          "triangles": 35342,
+          "primitives": 12,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -28.029354095458984,
+              -0.0009472370147705078,
+              -26.552425384521484
+            ],
+            "max": [
+              28.479581832885742,
+              97.49983215332031,
+              19.287410736083984
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/building-t1-lod2.glb",
+          "sha256": "0dbf3ccddbf5079edcf93e6dc9e181977882e7d9578defc4ab7d824699c9c9ee",
+          "bytes": 126020,
+          "triangles": 10302,
+          "primitives": 12,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -28.029354095458984,
+              -0.0009472370147705078,
+              -26.552425384521484
+            ],
+            "max": [
+              28.479581832885742,
+              97.49943542480469,
+              19.287410736083984
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ],
+      "floors": 21,
+      "sourceClass": "INFERRED"
+    },
+    {
+      "id": "BLD_T2",
+      "assetId": "building-t2",
+      "anchor": {
+        "position": [
+          10.782612452661796,
+          0,
+          81.21533869126989
+        ],
+        "rotationY": -0.7502538355545125,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -36.019432067871094,
+          0,
+          -20.035003662109375
+        ],
+        "max": [
+          28.482101440429688,
+          111,
+          19.28668212890625
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/building-t2-lod0.glb",
+          "sha256": "66f0936bdba6dc171aabf3cc90bff3f857a0fd83ae2b6ee22613f867de15d53c",
+          "bytes": 1101460,
+          "triangles": 97310,
+          "primitives": 12,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -36.019432067871094,
+              0,
+              -20.035003662109375
+            ],
+            "max": [
+              28.482101440429688,
+              111,
+              19.28668212890625
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/building-t2-lod1.glb",
+          "sha256": "9aa92c05af745011b52af63749c73848a8f1acab648ef93198bfaa68905a32d7",
+          "bytes": 474396,
+          "triangles": 39806,
+          "primitives": 12,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -36.01942825317383,
+              -0.00022149085998535156,
+              -20.03266143798828
+            ],
+            "max": [
+              28.480262756347656,
+              110.99982452392578,
+              19.289291381835938
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/building-t2-lod2.glb",
+          "sha256": "8d398e2eed95796ea21328421154ff9aba626d25917ad75ad5ac09ccd39e4a11",
+          "bytes": 135856,
+          "triangles": 11106,
+          "primitives": 12,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -36.01942825317383,
+              -0.00022149085998535156,
+              -20.03266143798828
+            ],
+            "max": [
+              28.480262756347656,
+              110.99942779541016,
+              19.289291381835938
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ],
+      "floors": 24,
+      "sourceClass": "INFERRED"
+    },
+    {
+      "id": "BLD_V1",
+      "assetId": "building-v1",
+      "anchor": {
+        "position": [
+          49.633991168468334,
+          0,
+          59.324953475962715
+        ],
+        "rotationY": -0.746145162666003,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -0.2750000059604645,
+          0,
+          -22.424999237060547
+        ],
+        "max": [
+          21.174999237060547,
+          21.799999237060547,
+          0.2750000059604645
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/building-v1-lod0.glb",
+          "sha256": "d04678a295203d58e6c2c86dbe1fb2d2e428c429afc397b97d1caf6c7ba839c9",
+          "bytes": 193676,
+          "triangles": 18884,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.2750000059604645,
+              0,
+              -22.424999237060547
+            ],
+            "max": [
+              21.174999237060547,
+              21.799999237060547,
+              0.2750000059604645
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/building-v1-lod1.glb",
+          "sha256": "99a89a42ba841a34bb4f2b14c302b4d80a6b3a7b95d9cfa32bd5c2655875cc23",
+          "bytes": 96920,
+          "triangles": 8372,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.27512264251708984,
+              2.9802322387695312e-08,
+              -22.424999237060547
+            ],
+            "max": [
+              21.175119400024414,
+              21.800006866455078,
+              0.27499914169311523
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/building-v1-lod2.glb",
+          "sha256": "252f5a9910752a9b2048e55f4389d3c691b906dc630196a37e652d416681fb71",
+          "bytes": 42696,
+          "triangles": 3092,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.27512264251708984,
+              2.9802322387695312e-08,
+              -22.424999237060547
+            ],
+            "max": [
+              21.175119400024414,
+              21.800006866455078,
+              0.27499914169311523
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ],
+      "floors": 3,
+      "sourceClass": "INFERRED"
+    },
+    {
+      "id": "BLD_V2",
+      "assetId": "building-v2",
+      "anchor": {
+        "position": [
+          38.22094769020747,
+          0,
+          41.93364912813663
+        ],
+        "rotationY": -0.746145162666003,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -10.032331466674805,
+          0,
+          -2.506441116333008
+        ],
+        "max": [
+          19.489999771118164,
+          21.799999237060547,
+          18.524999618530273
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/building-v2-lod0.glb",
+          "sha256": "19b80a433780f9d53c94efd41d3d3298d0fa5e59817349de009f82620c2b1515",
+          "bytes": 198320,
+          "triangles": 20092,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -10.032331466674805,
+              0,
+              -2.506441116333008
+            ],
+            "max": [
+              19.489999771118164,
+              21.799999237060547,
+              18.524999618530273
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/building-v2-lod1.glb",
+          "sha256": "da50dc49b0a6ca2c3c5a2baf28045d88779f419c908ec1de305735cf99457758",
+          "bytes": 103820,
+          "triangles": 9028,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -10.032331466674805,
+              0.00014358758926391602,
+              -2.5064806938171387
+            ],
+            "max": [
+              19.489999771118164,
+              21.800006866455078,
+              18.525039672851562
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/building-v2-lod2.glb",
+          "sha256": "525e4c35a3b7b7b9d80a4e19d587d18abca4694259ce2bc0795fd1a033adcdad",
+          "bytes": 47984,
+          "triangles": 3532,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -10.032331466674805,
+              0.00014358758926391602,
+              -2.5064806938171387
+            ],
+            "max": [
+              19.489999771118164,
+              21.800006866455078,
+              18.525039672851562
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ],
+      "floors": 3,
+      "sourceClass": "INFERRED"
+    },
+    {
+      "id": "BLD_V3",
+      "assetId": "building-v3",
+      "anchor": {
+        "position": [
+          23.547034646729205,
+          0,
+          26.17277956291924
+        ],
+        "rotationY": -0.746145162666003,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -0.2750000059604645,
+          0,
+          -21.524999618530273
+        ],
+        "max": [
+          21.774999618530273,
+          21.799999237060547,
+          0.2750000059604645
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/building-v3-lod0.glb",
+          "sha256": "02762771e0a4420351b02fbf9c33d874c2ab95900d20787605a884a6970e9461",
+          "bytes": 215420,
+          "triangles": 21204,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.2750000059604645,
+              0,
+              -21.524999618530273
+            ],
+            "max": [
+              21.774999618530273,
+              21.799999237060547,
+              0.2750000059604645
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/building-v3-lod1.glb",
+          "sha256": "88af78c5a47504442aef7f0f03036955cb2c7e675693dc347023bba11a9ef9d5",
+          "bytes": 112900,
+          "triangles": 9924,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.27500009536743164,
+              -0.00015985965728759766,
+              -21.52483558654785
+            ],
+            "max": [
+              21.774999618530273,
+              21.800006866455078,
+              0.27483367919921875
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/building-v3-lod2.glb",
+          "sha256": "90cad91c42af83300d6da53085f514aba2d24f4f0ed1cd96de33ef47aabc0e90",
+          "bytes": 57976,
+          "triangles": 4524,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.27500009536743164,
+              -0.00015985965728759766,
+              -21.52483558654785
+            ],
+            "max": [
+              21.774999618530273,
+              21.800006866455078,
+              0.27483367919921875
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ],
+      "floors": 3,
+      "sourceClass": "INFERRED"
+    },
+    {
+      "id": "BLD_V4",
+      "assetId": "building-v4",
+      "anchor": {
+        "position": [
+          -45.326292827900815,
+          0,
+          49.71159994653319
+        ],
+        "rotationY": -0.8055272853391113,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -0.2750000059604645,
+          0,
+          -22.424999237060547
+        ],
+        "max": [
+          21.174999237060547,
+          21.799999237060547,
+          0.2750000059604645
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/building-v4-lod0.glb",
+          "sha256": "07978908d1a50be1fe72de7474b53a46f830cc1aade9c09e21cb9a7673066871",
+          "bytes": 193676,
+          "triangles": 18884,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.2750000059604645,
+              0,
+              -22.424999237060547
+            ],
+            "max": [
+              21.174999237060547,
+              21.799999237060547,
+              0.2750000059604645
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/building-v4-lod1.glb",
+          "sha256": "67f949f4553698a1bd7c656463710b4d64bbb737e799763e53fd1b49f6c0b80c",
+          "bytes": 96920,
+          "triangles": 8372,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.27512264251708984,
+              2.9802322387695312e-08,
+              -22.424999237060547
+            ],
+            "max": [
+              21.175119400024414,
+              21.800006866455078,
+              0.27499914169311523
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/building-v4-lod2.glb",
+          "sha256": "df0e83f70dabae6375a45c959c685870269781bd3cca024d61be8d6dc1c15165",
+          "bytes": 42696,
+          "triangles": 3092,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.27512264251708984,
+              2.9802322387695312e-08,
+              -22.424999237060547
+            ],
+            "max": [
+              21.175119400024414,
+              21.800006866455078,
+              0.27499914169311523
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ],
+      "floors": 3,
+      "sourceClass": "INFERRED"
+    },
+    {
+      "id": "BLD_V5",
+      "assetId": "building-v5",
+      "anchor": {
+        "position": [
+          -58.60817193797814,
+          0,
+          30.64234904760339
+        ],
+        "rotationY": -0.736393690747933,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          -0.2750000059604645,
+          0,
+          -22.424999237060547
+        ],
+        "max": [
+          21.174999237060547,
+          21.799999237060547,
+          0.2750000059604645
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/building-v5-lod0.glb",
+          "sha256": "5fbb4c15ba1705ba4254e743dc1a94c8579c68688530e2b3df6d820b4f60b37e",
+          "bytes": 193676,
+          "triangles": 18884,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.2750000059604645,
+              0,
+              -22.424999237060547
+            ],
+            "max": [
+              21.174999237060547,
+              21.799999237060547,
+              0.2750000059604645
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/building-v5-lod1.glb",
+          "sha256": "2cf04c122fe739f3c85ed5bc04f9fb24fdf12c94d64b5c015c65c0b7b1201aab",
+          "bytes": 96920,
+          "triangles": 8372,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.27512264251708984,
+              2.9802322387695312e-08,
+              -22.424999237060547
+            ],
+            "max": [
+              21.175119400024414,
+              21.800006866455078,
+              0.27499914169311523
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/building-v5-lod2.glb",
+          "sha256": "62cd6a2d4755635e819cccb7307b53c533e1cf5334d32fb778fbdc5e103085d0",
+          "bytes": 42696,
+          "triangles": 3092,
+          "primitives": 7,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              -0.27512264251708984,
+              2.9802322387695312e-08,
+              -22.424999237060547
+            ],
+            "max": [
+              21.175119400024414,
+              21.800006866455078,
+              0.27499914169311523
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ],
+      "floors": 3,
+      "sourceClass": "INFERRED"
+    }
+  ],
+  "site": {
+    "id": "SITE_CAMPUS",
+    "assetId": "site",
+    "lods": [
+      {
+        "level": 0,
+        "url": "/park/v007/v007-r001/assets/campus/site-lod0.glb",
+        "sha256": "6d32a1946c0d37dd24c0545879b03c068af25b19e45ed747aea7b8941ebdb082",
+        "bytes": 7669564,
+        "triangles": 39447,
+        "primitives": 13,
+        "textureGpuBytesEstimated": 58720263,
+        "bounds": {
+          "min": [
+            -202.63722229003906,
+            -0.12999999523162842,
+            -185.8920135498047
+          ],
+          "max": [
+            174.17251586914062,
+            5.259999752044678,
+            180.6050567626953
+          ]
+        },
+        "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+        "maxTextureDimension": 1024
+      },
+      {
+        "level": 1,
+        "url": "/park/v007/v007-r001/assets/campus/site-lod1.glb",
+        "sha256": "f02bd9ca9e8530dfdcd5f2a1aae435f073e80b58bbb609276f9d64758c0f06bf",
+        "bytes": 6595836,
+        "triangles": 14391,
+        "primitives": 13,
+        "textureGpuBytesEstimated": 58720263,
+        "bounds": {
+          "min": [
+            -202.63722229003906,
+            -0.12999999523162842,
+            -185.8920135498047
+          ],
+          "max": [
+            174.17251586914062,
+            5.259999752044678,
+            180.6050567626953
+          ]
+        },
+        "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+        "maxTextureDimension": 1024
+      },
+      {
+        "level": 2,
+        "url": "/park/v007/v007-r001/assets/campus/site-lod2.glb",
+        "sha256": "7c1c435c233b79b30831bad053aaa2ee8f3a40fc108f64bc8cd9d2b505be3971",
+        "bytes": 6492280,
+        "triangles": 8379,
+        "primitives": 10,
+        "textureGpuBytesEstimated": 58720263,
+        "bounds": {
+          "min": [
+            -202.63722229003906,
+            -0.12999999523162842,
+            -185.8920135498047
+          ],
+          "max": [
+            174.17251586914062,
+            5.259999752044678,
+            180.6050567626953
+          ]
+        },
+        "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+        "maxTextureDimension": 1024
+      }
+    ],
+    "bounds": {
+      "min": [
+        -202.63722229003906,
+        -0.12999999523162842,
+        -185.8920135498047
+      ],
+      "max": [
+        174.17251586914062,
+        5.259999752044678,
+        180.6050567626953
+      ]
+    },
+    "sitePolygon": [
+      [
+        -91.67035665761861,
+        -155.8924378283851
+      ],
+      [
+        144.19920855977267,
+        46.824953475962715
+      ],
+      [
+        48.5470346467292,
+        150.62930130204967
+      ],
+      [
+        -172.64861752718383,
+        -53.71852478490685
+      ],
+      [
+        -91.67035665761861,
+        -155.8924378283851
+      ]
+    ],
+    "background": {
+      "transitionWidthM": 30,
+      "flatNoBuildingBackdropRadiusM": 1200
+    },
+    "noExternalBuildings": true
+  },
+  "connectors": [
+    {
+      "id": "CONNECTOR_V1_V2",
+      "buildingIds": [
+        "BLD_V1",
+        "BLD_V2"
+      ],
+      "polygonWorldXZ": [
+        [
+          53.08989701100466,
+          52.955189224491804
+        ],
+        [
+          50.37464436721053,
+          55.89243335468748
+        ],
+        [
+          52.31041309540606,
+          57.68190025768433
+        ],
+        [
+          55.02566573920019,
+          54.74465612748865
+        ],
+        [
+          53.08989701100466,
+          52.955189224491804
+        ]
+      ],
+      "start": [
+        53.66803941730313,
+        56.21327819258649
+      ],
+      "end": [
+        51.732270689107594,
+        54.42381128958964
+      ],
+      "widthM": 4.0,
+      "heightM": 5.4,
+      "clearGapM": 0.936170018413246,
+      "contactAreaM2": {
+        "V1": 3.3999999999999972,
+        "V2": 1.6999999999999986
+      },
+      "sourceClass": "DESIGNED",
+      "basis": "Minimum low glazed link fitted to S06/S07 connected cluster; exact height/depth not resolved in references",
+      "assetId": "connector-v1-v2",
+      "anchor": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          50.301212310791016,
+          0.13999998569488525,
+          52.88175582885742
+        ],
+        "max": [
+          55.099098205566406,
+          5.400000095367432,
+          57.755332946777344
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/connector-v1-v2-lod0.glb",
+          "sha256": "2619ca6a9c14e166d79851214ab5c97a3c49efa10222bd488da1742a35f8af18",
+          "bytes": 9136,
+          "triangles": 490,
+          "primitives": 3,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              50.301212310791016,
+              0.13999998569488525,
+              52.88175582885742
+            ],
+            "max": [
+              55.099098205566406,
+              5.400000095367432,
+              57.755332946777344
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/connector-v1-v2-lod1.glb",
+          "sha256": "2619ca6a9c14e166d79851214ab5c97a3c49efa10222bd488da1742a35f8af18",
+          "bytes": 9136,
+          "triangles": 490,
+          "primitives": 3,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              50.301212310791016,
+              0.13999998569488525,
+              52.88175582885742
+            ],
+            "max": [
+              55.099098205566406,
+              5.400000095367432,
+              57.755332946777344
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/connector-v1-v2-lod2.glb",
+          "sha256": "c3e18759bf8cee5db6a2bfcc16f0b3fb4ce7517cefbd09f7d0343e6206746b50",
+          "bytes": 8244,
+          "triangles": 426,
+          "primitives": 3,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              50.301212310791016,
+              0.13999998569488525,
+              52.88175582885742
+            ],
+            "max": [
+              55.099098205566406,
+              5.400000095367432,
+              57.755332946777344
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ]
+    },
+    {
+      "id": "CONNECTOR_V2_V3",
+      "buildingIds": [
+        "BLD_V2",
+        "BLD_V3"
+      ],
+      "polygonWorldXZ": [
+        [
+          37.72496429223957,
+          36.00415471373978
+        ],
+        [
+          34.78772016204389,
+          33.28890206994565
+        ],
+        [
+          32.99838760339215,
+          35.22452547017695
+        ],
+        [
+          35.93563173358783,
+          37.93977811397108
+        ],
+        [
+          37.72496429223957,
+          36.00415471373978
+        ]
+      ],
+      "start": [
+        34.46700966848999,
+        36.582151792074015
+      ],
+      "end": [
+        36.25634222714173,
+        34.646528391842715
+      ],
+      "widthM": 4.0,
+      "heightM": 5.4,
+      "clearGapM": 0.9359721077762095,
+      "contactAreaM2": {
+        "V2": 3.399999999999986,
+        "V3": 1.699999999999988
+      },
+      "sourceClass": "DESIGNED",
+      "basis": "Minimum low glazed link fitted to S06/S07 connected cluster; exact height/depth not resolved in references",
+      "assetId": "connector-v2-v3",
+      "anchor": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bounds": {
+        "min": [
+          32.92495346069336,
+          0.13999998569488525,
+          33.21546936035156
+        ],
+        "max": [
+          37.798397064208984,
+          5.400000095367432,
+          38.01321029663086
+        ]
+      },
+      "lods": [
+        {
+          "level": 0,
+          "url": "/park/v007/v007-r001/assets/campus/connector-v2-v3-lod0.glb",
+          "sha256": "71e312f8894028751115c7f8dd9963492df6e333c61be7d42576b0696af63ec9",
+          "bytes": 9140,
+          "triangles": 490,
+          "primitives": 3,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              32.92495346069336,
+              0.13999998569488525,
+              33.21546936035156
+            ],
+            "max": [
+              37.798397064208984,
+              5.400000095367432,
+              38.01321029663086
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 1,
+          "url": "/park/v007/v007-r001/assets/campus/connector-v2-v3-lod1.glb",
+          "sha256": "71e312f8894028751115c7f8dd9963492df6e333c61be7d42576b0696af63ec9",
+          "bytes": 9140,
+          "triangles": 490,
+          "primitives": 3,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              32.92495346069336,
+              0.13999998569488525,
+              33.21546936035156
+            ],
+            "max": [
+              37.798397064208984,
+              5.400000095367432,
+              38.01321029663086
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        },
+        {
+          "level": 2,
+          "url": "/park/v007/v007-r001/assets/campus/connector-v2-v3-lod2.glb",
+          "sha256": "d03caeba34eab191a4433feaa8d90a2e1a68612cdb8327720a840a0bce641692",
+          "bytes": 8248,
+          "triangles": 426,
+          "primitives": 3,
+          "textureGpuBytesEstimated": 0,
+          "bounds": {
+            "min": [
+              32.92495346069336,
+              0.13999998569488525,
+              33.21546936035156
+            ],
+            "max": [
+              37.798397064208984,
+              5.400000095367432,
+              38.01321029663086
+            ]
+          },
+          "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+          "maxTextureDimension": 0
+        }
+      ]
+    }
+  ],
+  "scatter": {
+    "prototypes": [
+      {
+        "id": "tree-open-02",
+        "kind": "tree",
+        "bounds": {
+          "min": [
+            -2.822728157043457,
+            0,
+            -3.998506784439087
+          ],
+          "max": [
+            2.822728157043457,
+            7.999999523162842,
+            3.998506784439087
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/tree-open-02-lod0.glb",
+            "sha256": "8a75ab02e42482e9a58997475b16859afe1e32a334c1b14f8c74c8d5a9043e44",
+            "bytes": 1139292,
+            "triangles": 1334,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -2.822728157043457,
+                0,
+                -3.998506784439087
+              ],
+              "max": [
+                2.822728157043457,
+                7.999999523162842,
+                3.998506784439087
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/tree-open-02-lod1.glb",
+            "sha256": "db5dc67b001336a7908fb3a6a7c397ed796d77de3e59da3839ab012fa74e7df8",
+            "bytes": 1129876,
+            "triangles": 882,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -2.822728157043457,
+                0,
+                -3.9504947662353516
+              ],
+              "max": [
+                2.6367955207824707,
+                7.999999523162842,
+                3.6155495643615723
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/tree-open-02-lod2.glb",
+            "sha256": "82fda848f409086e5da1b31ece90c167b14aec9333855ea28fef91d9dc410c42",
+            "bytes": 1125960,
+            "triangles": 409,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -2.822728157043457,
+                6.729528831783682e-05,
+                -3.998506784439087
+              ],
+              "max": [
+                2.822728157043457,
+                7.999999523162842,
+                3.998506784439087
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 512
+          }
+        ],
+        "sourceSpecies": "tree_small_02",
+        "paintMaterial": null,
+        "instanceable": true,
+        "license": "CC0-1.0"
+      },
+      {
+        "id": "tree-compact-01",
+        "kind": "tree",
+        "bounds": {
+          "min": [
+            -2.790374279022217,
+            0,
+            -3.9884321689605713
+          ],
+          "max": [
+            2.790374279022217,
+            7.999999523162842,
+            3.9884321689605713
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/tree-compact-01-lod0.glb",
+            "sha256": "a2f129213cace983cc21f2ace90d730488a614f94f493965d1c2b945e9647336",
+            "bytes": 1141304,
+            "triangles": 1413,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -2.790374279022217,
+                0,
+                -3.9884321689605713
+              ],
+              "max": [
+                2.790374279022217,
+                7.999999523162842,
+                3.9884321689605713
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/tree-compact-01-lod1.glb",
+            "sha256": "3ed246eeed2ed09ed634bc9382095b8331a6059443bb6bbc857c3893293d23bd",
+            "bytes": 1130900,
+            "triangles": 920,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -2.728787899017334,
+                0,
+                -3.9884321689605713
+              ],
+              "max": [
+                2.736186981201172,
+                7.789174556732178,
+                3.839891195297241
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/tree-compact-01-lod2.glb",
+            "sha256": "d84081bc062bc30c29ef7b0e8583413ce56009ea875dabe49d68cdb9d17c983d",
+            "bytes": 1125976,
+            "triangles": 409,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -2.790374279022217,
+                6.68743159621954e-05,
+                -3.9884321689605713
+              ],
+              "max": [
+                2.790374279022217,
+                7.999999523162842,
+                3.9884321689605713
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 512
+          }
+        ],
+        "sourceSpecies": "tree_small_02",
+        "paintMaterial": null,
+        "instanceable": true,
+        "license": "CC0-1.0"
+      },
+      {
+        "id": "tree-broad-04",
+        "kind": "tree",
+        "bounds": {
+          "min": [
+            -6.639444828033447,
+            0,
+            -6.68855094909668
+          ],
+          "max": [
+            6.639444828033447,
+            11,
+            6.68855094909668
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/tree-broad-04-lod0.glb",
+            "sha256": "333a61da80119a7f2db35e8e327216faf2740bbedcb7c3925036473bf8b3c669",
+            "bytes": 1002464,
+            "triangles": 1783,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.639444828033447,
+                0,
+                -6.68855094909668
+              ],
+              "max": [
+                6.639444828033447,
+                11,
+                6.68855094909668
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/tree-broad-04-lod1.glb",
+            "sha256": "fbda7ff88af6877b077180991167a137f8536d0f74338359a4d2b1acbf6e5602",
+            "bytes": 988472,
+            "triangles": 1227,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.639444828033447,
+                0,
+                -6.68855094909668
+              ],
+              "max": [
+                6.639444828033447,
+                10.904850959777832,
+                6.68855094909668
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/tree-broad-04-lod2.glb",
+            "sha256": "f6bb0101770e9a36aeaef4bacf9247177c06aefb97a9dabebc47d5aeb3c5f748",
+            "bytes": 974440,
+            "triangles": 419,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.639444828033447,
+                0.0015515037812292576,
+                -6.68855094909668
+              ],
+              "max": [
+                6.639444828033447,
+                11,
+                6.68855094909668
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 512
+          }
+        ],
+        "sourceSpecies": "island_tree_02",
+        "paintMaterial": null,
+        "instanceable": true,
+        "license": "CC0-1.0"
+      },
+      {
+        "id": "tree-asymmetric-05",
+        "kind": "tree",
+        "bounds": {
+          "min": [
+            -6.362916946411133,
+            0,
+            -6.76053524017334
+          ],
+          "max": [
+            6.362916946411133,
+            11,
+            6.76053524017334
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/tree-asymmetric-05-lod0.glb",
+            "sha256": "f12ade3fda0a5045b0dcc133e8d41e2db93ca48c828044d362ff53879eac8654",
+            "bytes": 998436,
+            "triangles": 1619,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.362916946411133,
+                0,
+                -6.76053524017334
+              ],
+              "max": [
+                6.362916946411133,
+                11,
+                6.76053524017334
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/tree-asymmetric-05-lod1.glb",
+            "sha256": "484ea795f5eb3845901adbe9c6015b0228afaaeea0827bdcba47f52f7854645e",
+            "bytes": 985980,
+            "triangles": 1113,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.284638404846191,
+                0,
+                -6.6891303062438965
+              ],
+              "max": [
+                6.346670150756836,
+                11,
+                6.76053524017334
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/tree-asymmetric-05-lod2.glb",
+            "sha256": "bd5964d367a273d7a3c8262c7f843392fdd8a5c22c30e6adb1e7883da8b28c1a",
+            "bytes": 974416,
+            "triangles": 419,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.362916946411133,
+                0.0015458768466487527,
+                -6.76053524017334
+              ],
+              "max": [
+                6.362916946411133,
+                11,
+                6.76053524017334
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 512
+          }
+        ],
+        "sourceSpecies": "island_tree_02",
+        "paintMaterial": null,
+        "instanceable": true,
+        "license": "CC0-1.0"
+      },
+      {
+        "id": "tree-tall-06",
+        "kind": "tree",
+        "bounds": {
+          "min": [
+            -7.162022113800049,
+            0,
+            -7.3249969482421875
+          ],
+          "max": [
+            7.162022113800049,
+            13.000000953674316,
+            7.3249969482421875
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/tree-tall-06-lod0.glb",
+            "sha256": "7141eaa98ee6d98d959444fdb4a087bbc5be4cae57282046bda62037efa7075b",
+            "bytes": 981976,
+            "triangles": 1319,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -7.162022113800049,
+                0,
+                -7.3249969482421875
+              ],
+              "max": [
+                7.162022113800049,
+                13.000000953674316,
+                7.3249969482421875
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/tree-tall-06-lod1.glb",
+            "sha256": "af397d33a63f4e83356b2154754e9c820f188379ef165b3905fcb48f54066bf4",
+            "bytes": 972732,
+            "triangles": 906,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -7.162022113800049,
+                0,
+                -7.3249969482421875
+              ],
+              "max": [
+                7.162022113800049,
+                13.000000953674316,
+                7.3249969482421875
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/tree-tall-06-lod2.glb",
+            "sha256": "7f5230e4f875c1c617fc1e2afe44337d1d9f72aa1ae0dc9872f1407f59fe7dda",
+            "bytes": 967316,
+            "triangles": 420,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -7.029207706451416,
+                0.06624022126197815,
+                -7.3249969482421875
+              ],
+              "max": [
+                7.162022113800049,
+                13.000000953674316,
+                7.3249969482421875
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 512
+          }
+        ],
+        "sourceSpecies": "island_tree_03",
+        "paintMaterial": null,
+        "instanceable": true,
+        "license": "CC0-1.0"
+      },
+      {
+        "id": "tree-layered-07",
+        "kind": "tree",
+        "bounds": {
+          "min": [
+            -6.769004821777344,
+            0,
+            -7.364710330963135
+          ],
+          "max": [
+            6.7690043449401855,
+            13,
+            7.364710330963135
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/tree-layered-07-lod0.glb",
+            "sha256": "255b00bd7becb5295297916b5f72dce45e2d225b975e5368282b594cdebe91e9",
+            "bytes": 981624,
+            "triangles": 1301,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.769004821777344,
+                0,
+                -7.364710330963135
+              ],
+              "max": [
+                6.7690043449401855,
+                13,
+                7.364710330963135
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/tree-layered-07-lod1.glb",
+            "sha256": "e82c399aa85cddcefd6c2c0739a0752daa489ef08abb301c6a01bb49d78d6687",
+            "bytes": 971724,
+            "triangles": 858,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.769004821777344,
+                0,
+                -7.364710330963135
+              ],
+              "max": [
+                6.768367767333984,
+                13,
+                7.162051200866699
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/tree-layered-07-lod2.glb",
+            "sha256": "87bc16955617d68c0733602f45310ce592c90cb1f8ea14da5e909ab549bb3624",
+            "bytes": 967308,
+            "triangles": 420,
+            "primitives": 3,
+            "textureGpuBytesEstimated": 3407878,
+            "bounds": {
+              "min": [
+                -6.6371893882751465,
+                0.06574197858572006,
+                -7.364710330963135
+              ],
+              "max": [
+                6.7690043449401855,
+                13,
+                7.364710330963135
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 512
+          }
+        ],
+        "sourceSpecies": "island_tree_03",
+        "paintMaterial": null,
+        "instanceable": true,
+        "license": "CC0-1.0"
+      },
+      {
+        "id": "shrub-rounded-01",
+        "kind": "shrub",
+        "bounds": {
+          "min": [
+            -0.6785309910774231,
+            0,
+            -0.5994075536727905
+          ],
+          "max": [
+            0.6785309910774231,
+            1.2999999523162842,
+            0.5994075536727905
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/shrub-rounded-01-lod0.glb",
+            "sha256": "7c6343fa359f439083204f5ab3a787836edf9f9ecbd356deccab89edaf3c48c4",
+            "bytes": 70232,
+            "triangles": 960,
+            "primitives": 1,
+            "textureGpuBytesEstimated": 130283,
+            "bounds": {
+              "min": [
+                -0.6785309910774231,
+                0,
+                -0.5994075536727905
+              ],
+              "max": [
+                0.6785309910774231,
+                1.2999999523162842,
+                0.5994075536727905
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 197
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/shrub-rounded-01-lod1.glb",
+            "sha256": "eb7acc63bff1503eb80bc1fbc382091f5c51a8745af912644ade9958a2ac7c14",
+            "bytes": 64708,
+            "triangles": 704,
+            "primitives": 1,
+            "textureGpuBytesEstimated": 130283,
+            "bounds": {
+              "min": [
+                -0.6785309910774231,
+                0.03554820269346237,
+                -0.5994075536727905
+              ],
+              "max": [
+                0.6785309910774231,
+                1.2999999523162842,
+                0.5994075536727905
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 197
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/shrub-rounded-01-lod2.glb",
+            "sha256": "8a32bc760d815c15e5707a42574892354973cc564afc6bebb3173bfcf8d741d7",
+            "bytes": 59176,
+            "triangles": 244,
+            "primitives": 1,
+            "textureGpuBytesEstimated": 130283,
+            "bounds": {
+              "min": [
+                -0.6785309910774231,
+                0,
+                -0.5994075536727905
+              ],
+              "max": [
+                0.6785309910774231,
+                1.2999999523162842,
+                0.5994075536727905
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 197
+          }
+        ],
+        "sourceSpecies": "shrub_01",
+        "paintMaterial": null,
+        "instanceable": true,
+        "license": "CC0-1.0"
+      },
+      {
+        "id": "shrub-leafy-04",
+        "kind": "shrub",
+        "bounds": {
+          "min": [
+            -0.5609523057937622,
+            0,
+            -0.46867823600769043
+          ],
+          "max": [
+            0.5609523057937622,
+            0.6000000238418579,
+            0.46867823600769043
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/shrub-leafy-04-lod0.glb",
+            "sha256": "a1b45ebf2f216c94ed71e9264e2a53b8a45b5804488523e52d3fa3a09f7c4e8c",
+            "bytes": 381972,
+            "triangles": 1095,
+            "primitives": 1,
+            "textureGpuBytesEstimated": 4194306,
+            "bounds": {
+              "min": [
+                -0.5609523057937622,
+                0,
+                -0.46867823600769043
+              ],
+              "max": [
+                0.5609523057937622,
+                0.6000000238418579,
+                0.46867823600769043
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/shrub-leafy-04-lod1.glb",
+            "sha256": "637a509d960ce4560a320ecea1535ee05b74093cda966ea4a780381db8db958c",
+            "bytes": 377428,
+            "triangles": 711,
+            "primitives": 1,
+            "textureGpuBytesEstimated": 4194306,
+            "bounds": {
+              "min": [
+                -0.5609523057937622,
+                0.004900584928691387,
+                -0.46867823600769043
+              ],
+              "max": [
+                0.5609523057937622,
+                0.6000000238418579,
+                0.46867823600769043
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 512
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/shrub-leafy-04-lod2.glb",
+            "sha256": "64a79bc0a8e7ca44cf83380cc62751eb6999343ddcc523212010aec01c414e58",
+            "bytes": 368308,
+            "triangles": 245,
+            "primitives": 1,
+            "textureGpuBytesEstimated": 4194306,
+            "bounds": {
+              "min": [
+                -0.5609523057937622,
+                0,
+                -0.46867823600769043
+              ],
+              "max": [
+                0.5609523057937622,
+                0.6000000238418579,
+                0.46867823600769043
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 512
+          }
+        ],
+        "sourceSpecies": "shrub_sorrel_01",
+        "paintMaterial": null,
+        "instanceable": true,
+        "license": "CC0-1.0"
+      },
+      {
+        "id": "vehicle-sedan",
+        "kind": "vehicle",
+        "bounds": {
+          "min": [
+            -1.159999966621399,
+            0,
+            -2.3575000762939453
+          ],
+          "max": [
+            1.159999966621399,
+            1.4760000705718994,
+            2.380000114440918
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-sedan-lod0.glb",
+            "sha256": "e6268d0c05d1f0e35a10733ec32785d604bfc2f544b1c34a15a58fb01e11c258",
+            "bytes": 175880,
+            "triangles": 14808,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.159999966621399,
+                0,
+                -2.3575000762939453
+              ],
+              "max": [
+                1.159999966621399,
+                1.4760000705718994,
+                2.380000114440918
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 0
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-sedan-lod1.glb",
+            "sha256": "43ca13d7fbfbb1aea1f568575b95d74064db810e1e08d8e7ac2b2a655d9c297a",
+            "bytes": 148428,
+            "triangles": 11366,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.159999966621399,
+                0,
+                -2.3575000762939453
+              ],
+              "max": [
+                1.159999966621399,
+                1.4760000705718994,
+                2.380000114440918
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 0
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-sedan-lod2.glb",
+            "sha256": "7b4d7f923860d5fafbb5b786f10ea90dedc6da13f0bf996a205c8adbf0c63435",
+            "bytes": 62440,
+            "triangles": 1680,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.1562328338623047,
+                0,
+                -2.3631842136383057
+              ],
+              "max": [
+                1.1562328338623047,
+                1.4760000705718994,
+                2.372756004333496
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 0
+          }
+        ],
+        "sourceSpecies": null,
+        "paintMaterial": "CAR_BODY_PEARL",
+        "instanceable": true,
+        "license": "ORIGINAL_PROJECT_AUTHORING"
+      },
+      {
+        "id": "vehicle-suv",
+        "kind": "vehicle",
+        "bounds": {
+          "min": [
+            -1.2100000381469727,
+            0,
+            -2.3575000762939453
+          ],
+          "max": [
+            1.2100000381469727,
+            1.815999984741211,
+            2.380000114440918
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-suv-lod0.glb",
+            "sha256": "cfd5e048b6f6a537c9ef5a6982744ad8de6fc5fe2ba4504774245d085f6def91",
+            "bytes": 180692,
+            "triangles": 14288,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.2100000381469727,
+                0,
+                -2.3575000762939453
+              ],
+              "max": [
+                1.2100000381469727,
+                1.815999984741211,
+                2.380000114440918
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 0
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-suv-lod1.glb",
+            "sha256": "04534f937fdcdc9bdbd9a70c35222c4197bed5467b0bf0c4b663208a264b500e",
+            "bytes": 151412,
+            "triangles": 11078,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.2100000381469727,
+                0,
+                -2.3575000762939453
+              ],
+              "max": [
+                1.2100000381469727,
+                1.815999984741211,
+                2.380000114440918
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 0
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-suv-lod2.glb",
+            "sha256": "0f2191db86464740f0797dd27a2093fe532654ebc92d0bfa532b619c2153c91d",
+            "bytes": 61976,
+            "triangles": 1676,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.2062329053878784,
+                0,
+                -2.3631842136383057
+              ],
+              "max": [
+                1.2062329053878784,
+                1.815999984741211,
+                2.372756004333496
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 0
+          }
+        ],
+        "sourceSpecies": null,
+        "paintMaterial": "CAR_BODY_PEARL",
+        "instanceable": true,
+        "license": "ORIGINAL_PROJECT_AUTHORING"
+      },
+      {
+        "id": "vehicle-van",
+        "kind": "vehicle",
+        "bounds": {
+          "min": [
+            -1.159999966621399,
+            0,
+            -2.6075000762939453
+          ],
+          "max": [
+            1.159999966621399,
+            1.9660000801086426,
+            2.630000114440918
+          ]
+        },
+        "lods": [
+          {
+            "level": 0,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-van-lod0.glb",
+            "sha256": "0202575d3330f74970528d2a514a1c603ae8e9a7489227e0e256c5902f6270f3",
+            "bytes": 178772,
+            "triangles": 14751,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.159999966621399,
+                0,
+                -2.6075000762939453
+              ],
+              "max": [
+                1.159999966621399,
+                1.9660000801086426,
+                2.630000114440918
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 0
+          },
+          {
+            "level": 1,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-van-lod1.glb",
+            "sha256": "8699016f6a75c07cb1595de59d8feb3263e538ad1adfa7970d2bdaf6f29fc568",
+            "bytes": 147532,
+            "triangles": 11316,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.159999966621399,
+                0,
+                -2.6075000762939453
+              ],
+              "max": [
+                1.159999966621399,
+                1.9660000801086426,
+                2.630000114440918
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression; dedup/weld/prune",
+            "maxTextureDimension": 0
+          },
+          {
+            "level": 2,
+            "url": "/park/v007/v007-r001/assets/campus/vehicle-van-lod2.glb",
+            "sha256": "302b3bef817a85faaef216c0c51cd3e407cab2bb108aa9f47b7e832af215f1c5",
+            "bytes": 62200,
+            "triangles": 1666,
+            "primitives": 8,
+            "textureGpuBytesEstimated": 0,
+            "bounds": {
+              "min": [
+                -1.1562328338623047,
+                0,
+                -2.6131842136383057
+              ],
+              "max": [
+                1.1562328338623047,
+                1.9660000801086426,
+                2.622756004333496
+              ]
+            },
+            "geometryCompression": "EXT_meshopt_compression lossless; reorder only; FLOAT32 positions, no quantization/filtering/welding/removal",
+            "maxTextureDimension": 0
+          }
+        ],
+        "sourceSpecies": null,
+        "paintMaterial": "CAR_BODY_PEARL",
+        "instanceable": true,
+        "license": "ORIGINAL_PROJECT_AUTHORING"
+      }
+    ],
+    "placements": [
+      {
+        "id": "CAR_001",
+        "prototypeId": "vehicle-sedan",
+        "position": [
+          -122.0,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 3.141592653589793,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 0,
+        "parkingSlotId": "PARK_A01"
+      },
+      {
+        "id": "CAR_002",
+        "prototypeId": "vehicle-suv",
+        "position": [
+          -119.15,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 1,
+        "parkingSlotId": "PARK_A02"
+      },
+      {
+        "id": "CAR_003",
+        "prototypeId": "vehicle-van",
+        "position": [
+          -116.3,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 2,
+        "parkingSlotId": "PARK_A03"
+      },
+      {
+        "id": "CAR_004",
+        "prototypeId": "vehicle-sedan",
+        "position": [
+          -113.45,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 3.141592653589793,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 3,
+        "parkingSlotId": "PARK_A04"
+      },
+      {
+        "id": "CAR_005",
+        "prototypeId": "vehicle-suv",
+        "position": [
+          -110.6,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 4,
+        "parkingSlotId": "PARK_A05"
+      },
+      {
+        "id": "CAR_006",
+        "prototypeId": "vehicle-van",
+        "position": [
+          -107.75,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 5,
+        "parkingSlotId": "PARK_A06"
+      },
+      {
+        "id": "CAR_007",
+        "prototypeId": "vehicle-sedan",
+        "position": [
+          -82.1,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 3.141592653589793,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 0,
+        "parkingSlotId": "PARK_A07"
+      },
+      {
+        "id": "CAR_008",
+        "prototypeId": "vehicle-suv",
+        "position": [
+          -79.25,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 1,
+        "parkingSlotId": "PARK_A08"
+      },
+      {
+        "id": "CAR_009",
+        "prototypeId": "vehicle-van",
+        "position": [
+          -76.4,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 2,
+        "parkingSlotId": "PARK_A09"
+      },
+      {
+        "id": "CAR_010",
+        "prototypeId": "vehicle-sedan",
+        "position": [
+          -73.55,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 3.141592653589793,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 3,
+        "parkingSlotId": "PARK_A10"
+      },
+      {
+        "id": "CAR_011",
+        "prototypeId": "vehicle-suv",
+        "position": [
+          -70.69999999999999,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 4,
+        "parkingSlotId": "PARK_A11"
+      },
+      {
+        "id": "CAR_012",
+        "prototypeId": "vehicle-van",
+        "position": [
+          -67.85,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 5,
+        "parkingSlotId": "PARK_A12"
+      },
+      {
+        "id": "CAR_013",
+        "prototypeId": "vehicle-sedan",
+        "position": [
+          -65.0,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 3.141592653589793,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 0,
+        "parkingSlotId": "PARK_A13"
+      },
+      {
+        "id": "CAR_014",
+        "prototypeId": "vehicle-suv",
+        "position": [
+          -62.15,
+          0.018,
+          -32.2
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 1,
+        "parkingSlotId": "PARK_A14"
+      },
+      {
+        "id": "CAR_015",
+        "prototypeId": "vehicle-van",
+        "position": [
+          -105.0,
+          0.018,
+          -20.8
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 2,
+        "parkingSlotId": "PARK_B01"
+      },
+      {
+        "id": "CAR_016",
+        "prototypeId": "vehicle-sedan",
+        "position": [
+          -102.15,
+          0.018,
+          -20.8
+        ],
+        "rotationY": 3.141592653589793,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 3,
+        "parkingSlotId": "PARK_B02"
+      },
+      {
+        "id": "CAR_017",
+        "prototypeId": "vehicle-suv",
+        "position": [
+          -99.3,
+          0.018,
+          -20.8
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 4,
+        "parkingSlotId": "PARK_B03"
+      },
+      {
+        "id": "CAR_018",
+        "prototypeId": "vehicle-van",
+        "position": [
+          -96.45,
+          0.018,
+          -20.8
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 5,
+        "parkingSlotId": "PARK_B04"
+      },
+      {
+        "id": "CAR_019",
+        "prototypeId": "vehicle-sedan",
+        "position": [
+          -93.6,
+          0.018,
+          -20.8
+        ],
+        "rotationY": 3.141592653589793,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 0,
+        "parkingSlotId": "PARK_B05"
+      },
+      {
+        "id": "CAR_020",
+        "prototypeId": "vehicle-suv",
+        "position": [
+          -90.75,
+          0.018,
+          -20.8
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 1,
+        "parkingSlotId": "PARK_B06"
+      },
+      {
+        "id": "CAR_021",
+        "prototypeId": "vehicle-van",
+        "position": [
+          -87.9,
+          0.018,
+          -20.8
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "colorIndex": 2,
+        "parkingSlotId": "PARK_B07"
+      },
+      {
+        "id": "TREE_001",
+        "prototypeId": "tree-open-02",
+        "position": [
+          -135.28186768362497,
+          0,
+          -23.925555192678843
+        ],
+        "rotationY": 2.482824864715859,
+        "scale": [
+          0.9803225391964362,
+          1.0236414806128793,
+          0.9803225391964362
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_002",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          87.84926139833448,
+          0,
+          2.902429964321982
+        ],
+        "rotationY": 2.062013872200991,
+        "scale": [
+          0.9195656868613695,
+          0.9279123866028979,
+          0.9195656868613695
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_003",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          -143.75558166085074,
+          0,
+          -31.891840692950424
+        ],
+        "rotationY": 4.209349741143119,
+        "scale": [
+          0.8469516291614028,
+          1.0616918181162962,
+          0.8469516291614028
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_004",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          77.95345751490328,
+          0,
+          113.92765268459507
+        ],
+        "rotationY": 6.028144881539833,
+        "scale": [
+          1.0665878022893687,
+          1.1013705643516545,
+          1.0665878022893687
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_005",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          53.82235177541705,
+          0,
+          -25.6321912242895
+        ],
+        "rotationY": 1.3870230658175808,
+        "scale": [
+          1.0030141093166594,
+          1.0668919659231635,
+          1.0030141093166594
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_006",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          60.40774212262639,
+          0,
+          -19.83393102150842
+        ],
+        "rotationY": 0.3211199913433029,
+        "scale": [
+          0.9117516391206949,
+          0.9390503441593416,
+          0.9117516391206949
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_007",
+        "prototypeId": "tree-open-02",
+        "position": [
+          -86.434459801223,
+          0,
+          -111.79222169149813
+        ],
+        "rotationY": 0.24305814302914186,
+        "scale": [
+          0.8607940399945315,
+          0.8977609061648373,
+          0.8607940399945315
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_008",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          -6.7930684111906885,
+          0,
+          -77.48777065765853
+        ],
+        "rotationY": 3.917133111962303,
+        "scale": [
+          1.0242311553851413,
+          0.9824246829767814,
+          1.0242311553851413
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_009",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          27.645221340175482,
+          0,
+          -46.43646476819775
+        ],
+        "rotationY": 2.1591471439516527,
+        "scale": [
+          1.036683359460544,
+          1.0778632689893537,
+          1.036683359460544
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_010",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -78.30410683412364,
+          0,
+          -62.7203611355274
+        ],
+        "rotationY": 5.627012893754975,
+        "scale": [
+          1.0443669065505163,
+          1.1001865067140868,
+          1.0443669065505163
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_011",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          -91.1574653955705,
+          0,
+          -66.17861519552825
+        ],
+        "rotationY": 6.1448356741092685,
+        "scale": [
+          0.9793639436075884,
+          0.9278031175003212,
+          0.9793639436075884
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_012",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          -160.3794946093266,
+          0,
+          -61.04410320246595
+        ],
+        "rotationY": 0.5241406383294976,
+        "scale": [
+          1.0321802406141358,
+          0.9382254870541731,
+          1.0321802406141358
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_013",
+        "prototypeId": "tree-open-02",
+        "position": [
+          -68.12388577047014,
+          0,
+          -66.8372017268034
+        ],
+        "rotationY": 2.666349620410375,
+        "scale": [
+          0.9239595554774985,
+          0.9252397899540639,
+          0.9239595554774985
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_014",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          -23.626482185398288,
+          0,
+          -91.80562619663544
+        ],
+        "rotationY": 0.24029937584660738,
+        "scale": [
+          0.8477834512637761,
+          1.0462232079467235,
+          0.8477834512637761
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_015",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          110.08247883946137,
+          0,
+          78.49236090813577
+        ],
+        "rotationY": 0.399627581400014,
+        "scale": [
+          0.8791777535356087,
+          0.9789125446470764,
+          0.8791777535356087
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_016",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          26.104141105879336,
+          0,
+          124.2128669789465
+        ],
+        "rotationY": 0.5947893048179441,
+        "scale": [
+          0.921291685905446,
+          0.9120067138984467,
+          0.921291685905446
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_017",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          2.810010591758612,
+          0,
+          -66.7893927208782
+        ],
+        "rotationY": 5.278959771541509,
+        "scale": [
+          0.9424785301817912,
+          0.9018457533561021,
+          0.9424785301817912
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_018",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          -11.541161983278045,
+          0,
+          -82.55025198681383
+        ],
+        "rotationY": 2.751354697604734,
+        "scale": [
+          1.0042446428875271,
+          0.9308846595846442,
+          1.0042446428875271
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_019",
+        "prototypeId": "tree-open-02",
+        "position": [
+          -112.12988457344662,
+          0,
+          -122.6419220799892
+        ],
+        "rotationY": 1.0944385796253644,
+        "scale": [
+          0.9650376844040012,
+          1.0824163720069564,
+          0.9650376844040012
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_020",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          57.84396216941988,
+          0,
+          133.07559697965806
+        ],
+        "rotationY": 1.6169662402169651,
+        "scale": [
+          0.88417283855191,
+          0.9009610934578146,
+          0.88417283855191
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_021",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          131.9392681121709,
+          0,
+          54.20925674938755
+        ],
+        "rotationY": 3.9697253748797467,
+        "scale": [
+          0.9947150125291239,
+          0.903692331655554,
+          0.9947150125291239
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_022",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -82.82136424548949,
+          0,
+          -140.6589066229538
+        ],
+        "rotationY": 1.1817580733852486,
+        "scale": [
+          0.9309455692951819,
+          1.0279731699852912,
+          0.9309455692951819
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_023",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          -45.61948896063666,
+          0,
+          -110.36687903127378
+        ],
+        "rotationY": 5.695420219765446,
+        "scale": [
+          0.9961589919213846,
+          0.9505655984716032,
+          0.9961589919213846
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_024",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          122.7864981093723,
+          0,
+          66.01765001628706
+        ],
+        "rotationY": 5.976596544262084,
+        "scale": [
+          0.9012836670248481,
+          1.0824504848671375,
+          0.9012836670248481
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_025",
+        "prototypeId": "tree-open-02",
+        "position": [
+          125.37465197502087,
+          0,
+          38.858826267482016
+        ],
+        "rotationY": 0.3144877097120637,
+        "scale": [
+          0.9386036398143125,
+          0.9319671260314925,
+          0.9386036398143125
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_026",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          -137.16430624848766,
+          0,
+          -89.90456453524943
+        ],
+        "rotationY": 0.5284723499178287,
+        "scale": [
+          1.035467535102965,
+          0.9787640329910123,
+          1.035467535102965
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_027",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          23.76836410170648,
+          0,
+          -51.59204557609736
+        ],
+        "rotationY": 4.960726646133364,
+        "scale": [
+          1.0282924685565336,
+          0.9129562530863484,
+          1.0282924685565336
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_028",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -123.52688149397649,
+          0,
+          -13.955106005557866
+        ],
+        "rotationY": 1.5560005841844533,
+        "scale": [
+          0.9774648895571495,
+          1.0085625883269995,
+          0.9774648895571495
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_029",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          -156.89515390326747,
+          0,
+          -43.33939621518391
+        ],
+        "rotationY": 5.3832478989032735,
+        "scale": [
+          0.9226300451347575,
+          1.0984805704280052,
+          0.9226300451347575
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_030",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          -97.15250976646914,
+          0,
+          -68.18560470787938
+        ],
+        "rotationY": 4.919544981378145,
+        "scale": [
+          0.9073331940902768,
+          1.0789751740646054,
+          0.9073331940902768
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_031",
+        "prototypeId": "tree-open-02",
+        "position": [
+          -79.07133972665308,
+          0,
+          27.07633998106138
+        ],
+        "rotationY": 2.7978009558567782,
+        "scale": [
+          0.9020856671746366,
+          0.9301008851648301,
+          0.9020856671746366
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_032",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          -77.07408629650298,
+          0,
+          -71.41532068130981
+        ],
+        "rotationY": 2.1443996379726338,
+        "scale": [
+          1.0140713672634,
+          0.9476014142121918,
+          1.0140713672634
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_033",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          133.43225173124023,
+          0,
+          42.266299145358744
+        ],
+        "rotationY": 0.9611485112002653,
+        "scale": [
+          1.0628665312296688,
+          0.9100963444825123,
+          1.0628665312296688
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_034",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -88.22752105418328,
+          0,
+          -147.16614927045617
+        ],
+        "rotationY": 5.1701971713272075,
+        "scale": [
+          1.0481841148320852,
+          1.0109339009053209,
+          1.0481841148320852
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_035",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          120.29205027627643,
+          0,
+          33.048242541687046
+        ],
+        "rotationY": 1.8246309041873128,
+        "scale": [
+          0.9579717517320485,
+          0.8845443571442273,
+          0.9579717517320485
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_036",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          -71.17827739000411,
+          0,
+          -131.89298936182453
+        ],
+        "rotationY": 5.8218151574245285,
+        "scale": [
+          0.856224385344203,
+          0.8872023332453649,
+          0.856224385344203
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_037",
+        "prototypeId": "tree-open-02",
+        "position": [
+          9.804644381342086,
+          0,
+          -60.549309807597325
+        ],
+        "rotationY": 2.832108156472808,
+        "scale": [
+          0.9942188906748073,
+          1.0931498144690976,
+          0.9942188906748073
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_038",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          -78.40599853106808,
+          0,
+          -108.77957808676899
+        ],
+        "rotationY": 1.0307892432045116,
+        "scale": [
+          1.0041247286178865,
+          0.9162509356461641,
+          1.0041247286178865
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_039",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          106.77752058352496,
+          0,
+          21.83332404567011
+        ],
+        "rotationY": 4.020117851783181,
+        "scale": [
+          0.8389694545226627,
+          1.0045412430176672,
+          0.8389694545226627
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_040",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -102.29691763476764,
+          0,
+          5.727569981217556
+        ],
+        "rotationY": 2.246328433472915,
+        "scale": [
+          0.9803408550107567,
+          1.0458275206843195,
+          0.9803408550107567
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_041",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          99.08476968140627,
+          0,
+          86.7269546874202
+        ],
+        "rotationY": 4.179453534763175,
+        "scale": [
+          1.0453848505853174,
+          1.0773672594511372,
+          1.0453848505853174
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_042",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          -68.64228887897285,
+          0,
+          36.828600102990436
+        ],
+        "rotationY": 5.726161581719245,
+        "scale": [
+          1.0692567396069212,
+          0.9671833335093606,
+          1.0692567396069212
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_043",
+        "prototypeId": "tree-open-02",
+        "position": [
+          51.50115000486275,
+          0,
+          142.6818937925323
+        ],
+        "rotationY": 2.9266072244007995,
+        "scale": [
+          0.8584726186358032,
+          1.0762731439365782,
+          0.8584726186358032
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_044",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          -156.53511701749102,
+          0,
+          -67.3656451221259
+        ],
+        "rotationY": 1.4493783709033468,
+        "scale": [
+          0.8358166875490342,
+          0.9539594170551395,
+          0.8358166875490342
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_045",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          -114.07082784970942,
+          0,
+          -5.226276726124581
+        ],
+        "rotationY": 5.400322771040334,
+        "scale": [
+          1.086214604152247,
+          1.0128760048961756,
+          1.086214604152247
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_046",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -73.7265025899019,
+          0,
+          -98.14959047503731
+        ],
+        "rotationY": 6.190558063213208,
+        "scale": [
+          0.8603862125598096,
+          0.9835370648397664,
+          0.8603862125598096
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_047",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          -151.3233611965937,
+          0,
+          -39.03339595542836
+        ],
+        "rotationY": 5.6430348295676165,
+        "scale": [
+          0.8812604199527484,
+          0.9333126087876549,
+          0.8812604199527484
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_048",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          21.983303329542792,
+          0,
+          119.45295237586518
+        ],
+        "rotationY": 4.666747148155804,
+        "scale": [
+          0.9538082044899863,
+          1.1082877974218972,
+          0.9538082044899863
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_049",
+        "prototypeId": "tree-open-02",
+        "position": [
+          -59.17430957723357,
+          0,
+          -119.82855177654032
+        ],
+        "rotationY": 5.2491360591538365,
+        "scale": [
+          0.9686892745763823,
+          0.9367845207056877,
+          0.9686892745763823
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_050",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          -81.06150514166747,
+          0,
+          -99.17975672283434
+        ],
+        "rotationY": 2.05429332813769,
+        "scale": [
+          1.0609539617690316,
+          1.0811235520171867,
+          1.0609539617690316
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_051",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          49.10514908372443,
+          0,
+          -30.383280273294147
+        ],
+        "rotationY": 1.1498467263644738,
+        "scale": [
+          0.8387827629671047,
+          1.0585787727045877,
+          0.8387827629671047
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_052",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -162.94471764906893,
+          0,
+          -50.07645211514226
+        ],
+        "rotationY": 0.8903778167870482,
+        "scale": [
+          0.9113173134153258,
+          1.0174071175484296,
+          0.9113173134153258
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_053",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          -35.77865243223761,
+          0,
+          -99.68633873346957
+        ],
+        "rotationY": 3.8654541227693424,
+        "scale": [
+          0.8852425561712575,
+          0.9702485156651053,
+          0.8852425561712575
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_054",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          -124.70255045176953,
+          0,
+          -109.79198041323653
+        ],
+        "rotationY": 0.07988385411814308,
+        "scale": [
+          0.9695314025597203,
+          0.8885093339918045,
+          0.9695314025597203
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_055",
+        "prototypeId": "tree-open-02",
+        "position": [
+          -83.62746433638578,
+          0,
+          -71.5574483648695
+        ],
+        "rotationY": 5.7999855829158875,
+        "scale": [
+          1.0782470708212097,
+          0.9310273849702516,
+          1.0782470708212097
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_056",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          115.95163096708387,
+          0,
+          71.35918462030548
+        ],
+        "rotationY": 5.863226506746464,
+        "scale": [
+          0.9209232548842161,
+          0.9850128904346273,
+          0.9209232548842161
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_057",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          -90.3017452709632,
+          0,
+          -75.10312588545594
+        ],
+        "rotationY": 6.084350316235662,
+        "scale": [
+          1.0400586957321674,
+          1.0764220863334117,
+          1.0400586957321674
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_058",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -133.0265664004006,
+          0,
+          -96.81031385331187
+        ],
+        "rotationY": 4.573334395267307,
+        "scale": [
+          1.0845260132504035,
+          0.9006700119706774,
+          1.0845260132504035
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_059",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          -92.87989981567443,
+          0,
+          12.314273070951543
+        ],
+        "rotationY": 2.712853228885877,
+        "scale": [
+          1.0381487174406454,
+          0.9040446716199749,
+          1.0381487174406454
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_060",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          -153.5486966510101,
+          0,
+          -73.28401457928936
+        ],
+        "rotationY": 4.197848030916498,
+        "scale": [
+          0.9378761387121897,
+          1.0940125111900403,
+          0.9378761387121897
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_061",
+        "prototypeId": "tree-open-02",
+        "position": [
+          44.78305902625712,
+          0,
+          141.0443277254897
+        ],
+        "rotationY": 4.606261768990125,
+        "scale": [
+          1.006989922031746,
+          0.9039679635602341,
+          1.006989922031746
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_062",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          -129.943440006445,
+          0,
+          -18.32975648764193
+        ],
+        "rotationY": 1.8458473564739768,
+        "scale": [
+          0.9943794812432285,
+          1.1059675551261883,
+          0.9943794812432285
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_063",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          114.13405919126609,
+          0,
+          26.245981921400272
+        ],
+        "rotationY": 0.03654928013929223,
+        "scale": [
+          1.0611661614725454,
+          1.0809690601557504,
+          1.0611661614725454
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_064",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          66.77809269181097,
+          0,
+          -13.356650883979768
+        ],
+        "rotationY": 3.8143997181734446,
+        "scale": [
+          1.037224103321085,
+          1.0531172681064258,
+          1.037224103321085
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_065",
+        "prototypeId": "tree-tall-06",
+        "position": [
+          72.69470736335134,
+          0,
+          119.38253647994654
+        ],
+        "rotationY": 3.985219369669997,
+        "scale": [
+          0.8863269492312584,
+          1.026882736579074,
+          0.8863269492312584
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_066",
+        "prototypeId": "tree-layered-07",
+        "position": [
+          -73.61820122582135,
+          0,
+          30.800658894610734
+        ],
+        "rotationY": 3.313005493189709,
+        "scale": [
+          0.8920878231053225,
+          0.8858831216238195,
+          0.8920878231053225
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_067",
+        "prototypeId": "tree-open-02",
+        "position": [
+          105.05861017656974,
+          0,
+          83.50956929290189
+        ],
+        "rotationY": 4.9542411663945485,
+        "scale": [
+          0.9976683090293562,
+          0.954359774027868,
+          0.9976683090293562
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_068",
+        "prototypeId": "tree-compact-01",
+        "position": [
+          128.07673764727383,
+          0,
+          58.84575100177304
+        ],
+        "rotationY": 4.797851570081304,
+        "scale": [
+          0.9259374426244228,
+          0.9298127166423777,
+          0.9259374426244228
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_069",
+        "prototypeId": "tree-broad-04",
+        "position": [
+          -39.312638126055816,
+          0,
+          -107.20037606834549
+        ],
+        "rotationY": 0.627341695096057,
+        "scale": [
+          1.0315359992458488,
+          1.0038163487769192,
+          1.0315359992458488
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "TREE_070",
+        "prototypeId": "tree-asymmetric-05",
+        "position": [
+          -84.97594513209808,
+          0,
+          -64.09041706232797
+        ],
+        "rotationY": 2.706312369050436,
+        "scale": [
+          0.8712604855660777,
+          1.047702131703722,
+          0.8712604855660777
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_001",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          29.209963282176687,
+          0,
+          124.58007273665473
+        ],
+        "rotationY": 4.413086368838958,
+        "scale": [
+          0.8635165894563853,
+          0.8835217835123143,
+          0.8635165894563853
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_002",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -138.94781172866516,
+          0,
+          -86.98095946060506
+        ],
+        "rotationY": 5.594987885460634,
+        "scale": [
+          0.9192218622104441,
+          0.9293326237953754,
+          0.9192218622104441
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_003",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          73.5565747470713,
+          0,
+          119.93437338131511
+        ],
+        "rotationY": 2.1252163392459673,
+        "scale": [
+          0.9214851678165876,
+          0.9283899314580153,
+          0.9214851678165876
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_004",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -147.8524785187266,
+          0,
+          -74.7303108544856
+        ],
+        "rotationY": 1.7537290906081668,
+        "scale": [
+          0.8571662261187081,
+          1.0448391191268949,
+          0.8571662261187081
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_005",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          28.774762061000985,
+          0,
+          -44.9611288924181
+        ],
+        "rotationY": 1.2465703913752075,
+        "scale": [
+          1.0271109374940774,
+          1.0361292096793555,
+          1.0271109374940774
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_006",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -126.927078580651,
+          0,
+          -15.821811931283804
+        ],
+        "rotationY": 2.0332591280359695,
+        "scale": [
+          0.9632405219221236,
+          0.9982857995638218,
+          0.9632405219221236
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_007",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -164.88936175800916,
+          0,
+          -51.90978180026478
+        ],
+        "rotationY": 0.5285922641748705,
+        "scale": [
+          0.9107513827237262,
+          0.9088875654739723,
+          0.9107513827237262
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_008",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          87.13943160555561,
+          0,
+          6.204606767906284
+        ],
+        "rotationY": 4.479797485379405,
+        "scale": [
+          0.9550404778559732,
+          1.1157015685812,
+          0.9550404778559732
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_009",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          77.25057916804289,
+          0,
+          114.97605445263028
+        ],
+        "rotationY": 3.328608678929669,
+        "scale": [
+          0.971405613078116,
+          1.025609768395542,
+          0.971405613078116
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_010",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          78.20753666310509,
+          0,
+          -4.815437878658287
+        ],
+        "rotationY": 2.6096774682157826,
+        "scale": [
+          0.9285538836089027,
+          1.0525617556861795,
+          0.9285538836089027
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_011",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -112.98330941533064,
+          0,
+          -5.3175110045752945
+        ],
+        "rotationY": 0.1765134314518631,
+        "scale": [
+          0.872262515871089,
+          0.9633785222591141,
+          0.872262515871089
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_012",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -71.3086652585282,
+          0,
+          36.02712965025171
+        ],
+        "rotationY": 1.0689045368894037,
+        "scale": [
+          1.0615627705017723,
+          0.9529842270828056,
+          1.0615627705017723
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_013",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -136.640146629635,
+          0,
+          -89.10868667543475
+        ],
+        "rotationY": 4.0120180861815875,
+        "scale": [
+          1.0345772836997402,
+          0.9028703332014074,
+          1.0345772836997402
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_014",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -159.85248534229441,
+          0,
+          -65.99478779170892
+        ],
+        "rotationY": 3.2351648278549043,
+        "scale": [
+          1.084275444959744,
+          0.9054166443912959,
+          1.084275444959744
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_015",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          132.20378934466635,
+          0,
+          54.28250745485116
+        ],
+        "rotationY": 0.22612972987089372,
+        "scale": [
+          0.9899539049208356,
+          0.9522997745376383,
+          0.9899539049208356
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_016",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -119.41055474701523,
+          0,
+          -116.53959879360416
+        ],
+        "rotationY": 4.322678962582241,
+        "scale": [
+          0.8435157791915447,
+          0.9632406803826495,
+          0.8435157791915447
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_017",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -122.2236006052753,
+          0,
+          -112.4433371683423
+        ],
+        "rotationY": 2.6260378465131575,
+        "scale": [
+          0.9003359199657692,
+          0.9864483295151167,
+          0.9003359199657692
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_018",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -72.11363539975694,
+          0,
+          -133.9440781945509
+        ],
+        "rotationY": 1.3582144783424395,
+        "scale": [
+          0.9384633218637246,
+          0.9451870791584667,
+          0.9384633218637246
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_019",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          25.27182164553068,
+          0,
+          123.31881627791975
+        ],
+        "rotationY": 5.297929160249091,
+        "scale": [
+          1.085457787069763,
+          1.1181120009550234,
+          1.085457787069763
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_020",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -76.97475384483253,
+          0,
+          -65.83448624491902
+        ],
+        "rotationY": 4.433449256413712,
+        "scale": [
+          0.9512812956564852,
+          0.9368188842513216,
+          0.9512812956564852
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_021",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -110.00737406422988,
+          0,
+          -122.7775191267989
+        ],
+        "rotationY": 4.464936562815943,
+        "scale": [
+          0.92194137611226,
+          0.9170008709434015,
+          0.92194137611226
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_022",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -16.737565933786527,
+          0,
+          -83.04871972954693
+        ],
+        "rotationY": 4.330267181358366,
+        "scale": [
+          0.8404272355380212,
+          1.103133809508592,
+          0.8404272355380212
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_023",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -94.9452671057877,
+          0,
+          -68.57620342477054
+        ],
+        "rotationY": 2.905372532234669,
+        "scale": [
+          1.0788543244088284,
+          0.9970275004340281,
+          1.0788543244088284
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_024",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -16.474555252879384,
+          0,
+          -87.5022947480105
+        ],
+        "rotationY": 5.1380411782259126,
+        "scale": [
+          1.0352004842231686,
+          1.114910674251866,
+          1.0352004842231686
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_025",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          42.007561882957816,
+          0,
+          141.4720882341562
+        ],
+        "rotationY": 5.21182352065561,
+        "scale": [
+          0.9274213148899911,
+          1.1090544142065886,
+          0.9274213148899911
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_026",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -90.73340393486721,
+          0,
+          17.386019558311204
+        ],
+        "rotationY": 6.173989437430961,
+        "scale": [
+          1.0261492503022454,
+          1.0460394304676517,
+          1.0261492503022454
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_027",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -74.736451227863,
+          0,
+          -59.66780644746986
+        ],
+        "rotationY": 3.0861766127429933,
+        "scale": [
+          0.941555423456505,
+          0.9210618092493797,
+          0.941555423456505
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_028",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          83.91751270030034,
+          0,
+          107.92346650025385
+        ],
+        "rotationY": 1.3087155541899156,
+        "scale": [
+          0.975891681043846,
+          0.9020532364087851,
+          0.975891681043846
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_029",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -127.46675830821675,
+          0,
+          -18.963979700978058
+        ],
+        "rotationY": 0.9360942961407946,
+        "scale": [
+          1.0041320244860308,
+          1.0760295732592748,
+          1.0041320244860308
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_030",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -140.8522661033911,
+          0,
+          -90.18306342532738
+        ],
+        "rotationY": 1.2107926085524647,
+        "scale": [
+          1.0189694108546168,
+          0.9220726427540674,
+          1.0189694108546168
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_031",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -84.8374206213576,
+          0,
+          22.20075139617674
+        ],
+        "rotationY": 6.011635412078961,
+        "scale": [
+          0.8768304296917458,
+          0.934158992505303,
+          0.8768304296917458
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_032",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -87.63190264655483,
+          0,
+          -80.52515458842478
+        ],
+        "rotationY": 2.432104457237722,
+        "scale": [
+          1.0523851986772144,
+          1.020988729091449,
+          1.0523851986772144
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_033",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          127.32946932312433,
+          0,
+          36.64468515722123
+        ],
+        "rotationY": 0.3197442676036632,
+        "scale": [
+          0.9085816819535475,
+          0.9165628845556861,
+          0.9085816819535475
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_034",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -80.78817599619248,
+          0,
+          -104.40881414541313
+        ],
+        "rotationY": 3.2043147581463054,
+        "scale": [
+          0.9799147225897642,
+          1.034109030842183,
+          0.9799147225897642
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_035",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          102.1025970469953,
+          0,
+          16.09566678037274
+        ],
+        "rotationY": 0.45997194880781167,
+        "scale": [
+          0.9691246184977431,
+          1.0075014202390067,
+          0.9691246184977431
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_036",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -78.70280252425755,
+          0,
+          -71.05870791038431
+        ],
+        "rotationY": 2.9272402449362587,
+        "scale": [
+          0.9097711871231868,
+          0.9423902906827333,
+          0.9097711871231868
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_037",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          85.77720928702166,
+          0,
+          103.82688912470675
+        ],
+        "rotationY": 0.6859332576246547,
+        "scale": [
+          1.0267766454445448,
+          1.0336726820573603,
+          1.0267766454445448
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_038",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          105.39845496918184,
+          0,
+          85.56068770169887
+        ],
+        "rotationY": 3.390938141715229,
+        "scale": [
+          1.052096715530542,
+          0.8905402303800548,
+          1.052096715530542
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_039",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -76.56024944298913,
+          0,
+          -101.55669389793036
+        ],
+        "rotationY": 1.9381996196801086,
+        "scale": [
+          0.8889546538711077,
+          1.0555742486070248,
+          0.8889546538711077
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_040",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -90.27621732820616,
+          0,
+          -109.28420611941644
+        ],
+        "rotationY": 0.0722211585929684,
+        "scale": [
+          0.8830503598648856,
+          1.1107502803774192,
+          0.8830503598648856
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_041",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -38.000461804886186,
+          0,
+          -101.93500022799955
+        ],
+        "rotationY": 0.949263662712685,
+        "scale": [
+          1.0630217032878195,
+          0.9416891200389649,
+          1.0630217032878195
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_042",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          100.68494462111892,
+          0,
+          85.56098603591408
+        ],
+        "rotationY": 2.0677938347990064,
+        "scale": [
+          1.069936798132321,
+          0.898065976681263,
+          1.069936798132321
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_043",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -53.51671526732801,
+          0,
+          52.50006888323938
+        ],
+        "rotationY": 4.971103982215858,
+        "scale": [
+          1.0622243184848847,
+          0.8996540708488807,
+          1.0622243184848847
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_044",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          69.51958903395479,
+          0,
+          122.75988299182663
+        ],
+        "rotationY": 2.7843347406275756,
+        "scale": [
+          1.0183708112091896,
+          0.9025942746587591,
+          1.0183708112091896
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_045",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          16.00319273791183,
+          0,
+          -57.98854463790222
+        ],
+        "rotationY": 4.7734158628895695,
+        "scale": [
+          0.8661521984575058,
+          0.9958050835788979,
+          0.8661521984575058
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_046",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -73.70323573089006,
+          0,
+          -71.53512691654565
+        ],
+        "rotationY": 4.024361857100578,
+        "scale": [
+          0.9242782901953194,
+          1.0711959757062963,
+          0.9242782901953194
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_047",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -41.04167463323154,
+          0,
+          -106.66673727935121
+        ],
+        "rotationY": 0.2328456929007385,
+        "scale": [
+          1.0519524103320366,
+          1.0576081799871189,
+          1.0519524103320366
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_048",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -69.84314470261018,
+          0,
+          -70.33998497355537
+        ],
+        "rotationY": 5.095115820022852,
+        "scale": [
+          0.9852233322978025,
+          0.8891678178462357,
+          0.9852233322978025
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_049",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          36.70093033899553,
+          0,
+          -41.42968574305905
+        ],
+        "rotationY": 4.190731195724914,
+        "scale": [
+          0.9599049213696782,
+          0.9095485809771786,
+          0.9599049213696782
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_050",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -32.50337997610134,
+          0,
+          -97.74842811464632
+        ],
+        "rotationY": 4.974842813979456,
+        "scale": [
+          0.910072430946297,
+          1.0427952699800642,
+          0.910072430946297
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_051",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -86.23434794723018,
+          0,
+          -113.69411095570388
+        ],
+        "rotationY": 4.103322906855412,
+        "scale": [
+          1.0551460043205299,
+          1.0459885333468537,
+          1.0551460043205299
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_052",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -97.03467332946911,
+          0,
+          -138.90020305662168
+        ],
+        "rotationY": 5.736301507834339,
+        "scale": [
+          1.0520245800038055,
+          0.8877768684639104,
+          1.0520245800038055
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_053",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          132.05221341075838,
+          0,
+          50.23204259769369
+        ],
+        "rotationY": 0.6290298679370163,
+        "scale": [
+          0.9093691481204426,
+          0.9685917531801725,
+          0.9093691481204426
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_054",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -91.71627533104784,
+          0,
+          -67.70060108560872
+        ],
+        "rotationY": 0.6794817272799085,
+        "scale": [
+          1.0452155282846092,
+          0.9704463153222841,
+          1.0452155282846092
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_055",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          61.422099273126065,
+          0,
+          -19.107491188918658
+        ],
+        "rotationY": 0.8192588313728302,
+        "scale": [
+          1.0039644473565261,
+          1.0225845455170806,
+          1.0039644473565261
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_056",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          104.39364056135616,
+          0,
+          20.37433347866059
+        ],
+        "rotationY": 6.112640121913292,
+        "scale": [
+          0.8309839515963556,
+          0.9651226499459182,
+          0.8309839515963556
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_057",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -161.49314544049332,
+          0,
+          -63.21417566260857
+        ],
+        "rotationY": 5.430505211864597,
+        "scale": [
+          0.8860894227377074,
+          1.104752894700078,
+          0.8860894227377074
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_058",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          6.105144576751002,
+          0,
+          -64.61258754676776
+        ],
+        "rotationY": 5.24952986540856,
+        "scale": [
+          0.8613243403780474,
+          0.8888995516517896,
+          0.8613243403780474
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_059",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          82.49423799564954,
+          0,
+          -1.0386970635291277
+        ],
+        "rotationY": 2.2019282407756644,
+        "scale": [
+          0.9536036740460122,
+          0.9074156051917193,
+          0.9536036740460122
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_060",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -78.49249251572024,
+          0,
+          -99.03128188673779
+        ],
+        "rotationY": 4.78206086707123,
+        "scale": [
+          0.8522761207626322,
+          1.0930796875581472,
+          0.8522761207626322
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_061",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -164.6260756609271,
+          0,
+          -55.19111324993149
+        ],
+        "rotationY": 0.4799473730674431,
+        "scale": [
+          0.8809079450022729,
+          0.9155487607472418,
+          0.8809079450022729
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_062",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          22.39456944893533,
+          0,
+          -52.99049861942595
+        ],
+        "rotationY": 5.852800427220142,
+        "scale": [
+          1.0114128733380374,
+          1.07278239992876,
+          1.0114128733380374
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_063",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -75.1240063606297,
+          0,
+          -99.07714067513893
+        ],
+        "rotationY": 1.5353670473805094,
+        "scale": [
+          0.8451131339027442,
+          0.9081584005607715,
+          0.8451131339027442
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_064",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          59.21558271921293,
+          0,
+          129.4890388874849
+        ],
+        "rotationY": 1.3406702351409208,
+        "scale": [
+          0.8520781581215462,
+          0.9639329737936952,
+          0.8520781581215462
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_065",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          33.71969668389957,
+          0,
+          -44.95353596091286
+        ],
+        "rotationY": 0.6798148594318381,
+        "scale": [
+          0.9498877331358471,
+          0.9309438995879495,
+          0.9498877331358471
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_066",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          23.959832903682894,
+          0,
+          -47.679741589031636
+        ],
+        "rotationY": 4.016223612228985,
+        "scale": [
+          1.0540214026657635,
+          0.9704744181119284,
+          1.0540214026657635
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_067",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -117.24211189562484,
+          0,
+          -5.5512182392242835
+        ],
+        "rotationY": 6.124078312125354,
+        "scale": [
+          0.9275193453748061,
+          0.9076488334197482,
+          0.9275193453748061
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_068",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -113.98470091979928,
+          0,
+          -118.5335832924745
+        ],
+        "rotationY": 2.29863706763353,
+        "scale": [
+          1.0573651600383647,
+          1.0999368048940736,
+          1.0573651600383647
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_069",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -98.80645091802533,
+          0,
+          5.803013989581586
+        ],
+        "rotationY": 0.7475183000283039,
+        "scale": [
+          0.982022247366855,
+          1.0959873178957276,
+          0.982022247366855
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_070",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -94.37567067662138,
+          0,
+          -147.67172808498154
+        ],
+        "rotationY": 0.9887759163176291,
+        "scale": [
+          0.835208811714999,
+          0.9725682112441979,
+          0.835208811714999
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_071",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -103.76205344847983,
+          0,
+          0.8900665419301959
+        ],
+        "rotationY": 0.8769516920944065,
+        "scale": [
+          1.0714747616938667,
+          0.8900676599230534,
+          1.0714747616938667
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_072",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -85.50207454602034,
+          0,
+          -146.90954300177327
+        ],
+        "rotationY": 1.8827158206374641,
+        "scale": [
+          1.022640352040714,
+          1.0027130217091973,
+          1.022640352040714
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_073",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -80.24944820159162,
+          0,
+          24.55018778810603
+        ],
+        "rotationY": 4.4605628286748145,
+        "scale": [
+          0.9784991067498593,
+          1.0719874108890977,
+          0.9784991067498593
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_074",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -153.25726254413786,
+          0,
+          -70.91485268896761
+        ],
+        "rotationY": 1.91496770370386,
+        "scale": [
+          0.9549116777405834,
+          0.9261347693644427,
+          0.9549116777405834
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_075",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -85.58144933667165,
+          0,
+          -103.07682869138506
+        ],
+        "rotationY": 2.5614792167785865,
+        "scale": [
+          1.004644903869229,
+          0.9527121644097007,
+          1.004644903869229
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_076",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -67.68889280315832,
+          0,
+          -127.68320978055945
+        ],
+        "rotationY": 2.5939672067425943,
+        "scale": [
+          0.8540116186743545,
+          1.0192663443620256,
+          0.8540116186743545
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_077",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -144.0532226330322,
+          0,
+          -35.65208644616801
+        ],
+        "rotationY": 0.38956810419753835,
+        "scale": [
+          1.078739470404736,
+          1.0702944622971164,
+          1.078739470404736
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_078",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -36.224417933056884,
+          0,
+          -104.21454672814824
+        ],
+        "rotationY": 1.1442903012781716,
+        "scale": [
+          1.055991377034818,
+          0.9971194934069971,
+          1.055991377034818
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_079",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -133.16412672247384,
+          0,
+          -95.39650029698346
+        ],
+        "rotationY": 2.831118186617806,
+        "scale": [
+          0.9307067546656251,
+          1.0882297734275044,
+          0.9307067546656251
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_080",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          49.917443130598684,
+          0,
+          -28.555531451782713
+        ],
+        "rotationY": 1.0497234103595925,
+        "scale": [
+          1.0065544862851847,
+          0.8846022675884405,
+          1.0065544862851847
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_081",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -118.36846195857288,
+          0,
+          -11.387513118389563
+        ],
+        "rotationY": 5.212469435352431,
+        "scale": [
+          0.9031733372783896,
+          0.9120667161440951,
+          0.9031733372783896
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_082",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -118.12472250872821,
+          0,
+          -113.62770283845339
+        ],
+        "rotationY": 3.4246555862511183,
+        "scale": [
+          1.0894060933407888,
+          0.9958027147631637,
+          1.0894060933407888
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_083",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          53.09332386847251,
+          0,
+          139.71593374870943
+        ],
+        "rotationY": 1.0902522312837413,
+        "scale": [
+          0.9538942676306924,
+          1.110362382291863,
+          0.9538942676306924
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_084",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          17.629591430946647,
+          0,
+          115.42393225899335
+        ],
+        "rotationY": 3.1530759993839257,
+        "scale": [
+          0.9669625735517505,
+          0.9698598403112497,
+          0.9669625735517505
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_085",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          79.04446936696533,
+          0,
+          110.49872530126859
+        ],
+        "rotationY": 0.886482793201538,
+        "scale": [
+          1.0794531917410692,
+          1.0396308289070846,
+          1.0794531917410692
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_086",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -70.81180425884638,
+          0,
+          -129.17710943390213
+        ],
+        "rotationY": 0.9782370006846225,
+        "scale": [
+          0.9622819193803706,
+          1.1033563312114347,
+          0.9622819193803706
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_087",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          111.44650268635542,
+          0,
+          24.185231450561503
+        ],
+        "rotationY": 2.6908493589949813,
+        "scale": [
+          1.0105765834859193,
+          0.8882760613656608,
+          1.0105765834859193
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_088",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          29.642410163852816,
+          0,
+          -48.546474111247235
+        ],
+        "rotationY": 0.6016295426118686,
+        "scale": [
+          0.9821889544520548,
+          1.0399277403001983,
+          0.9821889544520548
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_089",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -50.98293536186556,
+          0,
+          -117.7068917745332
+        ],
+        "rotationY": 4.683144664627382,
+        "scale": [
+          0.9240715355483355,
+          0.9866303144123694,
+          0.9240715355483355
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_090",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -107.69435275912278,
+          0,
+          -126.35888820254004
+        ],
+        "rotationY": 6.238984808835384,
+        "scale": [
+          0.9349219886242236,
+          1.0319654716300968,
+          0.9349219886242236
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_091",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -122.43969633831233,
+          0,
+          -107.06709411559368
+        ],
+        "rotationY": 5.441170723412595,
+        "scale": [
+          1.0410212588857328,
+          0.9691448046229169,
+          1.0410212588857328
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_092",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          -96.68677550917295,
+          0,
+          -62.251413673657765
+        ],
+        "rotationY": 4.443916292887557,
+        "scale": [
+          0.8700611808243157,
+          0.9047518277560812,
+          0.8700611808243157
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_093",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -80.21397298628916,
+          0,
+          -110.94464435587737
+        ],
+        "rotationY": 4.343412900450357,
+        "scale": [
+          0.9341045680987424,
+          1.0654459761237152,
+          0.9341045680987424
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_094",
+        "prototypeId": "shrub-leafy-04",
+        "position": [
+          70.07054312152741,
+          0,
+          119.78467596284159
+        ],
+        "rotationY": 2.2317712516968005,
+        "scale": [
+          1.0285614859242471,
+          0.9727164585234443,
+          1.0285614859242471
+        ],
+        "sourceClass": "DESIGNED"
+      },
+      {
+        "id": "SHRUB_095",
+        "prototypeId": "shrub-rounded-01",
+        "position": [
+          -159.9436043775798,
+          0,
+          -50.032144620480636
+        ],
+        "rotationY": 2.699104848976212,
+        "scale": [
+          0.8982362428078153,
+          1.0284377181943403,
+          0.8982362428078153
+        ],
+        "sourceClass": "DESIGNED"
+      }
+    ],
+    "palette": [
+      {
+        "name": "Pearl white",
+        "color": "#dce0df"
+      },
+      {
+        "name": "Graphite",
+        "color": "#444e57"
+      },
+      {
+        "name": "Silver",
+        "color": "#9aabb5"
+      },
+      {
+        "name": "Navy",
+        "color": "#29475a"
+      },
+      {
+        "name": "Burgundy",
+        "color": "#673b42"
+      },
+      {
+        "name": "Champagne",
+        "color": "#aa9a81"
+      }
+    ],
+    "lodDistances": {
+      "HIGH": [
+        110,
+        250
+      ],
+      "MEDIUM": [
+        75,
+        170
+      ],
+      "LOW": [
+        45,
+        100
+      ]
+    },
+    "renderingContract": "Instance each material primitive; apply car instance colour ONLY to CAR_BODY_PEARL; preserve child local transforms; release unused LOD resources; no runtime geometry replacements"
+  },
+  "palette": [
+    {
+      "name": "Pearl white",
+      "color": "#dce0df"
+    },
+    {
+      "name": "Graphite",
+      "color": "#444e57"
+    },
+    {
+      "name": "Silver",
+      "color": "#9aabb5"
+    },
+    {
+      "name": "Navy",
+      "color": "#29475a"
+    },
+    {
+      "name": "Burgundy",
+      "color": "#673b42"
+    },
+    {
+      "name": "Champagne",
+      "color": "#aa9a81"
+    }
+  ],
+  "parkingSlots": [
+    {
+      "id": "PARK_A01",
+      "group": 0,
+      "position": [
+        -122.0,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A02",
+      "group": 0,
+      "position": [
+        -119.15,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A03",
+      "group": 0,
+      "position": [
+        -116.3,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A04",
+      "group": 0,
+      "position": [
+        -113.45,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A05",
+      "group": 0,
+      "position": [
+        -110.6,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A06",
+      "group": 0,
+      "position": [
+        -107.75,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A07",
+      "group": 0,
+      "position": [
+        -82.1,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A08",
+      "group": 0,
+      "position": [
+        -79.25,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A09",
+      "group": 0,
+      "position": [
+        -76.4,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A10",
+      "group": 0,
+      "position": [
+        -73.55,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A11",
+      "group": 0,
+      "position": [
+        -70.69999999999999,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A12",
+      "group": 0,
+      "position": [
+        -67.85,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A13",
+      "group": 0,
+      "position": [
+        -65.0,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_A14",
+      "group": 0,
+      "position": [
+        -62.15,
+        0.018,
+        -32.2
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_B01",
+      "group": 1,
+      "position": [
+        -105.0,
+        0.018,
+        -20.8
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_B02",
+      "group": 1,
+      "position": [
+        -102.15,
+        0.018,
+        -20.8
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_B03",
+      "group": 1,
+      "position": [
+        -99.3,
+        0.018,
+        -20.8
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_B04",
+      "group": 1,
+      "position": [
+        -96.45,
+        0.018,
+        -20.8
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_B05",
+      "group": 1,
+      "position": [
+        -93.6,
+        0.018,
+        -20.8
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_B06",
+      "group": 1,
+      "position": [
+        -90.75,
+        0.018,
+        -20.8
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    },
+    {
+      "id": "PARK_B07",
+      "group": 1,
+      "position": [
+        -87.9,
+        0.018,
+        -20.8
+      ],
+      "widthM": 2.65,
+      "lengthM": 5.5,
+      "rotationY": 0
+    }
+  ],
+  "placementEvidence": {
+    "report": "models/candidates/v006-r001/reports/campus/placement-registration.json",
+    "overlay": "models/candidates/v006-r001/reports/campus/placement-overlay.png",
+    "sourceFactsAreInferred": true,
+    "uncertaintyM": 3.260869565217391
+  },
+  "checks": {
+    "buildingOutsideBoundaryM2": {
+      "T1": 0.0,
+      "T2": 0.0,
+      "V1": 0.0,
+      "V2": 0.0,
+      "V3": 0.0,
+      "V4": 0.0,
+      "V5": 0.0
+    },
+    "roadBuildingIntersectionM2": 0.0,
+    "connectorRoadIntersectionM2": [
+      0.0,
+      0.0
+    ],
+    "roadComponents": 1,
+    "parkingSlots": 21,
+    "cars": 21,
+    "treeCount": 70,
+    "shrubCount": 95
+  },
+  "visualCheckStatus": "Vehicle sedan and tree-open-02 prototype visually checked by root; integrated campus V01-V04 pending",
+  "resourceBudgetStatus": "Asset statistics only; whole-frame browser counters and resident memory must be measured after integration"
+}

@@ -1,0 +1,1126 @@
+{
+  "boards": [
+    {
+      "id": "FC_DEMO_FIRE_PANEL_01",
+      "key": "board-01",
+      "title": "消防一体化",
+      "bbox": {
+        "min": [
+          -18.6,
+          0.878,
+          -2.3029019999999996
+        ],
+        "max": [
+          -16,
+          2.378,
+          -2.0029019999999997
+        ]
+      },
+      "normal": [
+        0,
+        0,
+        1
+      ],
+      "boardThicknessM": 0.045,
+      "devices": [
+        {
+          "deviceId": "FC_DEMO_FIRE_CONTROLLER_01",
+          "name": "消防报警联动控制器",
+          "type": "CONTROLLER",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -18.45,
+              1.1179999999999999,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.970000000000002,
+              1.778,
+              -2.0879019999999997
+            ]
+          },
+          "labelPixel": [
+            307.2000000000003,
+            362.33846153846133
+          ],
+          "labelSizePx": 33
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_ISOLATOR_01",
+          "name": "隔离模块",
+          "type": "ISOLATOR",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.755000000000003,
+              2.0429999999999997,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.625,
+              2.203,
+              -2.207902
+            ]
+          },
+          "labelPixel": [
+            716.7999999999997,
+            317.4400000000002
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_SMOKE_01",
+          "name": "感烟探测器",
+          "type": "SMOKE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.509999999999998,
+              1.9380000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.35,
+              2.0980000000000003,
+              -2.207902
+            ]
+          },
+          "labelPixel": [
+            921.6000000000008,
+            400.1476923076921
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_HEAT_01",
+          "name": "感温探测器",
+          "type": "HEAT",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.219,
+              1.9430000000000003,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.069000000000003,
+              2.0930000000000004,
+              -2.2029019999999995
+            ]
+          },
+          "labelPixel": [
+            1146.879999999999,
+            396.2092307692305
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_MANUAL_CALL_01",
+          "name": "手动报警按钮",
+          "type": "MANUAL_CALL",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.933,
+              1.9430000000000003,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.783,
+              2.0930000000000004,
+              -2.1979019999999996
+            ]
+          },
+          "labelPixel": [
+            1372.16,
+            396.2092307692305
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_HYDRANT_CALL_01",
+          "name": "消火栓按钮",
+          "type": "HYDRANT_CALL",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.647000000000002,
+              1.9430000000000003,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.497000000000003,
+              2.0930000000000004,
+              -2.1979019999999996
+            ]
+          },
+          "labelPixel": [
+            1597.4399999999982,
+            396.2092307692305
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_SOUNDER_BEACON_01",
+          "name": "声光警报器",
+          "type": "SOUNDER_BEACON",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.418,
+              1.9380000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.258000000000003,
+              2.0980000000000003,
+              -2.1679019999999998
+            ]
+          },
+          "labelPixel": [
+            1781.7599999999995,
+            400.1476923076921
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+          "name": "火灾显示盘",
+          "type": "FIRE_DISPLAY",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.220000000000002,
+              1.9480000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.040000000000003,
+              2.088,
+              -2.187902
+            ]
+          },
+          "labelPixel": [
+            1945.599999999998,
+            392.270769230769
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_ISOLATOR_02",
+          "name": "隔离模块",
+          "type": "ISOLATOR",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.755000000000003,
+              1.4729999999999999,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.625,
+              1.633,
+              -2.207902
+            ]
+          },
+          "labelPixel": [
+            716.7999999999997,
+            766.4246153846152
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_IO_MODULE_01",
+          "name": "输入/输出模块",
+          "type": "IO_MODULE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.464,
+              1.4130000000000003,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.344,
+              1.5430000000000001,
+              -2.2179019999999996
+            ]
+          },
+          "labelPixel": [
+            942.0800000000007,
+            813.6861538461534
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_IO_MODULE_02",
+          "name": "输入/输出模块",
+          "type": "IO_MODULE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.178,
+              1.4130000000000003,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.058000000000003,
+              1.5430000000000001,
+              -2.2179019999999996
+            ]
+          },
+          "labelPixel": [
+            1167.3599999999988,
+            813.6861538461534
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_IO_MODULE_03",
+          "name": "输入/输出模块",
+          "type": "IO_MODULE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.892,
+              1.4130000000000003,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.772000000000002,
+              1.5430000000000001,
+              -2.2179019999999996
+            ]
+          },
+          "labelPixel": [
+            1392.6399999999999,
+            813.6861538461534
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+          "name": "输入模块",
+          "type": "INPUT_MODULE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.605999999999998,
+              1.4130000000000003,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.486,
+              1.5430000000000001,
+              -2.2179019999999996
+            ]
+          },
+          "labelPixel": [
+            1617.9200000000008,
+            813.6861538461534
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+          "name": "输出模块",
+          "type": "OUTPUT_MODULE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.345000000000002,
+              1.4130000000000003,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.175,
+              1.5430000000000001,
+              -2.2179019999999996
+            ]
+          },
+          "labelPixel": [
+            1843.199999999999,
+            813.6861538461534
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+          "name": "风机样品",
+          "type": "FAN_SAMPLE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.234,
+              1.058,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.054000000000002,
+              1.2380000000000002,
+              -2.1579019999999995
+            ]
+          },
+          "labelPixel": [
+            1146.879999999999,
+            1093.3169230769226
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_VALVE_SAMPLE_01",
+          "name": "阀门样品",
+          "type": "VALVE_SAMPLE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.636,
+              1.048,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.456,
+              1.2480000000000002,
+              -2.1179019999999995
+            ]
+          },
+          "labelPixel": [
+            1617.9200000000008,
+            1101.1938461538457
+          ],
+          "labelSizePx": 23
+        },
+        {
+          "deviceId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+          "name": "圆形扬声器",
+          "type": "SPEAKER_SAMPLE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.345000000000002,
+              1.0630000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.175,
+              1.233,
+              -2.1979019999999996
+            ]
+          },
+          "labelPixel": [
+            1843.199999999999,
+            1089.378461538461
+          ],
+          "labelSizePx": 23
+        }
+      ],
+      "textureSize": [
+        2048,
+        1182
+      ]
+    },
+    {
+      "id": "FC_DEMO_WATER_ELECTRIC_01",
+      "key": "board-02",
+      "title": "三水一电",
+      "bbox": {
+        "min": [
+          -12.16,
+          0.878,
+          4.825381
+        ],
+        "max": [
+          -11.440000000000001,
+          2.528,
+          5.085381
+        ]
+      },
+      "normal": [
+        0,
+        0,
+        -1
+      ],
+      "boardThicknessM": 0.03,
+      "devices": [
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_LIQUID_LEVEL_HEAD_01",
+          "name": "液位传感器",
+          "type": "LIQUID_LEVEL_HEAD",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -11.695,
+              1.9729999999999999,
+              4.970380999999999
+            ],
+            "max": [
+              -11.485,
+              2.263,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            213.33333333333164,
+            886.0444444444462
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_PRESSURE_HEAD_01",
+          "name": "压力传感器",
+          "type": "PRESSURE_HEAD",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -11.877500000000001,
+              2.0629999999999997,
+              4.965381
+            ],
+            "max": [
+              -11.7425,
+              2.263,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            526.222222222222,
+            758.0444444444462
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_RED_HYDRANT_MONITOR_BOX_01",
+          "name": "消火栓压力监测",
+          "type": "RED_HYDRANT_MONITOR_BOX",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -12.11,
+              2.018,
+              4.965381
+            ],
+            "max": [
+              -11.98,
+              2.268,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            860.4444444444439,
+            822.0444444444462
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_BREAKER_BODY_01",
+          "name": "塑壳断路器",
+          "type": "BREAKER_BODY",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -11.67,
+              1.658,
+              4.965381
+            ],
+            "max": [
+              -11.49,
+              1.9380000000000002,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            199.1111111111097,
+            1334.0444444444468
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_ELECTRICAL_HOST_01",
+          "name": "智慧用电主机",
+          "type": "ELECTRICAL_HOST",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -12.015,
+              1.7329999999999999,
+              4.980381
+            ],
+            "max": [
+              -11.725000000000001,
+              1.913,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            611.5555555555561,
+            1227.37777777778
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_TEMPERATURE_PROBE_01",
+          "name": "温度探头",
+          "type": "TEMPERATURE_PROBE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -11.5625,
+              1.443,
+              5.010381
+            ],
+            "max": [
+              -11.5075,
+              1.593,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            696.8888888888878,
+            1526.0444444444468
+          ],
+          "labelSizePx": 30
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_RESIDUAL_CURRENT_SENSOR_01",
+          "name": "余流互感器",
+          "type": "RESIDUAL_CURRENT_SENSOR",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -11.705000000000002,
+              1.4755,
+              5.010381
+            ],
+            "max": [
+              -11.605,
+              1.5805,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            696.8888888888878,
+            1479.8222222222246
+          ],
+          "labelSizePx": 30
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_CURRENT_SENSOR_01",
+          "name": "电流互感器",
+          "type": "CURRENT_SENSOR",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -11.705000000000002,
+              1.3155,
+              5.010381
+            ],
+            "max": [
+              -11.605,
+              1.4204999999999999,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            696.8888888888878,
+            1707.3777777777807
+          ],
+          "labelSizePx": 30
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_MONITOR_MODULE_01",
+          "name": "监测模块",
+          "type": "MONITOR_MODULE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -11.74,
+              1.068,
+              4.995380999999999
+            ],
+            "max": [
+              -11.500000000000002,
+              1.218,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            256.0,
+            2173.155555555559
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_WATER_ELECTRIC_SMART_SWITCH_01",
+          "name": "智能断路器",
+          "type": "SMART_SWITCH",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -12.105,
+              1.278,
+              4.975381
+            ],
+            "max": [
+              -11.945,
+              1.488,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            832.0,
+            1874.488888888892
+          ],
+          "labelSizePx": 37
+        }
+      ],
+      "textureSize": [
+        1024,
+        2347
+      ]
+    },
+    {
+      "id": "FC_DEMO_SECURITY_FIRE_01",
+      "key": "board-03",
+      "title": "安消一体",
+      "bbox": {
+        "min": [
+          -12.99,
+          0.878,
+          4.825381
+        ],
+        "max": [
+          -12.270000000000001,
+          2.528,
+          5.085381
+        ]
+      },
+      "normal": [
+        0,
+        0,
+        -1
+      ],
+      "boardThicknessM": 0.03,
+      "devices": [
+        {
+          "deviceId": "FC_DEMO_SECURITY_FIRE_LIFT_SAFETY_DOME_01",
+          "name": "电瓶车入梯监测",
+          "type": "LIFT_SAFETY_DOME",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -12.525000000000002,
+              2.033,
+              4.925380999999999
+            ],
+            "max": [
+              -12.335,
+              2.2230000000000003,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            227.5555555555561,
+            800.7111111111126
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_SECURITY_FIRE_THERMAL_CAMERA_01",
+          "name": "热成像相机",
+          "type": "THERMAL_CAMERA",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -12.91,
+              1.818,
+              4.875381
+            ],
+            "max": [
+              -12.71,
+              1.9780000000000002,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            768.0,
+            1106.4888888888906
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_SECURITY_FIRE_VISIBLE_FIRE_CAMERA_01",
+          "name": "视觉烟火探测器",
+          "type": "VISIBLE_FIRE_CAMERA",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -12.525000000000002,
+              1.5130000000000001,
+              4.950380999999999
+            ],
+            "max": [
+              -12.335,
+              1.703,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            227.5555555555561,
+            1540.266666666669
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_SECURITY_FIRE_OUTDOOR_CAMERA_01",
+          "name": "室外安消摄像机",
+          "type": "OUTDOOR_CAMERA",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -12.92,
+              1.3305,
+              4.850381
+            ],
+            "max": [
+              -12.700000000000001,
+              1.5655,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            768.0,
+            1799.822222222225
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_SECURITY_FIRE_PERSONNEL_OFFPOST_DOME_01",
+          "name": "人员离岗监测",
+          "type": "PERSONNEL_OFFPOST_DOME",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -12.520000000000001,
+              1.038,
+              4.9353810000000005
+            ],
+            "max": [
+              -12.340000000000002,
+              1.2180000000000002,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            227.5555555555561,
+            2215.8222222222257
+          ],
+          "labelSizePx": 37
+        }
+      ],
+      "textureSize": [
+        1024,
+        2347
+      ]
+    },
+    {
+      "id": "FC_DEMO_EARLY_WARNING_01",
+      "key": "board-04",
+      "title": "智能预警",
+      "bbox": {
+        "min": [
+          -13.82,
+          0.878,
+          4.825381
+        ],
+        "max": [
+          -13.100000000000001,
+          2.528,
+          5.085381
+        ]
+      },
+      "normal": [
+        0,
+        0,
+        -1
+      ],
+      "boardThicknessM": 0.03,
+      "devices": [
+        {
+          "deviceId": "FC_DEMO_EARLY_WARNING_SMOKE_HEAT_DISC_01",
+          "name": "烟温一体探测器",
+          "type": "SMOKE_HEAT_DISC",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -13.315000000000001,
+              2.0829999999999997,
+              5.000381
+            ],
+            "max": [
+              -13.155000000000001,
+              2.243,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            192.0,
+            729.6000000000016
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_EARLY_WARNING_METHANE_SAMPLE_01",
+          "name": "甲烷探测器",
+          "type": "METHANE_SAMPLE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -13.5325,
+              2.0879999999999996,
+              4.985380999999999
+            ],
+            "max": [
+              -13.387500000000001,
+              2.238,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            512.0,
+            722.4888888888906
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_EARLY_WARNING_PROPANE_SAMPLE_01",
+          "name": "丙烷探测器",
+          "type": "PROPANE_SAMPLE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -13.7575,
+              2.0879999999999996,
+              4.985380999999999
+            ],
+            "max": [
+              -13.6125,
+              2.238,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            832.0,
+            722.4888888888906
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_EARLY_WARNING_LORA_GATEWAY_01",
+          "name": "LoRa 主机",
+          "type": "LORA_GATEWAY",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -13.610000000000001,
+              1.568,
+              4.970380999999999
+            ],
+            "max": [
+              -13.31,
+              1.908,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            512.0,
+            1462.0444444444468
+          ],
+          "labelSizePx": 37
+        },
+        {
+          "deviceId": "FC_DEMO_EARLY_WARNING_TRANSMISSION_ENCLOSURE_01",
+          "name": "用户信息传输装置",
+          "type": "TRANSMISSION_ENCLOSURE",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -13.64,
+              0.983,
+              4.965381
+            ],
+            "max": [
+              -13.280000000000001,
+              1.413,
+              5.055381
+            ]
+          },
+          "labelPixel": [
+            512.0,
+            2294.044444444448
+          ],
+          "labelSizePx": 37
+        }
+      ],
+      "textureSize": [
+        1024,
+        2347
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "key": "screen-main",
+      "title": "园区远程值守",
+      "sections": [
+        [
+          "空间导览",
+          "园区  →  T1 楼宇  →  十二层  →  消防监控室"
+        ],
+        [
+          "系统分类",
+          "消防一体化  /  三水一电  /  安消一体  /  智能预警"
+        ],
+        [
+          "模型内设备",
+          "按空间与类别查看设备名称、位置和功能"
+        ],
+        [
+          "接入信息",
+          "暂无接入数据"
+        ]
+      ],
+      "sourceKind": "STATIC_MODEL_METADATA",
+      "telemetry": null,
+      "size": [
+        2048,
+        1152
+      ]
+    },
+    {
+      "key": "screen-01",
+      "title": "设备分类索引",
+      "sections": [
+        [
+          "消防一体化",
+          "探测器 · 控制器 · 输入输出模块 · 按钮"
+        ],
+        [
+          "三水一电",
+          "水位水压传感器 · 用电主机 · 互感器"
+        ],
+        [
+          "安消一体",
+          "球机 · 热成像 · 视觉烟火 · 离岗监测"
+        ],
+        [
+          "智能预警",
+          "烟温一体 · 气体探测 · LoRa · 信息传输"
+        ]
+      ],
+      "sourceKind": "STATIC_MODEL_METADATA",
+      "telemetry": null,
+      "size": [
+        1024,
+        576
+      ]
+    },
+    {
+      "key": "screen-02",
+      "title": "系统关系视图",
+      "sections": [
+        [
+          "现场感知",
+          "烟温 / 气体 / 水系统 / 电气 / 视觉"
+        ],
+        [
+          "信息汇聚",
+          "模块接口  →  控制器与采集主机"
+        ],
+        [
+          "场景映射",
+          "楼宇  →  楼层  →  房间  →  设备身份"
+        ],
+        [
+          "值守查看",
+          "模型定位 / 类别索引 / 功能说明"
+        ]
+      ],
+      "sourceKind": "STATIC_MODEL_METADATA",
+      "telemetry": null,
+      "size": [
+        1024,
+        576
+      ]
+    },
+    {
+      "key": "screen-03",
+      "title": "值守工作说明",
+      "sections": [
+        [
+          "查看空间",
+          "使用场景入口选择楼宇和楼层"
+        ],
+        [
+          "定位设备",
+          "选择设备查看类别、位置与用途"
+        ],
+        [
+          "阅读资料",
+          "点击显示屏或制度板打开清晰阅读"
+        ],
+        [
+          "接入边界",
+          "暂无接入数据；暂无视频源"
+        ]
+      ],
+      "sourceKind": "STATIC_MODEL_METADATA",
+      "telemetry": null,
+      "size": [
+        1024,
+        576
+      ]
+    }
+  ],
+  "rules": [
+    [
+      "值守工作说明",
+      [
+        "确认所在空间与设备身份，按类别查看功能说明。",
+        "需要进一步了解时，打开设备资料与系统关系。",
+        "真实接口接入后，以接口来源与更新时间为准。",
+        "本页面提供查看与定位，不执行远程控制。"
+      ]
+    ],
+    [
+      "设备巡查说明",
+      [
+        "检查设备外观、安装位置及周边通行条件。",
+        "发现异常时，依照所在单位的正式制度处理。",
+        "记录设备名称、位置与观察情况，便于后续核对。",
+        "操作与维护应由具备相应权限的人员进行。"
+      ]
+    ],
+    [
+      "资料与交接说明",
+      [
+        "保持空间、房间、设备身份与资料的一致。",
+        "交接时说明当前任务、相关位置与待处理事项。",
+        "资料更新应保存版本和来源，避免混用。",
+        "本说明为功能资料，不替代所在单位正式制度。"
+      ]
+    ]
+  ],
+  "diagrams": [
+    {
+      "id": "FC_DIAGRAM_PUMP",
+      "semanticClass": "DIAGRAM",
+      "name": "泵示意"
+    },
+    {
+      "id": "FC_DIAGRAM_ELEVATOR",
+      "semanticClass": "DIAGRAM",
+      "name": "电梯示意"
+    }
+  ]
+}

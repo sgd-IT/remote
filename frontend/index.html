@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 深蓝主题页面（大屏/值守大屏/远程控制中心等）：在 Vue 挂载前、百度地图脚本加载期间即使用深蓝背景，避免白色闪现 -->
+    <style>
+      html.dark-blue-screen,
+      html.dark-blue-screen body {
+        background-color: #0a1628;
+      }
+    </style>
+    <script>
+      ;(function () {
+        var DARK_ROUTES = [
+          '/monitoring-center',
+          '/duty-screen',
+          '/alarm-screen',
+          '/device-screen',
+          '/eiot/firewatch/large-screen',
+          '/remote-console',
+          '/ops-workbench',
+          '/data-center',
+          '/video-surveillance',
+          '/eiot/firewatch/ai-analysis',
+          '/alarm-popup'
+        ]
+        var hash = location.hash ? location.hash.replace(/^#/, '') : '/'
+        for (var i = 0; i < DARK_ROUTES.length; i++) {
+          if (hash.indexOf(DARK_ROUTES[i]) === 0) {
+            document.documentElement.classList.add('dark-blue-screen')
+            break
+          }
+        }
+      })()
+    </script>
+    <!-- WSPlayer 样式（大华 WSPlayer 文档：CSS 在 head 中引入） -->
+    <link rel="stylesheet" href="./static/WSPlayer/player.css" />
+    <link rel="stylesheet" href="./static/WSPlayer/window.division.css" />
+    <meta
+      name="keywords"
+      content="安为智慧消防监控平台 - 基于 vue3 + element plus 的智慧消防物联网监控系统"
+    />
+    <meta
+      name="description"
+      content="安为智慧消防监控平台 - 基于 vue3 + element plus 的智慧消防物联网监控系统"
+    />
+    <title>%VITE_APP_TITLE%</title>
+  </head>
+  <body>
+    <div id="app">
+      <style>
+        .app-loading {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          background: #f0f2f5;
+        }
+
+        .app-loading .app-loading-wrap {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          -webkit-transform: translate3d(-50%, -50%, 0);
+          transform: translate3d(-50%, -50%, 0);
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        .app-loading .app-loading-title {
+          margin-bottom: 30px;
+          font-size: 20px;
+          font-weight: bold;
+          text-align: center;
+        }
+
+        .app-loading .app-loading-logo {
+          width: 100px;
+          margin: 0 auto 15px auto;
+        }
+
+        .app-loading .app-loading-item {
+          position: relative;
+          display: inline-block;
+          width: 60px;
+          height: 60px;
+          vertical-align: middle;
+          border-radius: 50%;
+        }
+
+        .app-loading .app-loading-outter {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border: 4px solid #2d8cf0;
+          border-bottom: 0;
+          border-left-color: transparent;
+          border-radius: 50%;
+          animation: loader-outter 1s cubic-bezier(0.42, 0.61, 0.58, 0.41) infinite;
+        }
+
+        .app-loading .app-loading-inner {
+          position: absolute;
+          top: calc(50% - 20px);
+          left: calc(50% - 20px);
+          width: 40px;
+          height: 40px;
+          border: 4px solid #87bdff;
+          border-right: 0;
+          border-top-color: transparent;
+          border-radius: 50%;
+          animation: loader-inner 1s cubic-bezier(0.42, 0.61, 0.58, 0.41) infinite;
+        }
+
+        @-webkit-keyframes loader-outter {
+          0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+          }
+
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes loader-outter {
+          0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+          }
+
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+
+        @-webkit-keyframes loader-inner {
+          0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+          }
+
+          100% {
+            -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg);
+          }
+        }
+
+        @keyframes loader-inner {
+          0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+          }
+
+          100% {
+            -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg);
+          }
+        }
+      </style>
+      <div class="app-loading">
+        <div class="app-loading-wrap">
+          <div class="app-loading-title">
+            <!-- <img src="/logo.gif" class="app-loading-logo" alt="Logo" /> -->
+            <div class="app-loading-title">%VITE_APP_TITLE%</div>
+          </div>
+          <div class="app-loading-item">
+            <div class="app-loading-outter"></div>
+            <div class="app-loading-inner"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- WSPlayer 脚本（大华 WSPlayer 文档：JS 在 body 页面标签之后引入，避免时序问题） -->
+    <script type="text/javascript" src="./static/WSPlayer/PlaySDKInterface.js"></script>
+    <script type="text/javascript" src="./static/WSPlayer/WSPlayer.js"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

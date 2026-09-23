@@ -1,0 +1,248 @@
+server:
+  port: 48080
+
+--- #################### 数据库相关配置 ####################
+spring:
+  # 数据源配置项
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
+      - de.codecentric.boot.admin.server.config.AdminServerAutoConfiguration
+      - de.codecentric.boot.admin.server.ui.config.AdminServerUiAutoConfiguration
+      - de.codecentric.boot.admin.client.config.SpringBootAdminClientAutoConfiguration
+  datasource:
+    druid:
+      web-stat-filter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+        allow:
+        url-pattern: /druid/*
+        login-username:
+        login-password:
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 100
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+    dynamic:
+      druid:
+        initial-size: 1
+        min-idle: 1
+        max-active: 20
+        max-wait: 600000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        max-evictable-idle-time-millis: 900000
+        validation-query: SELECT 1
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+      primary: master
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          # ★ 云MySQL地址，请根据实际环境修改
+          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DB}?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+          username: ${MYSQL_USERNAME}
+          password: ${MYSQL_PASSWORD}
+  # Redis 配置
+  data:
+    redis:
+      # ★ 云Redis地址，请根据实际环境修改
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      database: ${REDIS_DATABASE:0}
+      password: ${REDIS_PASSWORD}
+
+--- #################### 定时任务相关配置 ####################
+spring:
+  quartz:
+    auto-startup: true
+    scheduler-name: schedulerName
+    job-store-type: jdbc
+    wait-for-jobs-to-complete-on-shutdown: true
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: schedulerName
+            instanceId: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            isClustered: true
+            clusterCheckinInterval: 15000
+            misfireThreshold: 60000
+          threadPool:
+            threadCount: 25
+            threadPriority: 5
+            class: org.quartz.simpl.SimpleThreadPool
+    jdbc:
+      initialize-schema: NEVER
+
+  #<<===========tdengine时序数据库配置============
+  td-datasource:
+    #  taosAdapter的地址及端口（Docker内网服务名）
+    url: jdbc:TAOS-RS://tdengine:6041/aw_fire_remote_monitor?timezone=UTC-8&charset=UTF-8&locale=en_US.UTF-8
+    # 使用哪个数据库,和url中的需要保持一致
+    db: aw_fire_remote_monitor
+    # 账号
+    username: root
+    #  密码
+    password: **
+    driverClassName: com.taosdata.jdbc.rs.RestfulDriver
+
+--- #################### 消息队列相关 ####################
+
+rocketmq:
+  name-server: eiot-server-mq:9876
+
+spring:
+  rabbitmq:
+    host: eiot-server-mq
+    port: 5672
+    username: rabbit
+    password: **
+  kafka:
+    bootstrap-servers: eiot-server-mq:9092
+
+--- #################### 服务保障相关配置 ####################
+
+lock4j:
+  acquire-timeout: 3000
+  expire: 30000
+
+--- #################### 监控相关配置 ####################
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+
+spring:
+  boot:
+    admin:
+      client:
+        url: http://eiot-server:${server.port}/${spring.boot.admin.context-path}
+        instance:
+          service-host-type: IP
+      context-path: /admin
+
+logging:
+  file:
+    name: /logs/monkey-monitor-api/server.log
+  level:
+    com.enjoyiot.module.bpm.dal.mysql: debug
+    com.enjoyiot.module.infra.dal.mysql: debug
+    com.enjoyiot.module.infra.dal.mysql.logger.ApiErrorLogMapper: INFO
+    com.enjoyiot.module.infra.dal.mysql.job.JobLogMapper: INFO
+    com.enjoyiot.module.infra.dal.mysql.file.FileConfigMapper: INFO
+    com.enjoyiot.module.pay.dal.mysql: debug
+    com.enjoyiot.module.pay.dal.mysql.notify.PayNotifyTaskMapper: INFO
+    com.enjoyiot.module.system.dal.mysql: debug
+    com.enjoyiot.module.system.dal.mysql.sms.SmsChannelMapper: INFO
+    com.enjoyiot.module.tool.dal.mysql: debug
+    com.enjoyiot.module.member.dal.mysql: debug
+    com.enjoyiot.module.trade.dal.mysql: debug
+    com.enjoyiot.module.promotion.dal.mysql: debug
+    com.enjoyiot.module.statistics.dal.mysql: debug
+    com.enjoyiot.module.crm.dal.mysql: debug
+    com.enjoyiot.module.erp.dal.mysql: debug
+    com.enjoyiot.module.eiot.dal.mysql: debug
+    com.enjoyiot.module.ai.dal.mysql: debug
+    org.springframework.context.support.PostProcessorRegistrationDelegate: ERROR
+
+debug: false
+
+--- #################### 微信公众号、小程序相关配置 ####################
+wx:
+  mp:
+    app-id: test-**
+    secret: test-**
+    config-storage:
+      type: RedisTemplate
+      key-prefix: wx
+      http-client-type: HttpClient
+  miniapp:
+    # 旧小程序 AppID/AppSecret（已更换，测试号）
+    # appid: test-**
+    # secret: test-**
+    appid: **
+    secret: **
+    config-storage:
+      type: RedisTemplate
+      key-prefix: wa
+      http-client-type: HttpClient
+
+--- #################### 平台相关配置 ####################
+
+platform:
+  captcha:
+    enable: true
+  security:
+    mock-enable: true
+  access-log:
+    enable: true
+  wxa-code:
+    env-version: develop
+  wxa-subscribe-message:
+    miniprogram-state: developer
+  tencent-lbs-key: **
+
+justauth:
+  enabled: true
+  type:
+    DINGTALK:
+      client-id: test-**
+      client-secret: test-**
+      ignore-check-redirect-uri: true
+    WECHAT_ENTERPRISE:
+      client-id: test-**
+      client-secret: test-**
+      agent-id: 1000004
+      ignore-check-redirect-uri: true
+    WECHAT_MINI_APP:
+      client-id: ${wx.miniapp.appid}
+      client-secret: ${wx.miniapp.secret}
+      ignore-check-redirect-uri: true
+      ignore-check-state: true
+    WECHAT_MP:
+      client-id: ${wx.mp.app-id}
+      client-secret: ${wx.mp.secret}
+      ignore-check-redirect-uri: true
+  cache:
+    type: REDIS
+    prefix: 'social_auth_state:'
+    timeout: 24h
+
+--- #################### iot相关配置 ####################
+iot:
+  event-bus:
+    kafka:
+      boostrap-servers: eiot-kafka:9092
+
+config:
+  alert:
+    sms-provider: gzdl
+
+sms:
+  gzdl:
+    cdkey: **
+    password: **
+
+# 四信接口配置
+fourfaith:
+  api:
+    url: https://**
+    brand-code: fourfaith
+    model: FF-GBT-01
+    version: "1.0"
+    app-id: ${FOURFAITH_APP_ID:}
+    app-secret: ${FOURFAITH_APP_SECRET:}
+    timeout-ms: 10000

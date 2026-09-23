@@ -1,0 +1,2929 @@
+{
+  "schemaVersion": "5.0",
+  "contractId": "F12_LAYOUT_V005",
+  "stableId": "T1_F12_LAYOUT",
+  "candidateRevision": "v007-r001",
+  "producer": "/root/building_resume",
+  "inputLocks": [
+    {
+      "path": "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json",
+      "sha256": "0f5fd9e5c8947ac168e268e8172a0a999a4aa7396b26a37d19ef01080bea1959",
+      "bytes": 81878
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r008/contracts/f12-build-config-v005.json",
+      "sha256": "4415947a7248db738c4b951f3b789fa18c5c468ce988fc348a90a540869823ae",
+      "bytes": 75680
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json",
+      "sha256": "1cdfdeea7928707fe21c970c8c2e2f102ef50c7983e0b4e12761c42b3b50cd43",
+      "bytes": 851749
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r008/contracts/f12-production-selection-v005.json",
+      "bytes": 2570,
+      "sha256": "50e5c5c8ac0a3065174295fcd200918c4688c5e2572e260750fab31834c50d1d"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r008/reports/lead-navigation-additions-r001.json",
+      "sha256": "92929d731788ce196f236edef129de6fd5fe23dd3e213824d2f25d5c368c8f9b",
+      "bytes": 4787
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r004/reports/runtime-west-door-clearance-r001.json",
+      "sha256": "dfa32abfde5a4ca0b2febd3c8b6bcfa251caa96c2b4abf9b879d14f44a5c52c8",
+      "bytes": 18855
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r009/contracts/f12-build-config-v005.json",
+      "bytes": 76363,
+      "sha256": "b4c68f068eed0d34bb15bd7883fe3240a1407fd76ffc968e4148726b5656cf2a"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r009/reports/lead-inherited-f12-spatial-r001.json",
+      "bytes": 810971,
+      "sha256": "5ebdbf3ebab1a29d460d9b45bcb394051ac5df3eb4957adfe32b9fb513a79ae0"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r009/contracts/f12-production-selection-v005.json",
+      "bytes": 2945,
+      "sha256": "157fb507742e1336cc33dd815ea243f665bc084a6574c46bf1c439a1b3ea4e3f"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r008/handoff.json",
+      "bytes": 313642,
+      "sha256": "2dfeb732b55d0c0758d0120a3c0c0f7f5100756856eb4c222ce2079688c3a7d1"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r008/contracts/f12-layout-v005.json",
+      "bytes": 54572,
+      "sha256": "75f9b6173e749470061205f353667b322dee4dbe9c50d1a07bab05b50eec6f96"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r009/handoff.json",
+      "bytes": 95425,
+      "sha256": "3bed0dbd30713ed21c2da4cf00f4c92a5f105ca41a1844bb32cd2b73f360ed94"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r009/contracts/f12-layout-v005.json",
+      "bytes": 56306,
+      "sha256": "f000c51b1e5ad25b7d34968a7d8ce923080a3110b453de9b73654c445463717d"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r010/contracts/f12-build-config-v005.json",
+      "bytes": 76362,
+      "sha256": "78374b040795f80414bb12d0c86c699d34816d3910139533f3a0a85309906423"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r010/contracts/f12-production-selection-v005.json",
+      "bytes": 2943,
+      "sha256": "df27615f29f356db5b103f58e77dfa7e67b1aef5b9f3e7d33cf74bc55186f0bf"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r010/reports/lead-inherited-f12-spatial-r001.json",
+      "bytes": 811708,
+      "sha256": "01ed2d2315b2e1d7185ba44d52e44c081253eb74fe9c7ad1bb48dff57878b4a8"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r010/handoff.json",
+      "bytes": 198635,
+      "sha256": "0d35d0b94cc60e46d0203ba7a62eb9790482e29b9cfaf4060d4cf9fb263ebbf9"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r010/contracts/f12-layout-v005.json",
+      "bytes": 57334,
+      "sha256": "7e87c7a28e238063df1eccefbd5d09b8024788aa16c8a710a7f20c7ec503ae99"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r011/contracts/f12-build-config-v005.json",
+      "bytes": 76363,
+      "sha256": "fd928dbe68ef2735b6beb8e4f9e89f3b9cd85b0b2d81e95290aa307f1ff4a83f"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r011/contracts/f12-production-selection-v005.json",
+      "bytes": 2945,
+      "sha256": "95b70429976cbacc9ee1a044bf3ca7a89abd5270ba5d8057a8e51f4ee068260a"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r011/reports/lead-inherited-f12-spatial-r001.json",
+      "bytes": 812387,
+      "sha256": "b6d1013c03c3fa3d3107ae56ab132f22febc37b05e2d3812ff7f0a02ef156211"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r011/handoff.json",
+      "bytes": 226220,
+      "sha256": "600bd7ec7bfaad763984d3508afba3dcd659bf10e2dc747c514da9a73bf36ff9"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r011/contracts/f12-layout-v005.json",
+      "bytes": 58337,
+      "sha256": "20b3907dc2c0d2227363bde1c642d4afe4540eb7240cb1d84c53e274046c17b4"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r012/contracts/f12-build-config-v005.json",
+      "bytes": 76363,
+      "sha256": "45c956074412dce760e45cc8d61eb3d3d8f45e71e1b458a66439d7ce57142e1c"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r012/contracts/f12-production-selection-v005.json",
+      "bytes": 2945,
+      "sha256": "73f03d6af5ccfb539fe47b8e4e454ace4f3149a0294b5559f5a5c14e1b8481dd"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r012/reports/lead-inherited-f12-spatial-r001.json",
+      "bytes": 813065,
+      "sha256": "4f41e9eb543061c2133abeb1c64362ef9ef753bdd7489a2b4ce26114d5619a8f"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r012/contracts/f12-layout-v005.json",
+      "bytes": 59339,
+      "sha256": "1c8c1c98893660d6bcd878d323d9cd823d02e519c4d92dd7fdcba93e97cf7c2c"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/reports/building-park-f12-contract-derivation-plan-r001.json",
+      "bytes": 198782,
+      "sha256": "a34cdeeb803c36a04485247ad3ab43a1d1a16cc8311c1a2f6a54be53478f6db7"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/contracts/park-integration-baseline-v005.json",
+      "bytes": 59310,
+      "sha256": "7d1b9489a4e4571ffa10f5a4da4f7be62c0367ba0c5cfe7a62df628a7d671184"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/reports/building-park-f12-bridge-audit-r002.json",
+      "bytes": 113487,
+      "sha256": "ea6010accbf93e6a50c4b6476de574b9beb0733850db6b24e5f6396d9fc0ed48"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/reports/building-park-f12-derived-assets-r001.json",
+      "bytes": 22889,
+      "sha256": "e02f7d7f387bca357647547d18bcf28b0a6223fc96ab0b58aa15e506fd76ea2e"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/reports/building-park-f12-host-decision-r001.json",
+      "bytes": 5052,
+      "sha256": "99a27b034dd1d1d0ba9a0eedf6f425be4498229ab23d150dcd655ee9683f99de"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/scripts/building-derive-park-f12-contracts-r001.mjs",
+      "bytes": 22921,
+      "sha256": "0c71a9e185a4b7f93246a265f29833f27bf9365fd33cb4fdb3445a6c88e6a1dc"
+    },
+    {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/contracts/f12-production-selection-v005.json",
+      "bytes": 7555,
+      "sha256": "e8a97bf770a7d5888e73a1277d9ee94c4f4227d122271b4dbfa2967f3f76cfab"
+    }
+  ],
+  "sourceRefs": [
+    "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json",
+    "models/current/provenance/files/models/candidates/v005-g5-r008/contracts/f12-build-config-v005.json",
+    "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json",
+    "models/current/provenance/files/models/candidates/v005-g5-r008/contracts/f12-production-selection-v005.json",
+    "models/current/provenance/files/models/candidates/v005-g5-r008/reports/lead-navigation-additions-r001.json",
+    "models/current/provenance/files/models/candidates/v005-g5-r004/reports/runtime-west-door-clearance-r001.json",
+    "models/current/provenance/files/models/candidates/v005-g5-r008/contracts/f12-layout-v005.json"
+  ],
+  "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC_DERIVED_GEOMETRY",
+  "coordinateSystem": {
+    "units": "m",
+    "upAxis": "Y",
+    "handedness": "right",
+    "localX": "plan right",
+    "localZ": "plan down",
+    "siteYawRadians": -0.746145162666003,
+    "rootTranslation": [
+      0,
+      51,
+      0
+    ],
+    "rootNode": "T1_F12_INTERACTIVE"
+  },
+  "immutableEnvelope": {
+    "polygon": [
+      [
+        -15.820869,
+        -19.130003
+      ],
+      [
+        19.203471,
+        -19.130003
+      ],
+      [
+        19.203471,
+        -16.863731
+      ],
+      [
+        27.677102,
+        -16.863731
+      ],
+      [
+        27.677102,
+        2.286269
+      ],
+      [
+        16.378928,
+        2.286269
+      ],
+      [
+        16.378928,
+        15.430648
+      ],
+      [
+        15.475074,
+        15.430648
+      ],
+      [
+        15.475074,
+        19.056683
+      ],
+      [
+        -19.323303,
+        19.056683
+      ],
+      [
+        -19.323303,
+        16.790411
+      ],
+      [
+        -27.796934,
+        16.790411
+      ],
+      [
+        -27.796934,
+        -2.472902
+      ],
+      [
+        -15.820869,
+        -2.472902
+      ]
+    ],
+    "sourceRefs": [
+      "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#outline/metricPolygon"
+    ]
+  },
+  "sourceUnits": [
+    {
+      "id": "F12_UNIT_01",
+      "sourceUnitNumber": "01",
+      "legacyRuntimeId": "T1_F12_ROOM_01",
+      "polygon": [
+        [
+          -15.594906,
+          -18.790062
+        ],
+        [
+          -6.669348,
+          -18.790062
+        ],
+        [
+          -6.669348,
+          -7.911956
+        ],
+        [
+          -15.594906,
+          -7.911956
+        ]
+      ],
+      "physicalPartitionsRetained": true,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_02",
+      "sourceUnitNumber": "02",
+      "legacyRuntimeId": "T1_F12_ROOM_02",
+      "polygon": [
+        [
+          -6.669348,
+          -18.790062
+        ],
+        [
+          1.804283,
+          -18.790062
+        ],
+        [
+          1.804283,
+          -7.911956
+        ],
+        [
+          -6.669348,
+          -7.911956
+        ]
+      ],
+      "physicalPartitionsRetained": true,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_03",
+      "sourceUnitNumber": "03",
+      "legacyRuntimeId": "T1_F12_ROOM_03",
+      "polygon": [
+        [
+          1.804283,
+          -18.790062
+        ],
+        [
+          10.390895,
+          -18.790062
+        ],
+        [
+          10.390895,
+          -7.911956
+        ],
+        [
+          1.804283,
+          -7.911956
+        ]
+      ],
+      "physicalPartitionsRetained": true,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_04",
+      "sourceUnitNumber": "04",
+      "legacyRuntimeId": "T1_F12_ROOM_04",
+      "polygon": [
+        [
+          10.390895,
+          -18.790062
+        ],
+        [
+          19.09049,
+          -18.790062
+        ],
+        [
+          19.09049,
+          -16.750417
+        ],
+        [
+          27.338157,
+          -16.750417
+        ],
+        [
+          27.338157,
+          -7.911956
+        ],
+        [
+          10.390895,
+          -7.911956
+        ]
+      ],
+      "physicalPartitionsRetained": true,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_05",
+      "sourceUnitNumber": "05",
+      "legacyRuntimeId": "T1_F12_ROOM_05",
+      "polygon": [
+        [
+          10.390895,
+          -5.305743
+        ],
+        [
+          18.638563,
+          -5.305743
+        ],
+        [
+          18.638563,
+          -7.685328
+        ],
+        [
+          27.338157,
+          -7.685328
+        ],
+        [
+          27.338157,
+          1.946328
+        ],
+        [
+          10.390895,
+          1.946328
+        ]
+      ],
+      "physicalPartitionsRetained": true,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_10",
+      "sourceUnitNumber": "10",
+      "legacyRuntimeId": "T1_F12_ROOM_06",
+      "polygon": [
+        [
+          6.77548,
+          7.95195
+        ],
+        [
+          15.136129,
+          7.95195
+        ],
+        [
+          15.136129,
+          18.716743
+        ],
+        [
+          6.77548,
+          18.716743
+        ]
+      ],
+      "physicalPartitionsRetained": false,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_09",
+      "sourceUnitNumber": "09",
+      "legacyRuntimeId": "T1_F12_ROOM_07",
+      "polygon": [
+        [
+          -1.698151,
+          7.95195
+        ],
+        [
+          6.77548,
+          7.95195
+        ],
+        [
+          6.77548,
+          18.716743
+        ],
+        [
+          -1.698151,
+          18.716743
+        ]
+      ],
+      "physicalPartitionsRetained": false,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_08",
+      "sourceUnitNumber": "08",
+      "legacyRuntimeId": "T1_F12_ROOM_08",
+      "polygon": [
+        [
+          -10.171782,
+          7.95195
+        ],
+        [
+          -1.698151,
+          7.95195
+        ],
+        [
+          -1.698151,
+          18.716743
+        ],
+        [
+          -10.171782,
+          18.716743
+        ]
+      ],
+      "physicalPartitionsRetained": false,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_07",
+      "sourceUnitNumber": "07",
+      "legacyRuntimeId": "T1_F12_ROOM_09",
+      "polygon": [
+        [
+          -27.457989,
+          8.065263
+        ],
+        [
+          -18.532431,
+          8.065263
+        ],
+        [
+          -18.532431,
+          7.95195
+        ],
+        [
+          -10.171782,
+          7.95195
+        ],
+        [
+          -10.171782,
+          18.716743
+        ],
+        [
+          -19.09734,
+          18.716743
+        ],
+        [
+          -19.09734,
+          16.45047
+        ],
+        [
+          -27.457989,
+          16.45047
+        ]
+      ],
+      "physicalPartitionsRetained": false,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    },
+    {
+      "id": "F12_UNIT_06",
+      "sourceUnitNumber": "06",
+      "legacyRuntimeId": "T1_F12_ROOM_10",
+      "polygon": [
+        [
+          -27.457989,
+          -2.132962
+        ],
+        [
+          -10.962654,
+          -2.132962
+        ],
+        [
+          -10.962654,
+          5.119109
+        ],
+        [
+          -18.532431,
+          5.119109
+        ],
+        [
+          -18.532431,
+          7.612009
+        ],
+        [
+          -27.457989,
+          7.612009
+        ]
+      ],
+      "physicalPartitionsRetained": false,
+      "truthClass": "PROJECT_VERIFIED_RASTER_TRACE"
+    }
+  ],
+  "companySourceUnitNumbers": [
+    "06",
+    "07",
+    "08",
+    "09",
+    "10"
+  ],
+  "rooms": [
+    {
+      "id": "T1_F12_DINING",
+      "label": "餐厅",
+      "polygonM": [
+        [
+          -27.796934,
+          -2.472902
+        ],
+        [
+          -19.134048,
+          -2.472902
+        ],
+        [
+          -19.134048,
+          2.546029
+        ],
+        [
+          -27.796934,
+          2.546029
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_PANTRY",
+      "label": "茶水间",
+      "polygonM": [
+        [
+          -27.796934,
+          2.546029
+        ],
+        [
+          -19.134048,
+          2.546029
+        ],
+        [
+          -19.134048,
+          7.359082
+        ],
+        [
+          -27.796934,
+          7.359082
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_FIRE_CONTROL",
+      "label": "消防监控室",
+      "polygonM": [
+        [
+          -19.134048,
+          -2.472902
+        ],
+        [
+          -10.849673,
+          -2.472902
+        ],
+        [
+          -10.849673,
+          5.175381
+        ],
+        [
+          -19.134048,
+          5.175381
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_IT",
+      "label": "机房",
+      "polygonM": [
+        [
+          -27.729744,
+          7.403648
+        ],
+        [
+          -21.216505,
+          7.403648
+        ],
+        [
+          -21.216505,
+          9.275396
+        ],
+        [
+          -27.729744,
+          9.275396
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_DIRECTOR",
+      "label": "总监办公室",
+      "polygonM": [
+        [
+          -27.729744,
+          9.275396
+        ],
+        [
+          -21.216505,
+          9.275396
+        ],
+        [
+          -21.216505,
+          13.018881
+        ],
+        [
+          -27.729744,
+          13.018881
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_DEPUTY",
+      "label": "副总经理办公室",
+      "polygonM": [
+        [
+          -27.729744,
+          13.018881
+        ],
+        [
+          -21.172204,
+          13.018881
+        ],
+        [
+          -21.172204,
+          16.673245
+        ],
+        [
+          -27.729744,
+          16.673245
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_MEETING",
+      "label": "会议室",
+      "polygonM": [
+        [
+          -19.134048,
+          7.572186
+        ],
+        [
+          0.538571,
+          7.572186
+        ],
+        [
+          0.538571,
+          11.280832
+        ],
+        [
+          -19.134048,
+          11.280832
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_EXHIBITION",
+      "label": "展示走廊",
+      "polygonM": [
+        [
+          0.538571,
+          7.572186
+        ],
+        [
+          10.330574,
+          7.572186
+        ],
+        [
+          10.330574,
+          11.280832
+        ],
+        [
+          0.538571,
+          11.280832
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_FINANCE",
+      "label": "财务办公室",
+      "polygonM": [
+        [
+          10.330574,
+          7.572186
+        ],
+        [
+          15.470272,
+          7.572186
+        ],
+        [
+          15.470272,
+          14.935195
+        ],
+        [
+          10.330574,
+          14.935195
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_TALK",
+      "label": "会谈间",
+      "polygonM": [
+        [
+          6.254272,
+          14.935195
+        ],
+        [
+          8.824121,
+          14.935195
+        ],
+        [
+          8.824121,
+          19.056683
+        ],
+        [
+          6.254272,
+          19.056683
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_CHAIR",
+      "label": "董事长办公室",
+      "polygonM": [
+        [
+          8.824121,
+          14.935195
+        ],
+        [
+          15.470272,
+          14.935195
+        ],
+        [
+          15.470272,
+          19.056683
+        ],
+        [
+          8.824121,
+          19.056683
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_RD",
+      "label": "研发办公区",
+      "polygonM": [
+        [
+          -21.172204,
+          11.280832
+        ],
+        [
+          7.627803,
+          11.280832
+        ],
+        [
+          10.330574,
+          11.280832
+        ],
+        [
+          10.330574,
+          14.935195
+        ],
+        [
+          6.254272,
+          14.935195
+        ],
+        [
+          6.254272,
+          19.056683
+        ],
+        [
+          -19.323303,
+          19.056683
+        ],
+        [
+          -19.532817,
+          16.717811
+        ],
+        [
+          -21.172204,
+          16.717811
+        ]
+      ],
+      "truthClass": "EXPLICIT_TOPOLOGY_INFERRED_METRIC",
+      "replaceable": true
+    },
+    {
+      "id": "T1_F12_WEST_AISLE",
+      "label": "内部通道",
+      "polygonM": [
+        [
+          -21.172204,
+          7.403648
+        ],
+        [
+          -19.134048,
+          7.403648
+        ],
+        [
+          -19.134048,
+          11.280832
+        ],
+        [
+          -21.172204,
+          11.280832
+        ]
+      ],
+      "truthClass": "INFERRED_CONTINUITY",
+      "replaceable": true
+    }
+  ],
+  "walls": [
+    {
+      "id": "F12_W_DINING_TOP_SEG_0",
+      "a": [
+        -27.796934,
+        -2.392902
+      ],
+      "b": [
+        -14.195580999999999,
+        -2.392902
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_DINING_TOP_SEG_END",
+      "a": [
+        -12.995581,
+        -2.392902
+      ],
+      "b": [
+        -10.849673,
+        -2.392902
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_DINING_PANTRY_SEG_0",
+      "a": [
+        -27.796934,
+        2.546029
+      ],
+      "b": [
+        -20.425886,
+        2.546029
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_DINING_PANTRY_SEG_END",
+      "a": [
+        -19.525886,
+        2.546029
+      ],
+      "b": [
+        -19.134048,
+        2.546029
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_FIRE_WEST_SEG_0",
+      "a": [
+        -19.134048,
+        -2.472902
+      ],
+      "b": [
+        -19.134048,
+        3.544393
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_FIRE_WEST_SEG_END",
+      "a": [
+        -19.134048,
+        4.444393
+      ],
+      "b": [
+        -19.134048,
+        7.572186
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_FIRE_EAST_SEG_END",
+      "a": [
+        -10.929673,
+        -2.472902
+      ],
+      "b": [
+        -10.929673,
+        5.175381
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_FIRE_BOTTOM_SEG_0",
+      "a": [
+        -19.134048,
+        5.175381
+      ],
+      "b": [
+        -15.5862,
+        5.175381
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_FIRE_BOTTOM_SEG_END",
+      "a": [
+        -14.0862,
+        5.175381
+      ],
+      "b": [
+        -10.849673,
+        5.175381
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_WEST_TOP_SEG_END",
+      "a": [
+        -27.729744,
+        7.403648
+      ],
+      "b": [
+        -21.216505,
+        7.403648
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_IT_DIRECTOR_SEG_END",
+      "a": [
+        -27.729744,
+        9.275396
+      ],
+      "b": [
+        -21.216505,
+        9.275396
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_DIRECTOR_DEPUTY_SEG_END",
+      "a": [
+        -27.729744,
+        13.018881
+      ],
+      "b": [
+        -21.172204,
+        13.018881
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_WEST_OFFICES_SEG_0",
+      "a": [
+        -21.216505,
+        7.403648
+      ],
+      "b": [
+        -21.21333108895784,
+        8.067761141344336
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_WEST_OFFICES_SEG_1",
+      "a": [
+        -21.2090298831263,
+        8.967750863301422
+      ],
+      "b": [
+        -21.20459887232597,
+        9.894901140309015
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_WEST_OFFICES_SEG_2",
+      "a": [
+        -21.20029766649443,
+        10.794890862266103
+      ],
+      "b": [
+        -21.18308681957048,
+        14.396110135277716
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_WEST_OFFICES_SEG_END",
+      "a": [
+        -21.178785613738942,
+        15.296099857234804
+      ],
+      "b": [
+        -21.172204,
+        16.673245
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_COMPANY_TOP_SEG_0",
+      "a": [
+        -19.134048,
+        7.572186
+      ],
+      "b": [
+        7.099347999999999,
+        7.572186
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_COMPANY_TOP_SEG_END",
+      "a": [
+        8.599347999999999,
+        7.572186
+      ],
+      "b": [
+        15.470272,
+        7.572186
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_MEETING_WEST_SEG_END",
+      "a": [
+        -19.134048,
+        7.572186
+      ],
+      "b": [
+        -19.134048,
+        11.280832
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_MEETING_BOTTOM_SEG_0",
+      "a": [
+        -19.134048,
+        11.280832
+      ],
+      "b": [
+        -1.359959,
+        11.280832
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_MEETING_BOTTOM_SEG_END",
+      "a": [
+        -0.30995900000000276,
+        11.280832
+      ],
+      "b": [
+        7.627803,
+        11.280832
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_MEETING_EXHIBITION_SEG_END",
+      "a": [
+        0.538571,
+        7.572186
+      ],
+      "b": [
+        0.538571,
+        11.280832
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_FINANCE_WEST_SEG_0",
+      "a": [
+        10.330574,
+        7.572186
+      ],
+      "b": [
+        10.330574,
+        12.346049999999998
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_FINANCE_WEST_SEG_END",
+      "a": [
+        10.330574,
+        13.24605
+      ],
+      "b": [
+        10.330574,
+        14.935195
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_RIGHT_OFFICES_TOP_SEG_0",
+      "a": [
+        6.254272,
+        14.935195
+      ],
+      "b": [
+        7.044879,
+        14.935195
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_RIGHT_OFFICES_TOP_SEG_1",
+      "a": [
+        7.944879,
+        14.935195
+      ],
+      "b": [
+        9.215959000000002,
+        14.935195
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_RIGHT_OFFICES_TOP_SEG_END",
+      "a": [
+        10.115959,
+        14.935195
+      ],
+      "b": [
+        15.470272,
+        14.935195
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_TALK_WEST_SEG_END",
+      "a": [
+        6.254272,
+        14.935195
+      ],
+      "b": [
+        6.254272,
+        19.056683
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_TALK_CHAIR_SEG_END",
+      "a": [
+        8.824121,
+        14.935195
+      ],
+      "b": [
+        8.824121,
+        19.056683
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_W_COMPANY_RIGHT_SEG_END",
+      "a": [
+        15.390272,
+        7.572186
+      ],
+      "b": [
+        15.390272,
+        19.056683
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "OUTER_SILL_0",
+      "a": [
+        -15.820869,
+        -19.075003
+      ],
+      "b": [
+        19.203471,
+        -19.075003
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_1",
+      "a": [
+        19.148471,
+        -19.130003
+      ],
+      "b": [
+        19.148471,
+        -16.863731
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_2",
+      "a": [
+        19.203471,
+        -16.808731
+      ],
+      "b": [
+        27.677102,
+        -16.808731
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_3",
+      "a": [
+        27.622102,
+        -16.863731
+      ],
+      "b": [
+        27.622102,
+        2.286269
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_4",
+      "a": [
+        27.677102,
+        2.2312689999999997
+      ],
+      "b": [
+        16.378928,
+        2.2312689999999997
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_5",
+      "a": [
+        16.323928,
+        2.286269
+      ],
+      "b": [
+        16.323928,
+        15.430648
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_6",
+      "a": [
+        16.378928,
+        15.375648
+      ],
+      "b": [
+        15.475074,
+        15.375648
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_7",
+      "a": [
+        15.420074,
+        15.430648
+      ],
+      "b": [
+        15.420074,
+        19.056683
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_8",
+      "a": [
+        15.475074,
+        19.001683
+      ],
+      "b": [
+        -19.323303,
+        19.001683
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_9",
+      "a": [
+        -19.268303,
+        19.056683
+      ],
+      "b": [
+        -19.268303,
+        16.790411
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_10",
+      "a": [
+        -19.323303,
+        16.735411
+      ],
+      "b": [
+        -27.796934,
+        16.735411
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_11",
+      "a": [
+        -27.741934,
+        16.790411
+      ],
+      "b": [
+        -27.741934,
+        -2.472902
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "OUTER_SILL_13",
+      "a": [
+        -15.765869,
+        -2.472902
+      ],
+      "b": [
+        -15.765869,
+        -19.130003
+      ],
+      "thicknessM": 0.11,
+      "minY": 0.228,
+      "maxY": 0.378
+    },
+    {
+      "id": "F12_UNIT_01_BOUNDARY_1",
+      "a": [
+        -6.669348,
+        -18.790062
+      ],
+      "b": [
+        -6.669348,
+        -7.911956
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_01_BOUNDARY_2",
+      "a": [
+        -6.669348,
+        -7.911956
+      ],
+      "b": [
+        -15.594906,
+        -7.911956
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_02_BOUNDARY_1",
+      "a": [
+        1.804283,
+        -18.790062
+      ],
+      "b": [
+        1.804283,
+        -7.911956
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_02_BOUNDARY_2",
+      "a": [
+        1.804283,
+        -7.911956
+      ],
+      "b": [
+        -6.669348,
+        -7.911956
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_03_BOUNDARY_1",
+      "a": [
+        10.390895,
+        -18.790062
+      ],
+      "b": [
+        10.390895,
+        -7.911956
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_03_BOUNDARY_2",
+      "a": [
+        10.390895,
+        -7.911956
+      ],
+      "b": [
+        1.804283,
+        -7.911956
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_04_BOUNDARY_1",
+      "a": [
+        19.09049,
+        -18.790062
+      ],
+      "b": [
+        19.09049,
+        -16.750417
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_04_BOUNDARY_4",
+      "a": [
+        27.338157,
+        -7.911956
+      ],
+      "b": [
+        10.390895,
+        -7.911956
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_05_BOUNDARY_0",
+      "a": [
+        10.390895,
+        -5.305743
+      ],
+      "b": [
+        18.638563,
+        -5.305743
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_05_BOUNDARY_1",
+      "a": [
+        18.638563,
+        -5.305743
+      ],
+      "b": [
+        18.638563,
+        -7.685328
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_05_BOUNDARY_2",
+      "a": [
+        18.638563,
+        -7.685328
+      ],
+      "b": [
+        27.338157,
+        -7.685328
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_05_BOUNDARY_4",
+      "a": [
+        27.338157,
+        1.946328
+      ],
+      "b": [
+        10.390895,
+        1.946328
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "F12_UNIT_05_BOUNDARY_5",
+      "a": [
+        10.390895,
+        1.946328
+      ],
+      "b": [
+        10.390895,
+        -5.305743
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "coreA_N",
+      "a": [
+        -10.849673,
+        -5.192429
+      ],
+      "b": [
+        -1.698151,
+        -5.192429
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "coreA_S",
+      "a": [
+        -10.849673,
+        5.232423
+      ],
+      "b": [
+        -1.698151,
+        5.232423
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "coreA_WEST_UPPER",
+      "a": [
+        -10.849673,
+        -5.192429
+      ],
+      "b": [
+        -10.849673,
+        -2.552902
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_ELEVATOR_01_PIER",
+      "a": [
+        -1.698151,
+        -5.192429
+      ],
+      "b": [
+        -1.698151,
+        -2.807962
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_ELEVATOR_02_PIER",
+      "a": [
+        -1.698151,
+        -1.457962
+      ],
+      "b": [
+        -1.698151,
+        0.13819199999999998
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_ELEVATOR_03_PIER",
+      "a": [
+        -1.698151,
+        1.4881920000000002
+      ],
+      "b": [
+        -1.698151,
+        3.084346
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "coreA_HALL_END",
+      "a": [
+        -1.698151,
+        4.434346
+      ],
+      "b": [
+        -1.698151,
+        5.232423
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "coreB_N",
+      "a": [
+        1.465338,
+        -5.192429
+      ],
+      "b": [
+        10.164932,
+        -5.192429
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "coreB_S",
+      "a": [
+        1.465338,
+        5.232423
+      ],
+      "b": [
+        10.164932,
+        5.232423
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "coreB_E",
+      "a": [
+        10.164932,
+        -5.192429
+      ],
+      "b": [
+        10.164932,
+        5.232423
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_ELEVATOR_04_PIER",
+      "a": [
+        1.465338,
+        -5.192429
+      ],
+      "b": [
+        1.465338,
+        -2.807962
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_ELEVATOR_05_PIER",
+      "a": [
+        1.465338,
+        -1.457962
+      ],
+      "b": [
+        1.465338,
+        0.13819199999999998
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_ELEVATOR_06_PIER",
+      "a": [
+        1.465338,
+        1.4881920000000002
+      ],
+      "b": [
+        1.465338,
+        3.084346
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "coreB_HALL_END",
+      "a": [
+        1.465338,
+        4.434346
+      ],
+      "b": [
+        1.465338,
+        5.232423
+      ],
+      "thicknessM": 0.16,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_01_BOUNDARY_0",
+      "a": [
+        -15.594906,
+        -7.572015
+      ],
+      "b": [
+        -11.075636,
+        -7.572015
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_01_ENTRY_PIER_A",
+      "a": [
+        -11.075636,
+        -7.572015
+      ],
+      "b": [
+        -11.075636,
+        -7.1499999999999995
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_01_ENTRY_PIER_B",
+      "a": [
+        -11.075636,
+        -5.95
+      ],
+      "b": [
+        -11.075636,
+        -2.586216
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_01_BOUNDARY_3",
+      "a": [
+        -15.594906,
+        -2.586216
+      ],
+      "b": [
+        -15.594906,
+        -7.572015
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_02_BOUNDARY_0",
+      "a": [
+        10.503877,
+        2.512896
+      ],
+      "b": [
+        16.152964,
+        2.512896
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_02_BOUNDARY_1",
+      "a": [
+        16.152964,
+        2.512896
+      ],
+      "b": [
+        16.152964,
+        7.612009
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_02_BOUNDARY_2",
+      "a": [
+        16.152964,
+        7.612009
+      ],
+      "b": [
+        10.503877,
+        7.612009
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_02_ENTRY_PIER_A",
+      "a": [
+        10.503877,
+        2.512896
+      ],
+      "b": [
+        10.503877,
+        5.95
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    },
+    {
+      "id": "T1_F12_TOILET_02_ENTRY_PIER_B",
+      "a": [
+        10.503877,
+        7.1499999999999995
+      ],
+      "b": [
+        10.503877,
+        7.612009
+      ],
+      "thicknessM": 0.12,
+      "minY": 0.228,
+      "maxY": 3.228
+    }
+  ],
+  "doors": [
+    {
+      "id": "F12_D_FIRE_TOP",
+      "hostWallId": "F12_W_DINING_TOP",
+      "centerM": [
+        -13.595581,
+        -2.392902
+      ],
+      "a": [
+        -14.195580999999999,
+        -2.392902
+      ],
+      "b": [
+        -12.995581,
+        -2.392902
+      ],
+      "connects": [
+        "T1_F12_FIRE_CONTROL",
+        "T1_F12_TOILET_01"
+      ],
+      "clearWidthM": 1.2,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        -14.195580999999999,
+        -2.392902
+      ],
+      "includedInMainTour": false,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": false,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_FIRE_TOP",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_FIRE_TOP"
+      ]
+    },
+    {
+      "id": "F12_D_DINING_PANTRY",
+      "hostWallId": "F12_W_DINING_PANTRY",
+      "centerM": [
+        -19.975886,
+        2.546029
+      ],
+      "a": [
+        -20.425886,
+        2.546029
+      ],
+      "b": [
+        -19.525886,
+        2.546029
+      ],
+      "connects": [
+        "T1_F12_DINING",
+        "T1_F12_PANTRY"
+      ],
+      "clearWidthM": 0.9,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        -20.425886,
+        2.546029
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_DINING_PANTRY",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_DINING_PANTRY"
+      ]
+    },
+    {
+      "id": "F12_D_FIRE_PANTRY",
+      "hostWallId": "F12_W_FIRE_WEST",
+      "centerM": [
+        -19.134048,
+        3.9943929999999996
+      ],
+      "a": [
+        -19.134048,
+        3.544393
+      ],
+      "b": [
+        -19.134048,
+        4.444393
+      ],
+      "connects": [
+        "T1_F12_PANTRY",
+        "T1_F12_FIRE_CONTROL"
+      ],
+      "clearWidthM": 0.9,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        -19.134048,
+        3.544393
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_FIRE_PANTRY",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_FIRE_PANTRY"
+      ]
+    },
+    {
+      "id": "F12_D_FIRE_BOTTOM",
+      "hostWallId": "F12_W_FIRE_BOTTOM",
+      "centerM": [
+        -14.8362,
+        5.175381
+      ],
+      "a": [
+        -15.5862,
+        5.175381
+      ],
+      "b": [
+        -14.0862,
+        5.175381
+      ],
+      "connects": [
+        "T1_F12_PUBLIC_SOUTH",
+        "T1_F12_FIRE_CONTROL"
+      ],
+      "clearWidthM": 1.5,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        -15.5862,
+        5.175381
+      ],
+      "includedInMainTour": true,
+      "leafCount": 2,
+      "leafPrototype": "DOOR_FIRE_DOUBLE_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.186,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_FIRE_BOTTOM",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_FIRE_BOTTOM"
+      ]
+    },
+    {
+      "id": "F12_D_IT",
+      "hostWallId": "F12_W_WEST_OFFICES",
+      "centerM": [
+        -21.211180486042068,
+        8.51775600232288
+      ],
+      "a": [
+        -21.21333108895784,
+        8.067761141344336
+      ],
+      "b": [
+        -21.2090298831263,
+        8.967750863301422
+      ],
+      "connects": [
+        "T1_F12_WEST_AISLE",
+        "T1_F12_IT"
+      ],
+      "clearWidthM": 0.9,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        -21.21333108895784,
+        8.067761141344336
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_IT",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_IT"
+      ]
+    },
+    {
+      "id": "F12_D_DIRECTOR",
+      "hostWallId": "F12_W_WEST_OFFICES",
+      "centerM": [
+        -21.202448269410198,
+        10.344896001287559
+      ],
+      "a": [
+        -21.20459887232597,
+        9.894901140309015
+      ],
+      "b": [
+        -21.20029766649443,
+        10.794890862266103
+      ],
+      "connects": [
+        "T1_F12_WEST_AISLE",
+        "T1_F12_DIRECTOR"
+      ],
+      "clearWidthM": 0.9,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        -21.20459887232597,
+        9.894901140309015
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_DIRECTOR",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_DIRECTOR"
+      ]
+    },
+    {
+      "id": "F12_D_DEPUTY",
+      "hostWallId": "F12_W_WEST_OFFICES",
+      "centerM": [
+        -21.18093621665471,
+        14.84610499625626
+      ],
+      "a": [
+        -21.18308681957048,
+        14.396110135277716
+      ],
+      "b": [
+        -21.178785613738942,
+        15.296099857234804
+      ],
+      "connects": [
+        "T1_F12_RD",
+        "T1_F12_DEPUTY"
+      ],
+      "clearWidthM": 0.9,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        -21.18308681957048,
+        14.396110135277716
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_DEPUTY",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_DEPUTY"
+      ]
+    },
+    {
+      "id": "F12_D_COMPANY_ENTRY",
+      "hostWallId": "F12_W_COMPANY_TOP",
+      "centerM": [
+        7.849347999999999,
+        7.572186
+      ],
+      "a": [
+        7.099347999999999,
+        7.572186
+      ],
+      "b": [
+        8.599347999999999,
+        7.572186
+      ],
+      "connects": [
+        "T1_F12_PUBLIC_SOUTH",
+        "T1_F12_EXHIBITION"
+      ],
+      "clearWidthM": 1.5,
+      "clearHeightM": 2.15,
+      "kind": "sliding",
+      "hinge": [
+        7.099347999999999,
+        7.572186
+      ],
+      "includedInMainTour": true,
+      "leafCount": 2,
+      "leafPrototype": "DOOR_COMPANY_SLIDING_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.045,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_COMPANY_ENTRY",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_COMPANY_ENTRY"
+      ]
+    },
+    {
+      "id": "F12_D_MEETING",
+      "hostWallId": "F12_W_MEETING_BOTTOM",
+      "centerM": [
+        -0.8349590000000013,
+        11.280832
+      ],
+      "a": [
+        -1.359959,
+        11.280832
+      ],
+      "b": [
+        -0.30995900000000276,
+        11.280832
+      ],
+      "connects": [
+        "T1_F12_RD",
+        "T1_F12_MEETING"
+      ],
+      "clearWidthM": 1.05,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        -1.359959,
+        11.280832
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_MEETING",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_MEETING"
+      ]
+    },
+    {
+      "id": "F12_D_FINANCE",
+      "hostWallId": "F12_W_FINANCE_WEST",
+      "centerM": [
+        10.330574,
+        12.79605
+      ],
+      "a": [
+        10.330574,
+        12.346049999999998
+      ],
+      "b": [
+        10.330574,
+        13.24605
+      ],
+      "connects": [
+        "T1_F12_RD",
+        "T1_F12_FINANCE"
+      ],
+      "clearWidthM": 0.9,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        10.330574,
+        12.346049999999998
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_FINANCE",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_FINANCE"
+      ]
+    },
+    {
+      "id": "F12_D_TALK",
+      "hostWallId": "F12_W_RIGHT_OFFICES_TOP",
+      "centerM": [
+        7.494879,
+        14.935195
+      ],
+      "a": [
+        7.044879,
+        14.935195
+      ],
+      "b": [
+        7.944879,
+        14.935195
+      ],
+      "connects": [
+        "T1_F12_RD",
+        "T1_F12_TALK"
+      ],
+      "clearWidthM": 0.9,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        7.044879,
+        14.935195
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_TALK",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_TALK"
+      ]
+    },
+    {
+      "id": "F12_D_CHAIR",
+      "hostWallId": "F12_W_RIGHT_OFFICES_TOP",
+      "centerM": [
+        9.665959,
+        14.935195
+      ],
+      "a": [
+        9.215959000000002,
+        14.935195
+      ],
+      "b": [
+        10.115959,
+        14.935195
+      ],
+      "connects": [
+        "T1_F12_RD",
+        "T1_F12_CHAIR"
+      ],
+      "clearWidthM": 0.9,
+      "clearHeightM": 2.15,
+      "kind": "hinged",
+      "hinge": [
+        9.215959000000002,
+        14.935195
+      ],
+      "includedInMainTour": true,
+      "leafCount": 1,
+      "leafPrototype": "DOOR_NEUTRAL_ROOT",
+      "hostWallThicknessM": 0.16,
+      "leafCollisionThicknessM": 0.136,
+      "initialState": "closed",
+      "defaultState": "closed",
+      "thicknessM": 0.045,
+      "tourAllowed": true,
+      "truthClass": "EXPLICIT_TOPOLOGY_DERIVED_HOST_FRAME_INFERRED_SECTION",
+      "sourceRefs": [
+        "models/current/provenance/files/tasks/V5.0/F12/contracts/f12-plan-reconstruction-v005.json#doors/F12_D_CHAIR",
+        "models/current/provenance/files/models/candidates/v005-g5-r008/reports/building-spatial-lookdev-r002.json#doors/F12_D_CHAIR"
+      ]
+    }
+  ],
+  "coreLayout": {
+    "coreA": {
+      "sourcePixelPolygon": [
+        {
+          "px": 241,
+          "py": 314
+        },
+        {
+          "px": 322,
+          "py": 314
+        },
+        {
+          "px": 322,
+          "py": 406
+        },
+        {
+          "px": 241,
+          "py": 406
+        }
+      ],
+      "metricPolygon": [
+        {
+          "x": -10.849673,
+          "z": -5.192429
+        },
+        {
+          "x": -1.698151,
+          "z": -5.192429
+        },
+        {
+          "x": -1.698151,
+          "z": 5.232423
+        },
+        {
+          "x": -10.849673,
+          "z": 5.232423
+        }
+      ]
+    },
+    "coreB": {
+      "sourcePixelPolygon": [
+        {
+          "px": 350,
+          "py": 314
+        },
+        {
+          "px": 427,
+          "py": 314
+        },
+        {
+          "px": 427,
+          "py": 406
+        },
+        {
+          "px": 350,
+          "py": 406
+        }
+      ],
+      "metricPolygon": [
+        {
+          "x": 1.465338,
+          "z": -5.192429
+        },
+        {
+          "x": 10.164932,
+          "z": -5.192429
+        },
+        {
+          "x": 10.164932,
+          "z": 5.232423
+        },
+        {
+          "x": 1.465338,
+          "z": 5.232423
+        }
+      ]
+    },
+    "truthClass": "PROJECT_VERIFIED",
+    "replaceable": true,
+    "elevators": [
+      {
+        "id": "T1_F12_ELEVATOR_01",
+        "bank": "A",
+        "pixelCenter": {
+          "px": 309,
+          "py": 341
+        },
+        "metricCenter": {
+          "x": -3.166914,
+          "z": -2.132962
+        },
+        "clearSizeM": [
+          2.1,
+          2.2
+        ],
+        "clearSizeTruthClass": "INFERRED_REPLACEABLE"
+      },
+      {
+        "id": "T1_F12_ELEVATOR_02",
+        "bank": "A",
+        "pixelCenter": {
+          "px": 309,
+          "py": 367
+        },
+        "metricCenter": {
+          "x": -3.166914,
+          "z": 0.813192
+        },
+        "clearSizeM": [
+          2.1,
+          2.2
+        ],
+        "clearSizeTruthClass": "INFERRED_REPLACEABLE"
+      },
+      {
+        "id": "T1_F12_ELEVATOR_03",
+        "bank": "A",
+        "pixelCenter": {
+          "px": 309,
+          "py": 393
+        },
+        "metricCenter": {
+          "x": -3.166914,
+          "z": 3.759346
+        },
+        "clearSizeM": [
+          2.1,
+          2.2
+        ],
+        "clearSizeTruthClass": "INFERRED_REPLACEABLE"
+      },
+      {
+        "id": "T1_F12_ELEVATOR_04",
+        "bank": "B",
+        "pixelCenter": {
+          "px": 363,
+          "py": 341
+        },
+        "metricCenter": {
+          "x": 2.9341,
+          "z": -2.132962
+        },
+        "clearSizeM": [
+          2.1,
+          2.2
+        ],
+        "clearSizeTruthClass": "INFERRED_REPLACEABLE"
+      },
+      {
+        "id": "T1_F12_ELEVATOR_05",
+        "bank": "B",
+        "pixelCenter": {
+          "px": 363,
+          "py": 367
+        },
+        "metricCenter": {
+          "x": 2.9341,
+          "z": 0.813192
+        },
+        "clearSizeM": [
+          2.1,
+          2.2
+        ],
+        "clearSizeTruthClass": "INFERRED_REPLACEABLE"
+      },
+      {
+        "id": "T1_F12_ELEVATOR_06",
+        "bank": "B",
+        "pixelCenter": {
+          "px": 363,
+          "py": 393
+        },
+        "metricCenter": {
+          "x": 2.9341,
+          "z": 3.759346
+        },
+        "clearSizeM": [
+          2.1,
+          2.2
+        ],
+        "clearSizeTruthClass": "INFERRED_REPLACEABLE"
+      }
+    ]
+  },
+  "toilets": [
+    {
+      "id": "T1_F12_TOILET_01",
+      "polygon": [
+        [
+          -15.594906,
+          -7.572015
+        ],
+        [
+          -11.075636,
+          -7.572015
+        ],
+        [
+          -11.075636,
+          -2.586216
+        ],
+        [
+          -15.594906,
+          -2.586216
+        ]
+      ],
+      "truthClass": "EXPLICIT"
+    },
+    {
+      "id": "T1_F12_TOILET_02",
+      "polygon": [
+        [
+          10.503877,
+          2.512896
+        ],
+        [
+          16.152964,
+          2.512896
+        ],
+        [
+          16.152964,
+          7.612009
+        ],
+        [
+          10.503877,
+          7.612009
+        ]
+      ],
+      "truthClass": "EXPLICIT"
+    }
+  ],
+  "publicCorridor": {
+    "clearWidthM": 1.8,
+    "centerlines": [
+      [
+        [
+          -10.623709,
+          -6.552192
+        ],
+        [
+          17.84769,
+          -6.552192
+        ]
+      ],
+      [
+        [
+          -18.193486,
+          6.592186
+        ],
+        [
+          10.164932,
+          6.592186
+        ]
+      ],
+      [
+        [
+          -0.116407,
+          -6.552192
+        ],
+        [
+          -0.116407,
+          6.592186
+        ]
+      ]
+    ]
+  },
+  "wallFaceResolutions": [
+    {
+      "id": "F12_W_DINING_TOP",
+      "sourceCenterline": [
+        [
+          -27.796934,
+          -2.472902
+        ],
+        [
+          -10.849673,
+          -2.472902
+        ]
+      ],
+      "actualCenterline": [
+        [
+          -27.796934,
+          -2.392902
+        ],
+        [
+          -10.849673,
+          -2.392902
+        ]
+      ],
+      "reason": "Keep all wall faces inside immutable envelope / do not overlap retained core shell",
+      "truthClass": "DERIVED_FROM_WALL_FACE_CONSTRAINT"
+    },
+    {
+      "id": "F12_W_FIRE_EAST",
+      "sourceCenterline": [
+        [
+          -10.849673,
+          -2.472902
+        ],
+        [
+          -10.849673,
+          5.175381
+        ]
+      ],
+      "actualCenterline": [
+        [
+          -10.929673,
+          -2.472902
+        ],
+        [
+          -10.929673,
+          5.175381
+        ]
+      ],
+      "reason": "Keep all wall faces inside immutable envelope / do not overlap retained core shell",
+      "truthClass": "DERIVED_FROM_WALL_FACE_CONSTRAINT"
+    },
+    {
+      "id": "F12_W_COMPANY_RIGHT",
+      "sourceCenterline": [
+        [
+          15.470272,
+          7.572186
+        ],
+        [
+          15.470272,
+          19.056683
+        ]
+      ],
+      "actualCenterline": [
+        [
+          15.390272,
+          7.572186
+        ],
+        [
+          15.390272,
+          19.056683
+        ]
+      ],
+      "reason": "Keep all wall faces inside immutable envelope / do not overlap retained core shell",
+      "truthClass": "DERIVED_FROM_WALL_FACE_CONSTRAINT"
+    },
+    {
+      "id": "T1_F12_TOILET_01_PUBLIC_ENTRY",
+      "centerM": [
+        -11.075636,
+        -6.55
+      ],
+      "widthM": 1.2,
+      "truthClass": "INFERRED_REPLACEABLE",
+      "reason": "Retained toilet accessed from adjacent public circulation; no invented internal cubicles"
+    },
+    {
+      "id": "T1_F12_TOILET_02_PUBLIC_ENTRY",
+      "centerM": [
+        10.503877,
+        6.55
+      ],
+      "widthM": 1.2,
+      "truthClass": "INFERRED_REPLACEABLE",
+      "reason": "Retained toilet accessed from adjacent public circulation; no invented internal cubicles"
+    },
+    {
+      "id": "F12_RD_CEILING_CLIP",
+      "method": "GEOS polygon intersection; complete faces and grid footprint clipped to frozen 14 point outline",
+      "sourceAreaM2": 224.081148471134,
+      "actualAreaM2": 223.8511098985164,
+      "wallHeadM": 3.228,
+      "plenumUndersideM": 3.228,
+      "gapM": 0,
+      "truthClass": "DERIVED_FROM_FROZEN_OUTLINE_INTERSECTION"
+    }
+  ],
+  "structuralRules": {
+    "retainExterior": true,
+    "retainCore": true,
+    "retainSixElevators": true,
+    "retainTwoToiletZones": true,
+    "publicCorridorClearM": 1.8,
+    "tenantHistoricalLinesAreNotRenovatedWalls": true,
+    "greenMarksCount": 12
+  },
+  "counts": {
+    "elevators": 6,
+    "toilets": 2,
+    "doors": 12,
+    "rooms": 13,
+    "workstations": 40,
+    "certificates": 15
+  },
+  "visualAcceptance": "NOT_USER_ACCEPTED",
+  "generatedAt": "2026-09-09T03:14:31.386Z",
+  "inheritedProduction": {
+    "sourceCandidate": "v005-g5-r014",
+    "sourceHandoff": {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r011/handoff.json",
+      "bytes": 226220,
+      "sha256": "600bd7ec7bfaad763984d3508afba3dcd659bf10e2dc747c514da9a73bf36ff9"
+    },
+    "originalContract": {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r011/contracts/f12-layout-v005.json",
+      "bytes": 58337,
+      "sha256": "20b3907dc2c0d2227363bde1c642d4afe4540eb7240cb1d84c53e274046c17b4"
+    },
+    "method": "Exact measured source payload inherited, candidate metadata and selected runtime URL updated. Not regenerated or browser acceptance transferred."
+  },
+  "parkIntegrationInheritance": {
+    "sourceContract": {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r012/contracts/f12-layout-v005.json",
+      "bytes": 59339,
+      "sha256": "1c8c1c98893660d6bcd878d323d9cd823d02e519c4d92dd7fdcba93e97cf7c2c"
+    },
+    "base": {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/contracts/park-integration-baseline-v005.json",
+      "bytes": 59310,
+      "sha256": "7d1b9489a4e4571ffa10f5a4da4f7be62c0367ba0c5cfe7a62df628a7d671184"
+    },
+    "binaryCopies": {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/reports/building-park-f12-derived-assets-r001.json",
+      "bytes": 22889,
+      "sha256": "e02f7d7f387bca357647547d18bcf28b0a6223fc96ab0b58aa15e506fd76ea2e"
+    },
+    "method": "Exact local binary inheritance. Current host world frame and explicitly authorized room lifecycle derived separately. No historical browser, FPS or human approval transfer.",
+    "currentHostDecision": {
+      "path": "models/current/provenance/files/models/candidates/v005-g5-r013/reports/building-park-f12-host-decision-r001.json",
+      "bytes": 5052,
+      "sha256": "99a27b034dd1d1d0ba9a0eedf6f425be4498229ab23d150dcd655ee9683f99de"
+    }
+  }
+}

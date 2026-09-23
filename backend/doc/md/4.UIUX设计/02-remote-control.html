@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>远程控制台 - 广东安为</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background-color: #0A1628;
+            color: #E8F0FE;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 顶部栏 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            height: 52px;
+            background: #0A1628;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.15);
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8BA3C7;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .header-right:hover {
+            background: rgba(0, 180, 255, 0.1);
+        }
+
+        /* 主布局 */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 52px);
+        }
+
+        /* 左侧区域 - 视频监控 */
+        .left-panel {
+            width: 38%;
+            background: #0A1628;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            border-right: 1px solid rgba(0, 180, 255, 0.1);
+        }
+
+        /* 监控视频框 */
+        .video-monitor {
+            background: rgba(5, 15, 30, 0.9);
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .video-display {
+            height: 220px;
+            background: linear-gradient(135deg, #061525 0%, #0a2540 50%, #061525 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, rgba(0, 180, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(0, 180, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .video-camera-icon {
+            font-size: 48px;
+            color: rgba(0, 180, 255, 0.3);
+            margin-bottom: 12px;
+        }
+
+        .video-camera-name {
+            color: #00B4FF;
+            font-size: 16px;
+            font-weight: 500;
+            text-shadow: 0 0 10px rgba(0, 180, 255, 0.5);
+        }
+
+        .video-timestamp {
+            color: #8BA3C7;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .video-rec-indicator {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: rgba(231, 76, 60, 0.8);
+            border-radius: 4px;
+            font-size: 11px;
+            color: #fff;
+        }
+
+        .rec-dot {
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .video-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 10px;
+            background: rgba(13, 30, 56, 0.95);
+            border-top: 1px solid rgba(0, 180, 255, 0.1);
+        }
+
+        .video-control-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            border-radius: 50%;
+            color: #00B4FF;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+
+        .video-control-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: rgba(0, 180, 255, 0.4);
+        }
+
+        .video-control-btn.active {
+            background: rgba(0, 180, 255, 0.3);
+            box-shadow: 0 0 10px rgba(0, 180, 255, 0.3);
+        }
+
+        /* 设备视频列表 */
+        .video-list-container {
+            background: rgba(13, 30, 56, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            border-radius: 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .video-list-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .video-list-header span:first-child {
+            font-size: 14px;
+            color: #8BA3C7;
+        }
+
+        .video-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .video-list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 6px;
+            border: 1px solid transparent;
+        }
+
+        .video-list-item:hover {
+            background: rgba(0, 180, 255, 0.08);
+        }
+
+        .video-list-item.active {
+            background: rgba(0, 180, 255, 0.15);
+            border-color: rgba(0, 180, 255, 0.3);
+        }
+
+        .video-thumbnail {
+            width: 64px;
+            height: 48px;
+            background: linear-gradient(135deg, #061525 0%, #0a2540 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border: 1px solid rgba(0, 180, 255, 0.2);
+        }
+
+        .video-thumbnail.offline {
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+
+        .video-info {
+            flex: 1;
+        }
+
+        .video-name {
+            color: #E8F0FE;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .video-status {
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-online {
+            color: #00E676;
+        }
+
+        .status-offline {
+            color: #8BA3C7;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-dot.online {
+            background: #00E676;
+            box-shadow: 0 0 6px rgba(0, 230, 118, 0.5);
+        }
+
+        .status-dot.offline {
+            background: #8BA3C7;
+        }
+
+        /* 右侧区域 */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #0D1E38;
+        }
+
+        /* 功能按钮区 */
+        .function-bar {
+            display: flex;
+            gap: 12px;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.08);
+        }
+
+        .func-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(13, 30, 56, 0.85);
+            border: 1px solid rgba(0, 180, 255, 0.25);
+            border-radius: 4px;
+            color: #E8F0FE;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .func-btn:hover {
+            border-color: rgba(0, 180, 255, 0.4);
+            box-shadow: 0 0 12px rgba(0, 180, 255, 0.15);
+        }
+
+        .func-btn.active {
+            background: rgba(0, 180, 255, 0.15);
+            border-color: #00B4FF;
+        }
+
+        /* 数据表格区 */
+        .table-section {
+            flex: 1;
+            padding: 16px 20px;
+            display: flex;
+            gap: 0;
+        }
+
+        .table-container {
+            flex: 1;
+            background: rgba(13, 30, 56, 0.7);
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1.5fr 1.5fr 1fr 0.8fr;
+            background: rgba(0, 180, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 180, 255, 0.15);
+        }
+
+        .table-header-cell {
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #8BA3C7;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .table-body {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            color: #8BA3C7;
+            font-size: 14px;
+        }
+
+        /* 按钮格子区域 */
+        .button-grid-container {
+            margin-left: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .grid-btn {
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.3s;
+            color: #fff;
+        }
+
+        .grid-btn .btn-icon {
+            font-size: 20px;
+        }
+
+        .grid-btn .btn-text {
+            font-size: 11px;
+        }
+
+        .grid-btn-reset {
+            background: linear-gradient(135deg, #1A3A5C 0%, #0F2744 100%);
+            border: 1px solid rgba(0, 180, 255, 0.3);
+            box-shadow: 0 0 8px rgba(0, 180, 255, 0.1);
+        }
+
+        .grid-btn-reset:hover {
+            background: linear-gradient(135deg, #1E4A70 0%, #153050 100%);
+            border-color: rgba(0, 180, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.25);
+        }
+
+        .grid-btn-reset:active,
+        .grid-btn-reset.active {
+            background: linear-gradient(135deg, #2980B9 0%, #1A5276 100%);
+            border-color: #00B4FF;
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.5);
+        }
+
+        .grid-btn-mute {
+            background: linear-gradient(135deg, #8B1A1A 0%, #5C1212 100%);
+            border: 1px solid rgba(204, 51, 51, 0.3);
+            box-shadow: 0 0 8px rgba(204, 51, 51, 0.1);
+        }
+
+        .grid-btn-mute:hover {
+            background: linear-gradient(135deg, #A52020 0%, #6B1515 100%);
+            border-color: rgba(204, 51, 51, 0.5);
+            box-shadow: 0 0 15px rgba(204, 51, 51, 0.25);
+        }
+
+        .grid-btn-mute:active,
+        .grid-btn-mute.active {
+            background: linear-gradient(135deg, #CC3333 0%, #991F1F 100%);
+            border-color: #E74C3C;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+        }
+
+        .grid-btn-start {
+            background: linear-gradient(135deg, #1A6B4A 0%, #0F4A30 100%);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.1);
+        }
+
+        .grid-btn-start:hover {
+            background: linear-gradient(135deg, #208B5A 0%, #156040 100%);
+            border-color: rgba(46, 204, 113, 0.5);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.25);
+        }
+
+        .grid-btn-start:active,
+        .grid-btn-start.active {
+            background: linear-gradient(135deg, #27AE60 0%, #1E8449 100%);
+            border-color: #2ECC71;
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+        }
+
+        .grid-btn-stop {
+            background: linear-gradient(135deg, #8B5A1A 0%, #5C3D12 100%);
+            border: 1px solid rgba(230, 126, 34, 0.3);
+            box-shadow: 0 0 8px rgba(230, 126, 34, 0.1);
+        }
+
+        .grid-btn-stop:hover {
+            background: linear-gradient(135deg, #A06A20 0%, #6B4515 100%);
+            border-color: rgba(230, 126, 34, 0.5);
+            box-shadow: 0 0 15px rgba(230, 126, 34, 0.25);
+        }
+
+        .grid-btn-stop:active,
+        .grid-btn-stop.active {
+            background: linear-gradient(135deg, #E67E22 0%, #CA6F1E 100%);
+            border-color: #F39C12;
+            box-shadow: 0 0 20px rgba(230, 126, 34, 0.5);
+        }
+
+        /* Tab控制区 */
+        .control-section {
+            padding: 16px 20px 20px;
+            border-top: 1px solid rgba(0, 180, 255, 0.08);
+        }
+
+        .tab-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .tab-item {
+            padding: 10px 20px;
+            color: #8BA3C7;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .tab-item:hover {
+            color: #E8F0FE;
+        }
+
+        .tab-item.active {
+            color: #fff;
+        }
+
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: #00B4FF;
+            box-shadow: 0 0 8px rgba(0, 180, 255, 0.6);
+        }
+
+        .tab-tools {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .machine-select {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(13, 30, 56, 0.8);
+            border: 1px solid rgba(0, 180, 255, 0.3);
+            border-radius: 4px;
+            color: #E8F0FE;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .machine-select select {
+            background: transparent;
+            border: none;
+            color: #E8F0FE;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .machine-select select option {
+            background: #0A1628;
+            color: #E8F0FE;
+        }
+
+        /* 设备卡片网格 */
+        .device-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .device-card {
+            background: rgba(13, 30, 56, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .device-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(0, 180, 255, 0.5), transparent);
+        }
+
+        .device-card:hover {
+            border-color: rgba(0, 180, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .device-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .device-card-title {
+            font-size: 15px;
+            color: #E8F0FE;
+            font-weight: 500;
+        }
+
+        .device-card-icon {
+            font-size: 24px;
+        }
+
+        .device-status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .device-status-tag .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-running {
+            background: rgba(0, 230, 118, 0.15);
+            color: #00E676;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .status-running .status-dot {
+            background: #00E676;
+            box-shadow: 0 0 6px rgba(0, 230, 118, 0.5);
+        }
+
+        .status-stopped {
+            background: rgba(139, 163, 199, 0.15);
+            color: #8BA3C7;
+            border: 1px solid rgba(139, 163, 199, 0.3);
+        }
+
+        .status-stopped .status-dot {
+            background: #8BA3C7;
+        }
+
+        .status-fault {
+            background: rgba(255, 77, 79, 0.15);
+            color: #FF4D4F;
+            border: 1px solid rgba(255, 77, 79, 0.3);
+        }
+
+        .status-fault .status-dot {
+            background: #FF4D4F;
+            box-shadow: 0 0 6px rgba(255, 77, 79, 0.5);
+        }
+
+        .device-params {
+            margin-bottom: 14px;
+        }
+
+        .param-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.08);
+        }
+
+        .param-row:last-child {
+            border-bottom: none;
+        }
+
+        .param-label {
+            color: #8BA3C7;
+            font-size: 12px;
+        }
+
+        .param-value {
+            color: #00B4FF;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .device-card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card-btn-start {
+            background: #2980B9;
+            color: #fff;
+        }
+
+        .card-btn-start:hover {
+            background: #3498DB;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.3);
+        }
+
+        .card-btn-stop {
+            background: #E67E22;
+            color: #fff;
+        }
+
+        .card-btn-stop:hover {
+            background: #F39C12;
+            box-shadow: 0 0 10px rgba(230, 126, 34, 0.3);
+        }
+
+        /* 弹窗样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: rgba(13, 30, 56, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 180, 255, 0.25);
+            border-radius: 12px;
+            min-width: 600px;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.15);
+        }
+
+        .modal-title {
+            font-size: 16px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            border-radius: 4px;
+            color: #8BA3C7;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: #E74C3C;
+            color: #E74C3C;
+        }
+
+        .modal-body {
+            padding: 20px 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(0, 180, 255, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* 操作日志表格 */
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .log-table th,
+        .log-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.1);
+        }
+
+        .log-table th {
+            background: rgba(0, 180, 255, 0.08);
+            color: #8BA3C7;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .log-table td {
+            color: #E8F0FE;
+            font-size: 13px;
+        }
+
+        .log-table tr:hover td {
+            background: rgba(0, 180, 255, 0.05);
+        }
+
+        /* 告警列表 */
+        .alarm-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 16px;
+            background: rgba(13, 30, 56, 0.6);
+            border: 1px solid rgba(0, 180, 255, 0.1);
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .alarm-level {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .alarm-high {
+            background: rgba(231, 76, 60, 0.2);
+            color: #E74C3C;
+        }
+
+        .alarm-medium {
+            background: rgba(241, 196, 15, 0.2);
+            color: #F1C40F;
+        }
+
+        .alarm-low {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ECC71;
+        }
+
+        .alarm-content {
+            flex: 1;
+        }
+
+        .alarm-title {
+            color: #E8F0FE;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .alarm-time {
+            color: #8BA3C7;
+            font-size: 12px;
+        }
+
+        .alarm-action {
+            padding: 6px 14px;
+            background: rgba(0, 180, 255, 0.15);
+            border: 1px solid rgba(0, 180, 255, 0.3);
+            border-radius: 4px;
+            color: #00B4FF;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .alarm-action:hover {
+            background: rgba(0, 180, 255, 0.25);
+        }
+
+        /* 通话记录 */
+        .call-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 16px;
+            background: rgba(13, 30, 56, 0.6);
+            border: 1px solid rgba(0, 180, 255, 0.1);
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .call-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 180, 255, 0.1);
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        .call-info {
+            flex: 1;
+        }
+
+        .call-number {
+            color: #E8F0FE;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .call-time {
+            color: #8BA3C7;
+            font-size: 12px;
+        }
+
+        .call-duration {
+            color: #8BA3C7;
+            font-size: 13px;
+        }
+
+        .play-btn {
+            padding: 8px 16px;
+            background: rgba(0, 180, 255, 0.15);
+            border: 1px solid rgba(0, 180, 255, 0.3);
+            border-radius: 4px;
+            color: #00B4FF;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .play-btn:hover {
+            background: rgba(0, 180, 255, 0.25);
+        }
+
+        /* 通用按钮样式 */
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #00B4FF;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #33C3FF;
+            box-shadow: 0 4px 12px rgba(0, 180, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(0, 180, 255, 0.3);
+            color: #8BA3C7;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(0, 180, 255, 0.5);
+            color: #E8F0FE;
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 180, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 180, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部栏 -->
+    <header class="header">
+        <div class="header-title">广东安为</div>
+        <div class="header-right">
+            <span>确认密码:</span>
+            <span style="cursor: pointer;">🔐</span>
+        </div>
+    </header>
+
+    <!-- 主布局 -->
+    <div class="main-container">
+        <!-- 左侧区域 - 视频监控 -->
+        <div class="left-panel">
+            <!-- 监控视频框 -->
+            <div class="video-monitor">
+                <div class="video-display">
+                    <div class="video-placeholder">
+                        <div class="video-rec-indicator">
+                            <div class="rec-dot"></div>
+                            <span>REC</span>
+                        </div>
+                        <div class="video-camera-icon">📹</div>
+                        <div class="video-camera-name" id="currentCameraName">消控室A</div>
+                        <div class="video-timestamp" id="currentTimestamp">2024-01-15 14:32:15</div>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <div class="video-control-btn" onclick="togglePlay(this)" title="播放/暂停">▶</div>
+                    <div class="video-control-btn" title="截图">📷</div>
+                    <div class="video-control-btn" title="全屏">⛶</div>
+                    <div class="video-control-btn" title="静音">🔊</div>
+                </div>
+            </div>
+
+            <!-- 设备视频列表 -->
+            <div class="video-list-container">
+                <div class="video-list-header">
+                    <span>📹</span>
+                    <span>设备视频列表</span>
+                </div>
+                <div class="video-list" id="videoList">
+                    <!-- 视频列表项由JS生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧区域 -->
+        <div class="right-panel">
+            <!-- 功能按钮区 -->
+            <div class="function-bar">
+                <button class="func-btn" onclick="showFilterModal()">
+                    <span>🔍</span>
+                    <span>记录筛选</span>
+                </button>
+                <button class="func-btn" onclick="showLogModal()">
+                    <span>📋</span>
+                    <span>操作日志</span>
+                </button>
+                <button class="func-btn" onclick="showAlarmModal()">
+                    <span>🚨</span>
+                    <span>告警处理</span>
+                </button>
+                <button class="func-btn" onclick="showCallModal()">
+                    <span>📞</span>
+                    <span>通话录音</span>
+                </button>
+            </div>
+
+            <!-- 数据表格区 -->
+            <div class="table-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-header-cell">时间</div>
+                        <div class="table-header-cell">设备</div>
+                        <div class="table-header-cell">内容</div>
+                        <div class="table-header-cell">位置信息</div>
+                        <div class="table-header-cell">设备编号</div>
+                        <div class="table-header-cell">操作</div>
+                    </div>
+                    <div class="table-body">
+                        <div class="empty-state">
+                            <div class="empty-icon">📦</div>
+                            <div class="empty-text">暂无数据</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 按钮格子区域 -->
+                <div class="button-grid-container">
+                    <div class="button-grid">
+                        <button class="grid-btn grid-btn-reset" onclick="handleGridBtn(this, '复位')">
+                            <span class="btn-icon">↻</span>
+                            <span class="btn-text">复位</span>
+                        </button>
+                        <button class="grid-btn grid-btn-mute" onclick="handleGridBtn(this, '消音')">
+                            <span class="btn-icon">🔇</span>
+                            <span class="btn-text">消音</span>
+                        </button>
+                        <button class="grid-btn grid-btn-start" onclick="handleGridBtn(this, '启动')">
+                            <span class="btn-icon">▶</span>
+                            <span class="btn-text">启动</span>
+                        </button>
+                        <button class="grid-btn grid-btn-stop" onclick="handleGridBtn(this, '停止')">
+                            <span class="btn-icon">■</span>
+                            <span class="btn-text">停止</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab控制区 -->
+            <div class="control-section">
+                <div class="tab-bar">
+                    <div class="tab-item active" onclick="switchTab('bus')">总线</div>
+                    <div class="tab-item" onclick="switchTab('multi')">多线</div>
+                    <div class="tab-tools">
+                        <div class="machine-select">
+                            <span>几号机:</span>
+                            <select id="machineSelect" onchange="switchMachine()">
+                                <option value="1">1号机</option>
+                                <option value="2">2号机</option>
+                                <option value="3">3号机</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 设备卡片网格 -->
+                <div class="device-card-grid" id="deviceCardGrid">
+                    <!-- 设备卡片由JS生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 操作日志弹窗 -->
+    <div class="modal-overlay" id="logModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">📋 操作日志</div>
+                <button class="modal-close" onclick="closeModal('logModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <table class="log-table">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>操作人</th>
+                            <th>设备</th>
+                            <th>操作内容</th>
+                            <th>结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-01-15 14:32:15</td>
+                            <td>张三</td>
+                            <td>1号机水泵</td>
+                            <td>远程启动</td>
+                            <td style="color: #2ECC71;">成功</td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:28:03</td>
+                            <td>李四</td>
+                            <td>2号机排烟</td>
+                            <td>复位操作</td>
+                            <td style="color: #2ECC71;">成功</td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:15:42</td>
+                            <td>王五</td>
+                            <td>3号机喷淋</td>
+                            <td>状态查询</td>
+                            <td style="color: #2ECC71;">成功</td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 13:56:18</td>
+                            <td>赵六</td>
+                            <td>1号机防火卷帘</td>
+                            <td>远程启动</td>
+                            <td style="color: #E74C3C;">失败</td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 13:42:05</td>
+                            <td>张三</td>
+                            <td>2号机水泵</td>
+                            <td>消音操作</td>
+                            <td style="color: #2ECC71;">成功</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('logModal')">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 告警处理弹窗 -->
+    <div class="modal-overlay" id="alarmModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">🚨 告警处理</div>
+                <button class="modal-close" onclick="closeModal('alarmModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="alarm-item">
+                    <div class="alarm-level alarm-high">高</div>
+                    <div class="alarm-content">
+                        <div class="alarm-title">1号机 - 感烟探测器报警</div>
+                        <div class="alarm-time">2024-01-15 14:35:22</div>
+                    </div>
+                    <button class="alarm-action">确认处理</button>
+                </div>
+                <div class="alarm-item">
+                    <div class="alarm-level alarm-medium">中</div>
+                    <div class="alarm-content">
+                        <div class="alarm-title">2号机 - 水压异常</div>
+                        <div class="alarm-time">2024-01-15 14:20:15</div>
+                    </div>
+                    <button class="alarm-action">确认处理</button>
+                </div>
+                <div class="alarm-item">
+                    <div class="alarm-level alarm-low">低</div>
+                    <div class="alarm-content">
+                        <div class="alarm-title">3号机 - 设备离线</div>
+                        <div class="alarm-time">2024-01-15 13:45:08</div>
+                    </div>
+                    <button class="alarm-action">确认处理</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('alarmModal')">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通话录音弹窗 -->
+    <div class="modal-overlay" id="callModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">📞 通话录音</div>
+                <button class="modal-close" onclick="closeModal('callModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="call-item">
+                    <div class="call-icon">📱</div>
+                    <div class="call-info">
+                        <div class="call-number">138****1234</div>
+                        <div class="call-time">2024-01-15 14:30:00</div>
+                    </div>
+                    <div class="call-duration">02:35</div>
+                    <button class="play-btn">▶ 播放</button>
+                </div>
+                <div class="call-item">
+                    <div class="call-icon">📱</div>
+                    <div class="call-info">
+                        <div class="call-number">139****5678</div>
+                        <div class="call-time">2024-01-15 14:15:00</div>
+                    </div>
+                    <div class="call-duration">01:42</div>
+                    <button class="play-btn">▶ 播放</button>
+                </div>
+                <div class="call-item">
+                    <div class="call-icon">📱</div>
+                    <div class="call-info">
+                        <div class="call-number">137****9012</div>
+                        <div class="call-time">2024-01-15 13:50:00</div>
+                    </div>
+                    <div class="call-duration">03:18</div>
+                    <button class="play-btn">▶ 播放</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('callModal')">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 记录筛选弹窗 -->
+    <div class="modal-overlay" id="filterModal">
+        <div class="modal" style="min-width: 500px;">
+            <div class="modal-header">
+                <div class="modal-title">🔍 记录筛选</div>
+                <button class="modal-close" onclick="closeModal('filterModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <label style="color: #8BA3C7; width: 80px;">时间范围:</label>
+                        <select style="flex: 1; padding: 10px; background: rgba(13,30,56,0.8); border: 1px solid rgba(0,180,255,0.3); border-radius: 4px; color: #E8F0FE;">
+                            <option>最近1小时</option>
+                            <option>最近24小时</option>
+                            <option>最近7天</option>
+                            <option>自定义范围</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <label style="color: #8BA3C7; width: 80px;">设备类型:</label>
+                        <select style="flex: 1; padding: 10px; background: rgba(13,30,56,0.8); border: 1px solid rgba(0,180,255,0.3); border-radius: 4px; color: #E8F0FE;">
+                            <option>全部设备</option>
+                            <option>水泵</option>
+                            <option>喷淋</option>
+                            <option>排烟</option>
+                            <option>防火卷帘</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <label style="color: #8BA3C7; width: 80px;">操作类型:</label>
+                        <select style="flex: 1; padding: 10px; background: rgba(13,30,56,0.8); border: 1px solid rgba(0,180,255,0.3); border-radius: 4px; color: #E8F0FE;">
+                            <option>全部操作</option>
+                            <option>启动</option>
+                            <option>停止</option>
+                            <option>复位</option>
+                            <option>消音</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <label style="color: #8BA3C7; width: 80px;">关键字:</label>
+                        <input type="text" placeholder="输入搜索关键字" style="flex: 1; padding: 10px; background: rgba(13,30,56,0.8); border: 1px solid rgba(0,180,255,0.3); border-radius: 4px; color: #E8F0FE;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('filterModal')">重置</button>
+                <button class="btn btn-primary" onclick="applyFilter()">应用筛选</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 视频列表数据
+        const videoListData = [
+            { id: 1, name: '消控室A', status: 'online', icon: '🎥' },
+            { id: 2, name: '消控室B', status: 'online', icon: '🎥' },
+            { id: 3, name: '1栋东通道', status: 'online', icon: '🚪' },
+            { id: 4, name: '1栋西通道', status: 'offline', icon: '🚪' },
+            { id: 5, name: '配电房', status: 'online', icon: '⚡' },
+            { id: 6, name: '仓库', status: 'offline', icon: '📦' }
+        ];
+
+        // 总线设备数据
+        const busDevices = [
+            { id: 1, name: '火灾报警主机', icon: '🔥', status: 'running', params: { address: '192.168.1.100', points: '256', faults: '0' } },
+            { id: 2, name: '感烟探测器组', icon: '💨', status: 'running', params: { address: '回路1', count: '128', online: '126' } },
+            { id: 3, name: '感温探测器组', icon: '🌡️', status: 'stopped', params: { address: '回路2', count: '64', online: '62' } },
+            { id: 4, name: '手动报警按钮组', icon: '🔔', status: 'running', params: { address: '回路3', count: '48', online: '48' } }
+        ];
+
+        // 多线设备数据
+        const multiDevices = [
+            { id: 1, name: '消火栓泵', icon: '💧', status: 'running', params: { pressure: '0.85MPa', current: '45A', temp: '38°C' } },
+            { id: 2, name: '喷淋泵', icon: '🚿', status: 'stopped', params: { pressure: '0.00MPa', current: '0A', temp: '--' } },
+            { id: 3, name: '稳压泵', icon: '⚙️', status: 'running', params: { pressure: '0.42MPa', current: '12A', temp: '35°C' } },
+            { id: 4, name: '送风机', icon: '💨', status: 'stopped', params: { speed: '--', current: '0A', temp: '--' } },
+            { id: 5, name: '排烟机', icon: '🌬️', status: 'stopped', params: { speed: '--', current: '0A', temp: '--' } },
+            { id: 6, name: '消防电源', icon: '⚡', status: 'running', params: { voltage: '380V', frequency: '50Hz', load: '65%' } }
+        ];
+
+        // 当前状态
+        let currentTab = 'bus';
+        let currentMachine = '1';
+        let currentVideoIndex = 0;
+
+        // 初始化视频列表
+        function initVideoList() {
+            const container = document.getElementById('videoList');
+            container.innerHTML = videoListData.map((video, index) => `
+                <div class="video-list-item ${index === currentVideoIndex ? 'active' : ''}" 
+                     onclick="selectVideo(${index})" 
+                     data-index="${index}">
+                    <div class="video-thumbnail ${video.status === 'offline' ? 'offline' : ''}">
+                        ${video.icon}
+                    </div>
+                    <div class="video-info">
+                        <div class="video-name">${video.name}</div>
+                        <div class="video-status ${video.status === 'online' ? 'status-online' : 'status-offline'}">
+                            <span class="status-dot ${video.status}"></span>
+                            <span>${video.status === 'online' ? '在线' : '离线'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 选择视频
+        function selectVideo(index) {
+            currentVideoIndex = index;
+            const video = videoListData[index];
+            
+            // 更新视频框
+            document.getElementById('currentCameraName').textContent = video.name;
+            document.getElementById('currentTimestamp').textContent = new Date().toLocaleString('zh-CN').replace(/\//g, '-');
+            
+            // 更新列表选中状态
+            document.querySelectorAll('.video-list-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        // 更新设备卡片
+        function updateDeviceCards() {
+            const container = document.getElementById('deviceCardGrid');
+            const devices = currentTab === 'bus' ? busDevices : multiDevices;
+            
+            container.innerHTML = devices.map(device => {
+                const statusClass = device.status === 'running' ? 'status-running' : 
+                                   device.status === 'stopped' ? 'status-stopped' : 'status-fault';
+                const statusText = device.status === 'running' ? '运行中' : 
+                                  device.status === 'stopped' ? '停止' : '故障';
+                
+                const paramsHtml = Object.entries(device.params).map(([key, value]) => `
+                    <div class="param-row">
+                        <span class="param-label">${key}</span>
+                        <span class="param-value">${value}</span>
+                    </div>
+                `).join('');
+                
+                return `
+                    <div class="device-card">
+                        <div class="device-card-header">
+                            <span class="device-card-title">${device.name}</span>
+                            <span class="device-card-icon">${device.icon}</span>
+                        </div>
+                        <div class="device-status-tag ${statusClass}">
+                            <span class="status-dot"></span>
+                            <span>${statusText}</span>
+                        </div>
+                        <div class="device-params">
+                            ${paramsHtml}
+                        </div>
+                        <div class="device-card-actions">
+                            <button class="card-action-btn card-btn-start" onclick="handleDeviceAction('${device.name}', '启动')">启动</button>
+                            <button class="card-action-btn card-btn-stop" onclick="handleDeviceAction('${device.name}', '停止')">停止</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Tab切换
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-item').forEach(item => {
+                item.classList.toggle('active', item.textContent === (tab === 'bus' ? '总线' : '多线'));
+            });
+            updateDeviceCards();
+        }
+
+        // 机器切换
+        function switchMachine() {
+            currentMachine = document.getElementById('machineSelect').value;
+            updateDeviceCards();
+        }
+
+        // 处理设备操作
+        function handleDeviceAction(deviceName, action) {
+            showVerifyModal(`${action}${deviceName}`);
+        }
+
+        // 处理按钮格子点击
+        function handleGridBtn(btn, action) {
+            btn.classList.add('active');
+            setTimeout(() => btn.classList.remove('active'), 300);
+            
+            if (action === '复位') {
+                showVerifyModal('复位系统');
+            } else if (action === '消音') {
+                showVerifyModal('消音操作');
+            } else {
+                showVerifyModal(`${action}设备`);
+            }
+        }
+
+        // 播放按钮切换
+        function togglePlay(btn) {
+            btn.classList.toggle('active');
+            if (btn.classList.contains('active')) {
+                btn.textContent = '⏸';
+            } else {
+                btn.textContent = '▶';
+            }
+        }
+
+        // 弹窗控制函数
+        function showLogModal() {
+            document.getElementById('logModal').classList.add('active');
+        }
+
+        function showAlarmModal() {
+            document.getElementById('alarmModal').classList.add('active');
+        }
+
+        function showCallModal() {
+            document.getElementById('callModal').classList.add('active');
+        }
+
+        function showFilterModal() {
+            document.getElementById('filterModal').classList.add('active');
+        }
+
+        function showVerifyModal(action) {
+            document.getElementById('verifyText').textContent = `确认${action}？`;
+            document.getElementById('verifyModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function confirmOperation() {
+            alert('操作已提交，请等待复核确认！');
+            closeModal('verifyModal');
+        }
+
+        function applyFilter() {
+            alert('筛选条件已应用！');
+            closeModal('filterModal');
+        }
+
+        // 点击遮罩层关闭弹窗
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // 功能按钮激活状态
+        document.querySelectorAll('.func-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // 键盘ESC关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+
+        // 更新时间戳
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('currentTimestamp').textContent = now.toLocaleString('zh-CN').replace(/\//g, '-');
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initVideoList();
+            updateDeviceCards();
+            setInterval(updateTimestamp, 1000);
+        });
+    </script>
+
+    <!-- 确认操作弹窗 -->
+    <div class="modal-overlay" id="verifyModal">
+        <div class="modal" style="min-width: 400px;">
+            <div class="modal-header">
+                <div class="modal-title">🔐 操作确认</div>
+                <button class="modal-close" onclick="closeModal('verifyModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 20px 0;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+                    <div style="color: #E8F0FE; font-size: 15px; margin-bottom: 20px;" id="verifyText">确认执行此操作？</div>
+                    <input type="text" placeholder="请输入验证码" style="width: 100%; padding: 12px 16px; background: rgba(13,30,56,0.8); border: 1px solid rgba(0,180,255,0.3); border-radius: 6px; color: #E8F0FE; font-size: 14px;">
+                    <div style="color: #8BA3C7; font-size: 12px; margin-top: 8px;">请输入复核人员验证码确认操作</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('verifyModal')">取消</button>
+                <button class="btn btn-primary" onclick="confirmOperation()">确认执行</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

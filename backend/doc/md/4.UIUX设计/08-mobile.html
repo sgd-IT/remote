@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>移动端角色展示 - 安为智慧消防</title>
+    <link href="https://fonts.googleapis.com/css2?family=Microsoft+YaHei&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0A1628;
+            --bg-secondary: #0D1B2A;
+            --card-bg: rgba(13, 30, 56, 0.85);
+            --border-glow: rgba(0, 180, 255, 0.15);
+            --text-primary: #E8F0FE;
+            --text-secondary: #8BA3C7;
+            --accent-blue: #00B4FF;
+            --accent-cyan: #00E5FF;
+            --danger: #FF4D4F;
+            --warning: #FF8C00;
+            --success: #00E676;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .page-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* 手机框架容器 */
+        .phone-showcase {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .phone-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .phone-label {
+            font-size: 14px;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .phone-frame {
+            width: 280px;
+            height: 580px;
+            background: #1a1a1a;
+            border-radius: 36px;
+            padding: 12px;
+            box-shadow: 0 0 40px rgba(0, 180, 255, 0.2);
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 20px;
+            background: #0a0a0a;
+            border-radius: 10px;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            height: 24px;
+            padding: 4px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-primary);
+        }
+
+        .status-time {
+            font-weight: bold;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(13, 30, 56, 0.95);
+            border-top: 1px solid var(--border-glow);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            color: var(--text-secondary);
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--accent-cyan);
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        /* 页面内容 */
+        .screen-content {
+            height: calc(100% - 80px);
+            overflow-y: auto;
+            padding: 0 12px;
+        }
+
+        .screen-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 8px;
+        }
+
+        .screen-title {
+            font-size: 18px;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .header-icon {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        /* 告警卡片 */
+        .alarm-banner {
+            background: linear-gradient(135deg, rgba(255, 77, 79, 0.3), rgba(255, 77, 79, 0.1));
+            border: 1px solid rgba(255, 77, 79, 0.3);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            animation: alarm-pulse 2s infinite;
+        }
+
+        @keyframes alarm-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.3); }
+            50% { box-shadow: 0 0 15px 0 rgba(255, 77, 79, 0.3); }
+        }
+
+        .alarm-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .alarm-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--danger);
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .alarm-type {
+            font-size: 14px;
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        .alarm-location {
+            font-size: 12px;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .alarm-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .alarm-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .alarm-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid;
+        }
+
+        .alarm-btn.primary {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .alarm-btn.danger {
+            background: rgba(255, 77, 79, 0.2);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* 统计数据 */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+
+        .stat-value.danger { color: var(--danger); }
+        .stat-value.success { color: var(--success); }
+        .stat-value.warning { color: var(--warning); }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* 设备列表 */
+        .section-title {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            padding-left: 8px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .device-list {
+            margin-bottom: 12px;
+        }
+
+        .device-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .device-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(0, 180, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .device-info {
+            flex: 1;
+        }
+
+        .device-name {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .device-status {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .device-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+
+        .device-badge.online {
+            background: rgba(0, 230, 118, 0.2);
+            color: var(--success);
+        }
+
+        .device-badge.alarm {
+            background: rgba(255, 77, 79, 0.2);
+            color: var(--danger);
+        }
+
+        .device-badge.warning {
+            background: rgba(255, 140, 0, 0.2);
+            color: var(--warning);
+        }
+
+        /* 工作台列表 */
+        .work-list {
+            margin-bottom: 12px;
+        }
+
+        .work-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .work-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .work-icon.blue { background: rgba(0, 180, 255, 0.2); }
+        .work-icon.green { background: rgba(0, 230, 118, 0.2); }
+        .work-icon.red { background: rgba(255, 77, 79, 0.2); }
+        .work-icon.orange { background: rgba(255, 140, 0, 0.2); }
+
+        .work-info {
+            flex: 1;
+        }
+
+        .work-title {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .work-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .work-arrow {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* 值班信息 */
+        .duty-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .duty-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .duty-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .duty-info h4 {
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .duty-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .duty-time {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 12px;
+            background: rgba(0, 180, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .duty-time-item {
+            text-align: center;
+        }
+
+        .duty-time-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .duty-time-value {
+            font-size: 14px;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* 工单卡片 */
+        .order-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .order-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .order-title {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .order-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+
+        .order-badge.urgent { background: rgba(255, 77, 79, 0.2); color: var(--danger); }
+        .order-badge.processing { background: rgba(0, 180, 255, 0.2); color: var(--accent-blue); }
+        .order-badge.pending { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+
+        .order-info {
+            display: flex;
+            gap: 16px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* 地图卡片 */
+        .map-preview {
+            height: 140px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-glow);
+        }
+
+        .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 180, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 180, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .map-marker {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .map-pin {
+            width: 24px;
+            height: 32px;
+            position: relative;
+        }
+
+        .map-pin::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background: var(--danger);
+            border-radius: 50% 50% 50% 0;
+            transform: translateX(-50%) rotate(-45deg);
+            box-shadow: 0 0 10px var(--danger);
+        }
+
+        .map-label {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 4px;
+            padding: 4px 8px;
+            background: var(--card-bg);
+            border-radius: 4px;
+            font-size: 10px;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        /* 进度卡片 */
+        .progress-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .progress-title {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .progress-value {
+            font-size: 14px;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(0, 180, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 3px;
+        }
+
+        /* 按钮 */
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            color: var(--accent-blue);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* 表格视图 */
+        .table-list {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .table-row {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.08);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-label {
+            width: 80px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .table-value {
+            flex: 1;
+            font-size: 12px;
+            color: var(--text-primary);
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 180, 255, 0.3);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1 class="page-title">安为智慧消防 - 移动端角色展示</h1>
+        <p class="page-desc">5个核心角色界面预览</p>
+    </div>
+
+    <div class="phone-showcase">
+        <!-- 角色1: 值班员 -->
+        <div class="phone-wrapper">
+            <span class="phone-label">👤 值班员</span>
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="status-bar">
+                        <span class="status-time">14:32</span>
+                        <div class="status-icons">📶 🔋</div>
+                    </div>
+                    <div class="screen-content">
+                        <div class="screen-header">
+                            <span class="screen-title">值守台</span>
+                            <span class="header-icon">🔔</span>
+                        </div>
+
+                        <div class="alarm-banner">
+                            <div class="alarm-header">
+                                <span class="alarm-dot"></span>
+                                <span class="alarm-type">🔥 火警报警</span>
+                            </div>
+                            <div class="alarm-location">万达商业广场 3楼东侧走廊</div>
+                            <div class="alarm-time">2025-01-15 10:15:32</div>
+                            <div class="alarm-actions">
+                                <div class="alarm-btn primary">📍 调度处置</div>
+                                <div class="alarm-btn danger">✕ 误报</div>
+                            </div>
+                        </div>
+
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-value danger">4</div>
+                                <div class="stat-label">待处理告警</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">11</div>
+                                <div class="stat-label">在线企业</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value success">3</div>
+                                <div class="stat-label">在线设备</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value warning">6</div>
+                                <div class="stat-label">离线设备</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">快捷操作</div>
+                        <div class="work-list">
+                            <div class="work-item">
+                                <div class="work-icon blue">🎛️</div>
+                                <div class="work-info">
+                                    <div class="work-title">远程控制</div>
+                                    <div class="work-desc">消音/复位/远程启动</div>
+                                </div>
+                                <span class="work-arrow">›</span>
+                            </div>
+                            <div class="work-item">
+                                <div class="work-icon green">👮</div>
+                                <div class="work-info">
+                                    <div class="work-title">查岗签到</div>
+                                    <div class="work-desc">当前位置签到</div>
+                                </div>
+                                <span class="work-arrow">›</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item active">
+                            <span class="nav-icon">📺</span>
+                            <span>值守台</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">🎛️</span>
+                            <span>控制</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">📊</span>
+                            <span>数据</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">👤</span>
+                            <span>我的</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 角色2: 运维人员 -->
+        <div class="phone-wrapper">
+            <span class="phone-label">🔧 运维人员</span>
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="status-bar">
+                        <span class="status-time">14:32</span>
+                        <div class="status-icons">📶 🔋</div>
+                    </div>
+                    <div class="screen-content">
+                        <div class="screen-header">
+                            <span class="screen-title">运维工单</span>
+                            <span class="header-icon">➕</span>
+                        </div>
+
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-value">28</div>
+                                <div class="stat-label">工单总数</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value warning">8</div>
+                                <div class="stat-label">待处理</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">我的工单</div>
+                        <div class="order-card">
+                            <div class="order-header">
+                                <span class="order-title">WO-2025-0123 设备故障</span>
+                                <span class="order-badge urgent">紧急</span>
+                            </div>
+                            <div class="order-info">
+                                <span>万达商业广场</span>
+                                <span>2025-01-15 10:20</span>
+                            </div>
+                        </div>
+
+                        <div class="order-card">
+                            <div class="order-header">
+                                <span class="order-title">WO-2025-0124 日常巡检</span>
+                                <span class="order-badge processing">处理中</span>
+                            </div>
+                            <div class="order-info">
+                                <span>华润大厦</span>
+                                <span>2025-01-15 08:00</span>
+                            </div>
+                        </div>
+
+                        <div class="order-card">
+                            <div class="order-header">
+                                <span class="order-title">WO-2025-0125 维保</span>
+                                <span class="order-badge pending">待处理</span>
+                            </div>
+                            <div class="order-info">
+                                <span>科技园A座</span>
+                                <span>2025-01-14 16:45</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary">📍 前往处理</button>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item active">
+                            <span class="nav-icon">📋</span>
+                            <span>工单</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">👥</span>
+                            <span>企业</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">📊</span>
+                            <span>数据</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">👤</span>
+                            <span>我的</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 角色3: 企业安全管理员 -->
+        <div class="phone-wrapper">
+            <span class="phone-label">🏢 企业管理员</span>
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="status-bar">
+                        <span class="status-time">14:32</span>
+                        <div class="status-icons">📶 🔋</div>
+                    </div>
+                    <div class="screen-content">
+                        <div class="screen-header">
+                            <span class="screen-title">万达商业广场</span>
+                            <span class="header-icon">⚙️</span>
+                        </div>
+
+                        <div class="duty-card">
+                            <div class="duty-header">
+                                <div class="duty-avatar">王</div>
+                                <div class="duty-info">
+                                    <h4>王建国</h4>
+                                    <p>当前值班员</p>
+                                </div>
+                            </div>
+                            <div class="duty-time">
+                                <div class="duty-time-item">
+                                    <div class="duty-time-label">值班开始</div>
+                                    <div class="duty-time-value">08:00</div>
+                                </div>
+                                <div class="duty-time-item">
+                                    <div class="duty-time-label">值班结束</div>
+                                    <div class="duty-time-value">20:00</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-value danger">8</div>
+                                <div class="stat-label">告警数</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value success">156</div>
+                                <div class="stat-label">设备总数</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">设备状态</div>
+                        <div class="device-list">
+                            <div class="device-item">
+                                <div class="device-icon">🔥</div>
+                                <div class="device-info">
+                                    <div class="device-name">火灾报警主机</div>
+                                    <div class="device-status">在线</div>
+                                </div>
+                                <span class="device-badge alarm">告警</span>
+                            </div>
+                            <div class="device-item">
+                                <div class="device-icon">💨</div>
+                                <div class="device-info">
+                                    <div class="device-name">感烟探测器</div>
+                                    <div class="device-status">在线</div>
+                                </div>
+                                <span class="device-badge online">正常</span>
+                            </div>
+                            <div class="device-item">
+                                <div class="device-icon">💧</div>
+                                <div class="device-info">
+                                    <div class="device-name">消防水系统</div>
+                                    <div class="device-status">在线</div>
+                                </div>
+                                <span class="device-badge warning">故障</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-secondary">📊 查看详情</button>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item active">
+                            <span class="nav-icon">🏠</span>
+                            <span>首页</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">📡</span>
+                            <span>设备</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">📊</span>
+                            <span>数据</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">👤</span>
+                            <span>我的</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 角色4: 管理人员 -->
+        <div class="phone-wrapper">
+            <span class="phone-label">📈 管理人员</span>
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="status-bar">
+                        <span class="status-time">14:32</span>
+                        <div class="status-icons">📶 🔋</div>
+                    </div>
+                    <div class="screen-content">
+                        <div class="screen-header">
+                            <span class="screen-title">数据看板</span>
+                            <span class="header-icon">📅</span>
+                        </div>
+
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-value">11</div>
+                                <div class="stat-label">接入企业</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">156</div>
+                                <div class="stat-label">设备总数</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">本月统计</div>
+
+                        <div class="progress-card">
+                            <div class="progress-header">
+                                <span class="progress-title">告警处置率</span>
+                                <span class="progress-value">95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-card">
+                            <div class="progress-header">
+                                <span class="progress-title">设备在线率</span>
+                                <span class="progress-value">78%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-card">
+                            <div class="progress-header">
+                                <span class="progress-title">工单完成率</span>
+                                <span class="progress-value">88%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 88%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">风险排名</div>
+                        <div class="table-list">
+                            <div class="table-row">
+                                <span class="table-label">1. 万达</span>
+                                <span class="table-value" style="color: var(--danger);">● 重大风险</span>
+                            </div>
+                            <div class="table-row">
+                                <span class="table-label">2. 华润</span>
+                                <span class="table-value" style="color: var(--warning);">● 较大风险</span>
+                            </div>
+                            <div class="table-row">
+                                <span class="table-label">3. 金源</span>
+                                <span class="table-value" style="color: #3B82F6;">● 较小风险</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary">📊 查看报告</button>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item active">
+                            <span class="nav-icon">📊</span>
+                            <span>看板</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">📋</span>
+                            <span>报表</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">🏢</span>
+                            <span>企业</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">👤</span>
+                            <span>我的</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 角色5: 领导/巡查 -->
+        <div class="phone-wrapper">
+            <span class="phone-label">👮 值班领导</span>
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="status-bar">
+                        <span class="status-time">14:32</span>
+                        <div class="status-icons">📶 🔋</div>
+                    </div>
+                    <div class="screen-content">
+                        <div class="screen-header">
+                            <span class="screen-title">巡查监控</span>
+                            <span class="header-icon">🔔</span>
+                        </div>
+
+                        <div class="map-preview">
+                            <div class="map-grid"></div>
+                            <div class="map-marker">
+                                <div class="map-pin"></div>
+                                <div class="map-label">万达商业广场</div>
+                            </div>
+                        </div>
+
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-value success">3</div>
+                                <div class="stat-label">正常值班</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value warning">1</div>
+                                <div class="stat-label">超时</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">值班状态</div>
+                        <div class="device-list">
+                            <div class="device-item">
+                                <div class="device-icon" style="background: rgba(0, 230, 118, 0.2);">👤</div>
+                                <div class="device-info">
+                                    <div class="device-name">王建国 - 万达广场</div>
+                                    <div class="device-status">正常签到</div>
+                                </div>
+                                <span class="device-badge online">在线</span>
+                            </div>
+                            <div class="device-item">
+                                <div class="device-icon" style="background: rgba(255, 140, 0, 0.2);">👤</div>
+                                <div class="device-info">
+                                    <div class="device-name">张伟 - 华润大厦</div>
+                                    <div class="device-status">超时未响应</div>
+                                </div>
+                                <span class="device-badge warning">超时</span>
+                            </div>
+                            <div class="device-item">
+                                <div class="device-icon" style="background: rgba(255, 77, 79, 0.2);">👤</div>
+                                <div class="device-info">
+                                    <div class="device-name">李明华 - 科技园</div>
+                                    <div class="device-status">未响应</div>
+                                </div>
+                                <span class="device-badge alarm">离线</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary">📍 发起查岗</button>
+                    </div>
+
+                    <div class="bottom-nav">
+                        <div class="nav-item active">
+                            <span class="nav-icon">🗺️</span>
+                            <span>地图</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">👥</span>
+                            <span>人员</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">📋</span>
+                            <span>记录</span>
+                        </div>
+                        <div class="nav-item">
+                            <span class="nav-icon">👤</span>
+                            <span>我的</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

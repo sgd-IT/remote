@@ -1,0 +1,2921 @@
+{
+    "code": 0,
+    "message": "操作成功",
+    "data": [
+        {
+            "name": "青鸟平台",
+            "brandCode": "QIN_NIAO_PLATFORM",
+            "model": "QINNIAO",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "4442b5e74cdd48a5d95f4a660760f3ba",
+                    "name": "总线开关",
+                    "ruleNum": 1,
+                    "awaitTime": 1000,
+                    "functionCodeList": [
+                        {
+                            "name": "id",
+                            "code": "id",
+                            "type": "String"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "loopNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "部位号",
+                            "code": "partNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "4444de6f0dce9bd6445c66de6b2b3ec5",
+                    "name": "复位",
+                    "ruleNum": 2,
+                    "awaitTime": 1000,
+                    "functionCodeList": [
+                        {
+                            "name": "id",
+                            "code": "id",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "444830fa4d581e45cac340385a88f612",
+                    "name": "消音",
+                    "ruleNum": 2,
+                    "awaitTime": 1000,
+                    "functionCodeList": [
+                        {
+                            "name": "id",
+                            "code": "id",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "444830fa4d581e45cac340385a88f665",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1000,
+                    "functionCodeList": [
+                        {
+                            "name": "id",
+                            "code": "id",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "4449a2ac0b3f002abd8588e4a93ae266",
+                    "name": "多线开关",
+                    "ruleNum": 1,
+                    "awaitTime": 1000,
+                    "functionCodeList": [
+                        {
+                            "name": "id",
+                            "code": "id",
+                            "type": "String"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "loopNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "部位号",
+                            "code": "partNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "四信按键板",
+            "brandCode": "6b02fcad8ed89cbaae8c30fd418e10ca",
+            "model": "GW_RB800",
+            "version": "V1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "190522B5AFD74B20B82FD373D75C0F62",
+                    "name": "标准按钮",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "按键编号",
+                            "code": "keyId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "动作时间",
+                            "code": "actionTime",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键板编号",
+                            "code": "devId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "6068A204B3E94F8287D52C2C07E86EE7",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "按键板编号",
+                            "code": "devId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "动作时间",
+                            "code": "actionTime",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键编号",
+                            "code": "keyId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "7D716DB943814E5792723C2908716EC2",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "按键编号",
+                            "code": "keyId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键板编号",
+                            "code": "devId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "动作时间",
+                            "code": "actionTime",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "811839140A63438EAEC9D49043BAD9B9",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "按键编号",
+                            "code": "keyId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键板编号",
+                            "code": "devId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "动作时间",
+                            "code": "actionTime",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "9101FD9D425140EA9A6D831CA0C911FE",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "动作时间",
+                            "code": "actionTime",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键编号",
+                            "code": "keyId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键板编号",
+                            "code": "devId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "AC1C56D4E31A460994F33D2B13B08936",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "动作时间",
+                            "code": "actionTime",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键板编号",
+                            "code": "devId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键编号",
+                            "code": "keyId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "FF69F89E750F49A9B981BE0C6E9F264D",
+                    "name": "组合按钮",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "按键间隔时间",
+                            "code": "intervalTime",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "按键集合",
+                            "code": "keyIdSet",
+                            "type": "String"
+                        },
+                        {
+                            "name": "按键板编号",
+                            "code": "devId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "动作时间",
+                            "code": "actionTime",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "泰和安主机",
+            "brandCode": "TAI_HE_AN",
+            "model": "TX3016C",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "123A6E21B5204DE09362C363A73C5E2D",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryId",
+                            "type": "String"
+                        },
+                        {
+                            "name": "设备类型编码",
+                            "code": "typeId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "1D62947443A84D6A9279CF1E5878698F",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryId",
+                            "type": "String"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "设备类型编码",
+                            "code": "typeId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "8BD2F149C32344BB8AFC56D823DE7C38",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "A079BC3563964E368847645FF71EDEC7",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "SlaveId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "D8E7F49E582A47BBB6DB467B37380B91",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "青鸟主机",
+            "brandCode": "QIN_NIAO",
+            "model": "JB-TG-JBF-11SF",
+            "version": "V1.0.0.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "02B3B4757A9A4FAFAC9EAC3074879C82",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "02C6A35392FC4306B85B9BC65CEC38C9",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "3CD4BFFC45154244AC8027F945AA0E86",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "6A0B3C1A6268446592F4D784F1C89E1D",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "A3DE0C3552B5444BB2C200FE1F28E38A",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "三江主机",
+            "brandCode": "SAN_JIANG",
+            "model": "JB-QBL-MN/310",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "677564159B5A4C189F6EEAD72D75CC08",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "A3C449422CB946228E45FEC9D0E380A7",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "CA7F231C72FB486E8BF85C32AF2D5F74",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "D2F5A4AA092E45959DC2DCFDFD77733C",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "FAC38A05B4C5493FB430140CE421F103",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "按键板控制",
+            "brandCode": "6b02fcad8ed89cbaae8c30fd418e10ca",
+            "model": "F-PRC2000",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "2183A7D032434A10AD776A79256F2EFB",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "8B129EE9BD44433D839FE6738D7F6CB2",
+                    "name": "标准按钮",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "AACD05D132ED4A08A52448AA8A1AB789",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "B8DCAF02B35D40E08713523EF3A565CD",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "C4E1246BDB144FE6A5EE82A2CB25D604",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "DBC1ECE811734FD390BCEDEFB0E8D12E",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressId",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "海湾主机",
+            "brandCode": "HAI_WAN",
+            "model": "GST5000",
+            "version": "1.1",
+            "hardwareFunctionList": [
+                {
+                    "id": "0713298168F14504BB3382A0AEC53E3B",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "55F60D0016BD4F07BB759F674B27AEEE",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "设备类型编码",
+                            "code": "hostType",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "5B79E185EC0D4504B7661147AC5D03ED",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "A599E48E92EC451D8C6EC168C84FDD9C",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "E7839EF6D1A84871B7DE358AC59D0670",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        },
+                        {
+                            "name": "设备类型编码",
+                            "code": "hostType",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "三江主机",
+            "brandCode": "SAN_JIANG",
+            "model": "JB-QBL-A310",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "4b971401-8543-11f0-82bd-7e05c8a593f1",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "4b991e81-8543-11f0-82bd-7e05c8a593f1",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "4b9a7e63-8543-11f0-82bd-7e05c8a593f1",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "c39a99eb335d78b297db7dac90942f1a",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "ee7068dab9fb2e7b3f93295a5ec7a505",
+                    "name": "消音",
+                    "ruleNum": 2,
+                    "awaitTime": 2000,
+                    "functionCodeList": []
+                }
+            ]
+        },
+        {
+            "name": "久远主机",
+            "brandCode": "11cf801ad7c8f0621a7ba397b7a39618",
+            "model": "JB-TT-JF999-H",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "535F79E42AC8471B8AA06E242B1866FA",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "9C95C249EB144C40A9AAA34A475690B6",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "9F72139147E24259815738C9A85005BC",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号（非受控机号）",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "C25B678CC3AD46CF868D0636A1F95239",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "C8081406222548768F17682D60B6FBC6",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "青鸟主机",
+            "brandCode": "QIN_NIAO",
+            "model": "JB-QB-JBF-52S02",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "2A59E8839FEC41BBBCB72E11C1B07080",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "44488A40BDC441AD94846EED42FC0740",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "6CFDDE3C2BA8492B84F25D3A0100E8B2",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "7D24D6E067AD4EC3A05692BC8F496B81",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "FD0A1D7E0D1847D0B054A2C2810A8BA6",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "海湾主机",
+            "brandCode": "HAI_WAN",
+            "model": "GST200H-S",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "17ea51fc-f972-11ef-bf45-0242ac120009",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "17f72373-f972-11ef-bf45-0242ac120009",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "17f7d812-f972-11ef-bf45-0242ac120009",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "17f8a818-f972-11ef-bf45-0242ac120009",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "17fc41eb-f972-11ef-bf45-0242ac120009",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                }
+            ]
+        },
+        {
+            "name": "三江主机",
+            "brandCode": "SAN_JIANG",
+            "model": "JB-QTL-A310",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "44E707CA12494E80A99551E943F4AF39",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "5A7B5E0BB3A340408D9D452BB93AA7E0",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "AF048ADD3B7F4476A237BAE61DA124B1",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "BFBDEAD7C7D14E428867A2953BCD2DCB",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "E82C0B2CD8CE4A3E9F1ABD5D398A2651",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "依爱主机",
+            "brandCode": "bb88f4c31a965e350a0704be7b867988",
+            "model": "JB-TBL-EI8000S",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "04D6B2ECAA7C4BE0AE4B154A53B4542F",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "0E39EB66EFF54D9FAA589C517A19A467",
+                    "name": "多线盘2",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "22320EAA3712428FA2F8CB01F49E6374",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "63F19C57141D48FE936FDFBD6DB9C8AF",
+                    "name": "多线盘1",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "64B19241044E4BC3B08DB8C9F2F91389",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "842D11160BE643EB9EA7A4666CB93AF7",
+                    "name": "多线盘3",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "8F4E9A5813C3495F92F997492EF22BBE",
+                    "name": "多线盘6",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "99B371F5ED22439B8ADE55482586C23E",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "B0C858EFC47949D89CC5F980E808746E",
+                    "name": "多线盘5",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "FA6E3F7AC160462496575A1AAB45C5A4",
+                    "name": "多线盘4",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                }
+            ]
+        },
+        {
+            "name": "三江主机",
+            "brandCode": "SAN_JIANG",
+            "model": "JB-QBL-MN/210",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "81C804E1B6164A43804D0E393EF565E9",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "823F17432C534942A02203F848BD98F1",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "956AEE6FDC524E998FC6CCF059A05C5B",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "A368C37CFCEC4649AAC0ECA7A2313A4B",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "C7426A82F93C40499B1E517B647E5469",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "海湾主机",
+            "brandCode": "HAI_WAN",
+            "model": "HW",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "15de284bf625961339139992ecb91f71",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 2000,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "5abf19727ab0ad392e834067b0fae976",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 2000,
+                    "functionCodeList": [
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "aca7a9d10cf1bb8fdbea378de15a836e",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 2000,
+                    "functionCodeList": [
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "bddff4031ce5b80f87a11bf764c5f771",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 2000,
+                    "functionCodeList": []
+                }
+            ]
+        },
+        {
+            "name": "久远主机",
+            "brandCode": "11cf801ad7c8f0621a7ba397b7a39618",
+            "model": "999H",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "171FD79A512E4E81A0D12CCC31BD564F",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号2",
+                            "code": "hostNo2",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号1",
+                            "code": "hostNo1",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "27B56EE1A7FE4F29A18BF2148E54F405",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制主机号",
+                            "code": "MhostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "86B2D2DFDD8F498B948B7F5EAC37D432",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制主机号",
+                            "code": "MhostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "EB6B6A1E974B428FA7D330D9BC5F0EA1",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "尼特主机",
+            "brandCode": "d6a1644f10d18c90b2a139b3a8e2be6b",
+            "model": "NT8081",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "07680B4BDD644790963C409548286359",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "86DB4092FCCA41AFB5A319089EB08CA6",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "C80EB49DE37B43CBBAF321A5A39C3ECE",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控主机号",
+                            "code": "SlaveId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitId",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "D7C0A0668086486A8579B1B646134512",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "CircuitId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控主机号",
+                            "code": "SlaveId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressId",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制主机号",
+                            "code": "hostId",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "海源质惠",
+            "brandCode": "f0b1647da8aa9762196878e74fa0c46d",
+            "model": "JB-QTL-GST1016ZG",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "DAE786A6BC4C43D1AEC53F75D33C38D1",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "String"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "String"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "EB622842A17045DD81BB6A655A73E4F7",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                }
+            ]
+        },
+        {
+            "name": "依爱主机",
+            "brandCode": "bb88f4c31a965e350a0704be7b867988",
+            "model": "JB-TGL-EI8000G",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "14BA1614F84E4ADB9ECF4EBB0AB07BC5",
+                    "name": "多线盘1",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "3DA67886A02149EFA0F97200855F5E8C",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "51C334C6AB994049AD53F9E50A89DF80",
+                    "name": "多线盘2",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "A818AB308CC248CCB3B9A5AC10E793D2",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "C84311DEAADC4FE3ADC9B02EE3D276AB",
+                    "name": "多线盘5",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "E244509A7C854FD4B58ABCFBA307FAC0",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "E99FD6E3B50D41C593013C80734C32EA",
+                    "name": "多线盘4",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "EF20A59AD7EC4B499DB68CA63B09A200",
+                    "name": "多线盘6",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "F17264D19FE246FA9B52CCEC988FB760",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "FFCEC762860D4B348252D85787553F7C",
+                    "name": "多线盘3",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": []
+                }
+            ]
+        },
+        {
+            "name": "海湾主机",
+            "brandCode": "HAI_WAN",
+            "model": "1500H",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "47ea51fc-f972-11ef-bf45-0242ac120009",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "47f72373-f972-11ef-bf45-0242ac120009",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "47f7d812-f972-11ef-bf45-0242ac120009",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "47f8a818-f972-11ef-bf45-0242ac120009",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "47fc41eb-f972-11ef-bf45-0242ac120009",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                }
+            ]
+        },
+        {
+            "name": "三江主机",
+            "brandCode": "SAN_JIANG",
+            "model": "JB-QTL-9116",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "06CFA4D948D14E22ABA93A56FEF59C13",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "141853840F194F709838A264C9B56A01",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "1560CDEBFEFB4227AB3F6521EEA5F417",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "A656DCA0EEBC4D7F873BDD8D71F870EA",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "BCBBE87E89564D4299F2D92D59CEE0FF",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "海湾主机",
+            "brandCode": "HAI_WAN",
+            "model": "GST5000",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "1c02172f315f4ffd83c011f3be4eedc9",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "26912acdd4164113aa7bf0c0c8b62ca1",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "3640f775334343909994b992f5a62459",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "6069d6c56b4e47cabce7acae7b67b483",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "id": "df61d8ee767c410dbeda799da03a2222",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        },
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "利达主机",
+            "brandCode": "LI_DA",
+            "model": "JB-QB-LD988EM",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "2FDEF9E02D314FEBB5252CC838DFD2EE",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "4EB71BB00413450BA5CCD68174287D89",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "5B3C5276F34541349AFF8801E7A4A3AF",
+                    "name": "消音",
+                    "ruleNum": 4,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "BB6EC6921203446C962ABDB5FA9B0768",
+                    "name": "复位",
+                    "ruleNum": 4,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "FCBE360EB5DF4C2EBD3497F2B3651AAB",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "泰和安主机",
+            "brandCode": "TAI_HE_AN",
+            "model": "TX3016A",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "6f31937d10c74164bfa17a46e2dd9a53",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        },
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "87aba57b-78c3-11f0-9a82-0242ac120010",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1000,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "b27e7dccde1949518c42ab99e54b7e38",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "d84af2d478384e5780976d680e954c30",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "设备类型",
+                            "code": "hostType",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "二次码",
+                            "code": "secondaryNo",
+                            "type": "String"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "fe8e046e6de64bcf8cbc650577eb0835",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "三江主机",
+            "brandCode": "SAN_JIANG",
+            "model": "JB-QBL-A116",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "0E8FB648CEA940E5A310EAB7E12C6777",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "4F688A03AE824121A6A9D7D6902FF514",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "B63B02ADF00F493EAC7F5798752C39CD",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "E8331920416B42AE960373ACFF824728",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "F81C30F49061441585E52C561B81E1AB",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "从机号",
+                            "code": "slaveNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "利达主机",
+            "brandCode": "LI_DA",
+            "model": "LD128",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "3339a2ac0b3f002abd8588e4a93ae266",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "7929c78a610744428552f1053dcb3a28",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "a424de6f0dce9bd6445c66de6b2b3ec5",
+                    "name": "复位",
+                    "ruleNum": 4,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "aa92b5e74cdd48a5d95f4a660760f3ba",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "b2f830fa4d581e45cac340385a88f612",
+                    "name": "消音",
+                    "ruleNum": 4,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                }
+            ]
+        },
+        {
+            "name": "利达主机",
+            "brandCode": "LI_DA",
+            "model": "LD988EL",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "612a5718b26147d3acff2a5852468de5",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo ",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "6402f66cbeeb47be8971b13262b8277f",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "67066e7ffccc4a6d9a96459b2bb8180c",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": []
+                },
+                {
+                    "id": "8C2BB95515ED47B488A31561259FC4FA",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "cba3aa770afc40869fe6c97dc213c0b1",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo ",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "久远主机",
+            "brandCode": "11cf801ad7c8f0621a7ba397b7a39618",
+            "model": "JB-TT-JF999",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "3209D4190A134BE9B2152E8629A348BB",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "85A49C6533184F8EB5E80D013C2A116D",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号（非受控机号）",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "A29891F7CA694F61B225101675B4D140",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "A552C4B856C04F6CA3570CC168F20A9F",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "DF20AAAE30994971BCE34560C9668867",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "山鹰主机",
+            "brandCode": "d836b80e385983fe407c6a680b0baa92",
+            "model": "JB-LTZ-YKS4800C",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "32F230DB65274857A51AD116F0F8AC27",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "702E2AC9BD9648D48979974164292E23",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "盘号",
+                            "code": "PanelNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "ACB4330F1DAF4C939187DC464B0AF95E",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "C3ED1CC1EF9845FBB83E22313B5D99D5",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "CircuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "盘号",
+                            "code": "PanelNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "CDB959CA13B54559BE3A186207B9F600",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 500,
+                    "functionCodeList": [
+                        {
+                            "name": "受控机号",
+                            "code": "SlaveNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "控制机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "青鸟主机",
+            "brandCode": "QIN_NIAO",
+            "model": "JB-QB-JBF-51S02",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "3fa7c58e35784479b5e754f79a3713de",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "5f08a0691d9143ad81f0e5814f982cbe",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "96c4ecbe3e2a4d2bbee44ce1e17fa12e",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "db91bcbf617b4515993c0152d5472741",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "dcaf89fcd6144889aa1331fb406d008a",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "青鸟主机",
+            "brandCode": "QIN_NIAO",
+            "model": "11SF",
+            "version": "1.0",
+            "hardwareFunctionList": [
+                {
+                    "id": "0c15d481de29249b2f7e088a502b6f31",
+                    "name": "复位",
+                    "ruleNum": 1,
+                    "awaitTime": 2000,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "35af9bdf93fafd7ffbf4db8d9de03a6f",
+                    "name": "多线",
+                    "ruleNum": 1,
+                    "awaitTime": 2000,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "869a3fe26d4d6526d4f1cada15732667",
+                    "name": "总线",
+                    "ruleNum": 1,
+                    "awaitTime": 2000,
+                    "functionCodeList": [
+                        {
+                            "name": "地址号",
+                            "code": "addressNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        },
+                        {
+                            "name": "回路号",
+                            "code": "circuitNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "e4ad7c08-84b9-11f0-9a82-0242ac120010",
+                    "name": "消音",
+                    "ruleNum": 1,
+                    "awaitTime": 2000,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                },
+                {
+                    "id": "f7965db4-84b9-11f0-9a82-0242ac120010",
+                    "name": "手自动",
+                    "ruleNum": 1,
+                    "awaitTime": 1500,
+                    "functionCodeList": [
+                        {
+                            "name": "主机号",
+                            "code": "hostNo",
+                            "type": "Long"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "attr": {},
+    "totalPages": 1,
+    "total": 31,
+    "pageSize": 31,
+    "current": 1
+}

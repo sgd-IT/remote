@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运维工作台 - 安为智慧消防</title>
+    <link href="https://fonts.googleapis.com/css2?family=Microsoft+YaHei&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0A1628;
+            --bg-secondary: #0D1B2A;
+            --card-bg: rgba(13, 30, 56, 0.85);
+            --border-glow: rgba(0, 180, 255, 0.15);
+            --text-primary: #E8F0FE;
+            --text-secondary: #8BA3C7;
+            --accent-blue: #00B4FF;
+            --accent-cyan: #00E5FF;
+            --danger: #FF4D4F;
+            --warning: #FF8C00;
+            --caution: #FFD700;
+            --success: #00E676;
+            --offline: #5C6B7F;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            height: 60px;
+            background: linear-gradient(180deg, rgba(13, 30, 56, 0.95) 0%, rgba(10, 22, 40, 0.9) 100%);
+            border-bottom: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            opacity: 0.5;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.3);
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .header-icon:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 180, 255, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .user-name {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        /* 主容器 */
+        .main-container {
+            padding: 20px;
+            margin-left: 60px;
+        }
+
+        /* 左侧导航栏 */
+        .nav-bar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            bottom: 0;
+            width: 60px;
+            background: rgba(13, 30, 56, 0.95);
+            border-right: 1px solid var(--border-glow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 180, 255, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 180, 255, 0.2);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: var(--accent-blue);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .nav-item-icon {
+            font-size: 20px;
+        }
+
+        .nav-item-tooltip {
+            position: absolute;
+            left: 54px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glow);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-primary);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover .nav-item-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            color: var(--text-primary);
+            padding-left: 12px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .page-btn {
+            padding: 8px 16px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--accent-blue);
+            border-radius: 6px;
+            color: var(--accent-blue);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .page-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.2);
+        }
+
+        .page-btn.primary {
+            background: rgba(0, 180, 255, 0.2);
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.05);
+        }
+
+        .stat-card {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .stat-card.blue::before { background: var(--accent-blue); }
+        .stat-card.green::before { background: var(--success); }
+        .stat-card.yellow::before { background: var(--caution); }
+        .stat-card.orange::before { background: var(--warning); }
+        .stat-card.red::before { background: var(--danger); }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+        }
+
+        .stat-card.red .stat-value { color: var(--danger); text-shadow: 0 0 15px rgba(255, 77, 79, 0.4); }
+        .stat-card.orange .stat-value { color: var(--warning); text-shadow: 0 0 15px rgba(255, 140, 0, 0.4); }
+        .stat-card.green .stat-value { color: var(--success); text-shadow: 0 0 15px rgba(0, 230, 118, 0.4); }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* 表格区域 */
+        .table-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .table-title {
+            font-size: 14px;
+            color: var(--text-primary);
+            padding-left: 10px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .table-filters {
+            display: flex;
+            gap: 12px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            background: rgba(0, 180, 255, 0.05);
+            border: 1px solid var(--border-glow);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .filter-input {
+            padding: 8px 12px;
+            background: rgba(0, 180, 255, 0.05);
+            border: 1px solid var(--border-glow);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 12px;
+            outline: none;
+        }
+
+        .filter-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .filter-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        /* 数据表格 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: rgba(0, 180, 255, 0.05);
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .data-table td {
+            padding: 14px 16px;
+            font-size: 13px;
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(0, 180, 255, 0.08);
+        }
+
+        .data-table tr:hover {
+            background: rgba(0, 180, 255, 0.08);
+        }
+
+        .data-table tr:hover td {
+            box-shadow: 0 0 10px rgba(0, 180, 255, 0.1);
+        }
+
+        /* 状态标签 */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .status-badge.pending { background: rgba(255, 215, 0, 0.2); color: var(--caution); }
+        .status-badge.processing { background: rgba(0, 180, 255, 0.2); color: var(--accent-blue); }
+        .status-badge.completed { background: rgba(0, 230, 118, 0.2); color: var(--success); }
+        .status-badge.overdue { background: rgba(255, 77, 79, 0.2); color: var(--danger); }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .priority-badge.urgent { background: rgba(255, 77, 79, 0.2); color: var(--danger); }
+        .priority-badge.high { background: rgba(255, 140, 0, 0.2); color: var(--warning); }
+        .priority-badge.normal { background: rgba(0, 180, 255, 0.2); color: var(--accent-blue); }
+        .priority-badge.low { background: rgba(92, 107, 127, 0.2); color: var(--offline); }
+
+        /* 操作按钮 */
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 10px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .action-btn.danger:hover {
+            background: rgba(255, 77, 79, 0.2);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-glow);
+        }
+
+        .pagination-info {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .pagination-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: rgba(0, 180, 255, 0.05);
+            border: 1px solid var(--border-glow);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+
+        .page-number:hover {
+            background: rgba(0, 180, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .page-number.active {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* 排班日历 */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border-glow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .schedule-header {
+            padding: 10px;
+            background: rgba(0, 180, 255, 0.1);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .schedule-day {
+            padding: 12px;
+            background: var(--card-bg);
+            min-height: 80px;
+            font-size: 13px;
+        }
+
+        .schedule-day .day-number {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .schedule-day.today {
+            background: rgba(0, 180, 255, 0.1);
+        }
+
+        .schedule-day.today .day-number {
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .schedule-day.off-day {
+            background: rgba(92, 107, 127, 0.1);
+        }
+
+        .schedule-day.off-day .day-number {
+            color: var(--offline);
+        }
+
+        .schedule-person {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            padding: 3px 6px;
+            background: rgba(0, 180, 255, 0.1);
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+
+        .schedule-person .avatar {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+        }
+
+        /* 双栏布局 */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-left: 10px;
+            border-left: 3px solid var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 180, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 180, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">🔥</div>
+            <span class="logo-text">安为智慧消防</span>
+        </div>
+        <div class="header-center">运维工作台</div>
+        <div class="header-right">
+            <div class="header-icon" title="消息">🔔</div>
+            <a href="01-dashboard.html" class="header-icon" title="返回首页">🏠</a>
+            <div class="user-info">
+                <div class="user-avatar">李</div>
+                <span class="user-name">李明华</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 左侧导航栏 -->
+    <nav class="nav-bar">
+        <a href="01-dashboard.html" class="nav-item">
+            <span class="nav-item-icon">📺</span>
+            <span class="nav-item-tooltip">大屏值守台</span>
+        </a>
+        <a href="02-remote-control.html" class="nav-item">
+            <span class="nav-item-icon">🎛️</span>
+            <span class="nav-item-tooltip">远程控制台</span>
+        </a>
+        <div class="nav-item active">
+            <span class="nav-item-icon">🔧</span>
+            <span class="nav-item-tooltip">运维工作台</span>
+        </div>
+        <a href="04-data-center.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            <span class="nav-item-tooltip">数据中心</span>
+        </a>
+        <a href="05-video-monitoring.html" class="nav-item">
+            <span class="nav-item-icon">📹</span>
+            <span class="nav-item-tooltip">视频监控</span>
+        </a>
+        <a href="06-patrol-management.html" class="nav-item">
+            <span class="nav-item-icon">👮</span>
+            <span class="nav-item-tooltip">查岗管理</span>
+        </a>
+        <a href="07-system-management.html" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            <span class="nav-item-tooltip">系统管理</span>
+        </a>
+    </nav>
+
+    <!-- 主容器 -->
+    <div class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">运维工作台</h1>
+            <div class="page-actions">
+                <button class="page-btn primary">
+                    <span>+</span> 创建工单
+                </button>
+                <button class="page-btn">
+                    <span>📥</span> 导出
+                </button>
+            </div>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="glass-card stat-card blue">
+                <div class="stat-icon">📋</div>
+                <div class="stat-value">28</div>
+                <div class="stat-label">工单总数</div>
+            </div>
+            <div class="glass-card stat-card yellow">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-value">8</div>
+                <div class="stat-label">待处理</div>
+            </div>
+            <div class="glass-card stat-card blue">
+                <div class="stat-icon">🔄</div>
+                <div class="stat-value">12</div>
+                <div class="stat-label">处理中</div>
+            </div>
+            <div class="glass-card stat-card green">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value">7</div>
+                <div class="stat-label">已完成</div>
+            </div>
+            <div class="glass-card stat-card red">
+                <div class="stat-icon">⚠️</div>
+                <div class="stat-value">1</div>
+                <div class="stat-label">逾期</div>
+            </div>
+        </div>
+
+        <!-- 表格区域 -->
+        <div class="table-container">
+            <div class="table-header">
+                <span class="table-title">工单列表</span>
+                <div class="table-filters">
+                    <select class="filter-select">
+                        <option>全部状态</option>
+                        <option>待处理</option>
+                        <option>处理中</option>
+                        <option>已完成</option>
+                        <option>逾期</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>全部类型</option>
+                        <option>设备故障</option>
+                        <option>日常巡检</option>
+                        <option>维保</option>
+                        <option>其他</option>
+                    </select>
+                    <input type="text" class="filter-input" placeholder="搜索工单...">
+                </div>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>工单编号</th>
+                        <th>工单类型</th>
+                        <th>企业名称</th>
+                        <th>优先级</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>负责人</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>WO-2025-0125</td>
+                        <td>设备故障</td>
+                        <td>万达商业广场</td>
+                        <td><span class="priority-badge urgent">🔴 紧急</span></td>
+                        <td><span class="status-badge overdue">已逾期</span></td>
+                        <td>2025-01-14 09:30</td>
+                        <td>张伟</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn">查看</button>
+                                <button class="action-btn">处理</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>WO-2025-0124</td>
+                        <td>日常巡检</td>
+                        <td>华润大厦</td>
+                        <td><span class="priority-badge normal">🟦 一般</span></td>
+                        <td><span class="status-badge processing">处理中</span></td>
+                        <td>2025-01-15 08:00</td>
+                        <td>李明华</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn">查看</button>
+                                <button class="action-btn">完成</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>WO-2025-0123</td>
+                        <td>维保</td>
+                        <td>科技园A座</td>
+                        <td><span class="priority-badge high">🟠 高</span></td>
+                        <td><span class="status-badge pending">待处理</span></td>
+                        <td>2025-01-15 10:20</td>
+                        <td>王建国</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn">查看</button>
+                                <button class="action-btn">领取</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>WO-2025-0122</td>
+                        <td>设备故障</td>
+                        <td>市民服务中心</td>
+                        <td><span class="priority-badge normal">🟦 一般</span></td>
+                        <td><span class="status-badge pending">待处理</span></td>
+                        <td>2025-01-15 09:15</td>
+                        <td>待分配</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn">查看</button>
+                                <button class="action-btn">分配</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>WO-2025-0121</td>
+                        <td>日常巡检</td>
+                        <td>世纪金源酒店</td>
+                        <td><span class="priority-badge low">⚪ 低</span></td>
+                        <td><span class="status-badge completed">已完成</span></td>
+                        <td>2025-01-14 14:30</td>
+                        <td>张伟</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn">查看</button>
+                                <button class="action-btn">详情</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>WO-2025-0120</td>
+                        <td>维保</td>
+                        <td>中心医院</td>
+                        <td><span class="priority-badge high">🟠 高</span></td>
+                        <td><span class="status-badge processing">处理中</span></td>
+                        <td>2025-01-14 16:45</td>
+                        <td>李明华</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn">查看</button>
+                                <button class="action-btn">完成</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>WO-2025-0119</td>
+                        <td>设备故障</td>
+                        <td>实验小学</td>
+                        <td><span class="priority-badge normal">🟦 一般</span></td>
+                        <td><span class="status-badge completed">已完成</span></td>
+                        <td>2025-01-13 11:20</td>
+                        <td>王建国</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn">查看</button>
+                                <button class="action-btn">详情</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <span class="pagination-info">共 28 条记录，第 1/3 页</span>
+                <div class="pagination-btns">
+                    <span class="page-number">‹</span>
+                    <span class="page-number active">1</span>
+                    <span class="page-number">2</span>
+                    <span class="page-number">3</span>
+                    <span class="page-number">›</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 排班日历 -->
+        <div class="two-column">
+            <div class="glass-card">
+                <div class="card-title">
+                    <span>本月排班</span>
+                    <select class="filter-select" style="width: 100px;">
+                        <option>2025年1月</option>
+                        <option>2025年2月</option>
+                    </select>
+                </div>
+                <div class="schedule-grid">
+                    <div class="schedule-header">周日</div>
+                    <div class="schedule-header">周一</div>
+                    <div class="schedule-header">周二</div>
+                    <div class="schedule-header">周三</div>
+                    <div class="schedule-header">周四</div>
+                    <div class="schedule-header">周五</div>
+                    <div class="schedule-header">周六</div>
+                    
+                    <div class="schedule-day off-day">
+                        <div class="day-number">29</div>
+                    </div>
+                    <div class="schedule-day off-day">
+                        <div class="day-number">30</div>
+                    </div>
+                    <div class="schedule-day off-day">
+                        <div class="day-number">31</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">1</div>
+                        <div class="schedule-person"><span class="avatar">王</span> 王建国</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">2</div>
+                        <div class="schedule-person"><span class="avatar">王</span> 王建国</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">3</div>
+                        <div class="schedule-person"><span class="avatar">张</span> 张伟</div>
+                    </div>
+                    <div class="schedule-day off-day">
+                        <div class="day-number">4</div>
+                    </div>
+                    
+                    <div class="schedule-day off-day">
+                        <div class="day-number">5</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">6</div>
+                        <div class="schedule-person"><span class="avatar">张</span> 张伟</div>
+                    </div>
+                    <div class="schedule-day today">
+                        <div class="day-number">7</div>
+                        <div class="schedule-person"><span class="avatar">李</span> 李明华</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">8</div>
+                        <div class="schedule-person"><span class="avatar">李</span> 李明华</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">9</div>
+                        <div class="schedule-person"><span class="avatar">李</span> 李明华</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">10</div>
+                        <div class="schedule-person"><span class="avatar">王</span> 王建国</div>
+                    </div>
+                    <div class="schedule-day off-day">
+                        <div class="day-number">11</div>
+                    </div>
+                    
+                    <div class="schedule-day off-day">
+                        <div class="day-number">12</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">13</div>
+                        <div class="schedule-person"><span class="avatar">王</span> 王建国</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">14</div>
+                        <div class="schedule-person"><span class="avatar">张</span> 张伟</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">15</div>
+                        <div class="schedule-person"><span class="avatar">张</span> 张伟</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">16</div>
+                        <div class="schedule-person"><span class="avatar">张</span> 张伟</div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-number">17</div>
+                        <div class="schedule-person"><span class="avatar">李</span> 李明华</div>
+                    </div>
+                    <div class="schedule-day off-day">
+                        <div class="day-number">18</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-title">值班人员</div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0, 180, 255, 0.05); border-radius: 8px;">
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)); display: flex; align-items: center; justify-content: center; font-size: 18px;">李</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 14px; color: var(--text-primary); font-weight: bold;">李明华</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">138****6721</div>
+                        </div>
+                        <div style="padding: 6px 12px; background: var(--success); color: white; border-radius: 20px; font-size: 11px;">值班中</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0, 180, 255, 0.05); border-radius: 8px;">
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #1E88E5, #1976D2); display: flex; align-items: center; justify-content: center; font-size: 18px;">王</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 14px; color: var(--text-primary); font-weight: bold;">王建国</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">139****8832</div>
+                        </div>
+                        <div style="padding: 6px 12px; background: rgba(92, 107, 127, 0.3); color: var(--text-secondary); border-radius: 20px; font-size: 11px;">休息</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0, 180, 255, 0.05); border-radius: 8px;">
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #43A047, #388E3C); display: flex; align-items: center; justify-content: center; font-size: 18px;">张</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 14px; color: var(--text-primary); font-weight: bold;">张伟</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">137****5519</div>
+                        </div>
+                        <div style="padding: 6px 12px; background: rgba(92, 107, 127, 0.3); color: var(--text-secondary); border-radius: 20px; font-size: 11px;">休息</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

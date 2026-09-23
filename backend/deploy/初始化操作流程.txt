@@ -1,0 +1,18 @@
+零、进入到  D:\deploy  修改 .env文件，主要修改 应用镜像版本号
+
+一、进入到  D:\deploy\config\monitor-api   修改后端配置文件   application-prod.yml
+
+二、进入到  D:\deploy  在地址框中输入 cmd ， 在命令行输入wsl   进入到Linux 子系统
+
+三、使用 docker ps 查看所有服务运行状态
+
+四、使用 docker restart  服务名   重启指定的服务  例如  docker restart  anwei-monitor-api
+
+五、使用 ./pull-images.sh 拉取和更新前后端最新版本（注意：版本号是.env 中的版本）
+
+例如（更新monkey-monitor-api:1.1版本）：
+
+1. 输入  ./pull-images.sh  ===>   2. 选择  4. 只拉取 monkey-monitor-api  ===>   3. 输入 docker-compose stop monkey-monitor-api  ===> 输入 docker-compose up -d monkey-monitor-api 完成更新
+
+
+六、其他操作请查看 D:\deploy\操作文档.txt

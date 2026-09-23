@@ -1,0 +1,5 @@
+# V7 releases are immutable build artifacts whose manifest hashes exact bytes.
+# Do not let Git rewrite JSON/HTML/JS line endings during checkout.
+public/park/v007/** -text
+public/smart-park/releases/v007-*/** -text
+public/assets/v7-* -text

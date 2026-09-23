@@ -1,0 +1,214 @@
+{
+  "schema": "7.0-visual-profile-1",
+  "revision": "v007-r001",
+  "theme": "DARK_BLUE_TECH",
+  "modes": {
+    "CAMPUS": {
+      "background": "#071326",
+      "fog": {
+        "color": "#09182B",
+        "near": 350,
+        "far": 900
+      },
+      "sun": 1.05,
+      "sky": 0.68,
+      "environmentIntensity": 0.48,
+      "exposure": 0.94,
+      "sunPosition": [
+        180,
+        200,
+        -110
+      ]
+    },
+    "BUILDING": {
+      "background": "#071326",
+      "fog": {
+        "color": "#09182B",
+        "near": 350,
+        "far": 900
+      },
+      "sun": 1.05,
+      "sky": 0.68,
+      "environmentIntensity": 0.48,
+      "exposure": 0.94,
+      "sunPosition": [
+        180,
+        200,
+        -110
+      ]
+    },
+    "T1_DEVICES": {
+      "background": "#071326",
+      "fog": {
+        "color": "#09182B",
+        "near": 350,
+        "far": 900
+      },
+      "sun": 1.05,
+      "sky": 0.68,
+      "environmentIntensity": 0.48,
+      "exposure": 0.94,
+      "sunPosition": [
+        180,
+        200,
+        -110
+      ]
+    },
+    "F12_STAGE": {
+      "background": "#071426",
+      "fog": null,
+      "sun": 1,
+      "sky": 0.65,
+      "environmentIntensity": 0.4,
+      "exposure": 0.9
+    },
+    "F12_INTERIOR": {
+      "background": "#071426",
+      "fog": null,
+      "sun": 0.1,
+      "sky": 0.85,
+      "environmentIntensity": 0.45,
+      "exposure": 0.9
+    }
+  },
+  "lighting": {
+    "sunColor": "#BEDBFF",
+    "skyColor": "#A6CFFF",
+    "groundColor": "#14273E",
+    "sunPosition": [
+      -110,
+      220,
+      100
+    ],
+    "sunTarget": [
+      0,
+      15,
+      35
+    ]
+  },
+  "materials": {
+    "shellOpacity": 0.16,
+    "slabOpacity": 1,
+    "slabColor": "#294361",
+    "slabRoughness": 0.7,
+    "slabMetalness": 0.12,
+    "shellRoughness": 0.22,
+    "groundColor": "#101D30",
+    "boundaryColor": "#09182B",
+    "blue": "#318CFF",
+    "cyan": "#67D9FF",
+    "orange": "#FF982E",
+    "selectedSlabColor": "#355574",
+    "shellColor": "#4F94C8",
+    "shellMetalness": 0.12,
+    "slabEnvironmentIntensity": 0.4,
+    "facadeT1Tint": "#82ADD4",
+    "facadeT2Tint": "#618FB8",
+    "facadeOtherTint": "#466F93",
+    "facadeEnvironmentIntensity": 0.7,
+    "facadeEmissiveTint": "#5382AC",
+    "facadeEmissiveMax": 0.35,
+    "campusTint": "#416287",
+    "campusEnvironmentIntensity": 0.28,
+    "vegetationTint": "#759899",
+    "vegetationEnvironmentIntensity": 0.25,
+    "vehicleTint": "#7FA5CB",
+    "vehicleEnvironmentIntensity": 0.5,
+    "interiorStructureTint": "#CEDDEC",
+    "stageStructureTint": "#9CBBD8",
+    "interiorObjectTint": "#E1E9F2",
+    "stageObjectTint": "#B0C7DC",
+    "interiorEnvironmentIntensity": 0.4
+  },
+  "mainView": {
+    "pitchDownDeg": 35,
+    "fovDeg": 42,
+    "safeMargin": 0.06,
+    "heroHeightRatio": 0.68
+  },
+  "floorView": {
+    "pitchDownDeg": 10
+  },
+  "glow": {
+    "emissiveIntensity": 3.6,
+    "t1Weight": 1,
+    "t2Weight": 0.68,
+    "otherWeight": 0.28
+  },
+  "bloom": {
+    "strength": 0.35,
+    "radius": 0.3,
+    "threshold": 1,
+    "renderScale": 0.5
+  },
+  "motion": {
+    "t1Period": 12,
+    "t2Period": 16,
+    "scanPeriod": 16,
+    "scanGain": 0.35,
+    "seed": 7001,
+    "flowGain": 2.4,
+    "flowHeadFraction": 0.018,
+    "flowTailFraction": 0.2,
+    "flowTailGain": 0.42
+  },
+  "quality": {
+    "HIGH": {
+      "lod": 0,
+      "dpr": 1.5,
+      "shadow": 2048,
+      "calls": 430,
+      "triangles": 1150000,
+      "textures": 448,
+      "bloomEnabled": true,
+      "motionEnabled": true,
+      "renderScale": 0.5
+    },
+    "MEDIUM": {
+      "lod": 1,
+      "dpr": 1.2,
+      "shadow": 1024,
+      "calls": 300,
+      "triangles": 750000,
+      "textures": 320,
+      "bloomEnabled": false,
+      "motionEnabled": true,
+      "renderScale": 0.5
+    },
+    "LOW": {
+      "lod": 2,
+      "dpr": 1,
+      "shadow": 512,
+      "calls": 210,
+      "triangles": 420000,
+      "textures": 192,
+      "bloomEnabled": false,
+      "motionEnabled": false,
+      "renderScale": 0.5
+    }
+  },
+  "facadeTechLighting": {
+    "surfaceGain": 3.2,
+    "windowDensity": 0.48,
+    "windowGain": 0.65,
+    "structureGain": 0.55,
+    "scanGain": 0.45,
+    "scanPeriod": 16,
+    "cellWidth": 2.6,
+    "cellHeight": 4.5,
+    "groupColumns": 3,
+    "groupRows": 2,
+    "surfaceColor": "#006CFF",
+    "windowColor": "#2CA8FF",
+    "structureColor": "#147DFF",
+    "scanColor": "#147DFF"
+  },
+  "surfaceTechLighting": {
+    "color": "#147DFF",
+    "slabGain": 1.12,
+    "shellGain": 3.25,
+    "structureGain": 0.92,
+    "edgeWidthMeters": 1.55,
+    "scanGain": 0.42
+  }
+}

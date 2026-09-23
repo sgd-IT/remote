@@ -1,0 +1,87 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "智慧消防平台",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/alarm-center/index",
+			"style": {
+				"navigationBarTitleText": "告警中心",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/stats/index",
+			"style": {
+				"navigationBarTitleText": "统计",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/messages/index",
+			"style": {
+				"navigationBarTitleText": "工作台",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/profile/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/profile/device-list",
+			"style": {
+				"navigationBarTitleText": "设备列表",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/alarm-detail/index",
+			"style": {
+				"navigationBarTitleText": "告警详情",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/duty/index",
+			"style": {
+				"navigationBarTitleText": "值班首页",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/common/list",
+			"style": {
+				"navigationBarTitleText": "列表",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "安为消防",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#f2f3f5",
+		"app-plus": {
+			"background": "#efeff4"
+		}
+	}
+}

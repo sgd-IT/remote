@@ -1,0 +1,250 @@
+{
+  "properties": [
+    {
+      "identifier": "event_type_code",
+      "name": "事件类型码",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}},
+      "accessMode": "r",
+      "description": "YWN事件类型码(0x80帧上报)"
+    },
+    {
+      "identifier": "event_code",
+      "name": "事件代码",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 65535}},
+      "accessMode": "r",
+      "description": "YWN事件代码(如0x01=火警,0x50=故障)"
+    },
+    {
+      "identifier": "event_name",
+      "name": "事件名称",
+      "dataType": {"type": "text", "specs": {"length": "64"}},
+      "accessMode": "r",
+      "description": "事件代码对应的中文描述"
+    },
+    {
+      "identifier": "machine_no",
+      "name": "机号",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}},
+      "accessMode": "r",
+      "description": "控制器机号(0=不显示)"
+    },
+    {
+      "identifier": "loop_no",
+      "name": "回路号",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}},
+      "accessMode": "r",
+      "description": "总线回路号(0=不显示)"
+    },
+    {
+      "identifier": "address_no",
+      "name": "地址号",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}},
+      "accessMode": "r",
+      "description": "总线设备地址号(0=不显示)"
+    },
+    {
+      "identifier": "channel_no",
+      "name": "通道号",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}},
+      "accessMode": "r",
+      "description": "通道号(0=不显示)"
+    },
+    {
+      "identifier": "device_type",
+      "name": "设备类型",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 65535}},
+      "accessMode": "r",
+      "description": "设备类型(0=不显示)"
+    },
+    {
+      "identifier": "product_type",
+      "name": "产品类型",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}},
+      "accessMode": "r",
+      "description": "产品类型(0=不显示)"
+    },
+    {
+      "identifier": "channel_type",
+      "name": "通道类型",
+      "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}},
+      "accessMode": "r",
+      "description": "通道类型(0=不显示)"
+    },
+    {
+      "identifier": "description",
+      "name": "事件描述",
+      "dataType": {"type": "text", "specs": {"length": "128"}},
+      "accessMode": "r",
+      "description": "事件说明文字(GBK编码,最多20个汉字)"
+    },
+    {
+      "identifier": "alarm_value_float",
+      "name": "报警值(浮点)",
+      "dataType": {"type": "float", "specs": {"min": "-999999", "max": "999999"}},
+      "accessMode": "r",
+      "description": "IEEE754浮点报警值(-1=不显示)"
+    },
+    {
+      "identifier": "alarm_value_int",
+      "name": "报警值(整型)",
+      "dataType": {"type": "int32", "specs": {"min": "-1", "max": "32767"}},
+      "accessMode": "r",
+      "description": "整型报警值(实际值×100, -1=不显示)"
+    },
+    {
+      "identifier": "event_time",
+      "name": "事件时间",
+      "dataType": {"type": "date"},
+      "accessMode": "r",
+      "description": "事件发生时间(yyyy-MM-dd HH:mm:ss)"
+    },
+    {
+      "identifier": "iccid",
+      "name": "ICCID",
+      "dataType": {"type": "text", "specs": {"length": "20"}},
+      "accessMode": "r",
+      "description": "SIM卡ICCID号(以太网设备发0)"
+    },
+    {
+      "identifier": "imei",
+      "name": "IMEI",
+      "dataType": {"type": "text", "specs": {"length": "15"}},
+      "accessMode": "r",
+      "description": "设备IMEI号(以太网设备发0)"
+    },
+    {
+      "identifier": "hardware_version",
+      "name": "硬件版本",
+      "dataType": {"type": "text", "specs": {"length": "4"}},
+      "accessMode": "r",
+      "description": "硬件版本号(如V1.0)"
+    },
+    {
+      "identifier": "software_version",
+      "name": "软件版本",
+      "dataType": {"type": "text", "specs": {"length": "4"}},
+      "accessMode": "r",
+      "description": "软件版本号(如V1.2)"
+    },
+    {
+      "identifier": "fire_status",
+      "name": "火警状态",
+      "dataType": {"type": "bool", "specs": {"0": "正常", "1": "火警"}},
+      "accessMode": "r",
+      "description": "火警类事件(0x01~0x0F)置位, 复位指令下发后清零"
+    },
+    {
+      "identifier": "fault_status",
+      "name": "故障状态",
+      "dataType": {"type": "bool", "specs": {"0": "正常", "1": "故障"}},
+      "accessMode": "r",
+      "description": "故障类事件(0x40~0x5F)置位, 故障恢复事件(0x64)清零"
+    },
+    {
+      "identifier": "feedback_status",
+      "name": "反馈状态",
+      "dataType": {"type": "bool", "specs": {"0": "无反馈", "1": "反馈"}},
+      "accessMode": "r",
+      "description": "反馈事件(0x1A/0x04)置位, 反馈撤销(0x1C)或复位清零"
+    },
+    {
+      "identifier": "shield_status",
+      "name": "屏蔽状态",
+      "dataType": {"type": "bool", "specs": {"0": "未屏蔽", "1": "屏蔽"}},
+      "accessMode": "r",
+      "description": "屏蔽类事件(0x30~0x3F)置位, 取消屏蔽指令下发后清零"
+    },
+    {
+      "identifier": "start_status",
+      "name": "启动状态",
+      "dataType": {"type": "bool", "specs": {"0": "未启动", "1": "启动"}},
+      "accessMode": "r",
+      "description": "启动事件(0x10/0x03)置位, 停止事件(0x12)或复位清零"
+    },
+    {
+      "identifier": "supervisory_status",
+      "name": "监管状态",
+      "dataType": {"type": "bool", "specs": {"0": "正常", "1": "监管报警"}},
+      "accessMode": "r",
+      "description": "监管报警事件(0x7F)置位, 复位指令下发后清零"
+    },
+    {
+      "identifier": "controller_fault_status",
+      "name": "控制器故障状态",
+      "dataType": {"type": "bool", "specs": {"0": "正常", "1": "故障"}},
+      "accessMode": "r",
+      "description": "控制器故障帧(0x86)置位, 恢复帧(0x87)清零"
+    }
+  ],
+  "events": [
+    {
+      "identifier": "fire_alarm_event",
+      "name": "火警事件",
+      "outputData": [
+        {"identifier": "event_code", "name": "事件代码", "dataType": {"type": "int32"}},
+        {"identifier": "event_name", "name": "事件名称", "dataType": {"type": "text"}},
+        {"identifier": "machine_no", "name": "机号", "dataType": {"type": "int32"}},
+        {"identifier": "loop_no", "name": "回路号", "dataType": {"type": "int32"}},
+        {"identifier": "address_no", "name": "地址号", "dataType": {"type": "int32"}},
+        {"identifier": "description", "name": "描述", "dataType": {"type": "text"}},
+        {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}}
+      ]
+    },
+    {
+      "identifier": "fault_event",
+      "name": "故障事件",
+      "outputData": [
+        {"identifier": "event_code", "name": "事件代码", "dataType": {"type": "int32"}},
+        {"identifier": "event_name", "name": "事件名称", "dataType": {"type": "text"}},
+        {"identifier": "machine_no", "name": "机号", "dataType": {"type": "int32"}},
+        {"identifier": "loop_no", "name": "回路号", "dataType": {"type": "int32"}},
+        {"identifier": "address_no", "name": "地址号", "dataType": {"type": "int32"}},
+        {"identifier": "description", "name": "描述", "dataType": {"type": "text"}},
+        {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}}
+      ]
+    },
+    {
+      "identifier": "feedback_event",
+      "name": "反馈事件",
+      "outputData": [
+        {"identifier": "event_code", "name": "事件代码", "dataType": {"type": "int32"}},
+        {"identifier": "event_name", "name": "事件名称", "dataType": {"type": "text"}},
+        {"identifier": "machine_no", "name": "机号", "dataType": {"type": "int32"}},
+        {"identifier": "loop_no", "name": "回路号", "dataType": {"type": "int32"}},
+        {"identifier": "address_no", "name": "地址号", "dataType": {"type": "int32"}}
+      ]
+    },
+    {
+      "identifier": "controller_fault_event",
+      "name": "控制器故障",
+      "outputData": [
+        {"identifier": "fault_type", "name": "故障类型", "dataType": {"type": "text"}},
+        {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}}
+      ]
+    },
+    {
+      "identifier": "controller_fault_recovery_event",
+      "name": "控制器故障恢复",
+      "outputData": [
+        {"identifier": "recovery_type", "name": "恢复类型", "dataType": {"type": "text"}},
+        {"identifier": "event_time", "name": "事件时间", "dataType": {"type": "date"}}
+      ]
+    }
+  ],
+  "services": [
+    {
+      "identifier": "remote_control",
+      "name": "远程控制",
+      "inputData": [
+        {"identifier": "command_code", "name": "命令码", "dataType": {"type": "int32", "specs": {"min": 2, "max": 17}}, "required": true},
+        {"identifier": "machineNo", "name": "机号", "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}}, "required": false},
+        {"identifier": "param1", "name": "参数1(回路号/盘号/模式)", "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}}, "required": false},
+        {"identifier": "param2", "name": "参数2(地址号/路号)", "dataType": {"type": "int32", "specs": {"min": 0, "max": 255}}, "required": false}
+      ],
+      "outputData": [
+        {"identifier": "result", "name": "执行结果", "dataType": {"type": "text"}}
+      ],
+      "description": "统一远程控制服务。命令码: 0x02复位 0x03消音 0x04/0x05总线启停(param1=回路,param2=地址) 0x06手自动转换(param1=2手动/3自动) 0x07/0x08屏蔽/取消屏蔽(param1=回路,param2=地址) 0x09自检 0x0A/0x0B多线启停(param1=盘号,param2=路号) 0x0C/0x0D自动允许/禁止 0x0E/0x0F手动允许/禁止 0x10/0x11自动手动允许/禁止"
+    }
+  ]
+}

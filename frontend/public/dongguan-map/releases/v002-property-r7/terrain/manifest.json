@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "coordinateReferenceSystem": "EPSG:4326",
+  "heightEncoding": "grayscale 0..255 maps linearly to 0..maxElevationMeters",
+  "runtimeNetworkRequired": false,
+  "generatedAt": "2026-09-05",
+  "prd": {
+    "extent": {
+      "west": 111.15357532,
+      "east": 115.62479108,
+      "south": 20.86428346,
+      "north": 24.56021174
+    },
+    "width": 2048,
+    "height": 1835,
+    "maxElevationMeters": 1700,
+    "sourceZoom": 9,
+    "dem": "terrain/prd-dem.png",
+    "relief": "terrain/prd-relief.webp",
+    "normal": "terrain/prd-normal.png",
+    "roughness": "terrain/prd-roughness.png",
+    "assets": {
+      "dem": { "file": "terrain/prd-dem.png", "bytes": 1090998, "sha256": "bb2263351a8288cafbd0a1d83ae96bcd6967a82dbb27ffa9e716dbce039b68cb" },
+      "relief": { "file": "terrain/prd-relief.webp", "bytes": 190722, "sha256": "52927fd6812d1df42c24e96253173a9938f6f064210c4976ba1557902badc336" },
+      "normal": { "file": "terrain/prd-normal.png", "bytes": 5754769, "sha256": "cde64eb3f07924f52775e40fa2a8b332f07f8323331c38847988ba3cedb57c3f" },
+      "roughness": { "file": "terrain/prd-roughness.png", "bytes": 1228137, "sha256": "2e41b60b96bb6826d8656173357d01ea76326ab288930e64836857aeeab81ff8" }
+    },
+    "source": "Mapzen Terrain Tiles on AWS Open Data",
+    "sourceUrl": "https://registry.opendata.aws/terrain-tiles/",
+    "license": "Per-source open-data terms; attribution required",
+    "licenseDetailsUrl": "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+    "attribution": "© Mapzen and elevation data providers listed by Mapzen"
+  },
+  "dongguan": {
+    "extent": {
+      "west": 113.50839779746916,
+      "east": 114.2843908463223,
+      "south": 22.6470373312659,
+      "north": 23.160327839371543
+    },
+    "width": 1024,
+    "height": 735,
+    "maxElevationMeters": 1000,
+    "sourceZoom": 11,
+    "dem": "terrain/dongguan-dem.png",
+    "relief": "terrain/dongguan-relief.webp",
+    "normal": "terrain/dongguan-normal.png",
+    "roughness": "terrain/dongguan-roughness.png",
+    "assets": {
+      "dem": { "file": "terrain/dongguan-dem.png", "bytes": 197355, "sha256": "367846d1c35ffc381edd0b66b70a6a66de3e6db66e6764e63cbd0c5a2fbc345c" },
+      "relief": { "file": "terrain/dongguan-relief.webp", "bytes": 43502, "sha256": "11bc4febd1f42f004050d60dcdb587b3e8da57df8cb3f5b68ead7ad67994e28f" },
+      "normal": { "file": "terrain/dongguan-normal.png", "bytes": 1416459, "sha256": "269e29beab8bfa82528544b675abb29ac763e3b1185b3a57189e764fb550c422" },
+      "roughness": { "file": "terrain/dongguan-roughness.png", "bytes": 289794, "sha256": "df57e6deaaf06666add7b5c69641e84d96c09c9257d83eb9676e976f72034f2f" }
+    },
+    "source": "Mapzen Terrain Tiles on AWS Open Data",
+    "sourceUrl": "https://registry.opendata.aws/terrain-tiles/",
+    "license": "Per-source open-data terms; attribution required",
+    "licenseDetailsUrl": "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+    "attribution": "© Mapzen and elevation data providers listed by Mapzen"
+  }
+}

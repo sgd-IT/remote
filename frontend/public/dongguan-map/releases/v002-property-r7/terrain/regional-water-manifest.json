@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-07T01:44:49.215639+00:00",
+  "coordinateReferenceSystem": "EPSG:4326",
+  "extent": {
+    "west": 111.15357532,
+    "east": 115.62479108,
+    "south": 20.86428346,
+    "north": 24.56021174
+  },
+  "width": 4096,
+  "height": 3670,
+  "rasterScaleRelativeToPrdDem": 2,
+  "approximateMetersPerPixelAtCentre": {
+    "eastWest": 112.122,
+    "northSouth": 112.137
+  },
+  "landMask": "terrain/regional-land-mask.png",
+  "waterPolygons": "geo/regional-water.geojson",
+  "shorelines": "geo/regional-coastline.geojson",
+  "waterLevel": {
+    "file": "terrain/regional-water-level.png",
+    "width": 2048,
+    "height": 1835,
+    "maxElevationMeters": 1700,
+    "encoding": "8-bit grayscale 0..255 maps linearly to 0..maxElevationMeters, matching PRD DEM",
+    "method": "OSM ocean polygons fixed at 0m; individual lake/pond polygons fixed to their interior PRD DEM median; water levels extend 12 DEM texels into invisible land-side sampling cells only; other mapped water retains its own elevation",
+    "landSideSamplingMarginTexels": 12,
+    "flattenedPolygonCounts": {
+      "lake": 1575,
+      "pond": 458
+    },
+    "oceanPixels": 1402381,
+    "lakeEncodedLevelRange": [
+      0,
+      160
+    ],
+    "sourceDem": {
+      "file": "terrain/prd-dem.png",
+      "bytes": 1090998,
+      "sha256": "bb2263351a8288cafbd0a1d83ae96bcd6967a82dbb27ffa9e716dbce039b68cb"
+    },
+    "seaLevelValidationSamples": [
+      {
+        "name": "Pearl River estuary",
+        "longitude": 113.65,
+        "latitude": 22.5,
+        "encodedLevel": 0,
+        "passed": true
+      },
+      {
+        "name": "Lingding ocean channel",
+        "longitude": 113.72,
+        "latitude": 22.4,
+        "encodedLevel": 0,
+        "passed": true
+      },
+      {
+        "name": "Daya Bay",
+        "longitude": 114.6,
+        "latitude": 22.6,
+        "encodedLevel": 0,
+        "passed": true
+      },
+      {
+        "name": "Deep Bay",
+        "longitude": 113.95,
+        "latitude": 22.46,
+        "encodedLevel": 0,
+        "passed": true
+      }
+    ]
+  },
+  "encoding": "8-bit grayscale: 255=land, 0=water; antialiased shoreline transition",
+  "orientation": "north at top, west at left; linear longitude/latitude, matching PRD DEM",
+  "coverage": "complete PRD DEM extent; ocean, estuary, river, lake and pond polygons from vector source",
+  "runtimeNetworkRequired": false,
+  "source": "OpenStreetMap via OpenFreeMap / OpenMapTiles water polygon layer",
+  "sourceSnapshot": "20260830_080001_pt",
+  "sourceZoom": 10,
+  "sourceUrl": "https://openfreemap.org/",
+  "tileTemplate": "https://tiles.openfreemap.org/planet/20260830_080001_pt/{z}/{x}/{y}.pbf",
+  "license": "ODbL-1.0",
+  "licenseUrl": "https://www.openstreetmap.org/copyright",
+  "attribution": "© OpenStreetMap contributors · OpenMapTiles · OpenFreeMap",
+  "method": "clip tile buffers in integer MVT coordinates; union per water class; convert Web Mercator to EPSG:4326; crop PRD extent; union and rasterize at 4x with preserved islands/holes; LANCZOS downsample",
+  "limitations": "OSM/zoom-10 vector generalization; narrow streams and very small ponds below a regional raster pixel may be omitted. This is a cartographic backdrop, not a hydrological survey.",
+  "rebuild": "python scripts/build-dongguan-water.py --from-local --scale 2",
+  "assets": {
+    "landMask": {
+      "file": "terrain/regional-land-mask.png",
+      "bytes": 869117,
+      "sha256": "728a5e129a25c088814555cb0e3424250c5751644f2502a718726d9d30ea8e6f"
+    },
+    "waterLevel": {
+      "file": "terrain/regional-water-level.png",
+      "bytes": 754773,
+      "sha256": "77859a14b64c5b7159e56eda0ce41ebf2d08bf7dc58df5582c27e1c1d0469020"
+    },
+    "waterPolygons": {
+      "file": "geo/regional-water.geojson",
+      "bytes": 10239739,
+      "sha256": "cff04f83105addc0f21e111581777441dcbdd1a7e6f511e0afec6544cf6885d4"
+    },
+    "shorelines": {
+      "file": "geo/regional-coastline.geojson",
+      "bytes": 10178876,
+      "sha256": "ef918fd81f778a14792d09b57c5bfc34fc03b026b29d81eb0f4498ab87177a6f"
+    }
+  },
+  "polygonCounts": {
+    "dock": 1,
+    "lake": 1575,
+    "ocean": 2,
+    "pond": 458,
+    "river": 329
+  },
+  "tileCount": 169,
+  "waterPixelFraction": 0.365554,
+  "validationSamples": [
+    {
+      "name": "Pearl River estuary",
+      "longitude": 113.65,
+      "latitude": 22.5,
+      "expected": "water",
+      "maskValue": 0,
+      "passed": true
+    },
+    {
+      "name": "Lingding ocean channel",
+      "longitude": 113.72,
+      "latitude": 22.4,
+      "expected": "water",
+      "maskValue": 0,
+      "passed": true
+    },
+    {
+      "name": "Daya Bay",
+      "longitude": 114.6,
+      "latitude": 22.6,
+      "expected": "water",
+      "maskValue": 0,
+      "passed": true
+    },
+    {
+      "name": "Deep Bay",
+      "longitude": 113.95,
+      "latitude": 22.46,
+      "expected": "water",
+      "maskValue": 0,
+      "passed": true
+    },
+    {
+      "name": "Dongguan city centre",
+      "longitude": 113.7518,
+      "latitude": 23.0207,
+      "expected": "land",
+      "maskValue": 255,
+      "passed": true
+    },
+    {
+      "name": "Guangzhou city centre",
+      "longitude": 113.2644,
+      "latitude": 23.1291,
+      "expected": "land",
+      "maskValue": 255,
+      "passed": true
+    },
+    {
+      "name": "Shenzhen city centre",
+      "longitude": 114.0579,
+      "latitude": 22.5431,
+      "expected": "land",
+      "maskValue": 255,
+      "passed": true
+    },
+    {
+      "name": "Huizhou city centre",
+      "longitude": 114.4162,
+      "latitude": 23.1115,
+      "expected": "land",
+      "maskValue": 255,
+      "passed": true
+    }
+  ]
+}

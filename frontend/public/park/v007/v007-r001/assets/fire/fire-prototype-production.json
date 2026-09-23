@@ -1,0 +1,4297 @@
+{
+  "revision": "v007-r001",
+  "producer": "/root/fire_assets",
+  "source": "ORIGINAL_LOCAL_BLENDER_DERIVED_FROM_EXISTING_OWNED_SOURCE",
+  "license": "Project-owned; original vector labels; no reference photo pixels exported; no paid services",
+  "lods": [
+    {
+      "mode": "prototype",
+      "lod": 0,
+      "path": "app\\public\\park\\v006\\v006-r001\\assets\\fire\\fire-prototype-lod0.glb",
+      "sha256": "ca3a55bc1507916fd73b8e1d0fc355903f73e6305bfcbf422aee597dad24b9b4",
+      "bytes": 2411040,
+      "triangles": 23326,
+      "primitives": 5,
+      "componentCount": 351,
+      "entities": [
+        {
+          "id": "FC_DEMO_FIRE_CONTROLLER_01",
+          "name": "消防报警联动控制器",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -18.4512,
+              1.1245999999999998,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.975700000000003,
+              1.7714,
+              -2.079901996900558
+            ]
+          },
+          "parts": 60,
+          "triangles": 3996,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 0,
+                  "count": 140
+                },
+                {
+                  "start": 140,
+                  "count": 12
+                },
+                {
+                  "start": 152,
+                  "count": 12
+                },
+                {
+                  "start": 164,
+                  "count": 12
+                },
+                {
+                  "start": 176,
+                  "count": 12
+                },
+                {
+                  "start": 188,
+                  "count": 12
+                },
+                {
+                  "start": 200,
+                  "count": 288
+                },
+                {
+                  "start": 488,
+                  "count": 140
+                },
+                {
+                  "start": 628,
+                  "count": 140
+                },
+                {
+                  "start": 768,
+                  "count": 140
+                },
+                {
+                  "start": 908,
+                  "count": 140
+                },
+                {
+                  "start": 1048,
+                  "count": 140
+                },
+                {
+                  "start": 1188,
+                  "count": 140
+                },
+                {
+                  "start": 1328,
+                  "count": 140
+                },
+                {
+                  "start": 1468,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 80,
+                  "count": 20
+                },
+                {
+                  "start": 100,
+                  "count": 140
+                },
+                {
+                  "start": 240,
+                  "count": 140
+                },
+                {
+                  "start": 380,
+                  "count": 44
+                },
+                {
+                  "start": 424,
+                  "count": 44
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 140,
+                  "count": 140
+                },
+                {
+                  "start": 280,
+                  "count": 140
+                },
+                {
+                  "start": 420,
+                  "count": 12
+                },
+                {
+                  "start": 432,
+                  "count": 12
+                },
+                {
+                  "start": 444,
+                  "count": 12
+                },
+                {
+                  "start": 456,
+                  "count": 12
+                },
+                {
+                  "start": 468,
+                  "count": 12
+                },
+                {
+                  "start": 480,
+                  "count": 12
+                },
+                {
+                  "start": 492,
+                  "count": 12
+                },
+                {
+                  "start": 504,
+                  "count": 12
+                },
+                {
+                  "start": 516,
+                  "count": 12
+                },
+                {
+                  "start": 528,
+                  "count": 12
+                },
+                {
+                  "start": 540,
+                  "count": 12
+                },
+                {
+                  "start": 552,
+                  "count": 12
+                },
+                {
+                  "start": 564,
+                  "count": 12
+                },
+                {
+                  "start": 576,
+                  "count": 12
+                },
+                {
+                  "start": 588,
+                  "count": 12
+                },
+                {
+                  "start": 600,
+                  "count": 12
+                },
+                {
+                  "start": 612,
+                  "count": 44
+                },
+                {
+                  "start": 656,
+                  "count": 44
+                },
+                {
+                  "start": 700,
+                  "count": 44
+                },
+                {
+                  "start": 744,
+                  "count": 44
+                },
+                {
+                  "start": 788,
+                  "count": 44
+                },
+                {
+                  "start": 832,
+                  "count": 44
+                },
+                {
+                  "start": 876,
+                  "count": 44
+                },
+                {
+                  "start": 920,
+                  "count": 44
+                },
+                {
+                  "start": 964,
+                  "count": 28
+                },
+                {
+                  "start": 992,
+                  "count": 140
+                },
+                {
+                  "start": 1132,
+                  "count": 28
+                },
+                {
+                  "start": 1160,
+                  "count": 140
+                },
+                {
+                  "start": 1300,
+                  "count": 28
+                },
+                {
+                  "start": 1328,
+                  "count": 140
+                },
+                {
+                  "start": 1468,
+                  "count": 28
+                },
+                {
+                  "start": 1496,
+                  "count": 140
+                },
+                {
+                  "start": 1636,
+                  "count": 28
+                },
+                {
+                  "start": 1664,
+                  "count": 140
+                },
+                {
+                  "start": 1804,
+                  "count": 28
+                },
+                {
+                  "start": 1832,
+                  "count": 140
+                },
+                {
+                  "start": 1972,
+                  "count": 28
+                },
+                {
+                  "start": 2000,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+          "name": "风机样品",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.234,
+              1.058,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.054000000000002,
+              1.2380000000000002,
+              -2.1609019971389767
+            ]
+          },
+          "parts": 16,
+          "triangles": 632,
+          "bindings": [
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 2220,
+                  "count": 16
+                },
+                {
+                  "start": 2236,
+                  "count": 16
+                },
+                {
+                  "start": 2252,
+                  "count": 16
+                },
+                {
+                  "start": 2268,
+                  "count": 16
+                },
+                {
+                  "start": 2284,
+                  "count": 16
+                },
+                {
+                  "start": 2300,
+                  "count": 20
+                },
+                {
+                  "start": 2320,
+                  "count": 20
+                },
+                {
+                  "start": 2340,
+                  "count": 20
+                },
+                {
+                  "start": 2360,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 4432,
+                  "count": 140
+                },
+                {
+                  "start": 4572,
+                  "count": 192
+                },
+                {
+                  "start": 4764,
+                  "count": 12
+                },
+                {
+                  "start": 4776,
+                  "count": 12
+                },
+                {
+                  "start": 4788,
+                  "count": 12
+                },
+                {
+                  "start": 4800,
+                  "count": 12
+                },
+                {
+                  "start": 4812,
+                  "count": 92
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+          "name": "火灾显示盘",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.218200000000003,
+              1.9494000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.041800000000002,
+              2.0866000000000002,
+              -2.1914019999999996
+            ]
+          },
+          "parts": 7,
+          "triangles": 340,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 3920,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 3392,
+                  "count": 140
+                },
+                {
+                  "start": 3532,
+                  "count": 12
+                },
+                {
+                  "start": 3544,
+                  "count": 12
+                },
+                {
+                  "start": 3556,
+                  "count": 12
+                },
+                {
+                  "start": 3568,
+                  "count": 12
+                },
+                {
+                  "start": 3580,
+                  "count": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_HEAT_01",
+          "name": "感温探测器",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.21675000214577,
+              1.945249997854233,
+              -2.256901999952502
+            ],
+            "max": [
+              -17.071249997854235,
+              2.0907500021457674,
+              -2.202902000298023
+            ]
+          },
+          "parts": 42,
+          "triangles": 888,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 3192,
+                  "count": 12
+                },
+                {
+                  "start": 3204,
+                  "count": 12
+                },
+                {
+                  "start": 3216,
+                  "count": 12
+                },
+                {
+                  "start": 3228,
+                  "count": 12
+                },
+                {
+                  "start": 3240,
+                  "count": 12
+                },
+                {
+                  "start": 3252,
+                  "count": 12
+                },
+                {
+                  "start": 3264,
+                  "count": 12
+                },
+                {
+                  "start": 3276,
+                  "count": 12
+                },
+                {
+                  "start": 3288,
+                  "count": 12
+                },
+                {
+                  "start": 3300,
+                  "count": 12
+                },
+                {
+                  "start": 3312,
+                  "count": 12
+                },
+                {
+                  "start": 3324,
+                  "count": 12
+                },
+                {
+                  "start": 3336,
+                  "count": 20
+                },
+                {
+                  "start": 3356,
+                  "count": 20
+                },
+                {
+                  "start": 3376,
+                  "count": 20
+                },
+                {
+                  "start": 3396,
+                  "count": 20
+                },
+                {
+                  "start": 3416,
+                  "count": 20
+                },
+                {
+                  "start": 3436,
+                  "count": 20
+                },
+                {
+                  "start": 3456,
+                  "count": 20
+                },
+                {
+                  "start": 3476,
+                  "count": 20
+                },
+                {
+                  "start": 3496,
+                  "count": 20
+                },
+                {
+                  "start": 3516,
+                  "count": 20
+                },
+                {
+                  "start": 3536,
+                  "count": 20
+                },
+                {
+                  "start": 3556,
+                  "count": 20
+                },
+                {
+                  "start": 3576,
+                  "count": 20
+                },
+                {
+                  "start": 3596,
+                  "count": 20
+                },
+                {
+                  "start": 3616,
+                  "count": 20
+                },
+                {
+                  "start": 3636,
+                  "count": 20
+                },
+                {
+                  "start": 3656,
+                  "count": 20
+                },
+                {
+                  "start": 3676,
+                  "count": 20
+                },
+                {
+                  "start": 3696,
+                  "count": 20
+                },
+                {
+                  "start": 3716,
+                  "count": 20
+                },
+                {
+                  "start": 3736,
+                  "count": 20
+                },
+                {
+                  "start": 3756,
+                  "count": 20
+                },
+                {
+                  "start": 3776,
+                  "count": 20
+                },
+                {
+                  "start": 3796,
+                  "count": 20
+                },
+                {
+                  "start": 3816,
+                  "count": 20
+                },
+                {
+                  "start": 3836,
+                  "count": 20
+                },
+                {
+                  "start": 3856,
+                  "count": 20
+                },
+                {
+                  "start": 3876,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 2464,
+                  "count": 92
+                },
+                {
+                  "start": 2556,
+                  "count": 92
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_HYDRANT_CALL_01",
+          "name": "消火栓按钮",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.645500000000002,
+              1.9445000000000001,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.498500000000003,
+              2.0915000000000004,
+              -2.1929019999999997
+            ]
+          },
+          "parts": 5,
+          "triangles": 608,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 3908,
+                  "count": 12
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 944,
+                  "count": 288
+                },
+                {
+                  "start": 1232,
+                  "count": 28
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 2928,
+                  "count": 140
+                },
+                {
+                  "start": 3068,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_INPUT_MODULE_01",
+          "name": "输入模块",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.604799999999997,
+              1.4131000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.4872,
+              1.5429000000000002,
+              -2.2116019999999996
+            ]
+          },
+          "parts": 17,
+          "triangles": 1180,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 7580,
+                  "count": 20
+                },
+                {
+                  "start": 7600,
+                  "count": 20
+                },
+                {
+                  "start": 7620,
+                  "count": 140
+                },
+                {
+                  "start": 7760,
+                  "count": 140
+                },
+                {
+                  "start": 7900,
+                  "count": 140
+                },
+                {
+                  "start": 8040,
+                  "count": 140
+                },
+                {
+                  "start": 8180,
+                  "count": 140
+                },
+                {
+                  "start": 8320,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 1900,
+                  "count": 20
+                },
+                {
+                  "start": 1920,
+                  "count": 20
+                },
+                {
+                  "start": 1940,
+                  "count": 20
+                },
+                {
+                  "start": 1960,
+                  "count": 20
+                },
+                {
+                  "start": 1980,
+                  "count": 20
+                },
+                {
+                  "start": 2000,
+                  "count": 20
+                },
+                {
+                  "start": 2020,
+                  "count": 20
+                },
+                {
+                  "start": 2040,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 4152,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_IO_MODULE_01",
+          "name": "输入/输出模块",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.462799999999998,
+              1.4131000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.345200000000002,
+              1.5429000000000002,
+              -2.2116019999999996
+            ]
+          },
+          "parts": 17,
+          "triangles": 1180,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 4940,
+                  "count": 20
+                },
+                {
+                  "start": 4960,
+                  "count": 20
+                },
+                {
+                  "start": 4980,
+                  "count": 140
+                },
+                {
+                  "start": 5120,
+                  "count": 140
+                },
+                {
+                  "start": 5260,
+                  "count": 140
+                },
+                {
+                  "start": 5400,
+                  "count": 140
+                },
+                {
+                  "start": 5540,
+                  "count": 140
+                },
+                {
+                  "start": 5680,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 1420,
+                  "count": 20
+                },
+                {
+                  "start": 1440,
+                  "count": 20
+                },
+                {
+                  "start": 1460,
+                  "count": 20
+                },
+                {
+                  "start": 1480,
+                  "count": 20
+                },
+                {
+                  "start": 1500,
+                  "count": 20
+                },
+                {
+                  "start": 1520,
+                  "count": 20
+                },
+                {
+                  "start": 1540,
+                  "count": 20
+                },
+                {
+                  "start": 1560,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 3732,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_IO_MODULE_02",
+          "name": "输入/输出模块",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.1768,
+              1.4131000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.059200000000004,
+              1.5429000000000002,
+              -2.2116019999999996
+            ]
+          },
+          "parts": 17,
+          "triangles": 1180,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 5820,
+                  "count": 20
+                },
+                {
+                  "start": 5840,
+                  "count": 20
+                },
+                {
+                  "start": 5860,
+                  "count": 140
+                },
+                {
+                  "start": 6000,
+                  "count": 140
+                },
+                {
+                  "start": 6140,
+                  "count": 140
+                },
+                {
+                  "start": 6280,
+                  "count": 140
+                },
+                {
+                  "start": 6420,
+                  "count": 140
+                },
+                {
+                  "start": 6560,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 1580,
+                  "count": 20
+                },
+                {
+                  "start": 1600,
+                  "count": 20
+                },
+                {
+                  "start": 1620,
+                  "count": 20
+                },
+                {
+                  "start": 1640,
+                  "count": 20
+                },
+                {
+                  "start": 1660,
+                  "count": 20
+                },
+                {
+                  "start": 1680,
+                  "count": 20
+                },
+                {
+                  "start": 1700,
+                  "count": 20
+                },
+                {
+                  "start": 1720,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 3872,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_IO_MODULE_03",
+          "name": "输入/输出模块",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.8908,
+              1.4131000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.773200000000003,
+              1.5429000000000002,
+              -2.2116019999999996
+            ]
+          },
+          "parts": 17,
+          "triangles": 1180,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 6700,
+                  "count": 20
+                },
+                {
+                  "start": 6720,
+                  "count": 20
+                },
+                {
+                  "start": 6740,
+                  "count": 140
+                },
+                {
+                  "start": 6880,
+                  "count": 140
+                },
+                {
+                  "start": 7020,
+                  "count": 140
+                },
+                {
+                  "start": 7160,
+                  "count": 140
+                },
+                {
+                  "start": 7300,
+                  "count": 140
+                },
+                {
+                  "start": 7440,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 1740,
+                  "count": 20
+                },
+                {
+                  "start": 1760,
+                  "count": 20
+                },
+                {
+                  "start": 1780,
+                  "count": 20
+                },
+                {
+                  "start": 1800,
+                  "count": 20
+                },
+                {
+                  "start": 1820,
+                  "count": 20
+                },
+                {
+                  "start": 1840,
+                  "count": 20
+                },
+                {
+                  "start": 1860,
+                  "count": 20
+                },
+                {
+                  "start": 1880,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 4012,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_ISOLATOR_01",
+          "name": "隔离模块",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.753700000000002,
+              2.0445999999999995,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.6263,
+              2.2014,
+              -2.2034019999999996
+            ]
+          },
+          "parts": 17,
+          "triangles": 1180,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 1608,
+                  "count": 20
+                },
+                {
+                  "start": 1628,
+                  "count": 20
+                },
+                {
+                  "start": 1648,
+                  "count": 140
+                },
+                {
+                  "start": 1788,
+                  "count": 140
+                },
+                {
+                  "start": 1928,
+                  "count": 140
+                },
+                {
+                  "start": 2068,
+                  "count": 140
+                },
+                {
+                  "start": 2208,
+                  "count": 140
+                },
+                {
+                  "start": 2348,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 468,
+                  "count": 20
+                },
+                {
+                  "start": 488,
+                  "count": 20
+                },
+                {
+                  "start": 508,
+                  "count": 20
+                },
+                {
+                  "start": 528,
+                  "count": 20
+                },
+                {
+                  "start": 548,
+                  "count": 20
+                },
+                {
+                  "start": 568,
+                  "count": 20
+                },
+                {
+                  "start": 588,
+                  "count": 20
+                },
+                {
+                  "start": 608,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 2140,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_ISOLATOR_02",
+          "name": "隔离模块",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.753700000000002,
+              1.4746,
+              -2.2579019999999996
+            ],
+            "max": [
+              -17.6263,
+              1.6314,
+              -2.2034019999999996
+            ]
+          },
+          "parts": 17,
+          "triangles": 1180,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 4060,
+                  "count": 20
+                },
+                {
+                  "start": 4080,
+                  "count": 20
+                },
+                {
+                  "start": 4100,
+                  "count": 140
+                },
+                {
+                  "start": 4240,
+                  "count": 140
+                },
+                {
+                  "start": 4380,
+                  "count": 140
+                },
+                {
+                  "start": 4520,
+                  "count": 140
+                },
+                {
+                  "start": 4660,
+                  "count": 140
+                },
+                {
+                  "start": 4800,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 1260,
+                  "count": 20
+                },
+                {
+                  "start": 1280,
+                  "count": 20
+                },
+                {
+                  "start": 1300,
+                  "count": 20
+                },
+                {
+                  "start": 1320,
+                  "count": 20
+                },
+                {
+                  "start": 1340,
+                  "count": 20
+                },
+                {
+                  "start": 1360,
+                  "count": 20
+                },
+                {
+                  "start": 1380,
+                  "count": 20
+                },
+                {
+                  "start": 1400,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 3592,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_MANUAL_CALL_01",
+          "name": "手动报警按钮",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.9315,
+              1.9445000000000001,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.7845,
+              2.0915000000000004,
+              -2.1929019999999997
+            ]
+          },
+          "parts": 5,
+          "triangles": 608,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 3896,
+                  "count": 12
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 628,
+                  "count": 288
+                },
+                {
+                  "start": 916,
+                  "count": 28
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 2648,
+                  "count": 140
+                },
+                {
+                  "start": 2788,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+          "name": "输出模块",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.343300000000003,
+              1.4131000000000002,
+              -2.2579019999999996
+            ],
+            "max": [
+              -16.1767,
+              1.5429000000000002,
+              -2.2116019999999996
+            ]
+          },
+          "parts": 17,
+          "triangles": 1180,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 8460,
+                  "count": 20
+                },
+                {
+                  "start": 8480,
+                  "count": 20
+                },
+                {
+                  "start": 8500,
+                  "count": 140
+                },
+                {
+                  "start": 8640,
+                  "count": 140
+                },
+                {
+                  "start": 8780,
+                  "count": 140
+                },
+                {
+                  "start": 8920,
+                  "count": 140
+                },
+                {
+                  "start": 9060,
+                  "count": 140
+                },
+                {
+                  "start": 9200,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 2060,
+                  "count": 20
+                },
+                {
+                  "start": 2080,
+                  "count": 20
+                },
+                {
+                  "start": 2100,
+                  "count": 20
+                },
+                {
+                  "start": 2120,
+                  "count": 20
+                },
+                {
+                  "start": 2140,
+                  "count": 20
+                },
+                {
+                  "start": 2160,
+                  "count": 20
+                },
+                {
+                  "start": 2180,
+                  "count": 20
+                },
+                {
+                  "start": 2200,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 4292,
+                  "count": 140
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_PANEL_01",
+          "name": "FC_DEMO_FIRE_PANEL_01",
+          "semanticClass": "FURNITURE_OR_PANEL",
+          "bbox": {
+            "min": [
+              -18.6,
+              0.8780000000000001,
+              -2.3029019999999996
+            ],
+            "max": [
+              -16.0,
+              2.378,
+              -2.254901999582767
+            ]
+          },
+          "parts": 6,
+          "triangles": 222,
+          "bindings": [
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 0,
+                  "count": 20
+                },
+                {
+                  "start": 20,
+                  "count": 20
+                },
+                {
+                  "start": 40,
+                  "count": 20
+                },
+                {
+                  "start": 60,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 0,
+                  "count": 140
+                }
+              ]
+            },
+            {
+              "meshName": "V6_TEX_board-01",
+              "ranges": [
+                {
+                  "start": 0,
+                  "count": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_PANEL_01_TITLE",
+          "name": "FC_DEMO_FIRE_PANEL_01_TITLE",
+          "semanticClass": "FURNITURE_OR_PANEL",
+          "bbox": {
+            "min": [
+              -17.722047805786133,
+              2.471330165863037,
+              -2.2645018100738525
+            ],
+            "max": [
+              -16.877113342285156,
+              2.592027425765991,
+              -2.2513020038604736
+            ]
+          },
+          "parts": 1,
+          "triangles": 5496,
+          "bindings": [
+            {
+              "meshName": "V6_FC_BLUE",
+              "ranges": [
+                {
+                  "start": 0,
+                  "count": 5496
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_SMOKE_01",
+          "name": "感烟探测器",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -17.507600002288818,
+              1.9403999977111819,
+              -2.256901999952502
+            ],
+            "max": [
+              -17.35239999771118,
+              2.0956000022888186,
+              -2.2079019992549416
+            ]
+          },
+          "parts": 42,
+          "triangles": 888,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 2488,
+                  "count": 12
+                },
+                {
+                  "start": 2500,
+                  "count": 12
+                },
+                {
+                  "start": 2512,
+                  "count": 12
+                },
+                {
+                  "start": 2524,
+                  "count": 12
+                },
+                {
+                  "start": 2536,
+                  "count": 12
+                },
+                {
+                  "start": 2548,
+                  "count": 12
+                },
+                {
+                  "start": 2560,
+                  "count": 12
+                },
+                {
+                  "start": 2572,
+                  "count": 12
+                },
+                {
+                  "start": 2584,
+                  "count": 12
+                },
+                {
+                  "start": 2596,
+                  "count": 12
+                },
+                {
+                  "start": 2608,
+                  "count": 12
+                },
+                {
+                  "start": 2620,
+                  "count": 12
+                },
+                {
+                  "start": 2632,
+                  "count": 20
+                },
+                {
+                  "start": 2652,
+                  "count": 20
+                },
+                {
+                  "start": 2672,
+                  "count": 20
+                },
+                {
+                  "start": 2692,
+                  "count": 20
+                },
+                {
+                  "start": 2712,
+                  "count": 20
+                },
+                {
+                  "start": 2732,
+                  "count": 20
+                },
+                {
+                  "start": 2752,
+                  "count": 20
+                },
+                {
+                  "start": 2772,
+                  "count": 20
+                },
+                {
+                  "start": 2792,
+                  "count": 20
+                },
+                {
+                  "start": 2812,
+                  "count": 20
+                },
+                {
+                  "start": 2832,
+                  "count": 20
+                },
+                {
+                  "start": 2852,
+                  "count": 20
+                },
+                {
+                  "start": 2872,
+                  "count": 20
+                },
+                {
+                  "start": 2892,
+                  "count": 20
+                },
+                {
+                  "start": 2912,
+                  "count": 20
+                },
+                {
+                  "start": 2932,
+                  "count": 20
+                },
+                {
+                  "start": 2952,
+                  "count": 20
+                },
+                {
+                  "start": 2972,
+                  "count": 20
+                },
+                {
+                  "start": 2992,
+                  "count": 20
+                },
+                {
+                  "start": 3012,
+                  "count": 20
+                },
+                {
+                  "start": 3032,
+                  "count": 20
+                },
+                {
+                  "start": 3052,
+                  "count": 20
+                },
+                {
+                  "start": 3072,
+                  "count": 20
+                },
+                {
+                  "start": 3092,
+                  "count": 20
+                },
+                {
+                  "start": 3112,
+                  "count": 20
+                },
+                {
+                  "start": 3132,
+                  "count": 20
+                },
+                {
+                  "start": 3152,
+                  "count": 20
+                },
+                {
+                  "start": 3172,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 2280,
+                  "count": 92
+                },
+                {
+                  "start": 2372,
+                  "count": 92
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_SOUNDER_BEACON_01",
+          "name": "声光警报器",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.41560000228882,
+              1.9403999977111819,
+              -2.256901999952502
+            ],
+            "max": [
+              -16.260399997711183,
+              2.0956000022888186,
+              -2.1709020025033947
+            ]
+          },
+          "parts": 2,
+          "triangles": 184,
+          "bindings": [
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 3208,
+                  "count": 92
+                },
+                {
+                  "start": 3300,
+                  "count": 92
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+          "name": "圆形扬声器",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.34245000243187,
+              1.0655499975681306,
+              -2.256901999952502
+            ],
+            "max": [
+              -16.177549997568132,
+              1.2304500024318696,
+              -2.197902001341104
+            ]
+          },
+          "parts": 42,
+          "triangles": 888,
+          "bindings": [
+            {
+              "meshName": "V6_FC_DARK",
+              "ranges": [
+                {
+                  "start": 9340,
+                  "count": 12
+                },
+                {
+                  "start": 9352,
+                  "count": 12
+                },
+                {
+                  "start": 9364,
+                  "count": 12
+                },
+                {
+                  "start": 9376,
+                  "count": 12
+                },
+                {
+                  "start": 9388,
+                  "count": 12
+                },
+                {
+                  "start": 9400,
+                  "count": 12
+                },
+                {
+                  "start": 9412,
+                  "count": 12
+                },
+                {
+                  "start": 9424,
+                  "count": 12
+                },
+                {
+                  "start": 9436,
+                  "count": 12
+                },
+                {
+                  "start": 9448,
+                  "count": 12
+                },
+                {
+                  "start": 9460,
+                  "count": 12
+                },
+                {
+                  "start": 9472,
+                  "count": 12
+                },
+                {
+                  "start": 9484,
+                  "count": 20
+                },
+                {
+                  "start": 9504,
+                  "count": 20
+                },
+                {
+                  "start": 9524,
+                  "count": 20
+                },
+                {
+                  "start": 9544,
+                  "count": 20
+                },
+                {
+                  "start": 9564,
+                  "count": 20
+                },
+                {
+                  "start": 9584,
+                  "count": 20
+                },
+                {
+                  "start": 9604,
+                  "count": 20
+                },
+                {
+                  "start": 9624,
+                  "count": 20
+                },
+                {
+                  "start": 9644,
+                  "count": 20
+                },
+                {
+                  "start": 9664,
+                  "count": 20
+                },
+                {
+                  "start": 9684,
+                  "count": 20
+                },
+                {
+                  "start": 9704,
+                  "count": 20
+                },
+                {
+                  "start": 9724,
+                  "count": 20
+                },
+                {
+                  "start": 9744,
+                  "count": 20
+                },
+                {
+                  "start": 9764,
+                  "count": 20
+                },
+                {
+                  "start": 9784,
+                  "count": 20
+                },
+                {
+                  "start": 9804,
+                  "count": 20
+                },
+                {
+                  "start": 9824,
+                  "count": 20
+                },
+                {
+                  "start": 9844,
+                  "count": 20
+                },
+                {
+                  "start": 9864,
+                  "count": 20
+                },
+                {
+                  "start": 9884,
+                  "count": 20
+                },
+                {
+                  "start": 9904,
+                  "count": 20
+                },
+                {
+                  "start": 9924,
+                  "count": 20
+                },
+                {
+                  "start": 9944,
+                  "count": 20
+                },
+                {
+                  "start": 9964,
+                  "count": 20
+                },
+                {
+                  "start": 9984,
+                  "count": 20
+                },
+                {
+                  "start": 10004,
+                  "count": 20
+                },
+                {
+                  "start": 10024,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 5008,
+                  "count": 92
+                },
+                {
+                  "start": 5100,
+                  "count": 92
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FC_DEMO_FIRE_VALVE_SAMPLE_01",
+          "name": "阀门样品",
+          "semanticClass": "DISPLAY_SAMPLE",
+          "bbox": {
+            "min": [
+              -16.630599999999998,
+              1.0494000000000003,
+              -2.2264019999999998
+            ],
+            "max": [
+              -16.4614,
+              1.2390000000000003,
+              -2.1326019999999994
+            ]
+          },
+          "parts": 4,
+          "triangles": 316,
+          "bindings": [
+            {
+              "meshName": "V6_FC_METAL",
+              "ranges": [
+                {
+                  "start": 2380,
+                  "count": 192
+                },
+                {
+                  "start": 2572,
+                  "count": 20
+                }
+              ]
+            },
+            {
+              "meshName": "V6_FC_PAINTED",
+              "ranges": [
+                {
+                  "start": 4904,
+                  "count": 92
+                },
+                {
+                  "start": 4996,
+                  "count": 12
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "meshName": "V6_FC_BLUE",
+          "ranges": [
+            {
+              "entityId": "FC_DEMO_FIRE_PANEL_01_TITLE",
+              "part": "extruded_chinese_title",
+              "start": 0,
+              "count": 5496
+            }
+          ],
+          "bbox": {
+            "min": [
+              -17.722047805786133,
+              2.471330165863037,
+              -2.2645018100738525
+            ],
+            "max": [
+              -16.877113342285156,
+              2.592027425765991,
+              -2.2513020038604736
+            ]
+          }
+        },
+        {
+          "meshName": "V6_FC_DARK",
+          "ranges": [
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "display_window",
+              "start": 0,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_vent",
+              "start": 140,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_vent",
+              "start": 152,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_vent",
+              "start": 164,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_vent",
+              "start": 176,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_vent",
+              "start": 188,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "display_bezel",
+              "start": 200,
+              "count": 288
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "side_vent",
+              "start": 488,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "side_vent",
+              "start": 628,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "side_vent",
+              "start": 768,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "side_vent",
+              "start": 908,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "side_vent",
+              "start": 1048,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "screen_static_line",
+              "start": 1188,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "screen_static_line",
+              "start": 1328,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "screen_static_line",
+              "start": 1468,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "status_recess",
+              "start": 1608,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "status_recess",
+              "start": 1628,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_socket",
+              "start": 1648,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_socket",
+              "start": 1788,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_socket",
+              "start": 1928,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_socket",
+              "start": 2068,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_socket",
+              "start": 2208,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_socket",
+              "start": 2348,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2488,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2500,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2512,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2524,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2536,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2548,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2560,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2572,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2584,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2596,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2608,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "radial_grille",
+              "start": 2620,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2632,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2652,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2672,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2692,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2712,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2732,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2752,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2772,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2792,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2812,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2832,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2852,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2872,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2892,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2912,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2932,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2952,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2972,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 2992,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3012,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3032,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3052,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3072,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3092,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3112,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3132,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3152,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "perforation_recess",
+              "start": 3172,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3192,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3204,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3216,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3228,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3240,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3252,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3264,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3276,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3288,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3300,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3312,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "radial_grille",
+              "start": 3324,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3336,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3356,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3376,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3396,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3416,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3436,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3456,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3476,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3496,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3516,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3536,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3556,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3576,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3596,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3616,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3636,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3656,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3676,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3696,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3716,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3736,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3756,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3776,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3796,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3816,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3836,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3856,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "perforation_recess",
+              "start": 3876,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_MANUAL_CALL_01",
+              "part": "press_mark",
+              "start": 3896,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HYDRANT_CALL_01",
+              "part": "press_mark",
+              "start": 3908,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+              "part": "small_readout",
+              "start": 3920,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "status_recess",
+              "start": 4060,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "status_recess",
+              "start": 4080,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_socket",
+              "start": 4100,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_socket",
+              "start": 4240,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_socket",
+              "start": 4380,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_socket",
+              "start": 4520,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_socket",
+              "start": 4660,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_socket",
+              "start": 4800,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "status_recess",
+              "start": 4940,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "status_recess",
+              "start": 4960,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_socket",
+              "start": 4980,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_socket",
+              "start": 5120,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_socket",
+              "start": 5260,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_socket",
+              "start": 5400,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_socket",
+              "start": 5540,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_socket",
+              "start": 5680,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "status_recess",
+              "start": 5820,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "status_recess",
+              "start": 5840,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_socket",
+              "start": 5860,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_socket",
+              "start": 6000,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_socket",
+              "start": 6140,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_socket",
+              "start": 6280,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_socket",
+              "start": 6420,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_socket",
+              "start": 6560,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "status_recess",
+              "start": 6700,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "status_recess",
+              "start": 6720,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_socket",
+              "start": 6740,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_socket",
+              "start": 6880,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_socket",
+              "start": 7020,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_socket",
+              "start": 7160,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_socket",
+              "start": 7300,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_socket",
+              "start": 7440,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "status_recess",
+              "start": 7580,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "status_recess",
+              "start": 7600,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 7620,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 7760,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 7900,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 8040,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 8180,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 8320,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "status_recess",
+              "start": 8460,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "status_recess",
+              "start": 8480,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 8500,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 8640,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 8780,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 8920,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 9060,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_socket",
+              "start": 9200,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9340,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9352,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9364,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9376,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9388,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9400,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9412,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9424,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9436,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9448,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9460,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "radial_grille",
+              "start": 9472,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9484,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9504,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9524,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9544,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9564,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9584,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9604,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9624,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9644,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9664,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9684,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9704,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9724,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9744,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9764,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9784,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9804,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9824,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9844,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9864,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9884,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9904,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9924,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9944,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9964,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 9984,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 10004,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "perforation_recess",
+              "start": 10024,
+              "count": 20
+            }
+          ],
+          "bbox": {
+            "min": [
+              -18.3996,
+              1.082934,
+              -2.2386019999999998
+            ],
+            "max": [
+              -16.116500000000002,
+              2.2007999999999996,
+              -2.0834019999999995
+            ]
+          }
+        },
+        {
+          "meshName": "V6_FC_METAL",
+          "ranges": [
+            {
+              "entityId": "FC_DEMO_FIRE_PANEL_01",
+              "part": "mount_screw",
+              "start": 0,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_PANEL_01",
+              "part": "mount_screw",
+              "start": 20,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_PANEL_01",
+              "part": "mount_screw",
+              "start": 40,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_PANEL_01",
+              "part": "mount_screw",
+              "start": 60,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "door_lock",
+              "start": 80,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "cabinet_hinge",
+              "start": 100,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "cabinet_hinge",
+              "start": 240,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lock_ring",
+              "start": 380,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lock_ring",
+              "start": 424,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_screw",
+              "start": 468,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_screw",
+              "start": 488,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_screw",
+              "start": 508,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_screw",
+              "start": 528,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_screw",
+              "start": 548,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "terminal_screw",
+              "start": 568,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "mount_screw",
+              "start": 588,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "mount_screw",
+              "start": 608,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_MANUAL_CALL_01",
+              "part": "raised_clear_cover_rim",
+              "start": 628,
+              "count": 288
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_MANUAL_CALL_01",
+              "part": "cover_hinge",
+              "start": 916,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HYDRANT_CALL_01",
+              "part": "raised_clear_cover_rim",
+              "start": 944,
+              "count": 288
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HYDRANT_CALL_01",
+              "part": "cover_hinge",
+              "start": 1232,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_screw",
+              "start": 1260,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_screw",
+              "start": 1280,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_screw",
+              "start": 1300,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_screw",
+              "start": 1320,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_screw",
+              "start": 1340,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "terminal_screw",
+              "start": 1360,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "mount_screw",
+              "start": 1380,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "mount_screw",
+              "start": 1400,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1420,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1440,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1460,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1480,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1500,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1520,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "mount_screw",
+              "start": 1540,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "mount_screw",
+              "start": 1560,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_screw",
+              "start": 1580,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_screw",
+              "start": 1600,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_screw",
+              "start": 1620,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_screw",
+              "start": 1640,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_screw",
+              "start": 1660,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "terminal_screw",
+              "start": 1680,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "mount_screw",
+              "start": 1700,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "mount_screw",
+              "start": 1720,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_screw",
+              "start": 1740,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_screw",
+              "start": 1760,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_screw",
+              "start": 1780,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_screw",
+              "start": 1800,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_screw",
+              "start": 1820,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "terminal_screw",
+              "start": 1840,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "mount_screw",
+              "start": 1860,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "mount_screw",
+              "start": 1880,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1900,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1920,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1940,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1960,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 1980,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 2000,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "mount_screw",
+              "start": 2020,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "mount_screw",
+              "start": 2040,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 2060,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 2080,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 2100,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 2120,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 2140,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "terminal_screw",
+              "start": 2160,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "mount_screw",
+              "start": 2180,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "mount_screw",
+              "start": 2200,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "curved_fan_impeller",
+              "start": 2220,
+              "count": 16
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "curved_fan_impeller",
+              "start": 2236,
+              "count": 16
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "curved_fan_impeller",
+              "start": 2252,
+              "count": 16
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "curved_fan_impeller",
+              "start": 2268,
+              "count": 16
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "curved_fan_impeller",
+              "start": 2284,
+              "count": 16
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "frame_screw",
+              "start": 2300,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "frame_screw",
+              "start": 2320,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "frame_screw",
+              "start": 2340,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "frame_screw",
+              "start": 2360,
+              "count": 20
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_VALVE_SAMPLE_01",
+              "part": "valve_body",
+              "start": 2380,
+              "count": 192
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_VALVE_SAMPLE_01",
+              "part": "actuator_stem",
+              "start": 2572,
+              "count": 20
+            }
+          ],
+          "bbox": {
+            "min": [
+              -18.4512,
+              0.9769378690719606,
+              -2.25790199821186
+            ],
+            "max": [
+              -16.1907000041008,
+              2.2790621309280397,
+              -2.080901998927116
+            ]
+          }
+        },
+        {
+          "meshName": "V6_FC_PAINTED",
+          "ranges": [
+            {
+              "entityId": "FC_DEMO_FIRE_PANEL_01",
+              "part": "rounded_board",
+              "start": 0,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "closed_control_cabinet",
+              "start": 140,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "recessed_door",
+              "start": 280,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 420,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 432,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 444,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 456,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 468,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 480,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 492,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 504,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 516,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 528,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 540,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 552,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 564,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 576,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 588,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "raised_button",
+              "start": 600,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_round_control",
+              "start": 612,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_round_control",
+              "start": 656,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_round_control",
+              "start": 700,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_round_control",
+              "start": 744,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_round_control",
+              "start": 788,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_round_control",
+              "start": 832,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_round_control",
+              "start": 876,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "lower_round_control",
+              "start": 920,
+              "count": 44
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "indicator_lamp",
+              "start": 964,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "color_control_key",
+              "start": 992,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "indicator_lamp",
+              "start": 1132,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "color_control_key",
+              "start": 1160,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "indicator_lamp",
+              "start": 1300,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "color_control_key",
+              "start": 1328,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "indicator_lamp",
+              "start": 1468,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "color_control_key",
+              "start": 1496,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "indicator_lamp",
+              "start": 1636,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "color_control_key",
+              "start": 1664,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "indicator_lamp",
+              "start": 1804,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "color_control_key",
+              "start": 1832,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "indicator_lamp",
+              "start": 1972,
+              "count": 28
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_CONTROLLER_01",
+              "part": "color_control_key",
+              "start": 2000,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_01",
+              "part": "closed_case",
+              "start": 2140,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "disc_back",
+              "start": 2280,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SMOKE_01",
+              "part": "front_cap",
+              "start": 2372,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "disc_back",
+              "start": 2464,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HEAT_01",
+              "part": "front_cap",
+              "start": 2556,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_MANUAL_CALL_01",
+              "part": "closed_case",
+              "start": 2648,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_MANUAL_CALL_01",
+              "part": "button_inset",
+              "start": 2788,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HYDRANT_CALL_01",
+              "part": "closed_case",
+              "start": 2928,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_HYDRANT_CALL_01",
+              "part": "button_inset",
+              "start": 3068,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SOUNDER_BEACON_01",
+              "part": "disc_back",
+              "start": 3208,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SOUNDER_BEACON_01",
+              "part": "red_lens",
+              "start": 3300,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+              "part": "closed_case",
+              "start": 3392,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+              "part": "raised_button",
+              "start": 3532,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+              "part": "raised_button",
+              "start": 3544,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+              "part": "raised_button",
+              "start": 3556,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+              "part": "raised_button",
+              "start": 3568,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FIRE_DISPLAY_01",
+              "part": "raised_button",
+              "start": 3580,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_ISOLATOR_02",
+              "part": "closed_case",
+              "start": 3592,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_01",
+              "part": "closed_case",
+              "start": 3732,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_02",
+              "part": "closed_case",
+              "start": 3872,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_IO_MODULE_03",
+              "part": "closed_case",
+              "start": 4012,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_INPUT_MODULE_01",
+              "part": "closed_case",
+              "start": 4152,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_OUTPUT_MODULE_01",
+              "part": "closed_case",
+              "start": 4292,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "fan_frame",
+              "start": 4432,
+              "count": 140
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "fan_ring",
+              "start": 4572,
+              "count": 192
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "fan_spoke",
+              "start": 4764,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "fan_spoke",
+              "start": 4776,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "fan_spoke",
+              "start": 4788,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "fan_spoke",
+              "start": 4800,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_FAN_SAMPLE_01",
+              "part": "fan_hub",
+              "start": 4812,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_VALVE_SAMPLE_01",
+              "part": "valve_disc",
+              "start": 4904,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_VALVE_SAMPLE_01",
+              "part": "red_actuator",
+              "start": 4996,
+              "count": 12
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "disc_back",
+              "start": 5008,
+              "count": 92
+            },
+            {
+              "entityId": "FC_DEMO_FIRE_SPEAKER_SAMPLE_01",
+              "part": "front_cap",
+              "start": 5100,
+              "count": 92
+            }
+          ],
+          "bbox": {
+            "min": [
+              -18.6,
+              0.8780000000000001,
+              -2.3029019999999996
+            ],
+            "max": [
+              -16.0,
+              2.378,
+              -2.079901996900558
+            ]
+          }
+        },
+        {
+          "meshName": "V6_TEX_board-01",
+          "ranges": [
+            {
+              "entityId": "FC_DEMO_FIRE_PANEL_01",
+              "part": "original_content_surface",
+              "start": 0,
+              "count": 2
+            }
+          ],
+          "bbox": {
+            "min": [
+              -18.582500000000003,
+              0.8955000000000001,
+              -2.2574019999999995
+            ],
+            "max": [
+              -16.0175,
+              2.3605,
+              -2.2574019999999995
+            ]
+          }
+        }
+      ],
+      "space": "F12_LOCAL",
+      "sourceEditable": true,
+      "browserVisualStatus": "NOT_RUN"
+    }
+  ],
+  "sharedDoorsUnchanged": [
+    "F12_D_FIRE_TOP",
+    "F12_D_FIRE_PANTRY",
+    "F12_D_FIRE_BOTTOM"
+  ],
+  "sourceCoordinateFrame": {
+    "space": "F12_LOCAL",
+    "units": "m",
+    "up": "Y",
+    "rootIdentity": true,
+    "floorY": 0.228,
+    "ceilingY": 3.228,
+    "roomInnerBBox": {
+      "min": [
+        -19.054048,
+        0.228,
+        -2.312902
+      ],
+      "max": [
+        -11.009673,
+        3.228,
+        5.095381
+      ]
+    }
+  },
+  "diagrams": [
+    {
+      "id": "FC_DIAGRAM_PUMP",
+      "semanticClass": "DIAGRAM",
+      "name": "泵示意"
+    },
+    {
+      "id": "FC_DIAGRAM_ELEVATOR",
+      "semanticClass": "DIAGRAM",
+      "name": "电梯示意"
+    }
+  ],
+  "referenceImagesViewed": [
+    "08101156_34.jpg",
+    "08101156_35.jpg",
+    "08101156_00.jpg",
+    "08101156_20.jpg"
+  ]
+}

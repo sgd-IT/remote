@@ -1,0 +1,33 @@
+
+一、重置TDengine数据操作（谨慎）
+
+# 注意：这会清除所有时序数据！
+# 1. 停止 TDengine 容器
+docker-compose stop tdengine
+
+# 2. 删除数据卷
+docker volume rm deploy_tdengine_data
+
+# 3. 重新启动并初始化
+docker-compose up -d tdengine
+sleep 15
+docker exec anwei-tdengine taos -s "source /init/init_td.sql"
+
+二、停止并重建所有容器（应用最新配置）
+
+docker-compose down && docker-compose up -d
+
+三、如果只想重启（不重建容器）
+
+docker-compose restart
+# 或
+./start-services.sh restart
+
+四、如果某个服务配置有变化（如端口映射），需要强制重建：
+
+docker-compose up -d --force-recreate 服务名
+
+五、查看TDengine数据库
+
+docker exec anwei-tdengine taos -s "show databases"
+docker exec anwei-tdengine taos -s "use aw_fire_remote_monitor; show stables"

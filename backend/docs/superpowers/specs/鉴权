@@ -1,0 +1,577 @@
+获取公钥
+接口说明
+
+密码相关业务，都会用该接口作为前置条件，秘钥对在10分钟内有效。特别注意：为了防止“请求重放”，所有使用秘钥对，请求对应业务功能成功后，会自动释放掉！
+
+接口配套版本信息
+
+智能物联综合管理平台iConnection Center V5.0.6及以上版本
+
+接口版本
+
+1.0.0
+
+接口URL
+
+/evo-apigw/evo-oauth/1.0.0/oauth/public-key
+请求Method
+
+GET
+
+请求参数
+
+无参
+
+返回参数
+
+名称	类型	说明	版本号
+success	boolean	接口返回是否成功	
+code	string	错误码：0为无错误，非0为具体错误码	
+errMsg	string	错误消息	
+data	object	返回数据对象	
++ publicKey	string	公钥	
+返回参数示例（成功）
+
+{
+	"success": true,
+	"data": {
+		"publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDLGfxJ9PHyApfToQBa2sMZhiR0JSxADFCK1zJysbSgu88KgLUsf3QdKoa1ABZTYjWd1z+y5aK4KFtoEzvAcc94fzaeeLkaPKPmPjLFTlZe4sCDor0+onMrPu1X2uwiCPycCa+baW/4rFQE13GILWGQHeR1awUzOvlbhHzipzUgsQIDAQAB"
+	},
+	"code": "0",
+	"errMsg": ""
+}
+DEMO用例
+
+若项目已引入ICC java SDK，则内部已做好鉴权，无需再调用此接口，未引入可参考以下java调用示例代码：
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+import javax.net.ssl.SSLContext;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+
+public class OauthUtil {
+    public static void main(String[] args) {
+        OauthUtil oauthUtil = new OauthUtil();
+        oauthUtil.getPublicKey();
+    }
+
+    /**
+     * 获取RestTemplate实例
+     * @return RestTemplate实例
+     */
+    public static RestTemplate getRestTemplate() {
+        RestTemplate restTemplate = null;
+        try {
+            // 创建一个信任所有证书的 SSL 上下文
+            SSLContext sslContext = new SSLContextBuilder()
+                    .loadTrustMaterial(null, (chain, authType) -> true)
+                    .build();
+
+            // 创建一个忽略主机名验证的 SSL 连接套接字工厂
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+
+            // 创建 HttpClient
+            CloseableHttpClient httpClient = HttpClients.custom()
+                    .setSSLSocketFactory(sslsf)
+                    .build();
+
+            // 创建 ClientHttpRequestFactory
+            ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+
+            // 创建 RestTemplate 并设置请求工厂
+            restTemplate = new RestTemplate(requestFactory);
+
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return restTemplate;
+    }
+
+    /**
+     * 获取公钥
+     * @return 公钥字符串
+     */
+    public String getPublicKey() {
+        ResponseEntity<String> response = getRestTemplate().getForEntity("https://**:443/evo-apigw/evo-oauth/1.0.0/oauth/public-key", String.class);
+        System.out.println("getPublicKey,response:"+response.getBody());
+        Map data = (Map) JSON.parseObject(response.getBody(), new TypeReference<Map<String, Object>>(){}).get("data");
+        String publicKey = data.get("publicKey").toString();
+        System.out.println("getPublicKey, publicKey:"+ publicKey);
+        return publicKey;
+    }
+}
+认证
+接口说明
+
+使用用户名、密码、client_id、client_secret登录。注意!!!：access_token有效期2h
+
+接口配套版本信息
+
+智能物联综合管理平台iConnection Center V5.0.6及以上版本
+
+接口版本
+
+1.0.0
+
+接口URL
+
+/evo-apigw/evo-oauth/1.0.0/oauth/extend/token
+请求Method
+
+POST
+
+数据提交格式
+
+application/json
+
+请求参数
+
+参数名	必选	类型	说明
+grant_type	是	string(0,128)	授权类型，固定值：password
+username	是	string(0,50)	用户名，建议不要设置为system
+password	是	string(0,255)	平台密码，需RSA加密密码传输,RSA公钥调获取公钥接口，加密参考：RSA加密demo
+client_id	是	string(0,128)	凭证id，自定义，建议数字、字母
+client_secret	是	string(0,128)	凭证密钥，访问凭证client_id与client_secret必须和在ICC平台上申请的client_id与client_secret保持一致，详见申请访问凭证获取
+public_key	是	string(0,512)	RSA公钥，调获取公钥接口
+code	否	string(0,8)	动态验证码
+verifyCodeFlag	否	int(1)	是否启用动态验证码功能 0：关闭 1：开启 默认0；5.0.9+支持；若想开启动态验证码功能，在保证[系统配置->账号安全设置->登录验证码]开关开启的前提下，接口参数需传1，否则开启不生效
+请求参数示例
+
+{
+    "grant_type": "password",
+    "username": "test",
+    "password": "H191Hz69qz2nG+zUFPPINPHVdfKhkWVJFyynn5wnSJGODElxUvIes3Ii579/vofjpwmgaCPPiCwdOkEc20dWrU9aqEeZlJRYKgOnMwyaElv2OyQ1vdY4Ki+ELdXtUaTaCOo51p+9TrM3dRKlGH+dfBsBOcPr6+56HOgz+MRDzb0=",
+    "client_id": "xxx",
+    "client_secret": "xxxxxxx",
+    "public_key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDLXE13YqGXljeoB9Ftlx2v0ECmT6/5lAGb0YVX5LdIK1tzPNiZ0/JuwT5TpYOtQCKq0flcR7rrKJ73pAP2/34tlw85SjCyMDoi68Z9WQzAdZD90G7yMBuPlsKALR8/dkLvRdGEjf4RmIN3RQwaEpdAKSiHyCL0mxgPUBgGQex+gwIDAQAB"
+}
+返回参数
+
+名称	类型	说明	备注
+success	boolean	接口返回是否成功	
+code	string	错误码：0为无错误，非0为具体错误码	
+errMsg	string	错误消息	
+data	object	返回数据对象	
++ magicId	string	保活id	
++ user_name	string	用户名	
++ scope	array	固定[*]	
++ expires_in	long	access_token有效期,单位秒，默认2h	
++ access_token	string	鉴权token	请求业务接口时设置请求头字段Authorization=token_type + 空格 + access_token，示例：bearer 1：704dc1bc-b05e-4ed5-a889-0261584919f6
++ refresh_token	string	刷新token	刷新token，有效期1天;一般需要结合刷新认证信息接口获取access_token,避免再次输入密码获取
++ token_type	string	标识符类型，固定：bearer	
++ userId	string	用户id	
++ client_id	string	来源终端标识	
+返回参数示例（成功）
+
+{
+  "success": true,
+  "data": {
+    "access_token": "1:ea42ee81-53d6-4631-a02a-c2c4400886ea",
+    "token_type": "bearer",
+    "refresh_token": "b83403e1-5ea1-41fd-81fc-e86fe5252c93",
+    "expires_in": 1798,
+    "scope": "*",
+    "userId": "1",
+    "magicId":"io301de1-5ea1-41fd-81fc-e86fe5252c93",
+    "remember_token":"4a37202d-824c-4e31-9941-277a2f37046b",
+    "X-NET-FLAG": "EXT_NET"//外网环境有X-NET-FLAG这个变量，值是EXT_NET;内网环境无该变量
+  },
+  "code": "0",
+  "errMsg": ""
+}
+返回参数示例（失败）
+
+{
+  "success": false,
+  "data": {},
+  "code": "27001000",
+  "errMsg": "Token was not recognised"
+}
+DEMO用例
+
+若项目已引入ICC java SDK，则内部已做好鉴权，无需再调用此接口，若只是获取鉴权认证token用于其他功能（例如组装图片、录像下载地址），可参考以下调用代码示例：
+
+import com.dahuatech.icc.exception.ClientException;
+import com.dahuatech.icc.oauth.model.v202010.OauthConfigUserPwdInfo;
+import com.dahuatech.icc.oauth.utils.HttpUtils;
+
+public class ITest {
+
+     public static void main(String[] args) throws ClientException {
+         OauthConfigUserPwdInfo oauthConfig = new OauthConfigUserPwdInfo(host, clientId, clientSecret, username, password, isHttp, port);
+         //执行请求
+         HttpUtils.getToken(oauthConfig).getAccess_token();
+     }
+ 
+ }
+若项目未引入ICC java SDK，可参考以下java调用代码示例：
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
+
+import javax.crypto.Cipher;
+import javax.net.ssl.SSLContext;
+import java.security.KeyFactory;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class OauthUtil {
+    public static void main(String[] args) {
+            OauthUtil oauthUtil = new OauthUtil();
+            oauthUtil.getToken();
+    }
+
+    /**
+     * 基于原生RSA公钥加密
+     * @param password 用户密码
+     * @param publicKey 公钥
+     * @return
+     * @throws Exception
+     */
+    public static String encrypt(String password, String publicKey) throws Exception {
+        //base64编码的公钥
+        byte[] decoded = java.util.Base64.getDecoder().decode(publicKey);
+        RSAPublicKey pubKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(decoded));
+        //RSA加密
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+        String outStr;
+        byte[] inputArray = password.getBytes("UTF-8");
+        int inputLength = inputArray.length;
+        // 最大加密字节数，超出最大字节数需要分组加密
+        int MAX_ENCRYPT_BLOCK = 117;
+        // 标识
+        int offSet = 0;
+        byte[] resultBytes = {};
+        byte[] cache = {};
+        while (inputLength - offSet > 0) {
+            if (inputLength - offSet > MAX_ENCRYPT_BLOCK) {
+                cache = cipher.doFinal(inputArray, offSet, MAX_ENCRYPT_BLOCK);
+                offSet += MAX_ENCRYPT_BLOCK;
+            } else {
+                cache = cipher.doFinal(inputArray, offSet, inputLength - offSet);
+                offSet = inputLength;
+            }
+            resultBytes = Arrays.copyOf(resultBytes, resultBytes.length + cache.length);
+            System.arraycopy(cache, 0, resultBytes, resultBytes.length - cache.length, cache.length);
+        }
+        outStr = java.util.Base64.getEncoder().encodeToString(resultBytes);
+        return outStr;
+    }
+
+    /**
+     * 获取RestTemplate实例
+     * @return RestTemplate实例
+     */
+    public static RestTemplate getRestTemplate() {
+        RestTemplate restTemplate = null;
+        try {
+            // 创建一个信任所有证书的 SSL 上下文
+            SSLContext sslContext = new SSLContextBuilder()
+                    .loadTrustMaterial(null, (chain, authType) -> true)
+                    .build();
+
+            // 创建一个忽略主机名验证的 SSL 连接套接字工厂
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+
+            // 创建 HttpClient
+            CloseableHttpClient httpClient = HttpClients.custom()
+                    .setSSLSocketFactory(sslsf)
+                    .build();
+
+            // 创建 ClientHttpRequestFactory
+            ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+
+            // 创建 RestTemplate 并设置请求工厂
+            restTemplate = new RestTemplate(requestFactory);
+
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return restTemplate;
+    }
+
+    /**
+     * 获取公钥
+     * @return 公钥字符串
+     */
+    public String getPublicKey() {
+        RestTemplate restTemplate = getRestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity("https://**:443/evo-apigw/evo-oauth/1.0.0/oauth/public-key", String.class);
+        System.out.println("getPublicKey,response:"+response.getBody());
+        Map data = (Map) JSON.parseObject(response.getBody(), new TypeReference<Map<String, Object>>(){}).get("data");
+        String publicKey = data.get("publicKey").toString();
+        System.out.println("getPublicKey,publicKey:"+ publicKey);
+        return publicKey;
+    }
+
+    /**
+     * 获取token
+     * @return token
+     */
+    public String getToken() {
+        String token = null;
+        // 准备请求头
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        //获取公钥
+        String publicKey = getPublicKey();
+        if (StringUtils.isEmpty(publicKey)) {
+            System.out.println("get publicKey failed.");
+        } else {
+            try {
+                // 准备请求体
+                Map requestBody = new HashMap();
+                requestBody.put("grant_type", "password");
+                requestBody.put("username", "TEST");
+                requestBody.put("password", encrypt("Admin123", publicKey));
+                requestBody.put("client_id", "CompanyName");
+                requestBody.put("client_secret", "42bec152-8f04-476a-9aec-e7d616ff3cb3");
+                requestBody.put("public_key", publicKey);
+                // 创建 HttpEntity 对象
+                HttpEntity<String> entity = new HttpEntity<>(JSON.toJSONString(requestBody), headers);
+                System.out.println("getToken, request: " + JSON.toJSONString(requestBody));
+                // 调用 POST 接口
+                String url = "https://**:443/evo-apigw/evo-oauth/1.0.0/oauth/extend/token";
+                ResponseEntity<String> response = getRestTemplate().exchange(url, HttpMethod.POST, entity, String.class);
+                // 输出响应内容
+                System.out.println("getToken, response: " + response.getBody());
+                Map responseBody = JSON.parseObject(response.getBody(), new TypeReference<Map<String, Object>>(){});
+                Map data = (Map) responseBody.get("data");
+                String code = (String) responseBody.get("code");
+                if(!code.equals("0")){
+                    System.out.println("get token failed.");
+                }else {
+                    String accessToken = data.get("access_token").toString();
+                    String tokenType = data.get("token_type").toString();
+                    token = tokenType + ' ' + accessToken;
+                    System.out.println("getToken, token:" + token);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return token;
+    }
+
+}
+刷新认证信息
+接口说明
+
+刷新认证信息仅是跳过密码RSA加密鉴权，获取新的access_token
+
+如果密码RSA加密是封装好,且密码是固定不变的，仅定时任务调获取公钥接口与认证接口完成即可
+
+接口配套版本信息
+
+智能物联综合管理平台iConnection Center V5.0.6及以上版本
+
+接口版本
+
+1.0.0
+
+接口URL
+
+/evo-apigw/evo-oauth/1.0.0/oauth/extend/refresh/token
+请求Method
+
+POST
+
+数据提交格式
+
+application/json
+
+请求参数
+
+参数名	必选	类型	说明
+grant_type	true	string(0,128)	认证类型，固定值：refresh_token
+client_id	true	string(0,128)	客户端id，自定义，支持数字、字母，即认证接口中的client_id与client_secret
+client_secret	true	string(0,128)	客户端secret，，详见申请访问凭证获取
+refresh_token	true	string(0,2048)	refresh_token
+请求参数示例
+
+{
+	"grant_type": "refresh_token",
+	"client_id": "xxx",
+	"client_secret": "xxx",
+	"refresh_token": "xxx"
+}
+返回参数
+
+名称	类型	说明	版本号
+success	boolean	接口返回是否成功	
+code	string	错误码：0为无错误，非0为具体错误码	
+errMsg	string	错误消息	
+data	object	返回数据对象	
++ id	string	被修改的用户id	
++ access_token	string	鉴权token	请求业务接口时设置请求头字段Authorization=token_type + 空格 + access_token，示例：bearer 1：704dc1bc-b05e-4ed5-a889-0261584919f6
++ refresh_token	string	刷新token	刷新token，有效期1天;一般需要结合刷新认证信息接口获取access_token,避免再次输入密码获取
++ token_type	string	令牌类型，固定bearer	
++ expires_in	long	access_token有效期,单位是秒	
++ scope	string	作用域，固定‘*’	
++ userId	string	用户id	
+返回参数示例（成功）
+
+{
+	"success": true,
+	"data": {
+		"access_token": "1:41b47980-35a9-406d-a843-d875d672de82",
+		"token_type": "bearer",
+		"refresh_token": "0ef5e3f7-5779-4ad2-94c6-34a972feb6fb",
+		"expires_in": 86399,
+		"scope": "*",
+		"userId": "1",
+		"magicId": "1868a7db-adeb-42de-8064-43b3706ae407"
+	},
+	"code": "0",
+	"errMsg": ""
+}
+返回参数示例（失败）
+
+{
+	"success": false,
+	"data": {},
+	"code": "27001000",
+	"errMsg": "Invalid refresh token: 3945c2b3-1d41-4dce-b70c-a8c8d564943e123"
+}
+DEMO用例
+
+若项目已引入ICC java SDK，则内部已做好token定时刷新，无需再调用此接口， 若项目未引入ICC java SDK，可参考以下java调用代码示例：
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+import javax.net.ssl.SSLContext;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class OauthUtil {
+    public static void main(String[] args) {
+        OauthUtil oauthUtil=new OauthUtil();
+        oauthUtil.refreshToken();
+    }
+
+    /**
+     * 获取RestTemplate实例
+     * @return RestTemplate实例
+     */
+    public static RestTemplate getRestTemplate() {
+        RestTemplate restTemplate = null;
+        try {
+            // 创建一个信任所有证书的 SSL 上下文
+            SSLContext sslContext = new SSLContextBuilder()
+                    .loadTrustMaterial(null, (chain, authType) -> true)
+                    .build();
+
+            // 创建一个忽略主机名验证的 SSL 连接套接字工厂
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+
+            // 创建 HttpClient
+            CloseableHttpClient httpClient = HttpClients.custom()
+                    .setSSLSocketFactory(sslsf)
+                    .build();
+
+            // 创建 ClientHttpRequestFactory
+            ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+
+            // 创建 RestTemplate 并设置请求工厂
+            restTemplate = new RestTemplate(requestFactory);
+
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return restTemplate;
+    }
+
+    /**
+     * 刷新token
+     * @return token
+     */
+    public String refreshToken() {
+        String token = null;
+        // 准备请求头
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        try {
+            // 准备请求体
+            Map requestBody = new HashMap();
+            requestBody.put("grant_type", "refresh_token");
+            requestBody.put("client_id", "CompanyName");
+            requestBody.put("client_secret", "42bec152-8f04-476a-9aec-e7d616ff3cb3");
+            requestBody.put("refresh_token", "lZI6WTyRxzPZ3Hxmznt04AAZfyJzGgqD");
+            // 创建 HttpEntity 对象
+            HttpEntity<String> entity = new HttpEntity<>(JSON.toJSONString(requestBody), headers);
+            System.out.println("getToken, request: " + JSON.toJSONString(requestBody));
+            // 调用 POST 接口
+            String url = "https://**:443/evo-apigw/evo-oauth/1.0.0/oauth/extend/refresh/token";
+            ResponseEntity<String> response = getRestTemplate().exchange(url, HttpMethod.POST, entity, String.class);
+            // 输出响应内容
+            System.out.println("refreshToken, response: " + response.getBody());
+            Map data = (Map) JSON.parseObject(response.getBody(), new TypeReference<Map<String, Object>>(){}).get("data");
+            if(data == null){
+                System.out.println("refresh token failed.");
+            }else {
+                String accessToken = data.get("access_token").toString();
+                String tokenType = data.get("token_type").toString();
+                token = tokenType + ' ' + accessToken;
+                System.out.println("refreshToken, token:" + token);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return token;
+    }
+}

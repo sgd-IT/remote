@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频监控 - 安为智慧消防</title>
+    <link href="https://fonts.googleapis.com/css2?family=Microsoft+YaHei&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0A1628;
+            --bg-secondary: #0D1B2A;
+            --card-bg: rgba(13, 30, 56, 0.85);
+            --border-glow: rgba(0, 180, 255, 0.15);
+            --text-primary: #E8F0FE;
+            --text-secondary: #8BA3C7;
+            --accent-blue: #00B4FF;
+            --accent-cyan: #00E5FF;
+            --danger: #FF4D4F;
+            --warning: #FF8C00;
+            --success: #00E676;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            height: 60px;
+            background: linear-gradient(180deg, rgba(13, 30, 56, 0.95) 0%, rgba(10, 22, 40, 0.9) 100%);
+            border-bottom: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            opacity: 0.5;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.3);
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .header-icon:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 180, 255, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .user-name {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        /* 左侧导航栏 */
+        .nav-bar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            bottom: 0;
+            width: 60px;
+            background: rgba(13, 30, 56, 0.95);
+            border-right: 1px solid var(--border-glow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 180, 255, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 180, 255, 0.2);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: var(--accent-blue);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .nav-item-icon {
+            font-size: 20px;
+        }
+
+        .nav-item-tooltip {
+            position: absolute;
+            left: 54px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glow);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-primary);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover .nav-item-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 主容器 */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 60px);
+            margin-left: 60px;
+        }
+
+        /* 左侧监控列表 */
+        .camera-list {
+            width: 280px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-glow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .list-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: rgba(0, 180, 255, 0.05);
+            border: 1px solid var(--border-glow);
+            border-radius: 6px;
+        }
+
+        .list-search input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 13px;
+            outline: none;
+        }
+
+        .list-search input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .camera-tree {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        .tree-group {
+            margin-bottom: 12px;
+        }
+
+        .tree-group-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(0, 180, 255, 0.08);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tree-group-header:hover {
+            background: rgba(0, 180, 255, 0.15);
+        }
+
+        .tree-group-header.active {
+            background: rgba(0, 180, 255, 0.2);
+        }
+
+        .tree-group-icon {
+            font-size: 16px;
+        }
+
+        .tree-group-name {
+            flex: 1;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .tree-group-count {
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: rgba(0, 180, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .tree-items {
+            padding-left: 16px;
+            margin-top: 6px;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+
+        .tree-item:hover {
+            background: rgba(0, 180, 255, 0.1);
+        }
+
+        .tree-item.active {
+            background: rgba(0, 180, 255, 0.15);
+            color: var(--accent-cyan);
+        }
+
+        .tree-item-icon {
+            font-size: 14px;
+        }
+
+        .tree-item-name {
+            flex: 1;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tree-item.active .tree-item-name {
+            color: var(--accent-cyan);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-dot.online { background: var(--success); }
+        .status-dot.offline { background: var(--text-secondary); }
+
+        /* 视频区域 */
+        .video-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+        }
+
+        .video-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .screen-mode {
+            display: flex;
+            gap: 4px;
+        }
+
+        .screen-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: rgba(0, 180, 255, 0.05);
+            border: 1px solid var(--border-glow);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .screen-btn:hover {
+            background: rgba(0, 180, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .screen-btn.active {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 180, 255, 0.2);
+        }
+
+        .toolbar-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border-glow);
+        }
+
+        .toolbar-btn {
+            padding: 8px 12px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .toolbar-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .camera-name {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .record-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: rgba(255, 77, 79, 0.1);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--danger);
+        }
+
+        .record-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--danger);
+            animation: record-blink 1s infinite;
+        }
+
+        @keyframes record-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* 视频网格 */
+        .video-grid {
+            flex: 1;
+            display: grid;
+            gap: 2px;
+            padding: 16px;
+            background: var(--bg-primary);
+        }
+
+        .video-grid.mode-1 {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        .video-grid.mode-4 {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+        }
+
+        .video-grid.mode-9 {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+        }
+
+        .video-grid.mode-16 {
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+        }
+
+        .video-item {
+            position: relative;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glow);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .video-item:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.2);
+        }
+
+        .video-item.active {
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.3);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            background: linear-gradient(135deg, #0D1B2A 0%, #1a2a40 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 180, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 180, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .video-placeholder-icon {
+            font-size: 48px;
+            opacity: 0.5;
+            margin-bottom: 12px;
+        }
+
+        .video-placeholder-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px 10px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        }
+
+        .video-title {
+            font-size: 12px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .video-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+
+        .video-badge.alarm {
+            background: rgba(255, 77, 79, 0.8);
+            color: white;
+            animation: badge-pulse 1s infinite;
+        }
+
+        @keyframes badge-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* 云台控制 */
+        .ptz-control {
+            position: absolute;
+            bottom: 60px;
+            right: 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.1);
+        }
+
+        .ptz-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .ptz-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 36px);
+            grid-template-rows: repeat(3, 36px);
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .ptz-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .ptz-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .ptz-btn.center {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .ptz-zoom {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .ptz-zoom-btn {
+            width: 70px;
+            height: 32px;
+            border-radius: 6px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 11px;
+        }
+
+        .ptz-zoom-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* 快速操作 */
+        .quick-actions {
+            position: absolute;
+            top: 60px;
+            right: 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quick-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 18px;
+        }
+
+        .quick-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 180, 255, 0.2);
+        }
+
+        .quick-btn.danger:hover {
+            background: rgba(255, 77, 79, 0.2);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 180, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 180, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">🔥</div>
+            <span class="logo-text">安为智慧消防</span>
+        </div>
+        <div class="header-center">视频监控</div>
+        <div class="header-right">
+            <div class="header-icon" title="消息">🔔</div>
+            <a href="01-dashboard.html" class="header-icon" title="返回首页">🏠</a>
+            <div class="user-info">
+                <div class="user-avatar">李</div>
+                <span class="user-name">李明华</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 左侧导航栏 -->
+    <nav class="nav-bar">
+        <a href="01-dashboard.html" class="nav-item">
+            <span class="nav-item-icon">📺</span>
+            <span class="nav-item-tooltip">大屏值守台</span>
+        </a>
+        <a href="02-remote-control.html" class="nav-item">
+            <span class="nav-item-icon">🎛️</span>
+            <span class="nav-item-tooltip">远程控制台</span>
+        </a>
+        <a href="03-operations.html" class="nav-item">
+            <span class="nav-item-icon">🔧</span>
+            <span class="nav-item-tooltip">运维工作台</span>
+        </a>
+        <a href="04-data-center.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            <span class="nav-item-tooltip">数据中心</span>
+        </a>
+        <div class="nav-item active">
+            <span class="nav-item-icon">📹</span>
+            <span class="nav-item-tooltip">视频监控</span>
+        </div>
+        <a href="06-patrol-management.html" class="nav-item">
+            <span class="nav-item-icon">👮</span>
+            <span class="nav-item-tooltip">查岗管理</span>
+        </a>
+        <a href="07-system-management.html" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            <span class="nav-item-tooltip">系统管理</span>
+        </a>
+    </nav>
+
+    <!-- 主容器 -->
+    <div class="main-container">
+        <!-- 左侧监控列表 -->
+        <div class="camera-list">
+            <div class="list-header">
+                <div class="list-search">
+                    <span>🔍</span>
+                    <input type="text" placeholder="搜索摄像头...">
+                </div>
+            </div>
+            <div class="camera-tree">
+                <div class="tree-group">
+                    <div class="tree-group-header active">
+                        <span class="tree-group-icon">🏢</span>
+                        <span class="tree-group-name">万达商业广场</span>
+                        <span class="tree-group-count">4</span>
+                    </div>
+                    <div class="tree-items">
+                        <div class="tree-item active">
+                            <span class="tree-item-icon">📹</span>
+                            <span class="tree-item-name">1号主机监控</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-item-icon">📹</span>
+                            <span class="tree-item-name">2号主机监控</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-item-icon">📹</span>
+                            <span class="tree-item-name">消防通道监控</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-item-icon">📹</span>
+                            <span class="tree-item-name">3楼走廊</span>
+                            <span class="status-dot offline"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tree-group">
+                    <div class="tree-group-header">
+                        <span class="tree-group-icon">🏢</span>
+                        <span class="tree-group-name">华润大厦</span>
+                        <span class="tree-group-count">2</span>
+                    </div>
+                    <div class="tree-items">
+                        <div class="tree-item">
+                            <span class="tree-item-icon">📹</span>
+                            <span class="tree-item-name">主机房监控</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-item-icon">📹</span>
+                            <span class="tree-item-name">地下车库</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tree-group">
+                    <div class="tree-group-header">
+                        <span class="tree-group-icon">🏢</span>
+                        <span class="tree-group-name">科技园A座</span>
+                        <span class="tree-group-count">1</span>
+                    </div>
+                    <div class="tree-items">
+                        <div class="tree-item">
+                            <span class="tree-item-icon">📹</span>
+                            <span class="tree-item-name">大厅监控</span>
+                            <span class="status-dot online"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 视频区域 -->
+        <div class="video-area">
+            <!-- 工具栏 -->
+            <div class="video-toolbar">
+                <div class="toolbar-left">
+                    <div class="screen-mode">
+                        <button class="screen-btn" onclick="setScreenMode(1)">1</button>
+                        <button class="screen-btn active" onclick="setScreenMode(4)">4</button>
+                        <button class="screen-btn" onclick="setScreenMode(9)">9</button>
+                        <button class="screen-btn" onclick="setScreenMode(16)">16</button>
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    <button class="toolbar-btn">◀ ▶</button>
+                    <button class="toolbar-btn">⏸️</button>
+                    <button class="toolbar-btn">⏹️</button>
+                </div>
+                <div class="toolbar-right">
+                    <span class="camera-name">万达商业广场 - 1号主机监控</span>
+                    <div class="record-status">
+                        <span class="record-dot"></span>
+                        <span>录制中</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 视频网格 -->
+            <div class="video-grid mode-4" id="videoGrid">
+                <div class="video-item active">
+                    <div class="video-placeholder">
+                        <span class="video-placeholder-icon">📹</span>
+                        <span class="video-placeholder-text">万达商业广场 - 1号主机</span>
+                    </div>
+                    <span class="video-badge alarm">🔥 火警</span>
+                    <div class="video-overlay">
+                        <div class="video-title">万达商业广场 - 1号主机监控</div>
+                        <div class="video-meta">
+                            <span>1280×720</span>
+                            <span>25fps</span>
+                            <span class="status-dot online"></span>在线
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <span class="video-placeholder-icon">📹</span>
+                        <span class="video-placeholder-text">万达商业广场 - 2号主机</span>
+                    </div>
+                    <div class="video-overlay">
+                        <div class="video-title">万达商业广场 - 2号主机监控</div>
+                        <div class="video-meta">
+                            <span>1280×720</span>
+                            <span>25fps</span>
+                            <span class="status-dot online"></span>在线
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <span class="video-placeholder-icon">📹</span>
+                        <span class="video-placeholder-text">华润大厦 - 主机房</span>
+                    </div>
+                    <div class="video-overlay">
+                        <div class="video-title">华润大厦 - 主机房监控</div>
+                        <div class="video-meta">
+                            <span>1280×720</span>
+                            <span>25fps</span>
+                            <span class="status-dot online"></span>在线
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <span class="video-placeholder-icon">📹</span>
+                        <span class="video-placeholder-text">科技园A座 - 大厅</span>
+                    </div>
+                    <div class="video-overlay">
+                        <div class="video-title">科技园A座 - 大厅监控</div>
+                        <div class="video-meta">
+                            <span>1280×720</span>
+                            <span>25fps</span>
+                            <span class="status-dot online"></span>在线
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 快速操作 -->
+            <div class="quick-actions">
+                <button class="quick-btn" title="截图">📷</button>
+                <button class="quick-btn" title="录像">🎬</button>
+                <button class="quick-btn" title="对讲">🎤</button>
+                <button class="quick-btn" title="云台控制">🎛️</button>
+                <button class="quick-btn danger" title="紧急录制">⏺</button>
+            </div>
+
+            <!-- 云台控制 -->
+            <div class="ptz-control">
+                <div class="ptz-title">云台控制</div>
+                <div class="ptz-grid">
+                    <div class="ptz-btn"></div>
+                    <div class="ptz-btn">▲</div>
+                    <div class="ptz-btn"></div>
+                    <div class="ptz-btn">◄</div>
+                    <div class="ptz-btn center">●</div>
+                    <div class="ptz-btn">►</div>
+                    <div class="ptz-btn"></div>
+                    <div class="ptz-btn">▼</div>
+                    <div class="ptz-btn"></div>
+                </div>
+                <div class="ptz-zoom">
+                    <button class="ptz-zoom-btn">➖ 缩小</button>
+                    <button class="ptz-zoom-btn">➕ 放大</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setScreenMode(mode) {
+            const grid = document.getElementById('videoGrid');
+            grid.className = 'video-grid mode-' + mode;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.screen-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

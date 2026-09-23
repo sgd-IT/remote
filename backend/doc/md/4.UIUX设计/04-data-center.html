@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据中心 - 安为智慧消防</title>
+    <link href="https://fonts.googleapis.com/css2?family=Microsoft+YaHei&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0A1628;
+            --bg-secondary: #0D1B2A;
+            --card-bg: rgba(13, 30, 56, 0.85);
+            --border-glow: rgba(0, 180, 255, 0.15);
+            --text-primary: #E8F0FE;
+            --text-secondary: #8BA3C7;
+            --accent-blue: #00B4FF;
+            --accent-cyan: #00E5FF;
+            --danger: #FF4D4F;
+            --warning: #FF8C00;
+            --caution: #FFD700;
+            --success: #00E676;
+            --offline: #5C6B7F;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            height: 60px;
+            background: linear-gradient(180deg, rgba(13, 30, 56, 0.95) 0%, rgba(10, 22, 40, 0.9) 100%);
+            border-bottom: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            opacity: 0.5;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.3);
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .header-icon:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 180, 255, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .user-name {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        /* 左侧导航栏 */
+        .nav-bar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            bottom: 0;
+            width: 60px;
+            background: rgba(13, 30, 56, 0.95);
+            border-right: 1px solid var(--border-glow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 180, 255, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 180, 255, 0.2);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: var(--accent-blue);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .nav-item-icon {
+            font-size: 20px;
+        }
+
+        .nav-item-tooltip {
+            position: absolute;
+            left: 54px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glow);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-primary);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover .nav-item-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 主容器 */
+        .main-container {
+            padding: 20px;
+            margin-left: 60px;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            color: var(--text-primary);
+            padding-left: 12px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .page-btn {
+            padding: 8px 16px;
+            background: rgba(0, 180, 255, 0.1);
+            border: 1px solid var(--border-glow);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .page-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* 玻璃卡片 */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.05);
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-left: 10px;
+            border-left: 3px solid var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* KPI 指标卡片 */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            text-align: center;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, transparent, rgba(0, 180, 255, 0.1));
+            border-radius: 0 0 0 60px;
+        }
+
+        .kpi-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .kpi-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .kpi-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .kpi-trend.up {
+            background: rgba(0, 230, 118, 0.2);
+            color: var(--success);
+        }
+
+        .kpi-trend.down {
+            background: rgba(255, 77, 79, 0.2);
+            color: var(--danger);
+        }
+
+        /* 图表区域 */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            height: 280px;
+            position: relative;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 折线图样式 */
+        .line-path {
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .line-path.alarm { stroke: var(--danger); }
+        .line-path.resolved { stroke: var(--success); }
+        .line-path.device { stroke: var(--accent-blue); }
+
+        .area-fill {
+            opacity: 0.2;
+        }
+
+        .area-fill.alarm { fill: var(--danger); }
+        .area-fill.resolved { fill: var(--success); }
+
+        .chart-dot {
+            r: 4;
+        }
+
+        .chart-dot.alarm { fill: var(--danger); }
+        .chart-dot.resolved { fill: var(--success); }
+        .chart-dot.device { fill: var(--accent-blue); }
+
+        .chart-label {
+            font-size: 10px;
+            fill: var(--text-secondary);
+        }
+
+        .chart-grid-line {
+            stroke: rgba(100, 140, 180, 0.1);
+            stroke-width: 1;
+        }
+
+        /* 柱状图 */
+        .bar {
+            fill: var(--accent-blue);
+            opacity: 0.8;
+        }
+
+        .bar:hover {
+            opacity: 1;
+        }
+
+        .bar.alarm { fill: var(--danger); }
+        .bar.warning { fill: var(--warning); }
+        .bar.normal { fill: var(--success); }
+
+        /* 饼图 */
+        .pie-label {
+            font-size: 11px;
+            fill: var(--text-primary);
+        }
+
+        .pie-value {
+            font-size: 13px;
+            font-weight: bold;
+            fill: var(--text-primary);
+        }
+
+        /* 图例 */
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.blue { background: var(--accent-blue); }
+        .legend-dot.red { background: var(--danger); }
+        .legend-dot.green { background: var(--success); }
+        .legend-dot.orange { background: var(--warning); }
+        .legend-dot.gray { background: var(--offline); }
+
+        /* 数据列表 */
+        .data-list {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .data-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.08);
+        }
+
+        .data-item:last-child {
+            border-bottom: none;
+        }
+
+        .data-item:hover {
+            background: rgba(0, 180, 255, 0.05);
+        }
+
+        .data-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .data-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 180, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .data-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .data-name {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .data-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .data-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            height: 6px;
+            background: rgba(0, 180, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .progress-fill.blue { background: var(--accent-blue); }
+        .progress-fill.green { background: var(--success); }
+        .progress-fill.red { background: var(--danger); }
+        .progress-fill.orange { background: var(--warning); }
+
+        /* 统计表格 */
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stats-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: rgba(0, 180, 255, 0.05);
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .stats-table td {
+            padding: 12px;
+            font-size: 13px;
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(0, 180, 255, 0.08);
+        }
+
+        .stats-table tr:hover {
+            background: rgba(0, 180, 255, 0.05);
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .rank-badge.gold {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+        }
+
+        .rank-badge.silver {
+            background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+            color: #1a1a1a;
+        }
+
+        .rank-badge.bronze {
+            background: linear-gradient(135deg, #CD7F32, #B87333);
+            color: white;
+        }
+
+        .rank-badge.normal {
+            background: rgba(0, 180, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 180, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 180, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">🔥</div>
+            <span class="logo-text">安为智慧消防</span>
+        </div>
+        <div class="header-center">数据中心</div>
+        <div class="header-right">
+            <div class="header-icon" title="消息">🔔</div>
+            <a href="01-dashboard.html" class="header-icon" title="返回首页">🏠</a>
+            <div class="user-info">
+                <div class="user-avatar">李</div>
+                <span class="user-name">李明华</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 左侧导航栏 -->
+    <nav class="nav-bar">
+        <a href="01-dashboard.html" class="nav-item">
+            <span class="nav-item-icon">📺</span>
+            <span class="nav-item-tooltip">大屏值守台</span>
+        </a>
+        <a href="02-remote-control.html" class="nav-item">
+            <span class="nav-item-icon">🎛️</span>
+            <span class="nav-item-tooltip">远程控制台</span>
+        </a>
+        <a href="03-operations.html" class="nav-item">
+            <span class="nav-item-icon">🔧</span>
+            <span class="nav-item-tooltip">运维工作台</span>
+        </a>
+        <div class="nav-item active">
+            <span class="nav-item-icon">📊</span>
+            <span class="nav-item-tooltip">数据中心</span>
+        </div>
+        <a href="05-video-monitoring.html" class="nav-item">
+            <span class="nav-item-icon">📹</span>
+            <span class="nav-item-tooltip">视频监控</span>
+        </a>
+        <a href="06-patrol-management.html" class="nav-item">
+            <span class="nav-item-icon">👮</span>
+            <span class="nav-item-tooltip">查岗管理</span>
+        </a>
+        <a href="07-system-management.html" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            <span class="nav-item-tooltip">系统管理</span>
+        </a>
+    </nav>
+
+    <!-- 主容器 -->
+    <div class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">数据中心</h1>
+            <div class="page-actions">
+                <select class="page-btn" style="cursor: pointer;">
+                    <option>2025年1月</option>
+                    <option>2024年12月</option>
+                    <option>2024年11月</option>
+                </select>
+                <button class="page-btn">
+                    <span>📥</span> 导出报表
+                </button>
+            </div>
+        </div>
+
+        <!-- KPI 指标 -->
+        <div class="kpi-grid">
+            <div class="glass-card kpi-card">
+                <div class="kpi-icon">🏢</div>
+                <div class="kpi-value">11</div>
+                <div class="kpi-label">接入企业数</div>
+                <div class="kpi-trend up">↑ 2</div>
+            </div>
+            <div class="glass-card kpi-card">
+                <div class="kpi-icon">📡</div>
+                <div class="kpi-value">156</div>
+                <div class="kpi-label">设备总数</div>
+                <div class="kpi-trend up">↑ 12</div>
+            </div>
+            <div class="glass-card kpi-card">
+                <div class="kpi-icon">⚠️</div>
+                <div class="kpi-value" style="color: var(--danger); text-shadow: 0 0 20px rgba(255, 77, 79, 0.4);">28</div>
+                <div class="kpi-label">本月告警数</div>
+                <div class="kpi-trend down">↓ 5</div>
+            </div>
+            <div class="glass-card kpi-card">
+                <div class="kpi-icon">✅</div>
+                <div class="kpi-value" style="color: var(--success); text-shadow: 0 0 20px rgba(0, 230, 118, 0.4);">95%</div>
+                <div class="kpi-label">处置率</div>
+                <div class="kpi-trend up">↑ 3%</div>
+            </div>
+        </div>
+
+        <!-- 图表区域 -->
+        <div class="charts-grid">
+            <!-- 告警趋势 -->
+            <div class="glass-card">
+                <div class="card-title">告警趋势</div>
+                <div class="chart-container">
+                    <svg class="chart-svg" viewBox="0 0 400 220">
+                        <!-- 网格线 -->
+                        <line x1="40" y1="30" x2="380" y2="30" class="chart-grid-line"/>
+                        <line x1="40" y1="75" x2="380" y2="75" class="chart-grid-line"/>
+                        <line x1="40" y1="120" x2="380" y2="120" class="chart-grid-line"/>
+                        <line x1="40" y1="165" x2="380" y2="165" class="chart-grid-line"/>
+                        
+                        <!-- 告警线（红色） -->
+                        <path d="M 60 120 Q 100 90, 140 105 T 220 75 T 300 95 T 360 60" class="line-path alarm"/>
+                        <circle cx="60" cy="120" class="chart-dot alarm"/>
+                        <circle cx="100" cy="95" class="chart-dot alarm"/>
+                        <circle cx="140" cy="105" class="chart-dot alarm"/>
+                        <circle cx="180" cy="85" class="chart-dot alarm"/>
+                        <circle cx="220" cy="75" class="chart-dot alarm"/>
+                        <circle cx="260" cy="90" class="chart-dot alarm"/>
+                        <circle cx="300" cy="95" class="chart-dot alarm"/>
+                        <circle cx="340" cy="70" class="chart-dot alarm"/>
+                        <circle cx="360" cy="60" class="chart-dot alarm"/>
+                        
+                        <!-- 处置线（绿色） -->
+                        <path d="M 60 150 Q 100 130, 140 135 T 220 110 T 300 120 T 360 95" class="line-path resolved"/>
+                        <circle cx="60" cy="150" class="chart-dot resolved"/>
+                        <circle cx="100" cy="130" class="chart-dot resolved"/>
+                        <circle cx="140" cy="135" class="chart-dot resolved"/>
+                        <circle cx="180" cy="115" class="chart-dot resolved"/>
+                        <circle cx="220" cy="110" class="chart-dot resolved"/>
+                        <circle cx="260" cy="125" class="chart-dot resolved"/>
+                        <circle cx="300" cy="120" class="chart-dot resolved"/>
+                        <circle cx="340" cy="100" class="chart-dot resolved"/>
+                        <circle cx="360" cy="95" class="chart-dot resolved"/>
+                        
+                        <!-- X轴标签 -->
+                        <text x="60" y="195" class="chart-label">1日</text>
+                        <text x="140" y="195" class="chart-label">7日</text>
+                        <text x="220" y="195" class="chart-label">13日</text>
+                        <text x="300" y="195" class="chart-label">19日</text>
+                        <text x="360" y="195" class="chart-label">25日</text>
+                    </svg>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-dot red"></span>
+                        <span>告警数</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot green"></span>
+                        <span>处置数</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设备状态分布 -->
+            <div class="glass-card">
+                <div class="card-title">设备状态分布</div>
+                <div class="chart-container" style="display: flex; align-items: center; justify-content: space-around;">
+                    <svg width="180" height="180" viewBox="0 0 180 180">
+                        <!-- 饼图 - 使用不同颜色表示比例 -->
+                        <circle cx="90" cy="90" r="70" fill="none" stroke="rgba(0, 180, 255, 0.2)" stroke-width="30"/>
+                        <circle cx="90" cy="90" r="70" fill="none" stroke="var(--success)" stroke-width="30" 
+                                stroke-dasharray="131.95 308.18" stroke-dashoffset="0" transform="rotate(-90 90 90)"/>
+                        <circle cx="90" cy="90" r="70" fill="none" stroke="var(--danger)" stroke-width="30" 
+                                stroke-dasharray="43.98 395.15" stroke-dashoffset="-131.95" transform="rotate(-90 90 90)"/>
+                        <circle cx="90" cy="90" r="70" fill="none" stroke="var(--warning)" stroke-width="30" 
+                                stroke-dasharray="21.99 417.14" stroke-dashoffset="-175.93" transform="rotate(-90 90 90)"/>
+                        <circle cx="90" cy="90" r="70" fill="none" stroke="var(--offline)" stroke-width="30" 
+                                stroke-dasharray="87.97 351.16" stroke-dashoffset="-197.92" transform="rotate(-90 90 90)"/>
+                        
+                        <!-- 中心文字 -->
+                        <text x="90" y="85" text-anchor="middle" class="pie-value">156</text>
+                        <text x="90" y="100" text-anchor="middle" class="pie-label">设备总数</text>
+                    </svg>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="width: 12px; height: 12px; background: var(--success); border-radius: 3px;"></span>
+                            <span style="font-size: 12px; color: var(--text-secondary);">正常</span>
+                            <span style="font-size: 14px; color: var(--text-primary); margin-left: auto;">89</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="width: 12px; height: 12px; background: var(--danger); border-radius: 3px;"></span>
+                            <span style="font-size: 12px; color: var(--text-secondary);">告警</span>
+                            <span style="font-size: 14px; color: var(--text-primary); margin-left: auto;">12</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="width: 12px; height: 12px; background: var(--warning); border-radius: 3px;"></span>
+                            <span style="font-size: 12px; color: var(--text-secondary);">故障</span>
+                            <span style="font-size: 14px; color: var(--text-primary); margin-left: auto;">6</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="width: 12px; height: 12px; background: var(--offline); border-radius: 3px;"></span>
+                            <span style="font-size: 12px; color: var(--text-secondary);">离线</span>
+                            <span style="font-size: 14px; color: var(--text-primary); margin-left: auto;">49</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 月度告警统计 -->
+            <div class="glass-card">
+                <div class="card-title">月度告警统计</div>
+                <div class="chart-container">
+                    <svg class="chart-svg" viewBox="0 0 400 220">
+                        <!-- 网格线 -->
+                        <line x1="40" y1="30" x2="380" y2="30" class="chart-grid-line"/>
+                        <line x1="40" y1="75" x2="380" y2="75" class="chart-grid-line"/>
+                        <line x1="40" y1="120" x2="380" y2="120" class="chart-grid-line"/>
+                        <line x1="40" y1="165" x2="380" y2="165" class="chart-grid-line"/>
+                        
+                        <!-- 柱状图 -->
+                        <rect x="50" y="120" width="25" height="45" class="bar alarm"/>
+                        <rect x="85" y="90" width="25" height="75" class="bar alarm"/>
+                        <rect x="120" y="105" width="25" height="60" class="bar alarm"/>
+                        <rect x="155" y="75" width="25" height="90" class="bar alarm"/>
+                        <rect x="190" y="135" width="25" height="30" class="bar alarm"/>
+                        <rect x="225" y="60" width="25" height="105" class="bar alarm"/>
+                        <rect x="260" y="90" width="25" height="75" class="bar alarm"/>
+                        <rect x="295" y="120" width="25" height="45" class="bar alarm"/>
+                        <rect x="330" y="150" width="25" height="15" class="bar alarm"/>
+                        <rect x="365" y="45" width="25" height="120" class="bar alarm"/>
+                        
+                        <!-- Y轴标签 -->
+                        <text x="35" y="35" class="chart-label" text-anchor="end">30</text>
+                        <text x="35" y="80" class="chart-label" text-anchor="end">20</text>
+                        <text x="35" y="125" class="chart-label" text-anchor="end">10</text>
+                        <text x="35" y="170" class="chart-label" text-anchor="end">0</text>
+                        
+                        <!-- X轴标签 -->
+                        <text x="62" y="195" class="chart-label" text-anchor="middle">1月</text>
+                        <text x="132" y="195" class="chart-label" text-anchor="middle">2月</text>
+                        <text x="202" y="195" class="chart-label" text-anchor="middle">3月</text>
+                        <text x="272" y="195" class="chart-label" text-anchor="middle">4月</text>
+                        <text x="342" y="195" class="chart-label" text-anchor="middle">5月</text>
+                        <text x="377" y="195" class="chart-label" text-anchor="middle">6月</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 企业风险排名 -->
+            <div class="glass-card">
+                <div class="card-title">企业风险排名</div>
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>企业名称</th>
+                            <th>告警数</th>
+                            <th>风险等级</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="rank-badge gold">1</span></td>
+                            <td>万达商业广场</td>
+                            <td>8</td>
+                            <td style="color: var(--danger);">● 重大风险</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge silver">2</span></td>
+                            <td>华润大厦</td>
+                            <td>5</td>
+                            <td style="color: var(--warning);">● 较大风险</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge bronze">3</span></td>
+                            <td>世纪金源酒店</td>
+                            <td>4</td>
+                            <td style="color: #3B82F6;">● 较小风险</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge normal">4</span></td>
+                            <td>中心医院</td>
+                            <td>3</td>
+                            <td style="color: var(--success);">● 一般风险</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge normal">5</span></td>
+                            <td>市民服务中心</td>
+                            <td>2</td>
+                            <td style="color: var(--success);">● 一般风险</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 设备类型统计 -->
+        <div class="glass-card">
+            <div class="card-title">设备类型统计</div>
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;">
+                <div class="data-item" style="flex-direction: column; text-align: center; background: rgba(0, 180, 255, 0.05); border-radius: 8px; padding: 20px;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">🔥</div>
+                    <div style="font-size: 20px; font-weight: bold; color: var(--accent-cyan);">48</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">火灾报警主机</div>
+                </div>
+                <div class="data-item" style="flex-direction: column; text-align: center; background: rgba(0, 180, 255, 0.05); border-radius: 8px; padding: 20px;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">💨</div>
+                    <div style="font-size: 20px; font-weight: bold; color: var(--accent-cyan);">36</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">感烟探测器</div>
+                </div>
+                <div class="data-item" style="flex-direction: column; text-align: center; background: rgba(0, 180, 255, 0.05); border-radius: 8px; padding: 20px;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">🌡️</div>
+                    <div style="font-size: 20px; font-weight: bold; color: var(--accent-cyan);">28</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">感温探测器</div>
+                </div>
+                <div class="data-item" style="flex-direction: column; text-align: center; background: rgba(0, 180, 255, 0.05); border-radius: 8px; padding: 20px;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">🚨</div>
+                    <div style="font-size: 20px; font-weight: bold; color: var(--accent-cyan);">22</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">手动报警按钮</div>
+                </div>
+                <div class="data-item" style="flex-direction: column; text-align: center; background: rgba(0, 180, 255, 0.05); border-radius: 8px; padding: 20px;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">💧</div>
+                    <div style="font-size: 20px; font-weight: bold; color: var(--accent-cyan);">12</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">消防水系统</div>
+                </div>
+                <div class="data-item" style="flex-direction: column; text-align: center; background: rgba(0, 180, 255, 0.05); border-radius: 8px; padding: 20px;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">⚡</div>
+                    <div style="font-size: 20px; font-weight: bold; color: var(--accent-cyan);">10</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">电气火灾监控</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

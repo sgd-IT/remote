@@ -1,0 +1,159 @@
+
+/*
+ *
+ *  * | Licensed 未经许可不能去掉「Enjoy-iot」相关版权
+ *  * +----------------------------------------------------------------------
+ *  * | Author: xw2sy@163.com | Tel: 19918996474
+ *  * +----------------------------------------------------------------------
+ *
+ *  Copyright [2025] [Enjoy-iot] | Tel: 19918996474
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ * /
+ */
+package com.enjoyiot.module.system.service.auth;
+
+import com.enjoyiot.module.system.controller.admin.auth.vo.*;
+import com.enjoyiot.module.system.dal.dataobject.user.AdminUserDO;
+
+import jakarta.validation.Valid;
+
+/**
+ * 管理后台的认证 Service 接口
+ *
+ * 提供用户的登录、登出的能力
+ *
+ * @author EnjoyIot
+ */
+public interface AdminAuthService {
+
+    /**
+     * 验证账号 + 密码。如果通过，则返回用户
+     *
+     * @param username 账号
+     * @param password 密码
+     * @return 用户
+     */
+    AdminUserDO authenticate(String username, String password);
+
+    /**
+     * 账号登录
+     *
+     * @param reqVO 登录信息
+     * @return 登录结果
+     */
+    AuthLoginRespVO login(@Valid AuthLoginReqVO reqVO);
+
+    /**
+     * 基于 token 退出登录
+     *
+     * @param token token
+     * @param logType 登出类型
+     */
+    void logout(String token, Integer logType);
+
+    /**
+     * 短信验证码发送
+     *
+     * @param reqVO 发送请求
+     */
+    void sendSmsCode(AuthSmsSendReqVO reqVO);
+
+    /**
+     * 短信登录
+     *
+     * @param reqVO 登录信息
+     * @return 登录结果
+     */
+    AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO);
+
+    /**
+     * 社交快捷登录，使用 code 授权码
+     *
+     * @param reqVO 登录信息
+     * @return 登录结果
+     */
+    AuthLoginRespVO socialLogin(@Valid AuthSocialLoginReqVO reqVO);
+
+    /**
+     * 刷新访问令牌
+     *
+     * @param refreshToken 刷新令牌
+     * @return 登录结果
+     */
+    AuthLoginRespVO refreshToken(String refreshToken);
+
+    /**
+     * 用户注册
+     *
+     * @param createReqVO 注册用户
+     * @return 注册结果
+     */
+    AuthLoginRespVO register(AuthRegisterReqVO createReqVO);
+
+    /**
+     * 账号密码登录（小程序专用，免验证码）
+     * 按账号（手机号或用户名）跨租户定位用户，在其所属租户内校验密码并发令牌
+     *
+     * @param reqVO 登录信息（账号 + 密码 + nonce）
+     * @return 登录结果
+     */
+    AuthLoginRespVO mobileLogin(@Valid AuthMobileLoginReqVO reqVO);
+
+    /**
+     * 获取微信小程序手机号
+     * 通过 getPhoneNumber 事件获得的 phoneCode 换取手机号，用于登录页账号框一键回填
+     *
+     * @param reqVO 包含手机号 code
+     * @return 手机号
+     */
+    String getWxMaPhoneNumber(@Valid AuthWxMaLoginReqVO reqVO);
+
+    /**
+     * 重置密码
+     *
+     * @param reqVO 验证码信息
+     */
+    void resetPassword(AuthResetPasswordReqVO reqVO);
+
+    /**
+     * 生成登录请求一次性随机令牌（防重放攻击）
+     *
+     * @return 随机令牌
+     */
+    String generateLoginNonce();
+
+    /**
+     * 校验 nonce 一次性有效性（防重放攻击），校验通过后 nonce 立即失效
+     *
+     * @param nonce 客户端传入的 nonce
+     */
+    void validateLoginNonce(String nonce);
+
+    /**
+     * 生成 SSO 一次性 ticket（供第三方系统后端调用，换取免登录票据）
+     *
+     * @param username 目标用户名
+     * @return 一次性 ticket
+     */
+    String generateSsoTicket(String username);
+
+    /**
+     * SSO ticket 登录：用一次性 ticket 换取 access_token + refresh_token
+     *
+     * @param ticket 一次性票据
+     * @return 登录结果
+     */
+    AuthLoginRespVO ssoLogin(String ticket);
+
+}

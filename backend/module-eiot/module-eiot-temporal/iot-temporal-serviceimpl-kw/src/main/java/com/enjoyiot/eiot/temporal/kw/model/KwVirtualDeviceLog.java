@@ -1,0 +1,26 @@
+package com.enjoyiot.eiot.temporal.kw.model;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.sql.Timestamp;
+
+@TableName("virtual_device_log")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class KwVirtualDeviceLog {
+
+    private Timestamp time;
+
+    private Long virtualDeviceId;
+
+    private String virtualDeviceName;
+
+    private int deviceTotal;
+
+    private String result;
+
+}

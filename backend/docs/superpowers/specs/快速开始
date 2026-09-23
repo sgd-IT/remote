@@ -1,0 +1,253 @@
+鉴权认证
+鉴权SDK内部集成了ICC鉴权逻辑，可以让用户不用复杂编程就可以调用ICC开放接口，java 集成方式见下面章节，c++集成请下载程序包（ICC安全认证SDK-C++（Win64）版 V1.0.0），并参照说明文档使用。
+如果上述方式不能满足您的需要，也可以根据协议鉴权中的说明，自己实现鉴权逻辑。
+前置要求
+使用ICC Java SDK，需要按照上述步骤完成访问凭证及openAPI用户相关操作。
+
+ICC Java SDK支持JDK 1.8+
+
+安装依赖
+通过Maven(推荐)
+在项目的 pom.xml 文件中添加以下依赖配置：
+
+<dependency>
+  <groupId>com.dahuatech.icc</groupId>
+  <artifactId>java-sdk-oauth</artifactId>
+  <version>1.0.13.14</version>
+</dependency>
+手动安装
+如果您的项目环境无法使用Maven，可以下载离线包进行手动集成。
+
+下载 SDK 压缩包：点击下载 ICC Java SDK
+
+解压并导入：解压下载的ZIP文件，将其中的全部JAR包导入到您项目的构建路径中。
+
+快速使用
+以下这个代码示例向您展示了调用 ICC SDK for Java 的3个主要步骤：
+
+创建 OauthConfigUserPwdInfo 实例并初始化。
+创建API请求并设置参数。
+发起请求并处理应答或异常。
+注意：使用SDK调用接口，无需关心token有效期、保活等
+
+import类：
+import com.dahuatech.hutool.http.Method;
+import com.dahuatech.icc.exception.ClientException;
+import com.dahuatech.icc.oauth.model.v202010.GeneralResponse;
+import com.dahuatech.icc.oauth.model.v202010.OauthConfigUserPwdInfo;
+import com.dahuatech.icc.oauth.utils.HttpUtils;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+若请求参数格式为application/json，可参考以下调用接口示例：
+	/**
+     * HTTP POST请求示例
+     */
+    public void testHTTPPost() throws ClientException {
+        String host = "平台IP";
+        String clientId = "凭证id";
+        String clientSecret = "凭证密钥";
+        String userName = "平台用户名";//建议不要设置为system
+        String password = "平台用户密码";
+        boolean isHttp = false;//是否使用http，http需运维中心开启http调试模式支持，开启后端口固定是83
+        String port = "443";//默认是443
+        OauthConfigUserPwdInfo oauthConfig = new OauthConfigUserPwdInfo(host, clientId, clientSecret, userName, password, isHttp, port);
+        oauthConfig.getHttpConfigInfo().setReadTimeout(-1l);//设置读取超时时间，单位毫秒，默认-1
+        oauthConfig.getHttpConfigInfo().setConnectionTimeout(-1l);//设置连接超时，单位毫秒，默认-1
+        //设置请求体
+        Map body = new HashMap<>();
+        body.put("key", "value");
+        //设置请求头
+        Map header = new HashMap<>();
+        header.put("key", "value");
+        //执行请求
+        GeneralResponse response = HttpUtils.executeJson("/evo-apigw/evo-xxx/pathxxx", body, header, Method.POST, oauthConfig, GeneralResponse.class);
+    }
+若请求参数格式为multipart/form-data，可参考以下调用接口示例：
+    /**
+     * 发送HTTP 上传文件示例
+     */
+    public void testHTTPPostFormData() throws ClientException {
+        String host = "平台IP";
+        String clientId = "凭证id";
+        String clientSecret = "凭证密钥";
+        String userName = "平台用户名";//建议不要设置为system
+        String password = "平台用户密码";
+        boolean isHttp = false;//是否使用http，http需运维中心开启http调试模式支持，开启后端口固定是83
+        String port = "443";//默认是443
+        OauthConfigUserPwdInfo oauthConfig = new OauthConfigUserPwdInfo(host, clientId, clientSecret, userName, password, isHttp, port);
+        //设置请求体
+        Map body = new HashMap<>();
+        String filePath = "文件路径";
+        //请求参数为文件
+        File file = new File(filePath);
+        body.put("file",file);
+        //设置请求头
+        Map header = new HashMap<>();
+        header.put("key","value");
+        //执行请求
+        GeneralResponse response = HttpUtils.executeForm("/evo-apigw/evo-xxx/pathxxx", body, header, Method.POST , oauthConfig, GeneralResponse.class);
+    }
+若请求参数格式为GET请求，可参考以下调用接口示例：
+    /**
+     * 发送HTTP GET请求示例
+     */
+    public void testHTTPGET() throws ClientException {
+        String host = "平台IP";
+        String clientId = "凭证id";
+        String clientSecret = "凭证密钥";
+        String userName = "平台用户名";//建议不要设置为system
+        String password = "平台用户密码";
+        boolean isHttp = false;//是否使用http，http需运维中心开启http调试模式支持，开启后端口固定是83
+        String port = "443";//默认是443
+        OauthConfigUserPwdInfo oauthConfig = new OauthConfigUserPwdInfo(host, clientId, clientSecret, userName, password, isHttp, port);
+        //执行请求
+        GeneralResponse response = HttpUtils.executeForm("/evo-apigw/evo-brm/1.0.0/person/subsystem/get-by-paper-number?paperNumber=112233445566", null,null, Method.GET, oauthConfig,GeneralResponse.class);
+    }
+若只是获取鉴权认证token用于其他功能（例如组装图片、录像下载地址）：
+    /**
+     * 获取鉴权token
+     */
+    public void testGetToken() throws ClientException {
+        String host = "平台IP";
+        String clientId = "凭证id";
+        String clientSecret = "凭证密钥";
+        String userName = "平台用户名";//建议不要设置为system
+        String password = "平台用户密码";
+        boolean isHttp = false;//是否使用http，http需运维中心开启http调试模式支持，开启后端口固定是83
+        String port = "443";//默认是443
+        OauthConfigUserPwdInfo oauthConfig = new OauthConfigUserPwdInfo(host, clientId, clientSecret, userName, password, isHttp, port);
+        HttpUtils.getToken(oauthConfig).getAccess_token();
+    }
+示例工程
+📥 点击下载 SDK 示例工程
+
+协议鉴权
+如果使用上述SDK的方式调用ICC接口，可以不用关注此章节
+
+鉴权接口的access_token有效期2h,权限与鉴权用户的组织、部门权限保持一致
+
+
+
+获取公钥
+例如：
+ICC平台ip是：**
+则接口完整地址：https://**:443/evo-apigw/evo-oauth/1.0.0/oauth/public-key
+
+GET /evo-apigw/evo-oauth/1.0.0/oauth/public-key HTTP/1.1
+Host: **
+RSA加密密码
+以下是java RSA加密示例，其他语言参考RSA加密demo
+
+import javax.crypto.Cipher;
+import java.security.KeyFactory;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
+
+public class RSAUtil {
+
+    /**
+     * 基于原生RSA公钥加密
+     * @param password 用户密码
+     * @param publicKey 公钥
+     * @return
+     * @throws Exception
+     */
+    public static String encrypt(String password, String publicKey) throws Exception {
+        //base64编码的公钥
+        byte[] decoded = java.util.Base64.getDecoder().decode(publicKey);
+        RSAPublicKey pubKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(decoded));
+        //RSA加密
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+        String outStr;
+        byte[] inputArray = password.getBytes("UTF-8");
+        int inputLength = inputArray.length;
+        // 最大加密字节数，超出最大字节数需要分组加密
+        int MAX_ENCRYPT_BLOCK = 117;
+        // 标识
+        int offSet = 0;
+        byte[] resultBytes = {};
+        byte[] cache = {};
+        while (inputLength - offSet > 0) {
+            if (inputLength - offSet > MAX_ENCRYPT_BLOCK) {
+                cache = cipher.doFinal(inputArray, offSet, MAX_ENCRYPT_BLOCK);
+                offSet += MAX_ENCRYPT_BLOCK;
+            } else {
+                cache = cipher.doFinal(inputArray, offSet, inputLength - offSet);
+                offSet = inputLength;
+            }
+            resultBytes = Arrays.copyOf(resultBytes, resultBytes.length + cache.length);
+            System.arraycopy(cache, 0, resultBytes, resultBytes.length - cache.length, cache.length);
+        }
+        outStr = java.util.Base64.getEncoder().encodeToString(resultBytes);
+        return outStr;
+    }
+
+}
+认证
+访问凭证client_id与client_secret必须和在ICC平台上申请的client_id与client_secret保持一致，详见申请访问凭证
+
+access_token有效期2h
+
+例如：
+ICC平台ip是：**
+则接口完整地址：https://**:443/evo-apigw/evo-oauth/1.0.0/oauth/extend/token
+
+POST /evo-apigw/evo-oauth/1.0.0/oauth/extend/token HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Host: **:443
+
+{
+    "grant_type":"password",
+    "username":"用户账号",
+    "password":"RSA加密后的密码",
+    "client_id":"申请的clientId",
+    "client_secret":"申请的clientSecret",
+    "public_key":"获取的公钥"
+}
+---------------------------------------------------------------------
+{
+  "success": true,
+  "data": {
+    "access_token": "10000:5cb47cd80-35d9-406d-a8d3-d87dd672d5d3",
+    "token_type": "bearer",
+    "refresh_token": "b83403e1-5ea1-41fd-81fc-e86fe5252c93",
+    "expires_in": 86399,
+    "scope": "*",
+    "userId": "10000",
+    "magicId": "1868a7db-adeb-42de-8064-43b3706ae407"
+  },
+  "code": "0",
+  "errMsg": ""
+}
+请求头设置鉴权码
+调用业务接口需在请求头中设置鉴权码：
+
+头部参数	解释
+Authorization	格式：token_type + 空格 + access_token, token_type一般为固定值bearer
+例如:bearer 1:bb951116-d963-4528-80e1-91c2e94c3e75
+设置有效Authorization示例
+
+
+
+不设置Authorization示例
+
+
+
+设置过期Authorization示例
+
+
+
+设置有效Authorization示例
+
+
+
+不设置Authorization示例
+
+
+
+设置过期Authorization示例
+

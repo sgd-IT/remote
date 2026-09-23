@@ -1,0 +1,257 @@
+<template>
+  <div>
+    <yt-crud
+      v-bind="options"
+      ref="crudRef"
+      :loading="state.loading"
+      :total="state.total"
+      v-model:page="state.page"
+      v-model:query="state.query"
+      @on-load="getData"
+      @del-fun="onDelete"
+      @save-fun="onSave"
+    >
+      <template #menuSlot="scope">
+        <el-tooltip class="box-item" effect="dark" content="配置" placement="top">
+          <el-button link type="primary" icon="Setting" @click="handleConfig(scope.row.id)" />
+        </el-tooltip>
+      </template>
+      <template #state="scope">
+        <el-tag class="state" v-if="scope.row.state === 'running'" type="success" size="small" @click="setState(scope.row.id, 'stopped')">运行中</el-tag>
+        <el-tag class="state" v-else-if="scope.row.state === 'stopped'" type="danger" size="small" @click="setState(scope.row.id, 'running')">已停止</el-tag>
+      </template>
+      <template #triggerExpression1FormItem="{column, row}">
+        <el-form-item v-if="row.trigger === 'cron'" :label="column.label" :prop="column.key">
+          <crontab v-model="row[column.key]" />
+        </el-form-item>
+      </template>
+      <template #triggerExpression2FormItem="{column, row}">
+        <el-form-item v-if="row.trigger === 'random'" :label="column.label" :prop="column.key">
+          <el-radio-group v-model="row[column.key]">
+            <el-radio-button value="second">秒</el-radio-button>
+            <el-radio-button value="minute">分</el-radio-button>
+            <el-radio-button value="hour">时</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+      </template>
+    </yt-crud>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { IColumn } from '@/components/common/types/tableCommon'
+import { deleteVirtualDevices, batchDeleteVirtualDevices, getVirtualDevicesList, saveVirtualDevices, setVirtualDeviceState } from '@/api/eiot/deviceinfo/virtualDevices.api'
+import {ProductApi, ProductVO} from '@/api/eiot/product'
+
+import YtCrud from '@/components/common/yt-crud.vue'
+
+// 跳转配置
+const router = useRouter()
+const handleConfig = (id: string) => {
+  if (!id) return
+  router.push(`virtualDeviceConfig/${id}`)
+}
+
+// 产品字典
+const productOptions = ref<ProductVO[]>([])
+const column = ref<IColumn[]>([{
+  label: '名称',
+  key: 'name',
+  rules: [{ required: true, message: '名称不能为空' }],
+}, {
+  label: '所属产品',
+  key: 'productKey',
+  type: 'select',
+  search: true,
+  tableWidth: 120,
+  componentProps: {
+    labelAlias: 'name',
+    valueAlias: 'productKey',
+    options: productOptions,
+  },
+  rules: [{ required: true, message: '产品名称不能为空' }],
+}, {
+  label: '类型',
+  key: 'type',
+  type: 'radioButton',
+  componentProps: {
+    defaultValue: 'thingModel',
+    options: [
+      {
+        value: 'thingModel',
+        label: '基于物模型',
+      }, {
+        value: 'protocol',
+        label: '基于设备协议',
+      }
+    ]
+  }
+}, {
+  label: '触发方式',
+  key: 'trigger',
+  type: 'radioButton',
+  tableWidth: 120,
+  componentProps: {
+    defaultValue: 'none',
+    options: [
+      {
+        value: 'none',
+        label: '无（手动）',
+      }, {
+        value: 'cron',
+        label: '定时执行',
+      }, {
+        value: 'random',
+        label: '随机执行',
+      }
+    ]
+  }
+}, {
+  label: '状态',
+  key: 'state',
+  type: 'select',
+  search: true,
+  formHide: true,
+  tableWidth: 180,
+  slot: true,
+  componentProps: {
+    defaultValue: '',
+    options: [
+      {
+        value: 'running',
+        label: '运行中',
+      }, {
+        value: 'stopped',
+        label: '已停止',
+      }
+    ]
+  }
+}, {
+  label: 'cron表达式',
+  key: 'triggerExpression1',
+  type: 'cron',
+  formItemSlot: true,
+  hide: true,
+}, {
+  label: '随机单位',
+  key: 'triggerExpression2',
+  type: 'radioButton',
+  hide: true,
+  formItemSlot: true,
+}, {
+  label: '创建时间',
+  key: 'createTime',
+  type: 'date',
+  sortable: true,
+  formHide: true,
+}])
+const state = reactive({
+  page: {
+    pageSize: 10,
+    pageNo: 1,
+  },
+  total: 0,
+  loading: false,
+  query: {},
+})
+const data = ref()
+const getData = () => {
+  state.loading = true
+  getVirtualDevicesList({
+    ...state.page, ...state.query
+  }).then((res) => {
+    // 循环res.list, 通过判断row.trigger来判断是否显示triggerExpression1FormItem和triggerExpression2FormItem
+    res.list.forEach((item: any) => {
+      if (item.trigger === 'cron') {
+        item.triggerExpression1 = item.triggerExpression
+      } else if (item.trigger === 'random') {
+        item.triggerExpression2 = item.triggerExpression
+      }
+    })
+    data.value = res.list
+    state.total = res.total
+  })
+  state.loading = false
+}
+
+const getDict = async () => {
+  state.loading = true
+  const data = await ProductApi.getProductPage({
+    pageNo: 1,
+    pageSize: 100,
+  })
+  productOptions.value = data.list || []
+  column.value.forEach(item => {
+      if (item.key === 'productKey') {
+        item.componentProps.options = productOptions.value
+      }
+    })
+}
+
+getDict()
+// 保存数据
+const onSave = ({type, data, cancel}: any) => {
+  state.loading = true
+  // 将data中的triggerExpression1和triggerExpression2转换成triggerExpression
+  data.triggerExpression = data.triggerExpression1 || data.triggerExpression2
+  // 删除data中的triggerExpression1和triggerExpression2
+  delete data.triggerExpression1
+  delete data.triggerExpression2
+  data.script =  data.script || '\nvar mid=1000;\n\nfunction getMid(){\n  mid++;\n  if(mid>9999){\n\tmid=1;\n  }\n  return mid+"";\n}\n\nfunction getRequestId(){\n  return "RID"+new Date().getTime()+getMid();\n}\n\n\nthis.receive=function(service,device){\n  return [];\n}\n\nthis.report=function(device){\n  return {\n    "mid":getRequestId(),\n    "productKey":device.productKey,  \n    "deviceName":device.deviceName,\n  "deviceId": device.id,\n  "type":"property",\n    "identifier":"report",\n    "occurred":new Date().getTime(),\t//时间戳，设备上的事件或数据产生的本地时间\n    "time":new Date().getTime(),\t\t//时间戳，消息上报时间\n   // 根据你设备属性修改 \n "data":{\n\t  "rssi":127-parseInt(Math.random()*127),\n\t  "powerstate_1":Math.random()>0.5?1:0,\n\t  "powerstate_2":Math.random()>0.5?1:0,\n\t  "powerstate_3":Math.random()>0.5?1:0\n    }\n  }\n}'
+
+  saveVirtualDevices(toRaw(data)).then(res => {
+    ElMessage.success(type === 'add' ? '添加成功' : '编辑成功')
+    cancel()
+    getData()
+  }).finally(() => {
+    state.loading = false
+  })
+}
+// 删除
+const onDelete = async (row: any) => {
+  state.loading = true
+  let ids = row.id
+  let fun = deleteVirtualDevices
+  if (row instanceof Array) {
+    ids = row.map(m => m.id)
+    fun = batchDeleteVirtualDevices
+  }
+  await fun(ids)
+  ElMessage.success('删除成功!')
+  state.loading = false
+  getData()
+}
+
+const setState = (id, state) => {
+  setVirtualDeviceState({id: id, state: state}).then(() => {
+    ElMessage.success('设置成功!')
+    getData()
+  })
+}
+
+
+const options = reactive({
+  ref: 'crudRef',
+  tableProps: {
+    selection: true,
+    delBtn: true,
+    menuSlot: true,
+    menuWidth: 300,
+  },
+  funProps: {
+    delBtn: true,
+  },
+  searchProps: {
+    labelWidth: "auto",
+  },
+  data,
+  column,
+})
+</script>
+
+
+<style lang="scss" scoped>
+.state {
+  cursor: pointer;
+}
+</style>

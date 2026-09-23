@@ -1,0 +1,46 @@
+{
+  "_comment": "四信部件子设备物模型 (基于GB/T 26875.3-2011 + 四信私有扩展)",
+  "properties": [
+    { "identifier": "comp_system_type", "name": "系统类型", "dataType": { "type": "int32", "specs": { "min": 0, "max": 255 } }, "accessMode": "r" },
+    { "identifier": "comp_system_addr", "name": "系统地址", "dataType": { "type": "int32", "specs": { "min": 0, "max": 255 } }, "accessMode": "r" },
+    { "identifier": "comp_type", "name": "部件类型", "dataType": { "type": "int32", "specs": { "min": 0, "max": 255 } }, "accessMode": "r" },
+    { "identifier": "comp_addr", "name": "部件地址", "dataType": { "type": "int32", "specs": { "min": 0 } }, "accessMode": "r" },
+    { "identifier": "comp_status", "name": "部件状态原始值", "dataType": { "type": "int32", "specs": { "min": 0, "max": 65535 } }, "accessMode": "r" },
+    { "identifier": "comp_desc", "name": "部件说明", "dataType": { "type": "text", "specs": { "length": "64" } }, "accessMode": "r" },
+    { "identifier": "comp_normal_mode", "name": "正常模式", "dataType": { "type": "enum", "specs": { "0": "测试", "1": "正常" } }, "accessMode": "r" },
+    { "identifier": "comp_fire_alarm", "name": "部件火警", "dataType": { "type": "enum", "specs": { "0": "无火警", "1": "火警" } }, "accessMode": "r", "description": "核心告警属性，用于GIS地图变色" },
+    { "identifier": "comp_fault", "name": "部件故障", "dataType": { "type": "enum", "specs": { "0": "无故障", "1": "故障" } }, "accessMode": "r" },
+    { "identifier": "comp_shielded", "name": "屏蔽状态", "dataType": { "type": "enum", "specs": { "0": "未屏蔽", "1": "屏蔽" } }, "accessMode": "r" },
+    { "identifier": "comp_supervised", "name": "监管状态", "dataType": { "type": "enum", "specs": { "0": "无监管", "1": "监管" } }, "accessMode": "r" },
+    { "identifier": "comp_activated", "name": "启动状态", "dataType": { "type": "enum", "specs": { "0": "停止", "1": "启动" } }, "accessMode": "r" },
+    { "identifier": "comp_feedback", "name": "反馈状态", "dataType": { "type": "enum", "specs": { "0": "无反馈", "1": "反馈" } }, "accessMode": "r" },
+    { "identifier": "comp_delay", "name": "延时状态", "dataType": { "type": "enum", "specs": { "0": "未延时", "1": "延时" } }, "accessMode": "r" },
+    { "identifier": "comp_power_fault", "name": "电源故障", "dataType": { "type": "enum", "specs": { "0": "电源正常", "1": "电源故障" } }, "accessMode": "r" },
+    { "identifier": "comp_status_time", "name": "状态时间", "dataType": { "type": "date" }, "accessMode": "r" },
+    { "identifier": "point_location", "name": "安装位置", "dataType": { "type": "text", "specs": { "length": "64" } }, "accessMode": "r", "description": "四信私有：PRT点位表中的安装位置描述" },
+    { "identifier": "alarm_type", "name": "报警类型", "dataType": { "type": "int32", "specs": { "min": 0, "max": 255 } }, "accessMode": "r", "description": "四信私有：PRT/CRT中的报警类型码" }
+  ],
+  "events": [
+    { "identifier": "fire_alarm_event", "name": "部件火灾报警事件", "outputData": [
+      { "identifier": "event_sys_type", "name": "系统类型", "dataType": { "type": "int32" } },
+      { "identifier": "event_sys_addr", "name": "系统地址", "dataType": { "type": "int32" } },
+      { "identifier": "event_comp_type", "name": "部件类型", "dataType": { "type": "int32" } },
+      { "identifier": "event_comp_addr", "name": "部件地址", "dataType": { "type": "text" } },
+      { "identifier": "event_time", "name": "事件时间", "dataType": { "type": "date" } },
+      { "identifier": "event_level", "name": "事件级别", "dataType": { "type": "enum", "specs": { "2": "部件级" } } },
+      { "identifier": "event_desc", "name": "事件描述", "dataType": { "type": "text" } }
+    ]},
+    { "identifier": "fault_event", "name": "部件故障告警事件", "outputData": [
+      { "identifier": "fault_type", "name": "故障类型", "dataType": { "type": "enum", "specs": { "7": "部件故障" } } },
+      { "identifier": "fault_sys_type", "name": "系统类型", "dataType": { "type": "int32" } },
+      { "identifier": "fault_sys_addr", "name": "系统地址", "dataType": { "type": "int32" } },
+      { "identifier": "event_time", "name": "事件时间", "dataType": { "type": "date" } }
+    ]},
+    { "identifier": "power_fault_event", "name": "部件电源故障事件", "outputData": [
+      { "identifier": "power_type", "name": "电源类型", "dataType": { "type": "enum", "specs": { "3": "部件电源" } } },
+      { "identifier": "source_type", "name": "来源类型", "dataType": { "type": "enum", "specs": { "2": "部件" } } },
+      { "identifier": "event_time", "name": "事件时间", "dataType": { "type": "date" } }
+    ]}
+  ],
+  "services": []
+}

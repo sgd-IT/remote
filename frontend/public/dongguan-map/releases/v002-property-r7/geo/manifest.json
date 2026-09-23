@@ -1,0 +1,37 @@
+{
+  "coordinateReferenceSystem": "EPSG:4326",
+  "generatedAt": "2026-09-05",
+  "datasets": {
+    "prdCoreCities": {
+      "file": "geo/prd-core-cities.geojson",
+      "featureCount": 8,
+      "source": "OpenStreetMap via Nominatim",
+      "license": "ODbL-1.0",
+      "attribution": "© OpenStreetMap contributors",
+      "sourceUrl": "https://www.openstreetmap.org/copyright",
+      "bytes": 801769,
+      "sha256": "d0674e400d2dd2ca66f12ce274a04c3483ae57f3e9e1d29b004eac0ff177349b"
+    },
+    "dongguanTowns": {
+      "file": "geo/dongguan-towns.geojson",
+      "featureCount": 32,
+      "source": "eddiehe99/dongguan-map 441900.geojson",
+      "sourceRevision": "2911fb4d970f2dce58c6a36c45b866145396d28f",
+      "bytes": 353741,
+      "sha256": "c5b83a6f562fff5edba23dc7fd96b752d7393bfec12d8eec26592cddaf0c8ca8",
+      "repositoryLicense": "MIT",
+      "upstreamDataLicense": "Not separately stated; demo/prototype use pending provenance review",
+      "sourceUrl": "https://github.com/eddiehe99/dongguan-map"
+    },
+    "dongguanWaterways": {
+      "file": "geo/dongguan-waterways.geojson",
+      "featureCount": 1390,
+      "source": "OpenStreetMap via Overpass",
+      "license": "ODbL-1.0",
+      "dataStatus": "OSM_ODBL",
+      "attribution": "© OpenStreetMap contributors",
+      "bytes": 808526,
+      "sha256": "1e957601149bafbadfe98bfb3b273fb45f0cd91cda0102881f300f92931069b0"
+    }
+  }
+}

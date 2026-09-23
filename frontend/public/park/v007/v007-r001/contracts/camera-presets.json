@@ -1,0 +1,64 @@
+{
+  "schema": "7.0-camera-presets-1",
+  "revision": "v007-r001",
+  "mainView": {
+    "pitchDownDeg": 35,
+    "fovDeg": 42,
+    "safeMargin": 0.06,
+    "heroHeightRatio": 0.68,
+    "azimuthCandidatesDeg": [
+      35,
+      55,
+      75,
+      115,
+      145,
+      215,
+      235,
+      255,
+      305,
+      325
+    ],
+    "fit": "PROJECT_ALL_BOUNDS_CORNERS",
+    "preserveUserAzimuthOnResize": true
+  },
+  "modes": {
+    "CAMPUS": {
+      "projection": "perspective",
+      "subject": "BLD_T1",
+      "pitchDownDeg": 35,
+      "fovDeg": 42,
+      "safeMargin": 0.06,
+      "heroHeightRatio": 0.68
+    },
+    "BUILDING": {
+      "projection": "perspective",
+      "subject": "selected-building",
+      "pitchDownDeg": 35,
+      "fovDeg": 42,
+      "safeMargin": 0.06,
+      "heroHeightRatio": 0.68
+    },
+    "T1_DEVICES": {
+      "projection": "perspective",
+      "subject": "BLD_T1_F01_F12",
+      "pitchDownDeg": 35,
+      "selectedPitchDownDeg": 10,
+      "fovDeg": 42,
+      "safeMargin": 0.06,
+      "heroHeightRatio": 0.68
+    },
+    "F12_STAGE": {
+      "projection": "orthographic",
+      "subject": "F12-footprint",
+      "pitchDownDeg": 35,
+      "safeMargin": 0.08,
+      "heroHeightRatio": 0.75
+    },
+    "F12_INTERIOR": {
+      "projection": "perspective",
+      "subject": "inherited-navigation",
+      "fovDeg": 60,
+      "preserveInheritedEntry": true
+    }
+  }
+}

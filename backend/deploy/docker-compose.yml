@@ -1,0 +1,89 @@
+version: '2.2'
+
+services:
+  # ============ 基础设施 ============
+
+  tdengine:
+    image: ${ACR_INFRA}/tdengine:3.0.7.1
+    container_name: anwei-tdengine
+    restart: always
+    mem_limit: 1g
+    memswap_limit: 1g
+    ports:
+      - "6030:6030"
+      - "6041:6041"
+    environment:
+      TAOS_FQDN: tdengine
+      TZ: Asia/Shanghai
+    volumes:
+      - tdengine_data:/var/lib/taos
+      - ./config/tdengine/taos.cfg:/etc/taos/taos.cfg
+      - ./init/init_td.sql:/init/init_td.sql
+    healthcheck:
+      test: ["CMD", "taos", "-u", "root", "-p**", "-s", "select server_version()"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - anwei-net
+
+  # ============ 应用服务 ============
+
+  server:
+    image: ${ACR_REGISTRY}/anwei-remote-monitor:${SERVER_VERSION}
+    container_name: anwei-remote-monitor
+    restart: always
+    mem_limit: 1g
+    memswap_limit: 1g
+    ports:
+      - "1883:1883"
+      - "18834:18834"
+      - "18888:18888/tcp"
+      - "14040:4444/tcp"
+      - "48888:48888/udp"
+      - "8839:8839/tcp"
+    environment:
+      # 云 MySQL（从 .env 读取）
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      # 云 Redis（从 .env 读取）
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_DATABASE: ${REDIS_DATABASE}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      # Spring profiles
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_CONFIG_ADDITIONAL_LOCATION: file:/iot-server/config/
+    volumes:
+      - ./config/server/application-prod.yaml:/iot-server/config/application-prod.yaml
+      - ./data/logs/server:/logs
+    depends_on:
+      tdengine:
+        condition: service_healthy
+    networks:
+      - anwei-net
+
+  nginx-frontend:
+    image: ${ACR_REGISTRY}/nginx-frontend:${FRONTEND_VERSION}
+    container_name: anwei-frontend
+    restart: always
+    mem_limit: 64m
+    memswap_limit: 64m
+    ports:
+      - "18080:8888"
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - server
+    networks:
+      - anwei-net
+
+networks:
+  anwei-net:
+    driver: bridge
+
+volumes:
+  tdengine_data:

@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package query;
+
+// 通用确认消息（用于所有消息类型的应答）
+message Message {
+    bool ok = 1;   // 是否成功
+    string msg = 2; // 附加消息（失败时注明原因）
+}
+
+// 注册请求（MESSAGE_TYPE_REGISTER = 1）
+message RegisterReq {
+    string gateway = 1; // 网关编号，唯一标识客户端
+}
+
+// 事件上报（MESSAGE_TYPE_EVENT = 3）
+message EventReq {
+    uint32 event = 1;       // 事件类型，对应事件类型枚举
+    uint32 host = 2;        // 主机号
+    uint32 loop = 3;        // 回路号
+    uint32 once = 4;        // 一次码
+    uint32 devtype = 5;     // 设备类型
+    string twice = 6;       // 二次码
+    bool zongxian = 7;      // 总线标识：true=总线，false=非总线
+    string device_code = 8; // 设备编号
+}
+
+// 控制下发（MESSAGE_TYPE_CONTROL = 4）
+message ControlReq {
+    uint32 ctrl = 1;        // 控制类型，对应控制类型枚举
+    uint32 host = 2;        // 主机号
+    uint32 loop = 3;        // 回路号
+    uint32 once = 4;        // 一次码
+    uint32 devtype = 5;     // 设备类型
+    string twice = 6;       // 二次码
+    bool zongxian = 7;      // 总线标识：true=总线，false=非总线
+}
