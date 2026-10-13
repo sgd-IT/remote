@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "commands": {
+    "wiki": {
+      "schemaVersion": 1,
+      "name": "wiki",
+      "description": "Generate wiki documentation for projects",
+      "version": "v0.0.18",
+      "entry": "bin/wiki-cli",
+      "defaultArgs": [
+        "wiki"
+      ],
+      "env": {
+        "requiresAuth": true,
+        "vars": {
+          "QODER_WIKI_OUTPUT": "1"
+        }
+      },
+      "platforms": {
+        "darwin-arm64": {
+          "url": "https://download.qoder.com/qodercli/externals/wiki/v0.0.18/darwin-arm64/wiki-cli.zip",
+          "sha256": "36c8e0e7b621e1c2b1bc330cd8c14bf2a9f81808769362ffb67fd360fcc9c491",
+          "archiveType": "zip",
+          "entryName": "wiki-cli"
+        },
+        "darwin-amd64": {
+          "url": "https://download.qoder.com/qodercli/externals/wiki/v0.0.18/darwin-amd64/wiki-cli.zip",
+          "sha256": "ace35af6d0e97a24b3ddca0f28768ae254eff4f49226687917385d119007ed4e",
+          "archiveType": "zip",
+          "entryName": "wiki-cli"
+        },
+        "linux-arm64": {
+          "url": "https://download.qoder.com/qodercli/externals/wiki/v0.0.18/linux-arm64/wiki-cli.zip",
+          "sha256": "bb401e2a8035b670b2759724f65b086ce7dd47879bf811ea7808259418605f68",
+          "archiveType": "zip",
+          "entryName": "wiki-cli"
+        },
+        "linux-amd64": {
+          "url": "https://download.qoder.com/qodercli/externals/wiki/v0.0.18/linux-amd64/wiki-cli.zip",
+          "sha256": "007656e2d88a4c0a7da1527b28fee10b985c1034f4861e3fc4294d8ee183dcf5",
+          "archiveType": "zip",
+          "entryName": "wiki-cli"
+        },
+        "windows-arm64": {
+          "url": "https://download.qoder.com/qodercli/externals/wiki/v0.0.18/windows-arm64/wiki-cli.zip",
+          "sha256": "a5cdc2449ff0471d5c172351a24f3919be864e62b4d185bc331952a69b8446fb",
+          "archiveType": "zip",
+          "entryName": "wiki-cli.exe"
+        },
+        "windows-amd64": {
+          "url": "https://download.qoder.com/qodercli/externals/wiki/v0.0.18/windows-amd64/wiki-cli.zip",
+          "sha256": "34f4a40ccaef37fd67620ee639301efcf2d1ae3b076e55b97207c4746afdb225",
+          "archiveType": "zip",
+          "entryName": "wiki-cli.exe"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+﻿{
+    "plugins":  {
+                    "qoder-create-plugin@qoder-bundler":  [
+                                                              {
+                                                                  "scope":  "user",
+                                                                  "installPath":  "c:\\Users\\Administrator\\.qoder\\plugins\\cache\\qoder-bundler\\qoder-create-plugin",
+                                                                  "version":  "0.1.0",
+                                                                  "source":  "marketplace",
+                                                                  "installedAt":  "2026-07-01T03:16:49.459Z",
+                                                                  "lastUpdated":  "2026-07-08T03:29:47.657Z"
+                                                              }
+                                                          ],
+                    "mobile-frontend-dev@local":  [
+                                                      {
+                                                          "installPath":  "c:\\Users\\Administrator\\.qoder\\plugins\\cache\\local\\mobile-frontend-dev",
+                                                          "scope":  "user",
+                                                          "source":  "local",
+                                                          "installedAt":  "2026-07-29T09:00:31.350Z",
+                                                          "lastUpdated":  "2026-07-29T09:00:31.353Z",
+                                                          "enabled":  true,
+                                                          "version":  "1.0.0"
+                                                      }
+                                                  ]
+                }
+}

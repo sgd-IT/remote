@@ -1,0 +1,8 @@
+{
+  "name": "create-plugin",
+  "publisher": "qoder-bundled",
+  "version": "0.1.0",
+  "displayName": "Qoder Create Plugin",
+  "visibility": "hidden",
+  "skills": "./skills/"
+}

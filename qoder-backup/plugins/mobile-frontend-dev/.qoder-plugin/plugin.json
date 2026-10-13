@@ -1,0 +1,14 @@
+{
+  "name": "mobile-frontend-dev",
+  "displayName": "移动端前端开发套件",
+  "version": "1.0.0",
+  "description": "Combined UI/UX design intelligence and uni-app cross-platform framework reference for mobile and frontend development",
+  "descriptionZh": "UI/UX 设计智能 + uni-app 跨平台框架参考，移动端与前端开发时双 skill 联动触发",
+  "author": { "name": "local" },
+  "logo": "./assets/avatar.svg",
+  "keywords": ["qoder-plugin", "skill", "ui-ux", "uniapp", "mobile", "frontend", "vue", "mini-program"],
+  "category": "developer-tools",
+  "tags": ["skill", "mobile", "frontend"],
+  "skills": "./skills/",
+  "defaultEnabled": true
+}

@@ -1,0 +1,9 @@
+{
+  "aicodingPluginSettingsMigrationVersion": 1,
+  "enabledPlugins": {
+    "better-harness@qoder-bundler": true,
+    "mobile-frontend-dev@local": true,
+    "qoder-create-plugin@qoder-bundler": true,
+    "security-scan@qoder-bundler": false
+  }
+}

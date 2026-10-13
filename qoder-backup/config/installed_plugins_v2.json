@@ -1,0 +1,38 @@
+{
+  "plugins": {
+    "better-harness@qoder-bundler": [
+      {
+        "enabled": true,
+        "installPath": "C:\\Users\\Administrator\\.qoder\\plugins\\cache\\qoder-bundler\\better-harness",
+        "installedAt": "2026-08-28T07:39:11.083Z",
+        "lastUpdated": "2026-10-08T02:42:00Z",
+        "scope": "user",
+        "source": "marketplace",
+        "version": "0.2.9"
+      }
+    ],
+    "qoder-create-plugin@qoder-bundler": [
+      {
+        "enabled": true,
+        "installPath": "C:\\Users\\Administrator\\.qoder\\plugins\\cache\\qoder-bundler\\qoder-create-plugin",
+        "installedAt": "2026-08-28T07:39:11.110Z",
+        "lastUpdated": "2026-10-12T04:43:45.677399600Z",
+        "scope": "user",
+        "source": "marketplace",
+        "version": "0.1.0"
+      }
+    ],
+    "security-scan@qoder-bundler": [
+      {
+        "enabled": false,
+        "installPath": "C:\\Users\\Administrator\\.qoder\\plugins\\cache\\qoder-bundler\\security-scan",
+        "installedAt": "2026-08-28T07:39:11.159Z",
+        "lastUpdated": "2026-10-08T02:42:00Z",
+        "scope": "user",
+        "source": "marketplace",
+        "version": "0.9.3"
+      }
+    ]
+  },
+  "version": 2
+}
