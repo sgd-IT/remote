@@ -763,8 +763,12 @@ export const getAlertRecordPage = (data: any) => {
   return request.post({ url: '/alert/selectAlertRecordPage', data })
 }
 
-// 查询近 N 分钟未处置告警
-export const getRecentUnprocessedAlerts = (minutes: number = 5) => {
+// 未处置告警回捞窗口：当天 0 点起的分钟数（避免历史未处置数据债涌上大屏；服务重启/页面刷新后仍能恢复当天待处置告警）
+const minutesSinceDayStart = () =>
+  Math.max(1, Math.ceil((Date.now() - new Date().setHours(0, 0, 0, 0)) / 60000))
+
+// 查询未处置告警（默认回捞窗口：当天 0 点起）
+export const getRecentUnprocessedAlerts = (minutes: number = minutesSinceDayStart()) => {
   return request.get({ url: '/alert/recentUnprocessedAlerts', params: { minutes } })
 }
 
@@ -783,8 +787,8 @@ export const handleAlertRecord = (id: number) => {
   return request.post({ url: '/alert/handleAlertRecord', data: { id } })
 }
 
-// 查询指定父设备（含其子设备）近 N 分钟未处置告警
-export const getUnprocessedAlertsByParentDevice = (parentDeviceId: number, minutes: number = 5) => {
+// 查询指定父设备（含其子设备）未处置告警（默认回捞窗口：当天 0 点起）
+export const getUnprocessedAlertsByParentDevice = (parentDeviceId: number, minutes: number = minutesSinceDayStart()) => {
   return request.get({ url: '/alert/unprocessedAlertsByDevices', params: { parentDeviceId, minutes } })
 }
 

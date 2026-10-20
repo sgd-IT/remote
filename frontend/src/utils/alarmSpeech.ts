@@ -2,7 +2,7 @@
  * 大屏报警弹窗语音播报工具（Web Speech API）
  *
  * 按报警类型（alarmType 0-5）生成不同规则的播报文本：
- *   0=主机报警       单位名称+主机名称+子设备名称(如存在)+"触发"+等级中文+"报警!"
+ *   0=主机报警       单位名称+主机名称+子设备名称(如存在)+"触发"+类型中文+"报警!"
  *   1=高温事件报警   单位名称+设备名称+"发现高温事件报警, 请立即处理!"
  *   2=热成像事件报警 单位名称+设备名称+"发现热成像事件报警, 请立即处理!"
  *   3=烟火事件报警   单位名称+设备名称+"发现烟火事件报警, 请立即处理!"
@@ -62,8 +62,8 @@ function unlockSpeechSynthesis() {
   } catch {}
 })()
 
-/** 报警等级数字 → 中文类型 */
-const LEVEL_TEXT_MAP: Record<string, string> = {
+/** 报警类型数字 → 中文（1-6：火警/故障/隐患/设备离线/误报/信息）——新语义 alarmKind 与旧语义 level 共用同一编码表 */
+const KIND_TEXT_MAP: Record<string, string> = {
   '1': '火警',
   '2': '故障',
   '3': '隐患',
@@ -72,7 +72,7 @@ const LEVEL_TEXT_MAP: Record<string, string> = {
   '6': '信息',
 }
 
-/** 报警等级英文名 → 中文类型 */
+/** 报警级别英文名 → 中文（alarmLevel 英文形态的防御性回退） */
 const LEVEL_TEXT_MAP_BY_NAME: Record<string, string> = {
   critical: '紧急',
   major: '较重',
@@ -90,6 +90,8 @@ export interface AlarmSpeechItem {
   deviceName?: string
   /** 子设备名称（主机报警的部件，如存在） */
   subDeviceName?: string
+  /** 报警类型（新语义 alarm_kind，1-6）：优先据此生成播报类型名 */
+  alarmKind?: number
   /** 报警等级（数字编码或 critical/major/warning/info） */
   level?: string
   /** 报警等级（WS 推送 alarm-push 的字段名，英文名） */
@@ -105,10 +107,15 @@ function extractSubDeviceName(details?: string): string {
   return match ? match[1].trim() : ''
 }
 
-/** 等级转中文类型 */
-function levelToChinese(level?: string): string {
+/** 类型转中文：alarmKind（新语义）优先；回退 level 数字（旧数据/旧通道）；再回退英文级别名 */
+function levelToChinese(alarm: AlarmSpeechItem): string {
+  const kind = alarm.alarmKind
+  if (kind !== undefined && kind !== null) {
+    return KIND_TEXT_MAP[String(kind)] || '报警'
+  }
+  const level = pickLevel(alarm)
   if (!level) return '报警'
-  if (LEVEL_TEXT_MAP[level]) return LEVEL_TEXT_MAP[level]
+  if (KIND_TEXT_MAP[level]) return KIND_TEXT_MAP[level]
   if (LEVEL_TEXT_MAP_BY_NAME[level]) return LEVEL_TEXT_MAP_BY_NAME[level]
   return '报警'
 }
@@ -125,10 +132,10 @@ export function buildAlarmSpeechText(alarm: AlarmSpeechItem): string {
   const type = alarm.alarmType ?? 0
 
   switch (type) {
-    // 主机报警：单位名称+主机名称+子设备名称(如存在)+"触发"+等级中文+"报警!"
+    // 主机报警：单位名称+主机名称+子设备名称(如存在)+"触发"+类型中文+"报警!"
     case 0: {
       const sub = alarm.subDeviceName || extractSubDeviceName(alarm.details)
-      return `${unit}${device}${sub}触发${levelToChinese(pickLevel(alarm))}报警!`
+      return `${unit}${device}${sub}触发${levelToChinese(alarm)}报警!`
     }
     // 高温事件报警
     case 1:
@@ -148,7 +155,7 @@ export function buildAlarmSpeechText(alarm: AlarmSpeechItem): string {
     // 未知类型：按主机报警规则兜底
     default: {
       const sub = alarm.subDeviceName || extractSubDeviceName(alarm.details)
-      return `${unit}${device}${sub}触发${levelToChinese(pickLevel(alarm))}报警!`
+      return `${unit}${device}${sub}触发${levelToChinese(alarm)}报警!`
     }
   }
 }

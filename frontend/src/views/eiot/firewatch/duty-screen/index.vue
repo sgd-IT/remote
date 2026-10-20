@@ -20,11 +20,31 @@
       <span>接口加载失败: {{ loadErrors.join(', ') }}，请检查后端服务是否正常及权限配置</span>
       <el-button size="small" type="danger" text @click="loadErrors = []">关闭</el-button>
     </div>
-    <div v-if="parkNavigationStatus" class="park-navigation-status" role="status" aria-live="polite">{{ parkNavigationStatus }}</div>
+    <div
+      v-if="parkNavigationStatus"
+      class="park-navigation-status"
+      role="status"
+      aria-live="polite"
+      >{{ parkNavigationStatus }}</div
+    >
     <header class="header">
       <div class="header-left">
-        <h1 class="title">安为智慧消防值守平台</h1>
-        <p class="subtitle">ANWEI SMART FIRE DUTY PLATFORM</p>
+        <div class="title-block">
+          <h1 class="title">安为智慧消防值守平台</h1>
+          <p class="subtitle">ANWEI SMART FIRE DUTY PLATFORM</p>
+        </div>
+        <el-select
+          v-if="isSuperAdmin"
+          v-model="selectedTenantId"
+          size="small"
+          class="tenant-select"
+          popper-class="tenant-select-popper"
+          @change="handleTenantChange"
+        >
+          <el-option :value="0" label="全部租户" />
+          <el-option v-for="t in tenantOptions" :key="t.id" :value="t.id" :label="t.name" />
+        </el-select>
+        <span v-else class="tenant-name">{{ loginTenant.tenantName || '-' }}</span>
       </div>
       <div class="header-center">
         <div class="datetime">
@@ -34,6 +54,44 @@
         </div>
       </div>
       <div class="header-right">
+        <el-dropdown
+          trigger="hover"
+          popper-class="header-dropdown-popper"
+          @command="handleNavCommand"
+        >
+          <el-button class="header-icon-btn"
+            ><el-icon><Grid /></el-icon
+          ></el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="admin"
+                ><el-icon><Setting /></el-icon>管理后台</el-dropdown-item
+              >
+              <el-dropdown-item command="ai-analysis"
+                ><el-icon><DataAnalysis /></el-icon>智能分析</el-dropdown-item
+              >
+              <el-dropdown-item divided command="device-screen"
+                ><el-icon><Grid /></el-icon>设备控制室</el-dropdown-item
+              >
+              <!-- <el-dropdown-item command="data-center"
+                ><el-icon><TrendCharts /></el-icon>数据中心<DevelopingTag
+                  mini
+                  tip="统计接口后端尚未实现，当前为示例数据"
+              /></el-dropdown-item> -->
+              <el-dropdown-item command="video-surveillance"
+                ><el-icon><VideoCamera /></el-icon>视频监控</el-dropdown-item
+              >
+              <el-dropdown-item command="patrol"
+                ><el-icon><Avatar /></el-icon>查岗管理</el-dropdown-item
+              >
+              <!-- <el-dropdown-item divided command="ops-workbench"
+                ><el-icon><SetUp /></el-icon>运维工作台<DevelopingTag
+                  mini
+                  tip="页面仅为占位，无任何业务接口"
+              /></el-dropdown-item> -->
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         <el-dropdown
           trigger="hover"
           popper-class="header-dropdown-popper view-dropdown-popper"
@@ -61,58 +119,10 @@
               </div>
               <div class="view-row-label">镜头缩放</div>
               <div class="view-row">
-                <div
-                  class="view-toggle-item"
-                  @click="handleViewCommand('map-zoom-in')"
-                  >放大</div
-                >
-                <div
-                  class="view-toggle-item"
-                  @click="handleViewCommand('map-zoom-out')"
-                  >缩小</div
-                >
+                <div class="view-toggle-item" @click="handleViewCommand('map-zoom-in')">放大</div>
+                <div class="view-toggle-item" @click="handleViewCommand('map-zoom-out')">缩小</div>
               </div>
             </div>
-          </template>
-        </el-dropdown>
-        <el-dropdown
-          trigger="hover"
-          popper-class="header-dropdown-popper"
-          @command="handleNavCommand"
-        >
-          <el-button class="header-icon-btn"
-            ><el-icon><Grid /></el-icon
-          ></el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="admin"
-                ><el-icon><Setting /></el-icon>管理后台</el-dropdown-item
-              >
-              <el-dropdown-item command="ai-analysis"
-                ><el-icon><DataAnalysis /></el-icon>智能分析</el-dropdown-item
-              >
-              <el-dropdown-item divided command="device-screen"
-                ><el-icon><Grid /></el-icon>设备控制室</el-dropdown-item
-              >
-              <el-dropdown-item command="data-center"
-                ><el-icon><TrendCharts /></el-icon>数据中心<DevelopingTag
-                  mini
-                  tip="统计接口后端尚未实现，当前为示例数据"
-                /></el-dropdown-item
-              >
-              <el-dropdown-item command="video-surveillance"
-                ><el-icon><VideoCamera /></el-icon>视频监控</el-dropdown-item
-              >
-              <el-dropdown-item command="patrol"
-                ><el-icon><Avatar /></el-icon>查岗管理</el-dropdown-item
-              >
-              <el-dropdown-item divided command="ops-workbench"
-                ><el-icon><SetUp /></el-icon>运维工作台<DevelopingTag
-                  mini
-                  tip="页面仅为占位，无任何业务接口"
-                /></el-dropdown-item
-              >
-            </el-dropdown-menu>
           </template>
         </el-dropdown>
         <el-button class="header-icon-btn"
@@ -234,12 +244,17 @@
         </div>
 
         <!-- 值班信息 -->
-        <div class="panel-card">
-          <div class="card-header"
-            ><span class="card-title"
+        <router-link
+          class="panel-card duty-overview-card"
+          to="/eiot/firewatch/duty"
+          aria-label="进入值班管理"
+        >
+          <div class="card-header">
+            <span class="card-title"
               ><el-icon><User /></el-icon>今日值班</span
-            ></div
-          >
+            >
+            <el-icon class="card-header-arrow"><ArrowRight /></el-icon>
+          </div>
           <div class="card-content duty-content">
             <div class="duty-card" v-for="d in dutyList" :key="d.id">
               <div class="duty-card-top">
@@ -266,7 +281,7 @@
             </div>
             <div class="empty small" v-if="!dutyList.length">暂无值班</div>
           </div>
-        </div>
+        </router-link>
       </aside>
 
       <!-- ====== 右侧面板 ====== -->
@@ -288,10 +303,13 @@
                 ><div class="sv">{{ todayAlarm.handledCount }}</div
                 ><div class="sl">已处置</div></div
               >
-              <div class="stat-cell pending"
-                ><div class="sv">{{ todayAlarm.pendingCount }}</div
-                ><div class="sl">待处理</div></div
-              >
+              <div class="stat-cell pending" :class="{ flash: pendingFlash }">
+                <div class="sv">{{ todayAlarm.pendingCount }}</div
+                ><div class="sl">待处理</div>
+                <Transition name="toast-fade">
+                  <div v-if="pendingToast" class="pending-toast">二级报警，请处置</div>
+                </Transition>
+              </div>
               <div class="stat-cell rate"
                 ><div class="sv">{{ todayAlarm.handleRate }}%</div><div class="sl">处置率</div></div
               >
@@ -308,10 +326,9 @@
               }}</span></span
             ></div
           >
-          <div class="card-content alarm-scroll">
+          <div class="card-content alarm-scroll" ref="alarmScrollRef">
             <div
               class="alarm-inner"
-              :class="{ scrolling: alarmList.length > 3 }"
               @mouseenter="scrollPaused = true"
               @mouseleave="scrollPaused = false"
             >
@@ -320,11 +337,14 @@
                 v-for="alarm in alarmList"
                 :key="alarm.id"
                 :class="'level-' + alarm.alarmLevel"
-                @click="viewAlarm(alarm)"
+                @click="onAlarmClick(alarm)"
               >
                 <div class="alarm-dot"></div>
                 <div class="alarm-body">
-                  <div class="alarm-desc">{{ extractAlarmSummary(alarm.alarmDescription) }}</div>
+                  <div class="alarm-desc"
+                    ><span class="alarm-tenant" v-if="alarm.tenantName">{{ alarm.tenantName }}</span
+                    >{{ extractAlarmSummary(alarm.alarmDescription) }}</div
+                  >
                   <div class="alarm-time">{{ formatTime(alarm.alarmTime) }}</div>
                 </div>
                 <span class="alarm-tag" :class="'tag-' + alarm.alarmLevel">{{
@@ -411,81 +431,27 @@
     />
     -->
 
-    <!-- 告警详情弹窗（内嵌 alarm-popup 页面） -->
-    <AlarmPopupPage
-      :visible="alarmPopupPageVisible"
-      :alarm="alarmPopupPageData"
-      @close="alarmPopupPageVisible = false"
-    />
   </div>
 
-  <!-- ====== 报警弹窗 ====== -->
-  <Teleport to="body">
-    <div class="alarm-popup-overlay" :class="'flash-' + getPopupSeverity()" v-if="popupVisible" @click.self="onHandleLater">
-      <div class="alarm-popup-card">
-        <!-- 倒计时进度条 -->
-        <div class="alarm-countdown-bar">
-          <div class="alarm-countdown-fill" :style="{ width: popupCountdownPercent + '%' }"></div>
-        </div>
+  <!-- 二三级告警通知匣（层级低于一级全屏弹窗，锚在右栏今日警情卡左上侧，位置可微调） -->
+  <AlarmNotice
+    ref="alarmNoticeRef"
+    :offset-right="414"
+    :offset-top="66"
+    show-tenant
+    @open="onNoticeOpen"
+  />
 
-        <!-- 顶栏 -->
-        <div class="alarm-popup-header">
-          <div class="alarm-popup-header-left">
-            <span class="alarm-popup-icon">⚠</span>
-            <span class="alarm-popup-type">{{ popupAlarm?.name || '设备报警' }}</span>
-          </div>
-          <div class="alarm-popup-header-right">
-            <span class="alarm-popup-severity" :class="'severity-' + getPopupSeverity()">{{ getPopupSeverityText() }}</span>
-            <span class="alarm-sound-toggle" :class="{ muted: !soundEnabled }" @click.stop="onToggleSound" :title="soundEnabled ? '点击静音' : '点击开启声音'">{{ soundEnabled ? '🔊' : '🔇' }}</span>
-            <span class="alarm-popup-timer">{{ popupCountdown }}s</span>
-            <span class="alarm-popup-queue" v-if="alertQueue.length > 1">第 {{ alertQueue.length - remainingAlerts }}/{{ alertQueue.length }} 条</span>
-          </div>
-        </div>
-
-        <!-- 主体 -->
-        <div class="alarm-popup-body">
-          <!-- 左侧图片 -->
-          <div class="alarm-popup-image">
-            <img v-if="popupAlarm?.alertImage" :src="popupAlarm.alertImage" alt="报警抓拍" />
-            <div v-else class="alarm-popup-no-image">
-              <span class="no-image-icon">📹</span>
-              <span class="no-image-text">暂无抓拍图片</span>
-            </div>
-          </div>
-
-          <!-- 右侧信息 -->
-          <div class="alarm-popup-info">
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">📋 单位</span>
-              <span class="alarm-info-value">{{ popupAlarm?.tenantName || '未知单位' }}</span>
-            </div>
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">📟 设备</span>
-              <span class="alarm-info-value">{{ popupAlarm?.deviceName || popupAlarm?.name || '未知设备' }}</span>
-            </div>
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">📍 位置</span>
-              <span class="alarm-info-value">{{ popupAlarm?.deviceAddr || '未知位置' }}</span>
-            </div>
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">🕐 时间</span>
-              <span class="alarm-info-value">{{ formatPopupTime(popupAlarm?.alertTime) }}</span>
-            </div>
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">📝 详情</span>
-              <span class="alarm-info-value alarm-detail-text">{{ popupAlarm?.details || '无详情' }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 底栏 -->
-        <div class="alarm-popup-footer">
-          <button class="alarm-btn alarm-btn-later" @click="onHandleLater">稍后处置</button>
-          <button class="alarm-btn alarm-btn-now" @click="onHandleNow">去处置</button>
-        </div>
-      </div>
-    </div>
-  </Teleport>
+  <!-- 报警弹窗（公共组件：两屏共用一份实现，弹窗内动作经事件回到本页） -->
+  <AlarmPopupDialog
+    ref="popupRef"
+    :dim-overlay="false"
+    later-text="稍后处置"
+    primary-text="去处置"
+    @later="onHandleLater"
+    @primary="onHandleNow"
+    @overlay="onHandleLater"
+  />
 </template>
 
 <script setup lang="ts">
@@ -497,20 +463,26 @@ import { ElMessage } from 'element-plus'
 import request from '@/config/axios'
 // import AlarmPopup from '@/components/AlarmPopup/index.vue'
 // import { useAlarmPopup } from '@/components/AlarmPopup/useAlarmPopup'
-import AlarmPopupPage from '@/views/eiot/firewatch/alarm-popup/index.vue'
+import AlarmNotice, { isLightAlarmLevel } from '@/views/eiot/firewatch/alarm-notice/index.vue'
 import DevelopingTag from '@/components/DevelopingTag/index.vue'
 import { useUserStore } from '@/store/modules/user'
 import { useWebSocket } from '@vueuse/core'
 import { getRefreshToken } from '@/utils/auth'
-import { getRecentUnprocessedAlerts, handleAlertRecord, deferAlertRecord, findTransferDeviceId } from '@/api/eiot/firewatch/firewatch.api'
+import {
+  getRecentUnprocessedAlerts,
+  handleAlertRecord,
+  deferAlertRecord,
+  findTransferDeviceId
+} from '@/api/eiot/firewatch/firewatch.api'
 import { getCamerasByDevice } from '@/api/eiot/video/deviceCameraRelation.api'
-import { stopAlarmSoundLoop, isAlarmSoundEnabled, toggleAlarmSound, closeAlarmAudio } from '@/utils/alarmSound'
-import { speakAlarmSpeech, stopAlarmSpeech } from '@/utils/alarmSpeech'
+import { closeAlarmAudio } from '@/utils/alarmSound'
 import SceneHost from './components/SceneHost.vue'
 import { findPoint } from './components/scene-data'
 import { type MapPoint, type SceneName } from './components/scene-types'
 import { usePropertyMapData } from './components/usePropertyMapData'
 import type { Viewport } from './components/scene-protocol'
+import { getTenantPage } from '@/api/system/tenant'
+import AlarmPopupDialog from '@/views/eiot/firewatch/components/AlarmPopupDialog.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -518,8 +490,27 @@ const rawScene = computed(() => {
   const value = route.query.scene
   return Array.isArray(value) ? value[0] : value
 })
-const currentScene = computed<SceneName>(() => rawScene.value === 'park' ? 'park' : 'city')
+const currentScene = computed<SceneName>(() => (rawScene.value === 'park' ? 'park' : 'city'))
 const dongguanMapRef = ref<InstanceType<typeof SceneHost>>()
+
+//切换租户下拉框
+const isSuperAdmin = computed(() => userStore.getRoles?.includes('super_admin'))
+const tenantOptions = ref<{ id: number; name: string }[]>([]) //下拉选项
+const selectedTenantId = ref(0) //0 =全部租户
+const loginTenant = ref<{ tenantId?: number; tenantName?: string }>({}) //返回当前租户
+
+// 超管：加载全部租户作为下拉选项
+const loadTenantOptions = async () => {
+  if (!isSuperAdmin.value) return // 非超管不发这个请求（会 403）
+  try {
+    const res = await getTenantPage({ pageNo: 1, pageSize: 100 })
+    tenantOptions.value = (res?.list || [])
+      .filter((t: any) => t.id !== 1) // 去掉系统租户，避免选到"全部视角"
+      .map((t: any) => ({ id: t.id, name: t.name }))
+  } catch (e) {
+    console.error('[DutyScreen] 加载租户列表失败', e)
+  }
+}
 
 // Refs
 const trendChartRef = ref<HTMLElement>()
@@ -527,18 +518,59 @@ const trendChartRef = ref<HTMLElement>()
 const propertyMap = usePropertyMapData(computed(() => currentScene.value === 'city'))
 const mapPoints = computed<MapPoint[]>(() => propertyMap.points.value)
 const mapSafeViewport = ref<Viewport | null>(null)
-const propertyMapRenderReport = ref<{ snapshotId: string; renderedPropertyIds: string[]; excluded: { outOfBoundary: number; noSurface: number; invalid: number }; excludedIds?: { outOfBoundary: string[]; noSurface: string[]; invalid: string[] } } | null>(null)
-const propertyMapVisualReport = ref<{ snapshotId: string; visiblePropertyIds: string[]; clusteredPropertyIds: string[]; hiddenPropertyIds: string[]; offscreenPropertyIds: string[] } | null>(null)
+const propertyMapRenderReport = ref<{
+  snapshotId: string
+  renderedPropertyIds: string[]
+  excluded: { outOfBoundary: number; noSurface: number; invalid: number }
+  excludedIds?: { outOfBoundary: string[]; noSurface: string[]; invalid: string[] }
+} | null>(null)
+const propertyMapVisualReport = ref<{
+  snapshotId: string
+  visiblePropertyIds: string[]
+  clusteredPropertyIds: string[]
+  hiddenPropertyIds: string[]
+  offscreenPropertyIds: string[]
+} | null>(null)
 const parkNavigationPending = ref(false)
 const parkNavigationStatus = ref('')
 let parkNavigationStatusTimer: number | null = null
 const setParkNavigationStatus = (message: string, clearAfterMs = 0) => {
   parkNavigationStatus.value = message
   if (parkNavigationStatusTimer !== null) window.clearTimeout(parkNavigationStatusTimer)
-  parkNavigationStatusTimer = clearAfterMs > 0 ? window.setTimeout(() => { parkNavigationStatus.value = ''; parkNavigationStatusTimer = null }, clearAfterMs) : null
+  parkNavigationStatusTimer =
+    clearAfterMs > 0
+      ? window.setTimeout(() => {
+          parkNavigationStatus.value = ''
+          parkNavigationStatusTimer = null
+        }, clearAfterMs)
+      : null
 }
-watch(() => propertyMap.snapshotId.value, () => { propertyMapRenderReport.value = null; propertyMapVisualReport.value = null })
+watch(
+  () => propertyMap.snapshotId.value,
+  () => {
+    propertyMapRenderReport.value = null
+    propertyMapVisualReport.value = null
+  }
+)
 const scrollPaused = ref(false)
+// 实时告警滚动容器：自动滚动改成 scrollTop 驱动（原 CSS 动画会覆盖 transform，滚轮就翻不动了）
+const alarmScrollRef = ref<HTMLElement>()
+let alarmAutoScrollTimer: ReturnType<typeof setInterval> | null = null
+
+// 实时告警自动滚动：约 20px/s；悬停暂停（点选/滚轮期间不抢滚动），到底后回顶部循环
+const startAlarmAutoScroll = () => {
+  if (alarmAutoScrollTimer) return
+  alarmAutoScrollTimer = setInterval(() => {
+    const el = alarmScrollRef.value
+    if (!el || scrollPaused.value) return
+    if (el.scrollHeight <= el.clientHeight + 1) return
+    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 1) {
+      el.scrollTop = 0
+    } else {
+      el.scrollTop += 1
+    }
+  }, 50)
+}
 
 // State
 const currentDate = ref(''),
@@ -553,8 +585,6 @@ const dutyList = ref<any[]>([])
 const propDialogVisible = ref(false)
 const selectedProperty = ref<any>(null)
 const propDevices = ref<any[]>([])
-const alarmPopupPageVisible = ref(false)
-const alarmPopupPageData = ref<Record<string, any> | null>(null)
 const userStore = useUserStore()
 const userNickname = computed(() => userStore.getUser.nickname || '用户001')
 
@@ -568,82 +598,65 @@ const userNickname = computed(() => userStore.getUser.nickname || '用户001')
 //   cleanup: alarmPopupCleanup,
 // } = useAlarmPopup()
 
-// ==================== 报警弹窗逻辑 ====================
-const popupVisible = ref(false)
-const popupAlarm = ref<any>(null)
-const popupCountdown = ref(15)
-const alertQueue = ref<any[]>([])
+// ==================== 报警弹窗逻辑（一级弹窗由公共组件 AlarmPopupDialog 承载） ====================
+const alarmNoticeRef = ref<InstanceType<typeof AlarmNotice> | null>(null)
+// 一级报警弹窗组件：enqueue=入队告警，close=关闭弹窗；弹窗内动作经 later/primary/overlay 事件回到本页
+const popupRef = ref<InstanceType<typeof AlarmPopupDialog> | null>(null)
+// 通知匣（二三级）已推送过的告警 id；一级不复用此集合（一级的周期重复提醒由弹窗组件内部管理）
 const alertShownIds = ref<Set<number>>(new Set())
-const remainingAlerts = ref(0)
-let popupAutoHideTimer: ReturnType<typeof setInterval> | null = null
 let alertPollingTimer: ReturnType<typeof setInterval> | null = null
 
-const POPUP_AUTO_HIDE_SECONDS = 15
-const popupCountdownPercent = computed(() => (popupCountdown.value / POPUP_AUTO_HIDE_SECONDS) * 100)
-
-const getPopupSeverity = () => {
-  const level = popupAlarm.value?.level
-  if (level === '1' || level === 'critical') return 'critical'
-  if (level === '2' || level === 'major') return 'major'
-  if (level === '3' || level === 'warning') return 'warning'
-  return 'info'
+// 二级告警到达时，在「待处理」格子弹一个 Toast 提示
+const pendingFlash = ref(false)
+const pendingToast = ref(false)
+let pendingToastTimer: ReturnType<typeof setTimeout> | null = null
+const flashPendingToast = () => {
+  // 格子高亮闪烁
+  pendingFlash.value = true
+  setTimeout(() => { pendingFlash.value = false }, 1200)
+  // Toast 文案 3 秒后自动消失
+  pendingToast.value = true
+  if (pendingToastTimer) clearTimeout(pendingToastTimer)
+  pendingToastTimer = setTimeout(() => { pendingToast.value = false }, 3000)
 }
 
-const getPopupSeverityText = () => {
-  const map: Record<string, string> = { critical: '紧急', major: '较重', warning: '一般', info: '提示' }
-  return map[getPopupSeverity()] || '未知'
-}
 
-const formatPopupTime = (t: any) => {
-  if (!t) return ''
-  if (typeof t === 'number') {
-    return new Date(t).toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')
-  }
-  return String(t).replace('T', ' ').substring(0, 19)
-}
 
-const startAutoHide = () => {
-  stopAutoHide()
-  popupCountdown.value = POPUP_AUTO_HIDE_SECONDS
-  popupAutoHideTimer = setInterval(() => {
-    popupCountdown.value--
-    if (popupCountdown.value <= 0) {
-      closePopup()
+/** 跳转到告警处置现场：优先用传设备（远程控制中心），无则关联摄像头（视频监控）；两者都无则不跳转仅提示 */
+const jumpToAlarmScene = async (deviceId: string | number) => {
+  try {
+    const res = await findTransferDeviceId(Number(deviceId))
+    const transferId = typeof res === 'number' ? res : (res as any)?.data
+    if (transferId) {
+      // 找到用传设备 → 跳转远程控制中心
+      router.push({
+        path: '/remote-console',
+        query: { deviceId: String(transferId), alertDeviceId: String(deviceId) }
+      })
+      return
     }
-  }, 1000)
-}
-
-const stopAutoHide = () => {
-  if (popupAutoHideTimer) {
-    clearInterval(popupAutoHideTimer)
-    popupAutoHideTimer = null
+  } catch {
+    // 查找失败 → 走下方摄像头兜底
   }
-}
-
-const closePopup = () => {
-  stopAutoHide()
-  stopAlarmSoundLoop()
-  stopAlarmSpeech()
-  popupVisible.value = false
-  popupAlarm.value = null
-  setTimeout(() => showNextAlert(), 300)
-}
-
-const showNextAlert = () => {
-  if (alertQueue.value.length === 0) {
-    popupVisible.value = false
+  // 非用传设备 → 有联动摄像头才跳视频监控；无摄像头则不跳，仅提示
+  let cameraId: string | undefined
+  try {
+    const cams = await getCamerasByDevice(Number(deviceId))
+    if (Array.isArray(cams) && cams.length > 0) cameraId = String(cams[0].id)
+  } catch {}
+  if (!cameraId) {
+    ElMessage.warning('该设备未关联摄像头，无法跳转')
     return
   }
-  popupAlarm.value = alertQueue.value.shift()
-  remainingAlerts.value = alertQueue.value.length
-  popupVisible.value = true
-  startAutoHide()
-  // 按报警类型语音播报
-  speakAlarmSpeech(popupAlarm.value)
+  router.push({ path: '/video-surveillance', query: { cameraId } })
 }
 
-const onHandleNow = async () => {
-  const alarm = popupAlarm.value
+/** 实时告警条目点击：跳到火警处置中心（alarm-order），由其在加载后按 ?id= 选中并打开对应告警详情弹窗 */
+const onAlarmClick = (alarm: any) => {
+  router.push({ path: '/eiot/firewatch/alarm-order', query: { id: alarm.id } })
+}
+
+const onHandleNow = async (alarm: any) => {
   if (alarm?.id) {
     try {
       await handleAlertRecord(alarm.id)
@@ -651,67 +664,58 @@ const onHandleNow = async () => {
       console.warn('处置告警失败:', e)
     }
   }
-  // 查找用传设备并跳转
   const deviceId = alarm?.deviceId
+  popupRef.value?.close()
   if (deviceId) {
-    try {
-      const res = await findTransferDeviceId(Number(deviceId))
-      const transferId = typeof res === 'number' ? res : (res as any)?.data
-      alertShownIds.value.delete(alarm?.id)
-      closePopup()
-      if (transferId) {
-        // 找到用传设备 → 跳转远程控制中心
-        router.push({ path: '/remote-console', query: { deviceId: String(transferId), alertDeviceId: String(deviceId) } })
-      } else {
-        // 非用传设备 → 查找关联摄像头，跳转视频监控页面
-        let cameraId: string | undefined
-        try {
-          const cams = await getCamerasByDevice(Number(deviceId))
-          if (Array.isArray(cams) && cams.length > 0) cameraId = String(cams[0].id)
-        } catch {}
-        router.push({ path: '/video-surveillance', query: cameraId ? { cameraId } : {} })
-      }
-    } catch (e) {
-      alertShownIds.value.delete(alarm?.id)
-      closePopup()
-      // 查找失败，默认跳转视频监控
-      let cameraId: string | undefined
-      try {
-        const cams = await getCamerasByDevice(Number(deviceId))
-        if (Array.isArray(cams) && cams.length > 0) cameraId = String(cams[0].id)
-      } catch {}
-      router.push({ path: '/video-surveillance', query: cameraId ? { cameraId } : {} })
-    }
-  } else {
-    alertShownIds.value.delete(alarm?.id)
-    closePopup()
+    await jumpToAlarmScene(deviceId)
   }
 }
 
-const onHandleLater = async () => {
-  if (popupAlarm.value?.id) {
+/** 通知匣条目点击：跳转到该告警的处置现场（不写处置状态，处置操作由处置现场页完成） */
+const onNoticeOpen = (alarm: any) => {
+  const deviceId = alarm?.deviceId
+  if (deviceId) {
+    void jumpToAlarmScene(deviceId)
+  } else {
+    ElMessage.warning('该告警未关联设备，无法跳转处置现场')
+  }
+}
+
+// 稍后处置：defer 落库成功（handle_status=1）即静默——fetchRecentAlerts 一级过滤会按落库状态跳过它，不再弹窗；
+// 落库失败时状态停留在 0，该告警照常周期重弹，宁可打扰也不漏警
+const onHandleLater = async (alarm: any) => {
+  if (alarm?.id) {
     try {
-      await deferAlertRecord(popupAlarm.value.id)
+      await deferAlertRecord(alarm.id)
     } catch (e) {
       // 静默失败
     }
   }
-  closePopup()
+  popupRef.value?.close()
 }
 
 const fetchRecentAlerts = async () => {
   try {
-    const res = await getRecentUnprocessedAlerts(5)
+    const res = await getRecentUnprocessedAlerts()
     const alerts = (Array.isArray(res) ? res : res?.data) || []
     console.log('[DutyScreen] fetchRecentAlerts =>', alerts.length, '条告警')
-    const newAlerts = alerts.filter((a: any) => !alertShownIds.value.has(a.id))
-    if (newAlerts.length === 0) return
 
-    alertQueue.value.push(...newAlerts)
-    newAlerts.forEach((a: any) => alertShownIds.value.add(a.id))
+    // 一级（含缺省/未知，就高不就低）走全屏弹窗：不做一次性去重，未处置的按周期重复提醒直到处置（判定在弹窗组件内）；
+    // 「稍后处置」过的（handle_status=1）跳过——人工确认以落库状态为准，之后任何刷新/屏幕都不再弹，只在实时告警列表/待处理里处置
+    alerts
+      .filter((a: any) => !isLightAlarmLevel(a.level) && a.handleStatus !== 1)
+      .forEach((a: any) => popupRef.value?.enqueue(a))
 
-    if (!popupVisible.value) {
-      showNextAlert()
+    // 二三级进通知匣：页面生命周期内每条只推一次
+    alerts
+      .filter((a: any) => isLightAlarmLevel(a.level) && !alertShownIds.value.has(a.id))
+      .forEach((a: any) => {
+        alertShownIds.value.add(a.id)
+        alarmNoticeRef.value?.push(a)
+      })
+    // 有二三级告警时，在「待处理」格子弹 Toast
+    if (alerts.some((a: any) => isLightAlarmLevel(a.level))) {
+      flashPendingToast()
     }
   } catch (e) {
     // 静默失败
@@ -721,7 +725,8 @@ const fetchRecentAlerts = async () => {
 // WebSocket 连接（实时推送增强）
 const wsServer = ref(
   (import.meta.env.VITE_BASE_URL + '/infra/ws').replace('http', 'ws') +
-    '?token=' + getRefreshToken()
+    '?token=' +
+    getRefreshToken()
 )
 
 let wsData: any = null
@@ -743,14 +748,15 @@ if (wsData) {
       if (msg.type === 'firewatch-alert-new') {
         const content = JSON.parse(msg.content)
         const alertId = content.alertId
-        if (alertId && !alertShownIds.value.has(alertId)) {
-          alertQueue.value.push({
+        if (alertId) {
+          const item = {
             id: alertId,
             name: content.alertName || '设备报警',
             deviceId: content.deviceId,
             alertTime: content.alertTime,
             alertImage: content.alertImage || null,
-            level: content.level || '2',
+            level: content.level,
+            alarmKind: content.alarmKind,
             details: content.alertDetails || '',
             deviceName: content.deviceName || '',
             deviceAddr: '',
@@ -758,10 +764,17 @@ if (wsData) {
             tenantName: content.tenantName || '',
             alarmType: content.alarmType,
             subDeviceName: content.subDeviceName || ''
-          })
-          alertShownIds.value.add(alertId)
-          if (!popupVisible.value) {
-            showNextAlert()
+          }
+          // 二三级进通知匣：页面生命周期内每条只推一次
+          if (isLightAlarmLevel(item.level)) {
+            if (!alertShownIds.value.has(alertId)) {
+              alertShownIds.value.add(alertId)
+              alarmNoticeRef.value?.push(item)
+              flashPendingToast()
+            }
+          } else {
+            // 一级：入队（弹窗组件内部判定重复提醒周期），空闲时立即弹出
+            popupRef.value?.enqueue(item)
           }
         }
       }
@@ -777,12 +790,6 @@ let dataLoaded = false
 
 // Charts
 let trendChart: ECharts | null = null
-
-// Sound
-const soundEnabled = ref(isAlarmSoundEnabled())
-const onToggleSound = () => {
-  soundEnabled.value = toggleAlarmSound()
-}
 
 // Computed
 const maxDisplayCount = 6
@@ -840,27 +847,26 @@ const extractAlarmSummary = (desc: string) => {
 const openPropertyDetail = (p: any) => {
   router.push({ path: '/alarm-screen', query: { propertyId: p.id, propertyName: p.name } })
 }
-const viewAlarm = (a: any) => {
-  alarmPopupPageData.value = a
-  alarmPopupPageVisible.value = true
-}
 const navRoutes: Record<string, string> = {
   'duty-screen': '/duty-screen',
   'ai-analysis': '/eiot/firewatch/ai-analysis',
   'device-screen': '/device-screen',
   'remote-console': '/remote-console',
-  'ops-workbench': '/ops-workbench',
-  'data-center': '/data-center',
+  // 'ops-workbench': '/ops-workbench',
+  // 'data-center': '/data-center',
   'video-surveillance': '/video-surveillance',
   patrol: '/eiot/firewatch/patrol'
 }
 // 管理后台路径按角色区分：管理员/监管(super_admin/monitor_role) → property，企业用户 → enterprise
 const getAdminPath = () => {
-  const isAdmin = userStore.getRoles?.some(r => r === 'super_admin' || r === 'monitor_role')
+  const isAdmin = userStore.getRoles?.some((r) => r === 'super_admin' || r === 'monitor_role')
   return isAdmin ? '/eiot/firewatch/property' : '/eiot/firewatch/enterprise'
 }
 const handleNavCommand = (command: string) => {
-  if (command === 'admin') { goToAdmin(); return }
+  if (command === 'admin') {
+    goToAdmin()
+    return
+  }
   const path = navRoutes[command]
   if (path && router.currentRoute.value.path !== path) {
     router.push(path)
@@ -884,7 +890,10 @@ const showScene = (scene: SceneName) => {
   if (currentScene.value !== scene) void router.replace({ query: { ...route.query, scene } })
 }
 const handleViewCommand = (command: string) => {
-  if (command === 'park') { showScene('park'); return }
+  if (command === 'park') {
+    showScene('park')
+    return
+  }
   if (command === 'map-reset') {
     if (currentScene.value === 'park') showScene('city')
     else dongguanMapRef.value?.resetView()
@@ -896,29 +905,67 @@ const handleViewCommand = (command: string) => {
 }
 
 // Normalize only the scene selector; every other query parameter remains intact.
-watch(rawScene, (value) => {
-  const normalized = value === 'park' ? 'park' : 'city'
-  if (value !== normalized) void router.replace({ query: { ...route.query, scene: normalized } })
-}, { immediate: true })
+watch(
+  rawScene,
+  (value) => {
+    const normalized = value === 'park' ? 'park' : 'city'
+    if (value !== normalized) void router.replace({ query: { ...route.query, scene: normalized } })
+  },
+  { immediate: true }
+)
 
 const markAccessibleProperties = (snapshotId: string) => {
   const geometry = propertyMapRenderReport.value
   const labels = propertyMapVisualReport.value
-  if (!geometry || !labels || geometry.snapshotId !== snapshotId || labels.snapshotId !== snapshotId) return
+  if (
+    !geometry ||
+    !labels ||
+    geometry.snapshotId !== snapshotId ||
+    labels.snapshotId !== snapshotId
+  )
+    return
   const geometricIds = new Set(geometry.renderedPropertyIds)
-  const sentIds = new Set(mapPoints.value.map(point => point.id))
-  propertyMap.markApplied(snapshotId, [...labels.visiblePropertyIds, ...labels.clusteredPropertyIds, ...labels.hiddenPropertyIds].filter(id => geometricIds.has(id) && sentIds.has(id)))
+  const sentIds = new Set(mapPoints.value.map((point) => point.id))
+  propertyMap.markApplied(
+    snapshotId,
+    [
+      ...labels.visiblePropertyIds,
+      ...labels.clusteredPropertyIds,
+      ...labels.hiddenPropertyIds
+    ].filter((id) => geometricIds.has(id) && sentIds.has(id))
+  )
 }
-const handlePropertyPointsApplied = (snapshotId: string, renderedPropertyIds: string[], excluded: { outOfBoundary: number; noSurface: number; invalid: number }, excludedIds?: { outOfBoundary: string[]; noSurface: string[]; invalid: string[] }) => {
+const handlePropertyPointsApplied = (
+  snapshotId: string,
+  renderedPropertyIds: string[],
+  excluded: { outOfBoundary: number; noSurface: number; invalid: number },
+  excludedIds?: { outOfBoundary: string[]; noSurface: string[]; invalid: string[] }
+) => {
   propertyMapRenderReport.value = { snapshotId, renderedPropertyIds, excluded, excludedIds }
   markAccessibleProperties(snapshotId)
 }
-const handlePropertyLabelsApplied = (snapshotId: string, visiblePropertyIds: string[], clusteredPropertyIds: string[], hiddenPropertyIds: string[], offscreenPropertyIds: string[]) => {
-  propertyMapVisualReport.value = { snapshotId, visiblePropertyIds, clusteredPropertyIds, hiddenPropertyIds, offscreenPropertyIds }
+const handlePropertyLabelsApplied = (
+  snapshotId: string,
+  visiblePropertyIds: string[],
+  clusteredPropertyIds: string[],
+  hiddenPropertyIds: string[],
+  offscreenPropertyIds: string[]
+) => {
+  propertyMapVisualReport.value = {
+    snapshotId,
+    visiblePropertyIds,
+    clusteredPropertyIds,
+    hiddenPropertyIds,
+    offscreenPropertyIds
+  }
   markAccessibleProperties(snapshotId)
 }
 
-const handleScenePointClick = async (pointId: string, kind: MapPoint['kind'], snapshotId: string) => {
+const handleScenePointClick = async (
+  pointId: string,
+  kind: MapPoint['kind'],
+  snapshotId: string
+) => {
   const point = findPoint(mapPoints.value, pointId)
   if (kind !== 'property' || snapshotId !== propertyMap.snapshotId.value || !point) return
   if (!point.navigable) return
@@ -927,14 +974,19 @@ const handleScenePointClick = async (pointId: string, kind: MapPoint['kind'], sn
   setParkNavigationStatus('正在复核园区入口并同步地图…')
   try {
     const verification = await propertyMap.verifyParkEntry(pointId)
-    if (!verification.ok || !verification.snapshotId || !(await propertyMap.waitForApplied(verification.snapshotId, pointId))) {
+    if (
+      !verification.ok ||
+      !verification.snapshotId ||
+      !(await propertyMap.waitForApplied(verification.snapshotId, pointId))
+    ) {
       console.warn('[property-map] 园区入口身份、状态或地图回执无法确认，未进入园区')
       setParkNavigationStatus('园区入口复核失败，未切换场景', 4_000)
       ElMessage.warning('园区入口仍在复核，未切换场景；请刷新物业位置后重试')
       return
     }
     setParkNavigationStatus('园区入口已确认，正在进入园区…')
-    if (currentScene.value !== 'park') await router.replace({ query: { ...route.query, scene: 'park' } })
+    if (currentScene.value !== 'park')
+      await router.replace({ query: { ...route.query, scene: 'park' } })
     setParkNavigationStatus('')
   } catch (error) {
     console.warn('[property-map] 园区场景路由切换失败', error)
@@ -949,7 +1001,12 @@ const handleSceneBack = () => {
   showScene('city')
 }
 
-const handleSceneError = (error: { scene: SceneName; reason: string; retryable: boolean; message?: string }) => {
+const handleSceneError = (error: {
+  scene: SceneName
+  reason: string
+  retryable: boolean
+  message?: string
+}) => {
   console.warn('[DutyScreen] 场景降级', error)
 }
 
@@ -970,6 +1027,23 @@ const silentGet = async (url: string, params?: any) => {
 }
 const loadErrors = ref<string[]>([])
 
+/** 实时告警只展示今天的报警：库里存有历史数据，别把昨天的混进大屏滚动列表 */
+const filterTodayAlarms = (list: any[]) => {
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const now = new Date()
+  const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
+  return (list || []).filter((a: any) => {
+    if (a?.alarmTime == null) return false
+    // 兼容毫秒时间戳与 ISO 字符串两种格式
+    const d =
+      typeof a.alarmTime === 'number'
+        ? new Date(a.alarmTime)
+        : new Date(String(a.alarmTime).replace(' ', 'T'))
+    if (isNaN(d.getTime())) return false
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` === today
+  })
+}
+
 // 初始化空数据 - 当API不可用时使用零值兜底
 const loadMockData = () => {
   enterpriseInfo.value = {}
@@ -988,9 +1062,14 @@ const loadData = async () => {
   }
 
   // ========== 1. 统计数据（包含巡检/值班/物业，统一走 dashboard 权限+租户隔离） ==========
-  const statsRes = await silentGet('/eiot/firewatch/dashboard/statistics')
+  // 仅 super_admin 选择了具体租户时才携带 tenantId（0 = 全部租户，不带参）
+  const params =
+    isSuperAdmin.value && selectedTenantId.value ? { tenantId: selectedTenantId.value } : undefined
+  const statsRes = await silentGet('/eiot/firewatch/dashboard/statistics', params)
   const d = statsRes || {}
   if (statsRes) {
+    // 后端随响应返回登录租户信息，供标题右侧文本展示
+    if (d.tenantName) loginTenant.value = { tenantId: d.tenantId, tenantName: d.tenantName }
     if (d.deviceStatus) {
       deviceStats.value = {
         total: d.deviceStatus.total || 0,
@@ -1008,7 +1087,7 @@ const loadData = async () => {
         pendingCount: d.todayAlarm.pendingCount || 0,
         handleRate: d.todayAlarm.handleRate ? Math.round(d.todayAlarm.handleRate * 100) / 100 : 0
       }
-    if (d.realtimeAlarms?.length) alarmList.value = d.realtimeAlarms
+    if (d.realtimeAlarms) alarmList.value = filterTodayAlarms(d.realtimeAlarms)
     if (d.alarmTrend?.length) {
       cachedAlarmTrend = d.alarmTrend
       updateTrendChart(d.alarmTrend)
@@ -1050,7 +1129,7 @@ const loadData = async () => {
   // ========== 2. 告警列表兜底（仅在 statistics 接口失败时请求） ==========
   if (!statsRes) {
     const r = await silentGet('/eiot/firewatch/dashboard/realtime-alarms', { limit: 15 })
-    if (r?.length) alarmList.value = r
+    if (Array.isArray(r)) alarmList.value = filterTodayAlarms(r)
   }
 
   // ========== 3. 物业列表（企业信息展示；地图点位由授权物业 list 独立管理） ==========
@@ -1096,6 +1175,19 @@ const loadData = async () => {
 
   // 检测新报警并触发弹窗（已禁用）
   // alarmPopupCheckNew(alarmList.value)
+}
+
+// 超管切换租户：清空旧数据 → 作废地图快照 → 重新加载
+const handleTenantChange = () => {
+  // 兜底接口"列表为空才请求"、statistics"有值才覆盖"，必须先清空避免旧租户数据残留
+  propertyList.value = []
+  enterpriseInfo.value = {}
+  dutyList.value = []
+  alarmList.value = []
+  // 地图是独立的 30 秒轮询链路，需手动作废当前快照
+  propertyMap.clearForSessionChange()
+  // 重新拉数据，完成后再刷新地图点位
+  void loadData().then(() => propertyMap.refresh('tenant-change'))
 }
 
 // Charts
@@ -1183,20 +1275,59 @@ const updateMapSafeViewport = () => {
   const frame = document.querySelector<HTMLIFrameElement>('.scene-host__frame')
   if (!frame) return
   const frameRect = frame.getBoundingClientRect()
-  if (frameRect.width <= 0 || frameRect.height <= 0 || frame.clientWidth <= 0 || frame.clientHeight <= 0) return
+  if (
+    frameRect.width <= 0 ||
+    frameRect.height <= 0 ||
+    frame.clientWidth <= 0 ||
+    frame.clientHeight <= 0
+  )
+    return
   const scaleX = frame.clientWidth / frameRect.width
   const scaleY = frame.clientHeight / frameRect.height
-  const header = document.querySelector<HTMLElement>('.duty-screen .header')?.getBoundingClientRect()
-  const left = document.querySelector<HTMLElement>('.duty-screen .left-panel')?.getBoundingClientRect()
-  const right = document.querySelector<HTMLElement>('.duty-screen .right-panel')?.getBoundingClientRect()
+  const header = document
+    .querySelector<HTMLElement>('.duty-screen .header')
+    ?.getBoundingClientRect()
+  const left = document
+    .querySelector<HTMLElement>('.duty-screen .left-panel')
+    ?.getBoundingClientRect()
+  const right = document
+    .querySelector<HTMLElement>('.duty-screen .right-panel')
+    ?.getBoundingClientRect()
   const margin = 12
-  const localLeft = Math.max(margin, left && left.right > frameRect.left ? (left.right - frameRect.left + margin) * scaleX : margin)
-  const localRight = Math.min(frame.clientWidth - margin, right && right.left < frameRect.right ? (right.left - frameRect.left - margin) * scaleX : frame.clientWidth - margin)
-  const localTop = Math.max(margin, header && header.bottom > frameRect.top ? (header.bottom - frameRect.top + margin) * scaleY : margin)
+  const localLeft = Math.max(
+    margin,
+    left && left.right > frameRect.left ? (left.right - frameRect.left + margin) * scaleX : margin
+  )
+  const localRight = Math.min(
+    frame.clientWidth - margin,
+    right && right.left < frameRect.right
+      ? (right.left - frameRect.left - margin) * scaleX
+      : frame.clientWidth - margin
+  )
+  const localTop = Math.max(
+    margin,
+    header && header.bottom > frameRect.top
+      ? (header.bottom - frameRect.top + margin) * scaleY
+      : margin
+  )
   const localBottom = frame.clientHeight - margin
-  mapSafeViewport.value = localRight > localLeft && localBottom > localTop
-    ? { width: frame.clientWidth, height: frame.clientHeight, safeRect: { left: localLeft, top: localTop, right: localRight, bottom: localBottom } }
-    : { width: frame.clientWidth, height: frame.clientHeight, safeRect: { left: margin, top: margin, right: frame.clientWidth - margin, bottom: frame.clientHeight - margin } }
+  mapSafeViewport.value =
+    localRight > localLeft && localBottom > localTop
+      ? {
+          width: frame.clientWidth,
+          height: frame.clientHeight,
+          safeRect: { left: localLeft, top: localTop, right: localRight, bottom: localBottom }
+        }
+      : {
+          width: frame.clientWidth,
+          height: frame.clientHeight,
+          safeRect: {
+            left: margin,
+            top: margin,
+            right: frame.clientWidth - margin,
+            bottom: frame.clientHeight - margin
+          }
+        }
 }
 
 const handleResize = () => {
@@ -1208,6 +1339,7 @@ let timer: any = null,
   refreshTimer: any = null
 onMounted(() => {
   updateDateTime()
+  void loadTenantOptions()
   timer = setInterval(updateDateTime, 1000)
   loadData().then(() =>
     setTimeout(() => {
@@ -1217,9 +1349,12 @@ onMounted(() => {
   )
   refreshTimer = setInterval(loadData, 30000)
 
-  // 每10秒拉取近5分钟未处置告警
+  // 每10秒拉取当天未处置告警（回捞窗口：当天 0 点起，重启/刷新后仍能恢复待处置提示）
   fetchRecentAlerts()
   alertPollingTimer = setInterval(fetchRecentAlerts, 10000)
+
+  // 实时告警列表自动滚动（悬停暂停、滚轮可手动上下翻）
+  startAlarmAutoScroll()
 
   window.addEventListener('resize', handleResize)
   void nextTick(updateMapSafeViewport)
@@ -1229,7 +1364,7 @@ onUnmounted(() => {
   if (timer) clearInterval(timer)
   if (refreshTimer) clearInterval(refreshTimer)
   if (alertPollingTimer) clearInterval(alertPollingTimer)
-  stopAutoHide()
+  if (alarmAutoScrollTimer) clearInterval(alarmAutoScrollTimer)
   trendChart?.dispose()
   closeAlarmAudio()
   window.removeEventListener('resize', handleResize)
@@ -1280,10 +1415,10 @@ $cyan: #4fc3f7;
   padding: 8px 14px;
   color: #fff5c7;
   font-size: 13px;
-  background: rgba(21, 42, 62, .94);
-  border: 1px solid rgba(255, 210, 91, .84);
+  background: rgba(21, 42, 62, 0.94);
+  border: 1px solid rgba(255, 210, 91, 0.84);
   border-radius: 4px;
-  box-shadow: 0 0 16px rgba(255, 190, 56, .24);
+  box-shadow: 0 0 16px rgba(255, 190, 56, 0.24);
 }
 .duty-screen {
   width: 100vw;
@@ -1334,6 +1469,53 @@ $cyan: #4fc3f7;
   z-index: 10;
 
   .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    align-self: stretch;
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tenant-name {
+      font-size: 14px;
+      color: $t2;
+    }
+
+    .tenant-select {
+      width: 160px;
+
+      // 深色玻璃质感：圆角 + 青色描边，悬停/聚焦提亮
+      :deep(.el-select__wrapper) {
+        min-height: 26px;
+        background: rgba(15, 32, 55, 0.72);
+        border-radius: 6px;
+        box-shadow: 0 0 0 1px rgba(79, 195, 247, 0.25) inset;
+        transition:
+          box-shadow 0.2s ease,
+          background 0.2s ease;
+        &:hover {
+          background: rgba(15, 32, 55, 0.9);
+          box-shadow: 0 0 0 1px rgba(79, 195, 247, 0.55) inset;
+        }
+        &.is-focused {
+          box-shadow:
+            0 0 0 1px rgba(79, 195, 247, 0.8) inset,
+            0 0 10px rgba(79, 195, 247, 0.25);
+        }
+      }
+      :deep(.el-select__placeholder) {
+        color: $t2;
+        font-size: 13px;
+      }
+      :deep(.el-select__caret) {
+        color: $t2;
+      }
+    }
+
     .title {
       font-size: 24px;
       font-weight: bold;
@@ -1347,7 +1529,7 @@ $cyan: #4fc3f7;
       font-size: 12px;
       color: $t2;
       letter-spacing: 1px;
-      margin-top: 1px;
+      margin: 1px 0 0;
       opacity: 0.7;
     }
   }
@@ -1753,7 +1935,10 @@ $cyan: #4fc3f7;
 }
 
 // ====== Device Stats ======
-.device-stats-card {
+.device-stats-card,
+.duty-overview-card {
+  color: inherit;
+  text-decoration: none;
   cursor: pointer;
   transition:
     border-color 0.3s,
@@ -1907,17 +2092,52 @@ $cyan: #4fc3f7;
   }
 }
 
+// 二级告警 Toast 提示（锚在「待处理」格子正上方）
+.pending-toast {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba($orange, 0.92);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 20;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba($orange, 0.92);
+  }
+}
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.toast-fade-enter-from,
+.toast-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+// 二级告警「待处理」格子高亮闪烁
+@keyframes pending-cell-flash {
+  0%, 100% { box-shadow: none; }
+  25% { box-shadow: 0 0 0 3px rgba($orange, 0.45); }
+  50% { box-shadow: 0 0 0 6px rgba($orange, 0.2); }
+  75% { box-shadow: 0 0 0 3px rgba($orange, 0.35); }
+}
+
 // ====== Alarm ======
-.alarm-panel {
-  .card-content {
-    overflow: hidden;
-  }
-}
-.alarm-inner {
-  &.scrolling {
-    animation: scrollUp 18s linear infinite;
-  }
-}
+// 列表容器不要再覆盖 overflow：走 .card-content 默认的 overflow-y:auto（已隐藏滚动条），滚轮才能手动上下翻
 .alarm-item {
   display: flex;
   align-items: flex-start;
@@ -1958,6 +2178,11 @@ $cyan: #4fc3f7;
     .alarm-name {
       font-size: 16px;
       font-weight: 500;
+    }
+    .alarm-tenant {
+      color: $cyan;
+      font-weight: 600;
+      margin-right: 6px;
     }
     .alarm-desc {
       font-size: 16px;
@@ -2071,6 +2296,10 @@ $cyan: #4fc3f7;
         background: rgba($orange, 0.15);
         color: $orange;
         border: 1px solid rgba($orange, 0.25);
+        position: relative;
+        &.flash {
+          animation: pending-cell-flash 1.2s ease;
+        }
       }
       &.completed {
         background: rgba($blue, 0.12);
@@ -2107,14 +2336,6 @@ $cyan: #4fc3f7;
 }
 
 // ====== Animations ======
-@keyframes scrollUp {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-50%);
-  }
-}
 @keyframes blink {
   0%,
   100% {
@@ -2195,255 +2416,6 @@ $cyan: #4fc3f7;
   }
 }
 
-// ====== 报警弹窗样式 ======
-.alarm-popup-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(4px);
-  animation: alarmFadeIn 0.3s ease;
-
-  // 等级闪烁动画
-  &.flash-critical {
-    animation: alarmFadeIn 0.3s ease, flashCritical 0.8s ease-in-out infinite;
-  }
-  &.flash-major {
-    animation: alarmFadeIn 0.3s ease, flashMajor 1.2s ease-in-out infinite;
-  }
-  &.flash-warning {
-    animation: alarmFadeIn 0.3s ease, flashWarning 1.8s ease-in-out infinite;
-  }
-}
-
-@keyframes alarmFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes flashCritical {
-  0%, 100% { box-shadow: inset 0 0 80px rgba(255, 77, 79, 0.0), 0 0 0 rgba(255, 77, 79, 0); }
-  50% { box-shadow: inset 0 0 80px rgba(255, 77, 79, 0.35), 0 0 60px rgba(255, 77, 79, 0.25); }
-}
-
-@keyframes flashMajor {
-  0%, 100% { box-shadow: inset 0 0 60px rgba(250, 140, 22, 0.0), 0 0 0 rgba(250, 140, 22, 0); }
-  50% { box-shadow: inset 0 0 60px rgba(250, 140, 22, 0.25), 0 0 40px rgba(250, 140, 22, 0.2); }
-}
-
-@keyframes flashWarning {
-  0%, 100% { box-shadow: inset 0 0 40px rgba(250, 219, 20, 0.0), 0 0 0 rgba(250, 219, 20, 0); }
-  50% { box-shadow: inset 0 0 40px rgba(250, 219, 20, 0.15), 0 0 30px rgba(250, 219, 20, 0.12); }
-}
-
-.alarm-popup-card {
-  width: 680px;
-  max-width: 90vw;
-  background: #0f2747;
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow:
-    0 0 40px rgba(255, 77, 79, 0.25),
-    0 16px 48px rgba(0, 0, 0, 0.4);
-  animation: alarmSlideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes alarmSlideIn {
-  from { opacity: 0; transform: scale(0.95) translateY(12px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.alarm-countdown-bar {
-  height: 3px;
-  background: rgba(30, 58, 95, 0.5);
-  .alarm-countdown-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #ff6b6b, #ff4d4f);
-    transition: width 1s linear;
-    border-radius: 0 2px 2px 0;
-  }
-}
-
-.alarm-popup-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: linear-gradient(135deg, rgba(255, 77, 79, 0.12) 0%, transparent 100%);
-  border-bottom: 1px solid rgba(30, 58, 95, 0.8);
-}
-
-.alarm-popup-header-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.alarm-popup-icon {
-  font-size: 20px;
-  animation: alarmIconPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes alarmIconPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.15); }
-}
-
-.alarm-popup-type {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.5px;
-}
-
-.alarm-popup-header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.alarm-popup-severity {
-  padding: 2px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  &.severity-critical { background: rgba(255, 77, 79, 0.2); color: #ff8a8a; border: 1px solid rgba(255, 77, 79, 0.4); }
-  &.severity-major { background: rgba(250, 140, 22, 0.2); color: #ffa940; border: 1px solid rgba(250, 140, 22, 0.4); }
-  &.severity-warning { background: rgba(250, 219, 20, 0.2); color: #fadb14; border: 1px solid rgba(250, 219, 20, 0.4); }
-  &.severity-info { background: rgba(24, 144, 255, 0.2); color: #40a9ff; border: 1px solid rgba(24, 144, 255, 0.4); }
-}
-
-.alarm-popup-timer {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ff6b6b;
-  font-variant-numeric: tabular-nums;
-  min-width: 32px;
-  text-align: center;
-}
-
-.alarm-sound-toggle {
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.2s;
-  user-select: none;
-  &:hover { transform: scale(1.2); }
-  &.muted { opacity: 0.5; }
-}
-
-.alarm-popup-queue {
-  font-size: 11px;
-  color: #8b9dc5;
-  background: rgba(30, 58, 95, 0.6);
-  padding: 2px 8px;
-  border-radius: 8px;
-}
-
-.alarm-popup-body {
-  display: flex;
-  min-height: 280px;
-  padding: 0;
-}
-
-.alarm-popup-image {
-  width: 360px;
-  min-height: 280px;
-  flex-shrink: 0;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-.alarm-popup-no-image {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  .no-image-icon { font-size: 48px; opacity: 0.4; }
-  .no-image-text { font-size: 13px; color: #6b7b9a; }
-}
-
-.alarm-popup-info {
-  flex: 1;
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.alarm-info-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.alarm-info-label {
-  font-size: 13px;
-  color: #8b9dc5;
-  flex-shrink: 0;
-  min-width: 70px;
-}
-
-.alarm-info-value {
-  font-size: 14px;
-  color: #fff;
-  font-weight: 500;
-  flex: 1;
-}
-
-.alarm-detail-text {
-  line-height: 1.5;
-  color: #c8d6e5;
-  font-weight: 400;
-  word-break: break-all;
-}
-
-.alarm-popup-footer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 12px 20px;
-  border-top: 1px solid rgba(30, 58, 95, 0.8);
-  background: rgba(15, 39, 71, 0.6);
-}
-
-.alarm-btn {
-  padding: 8px 24px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s;
-  letter-spacing: 0.5px;
-}
-
-.alarm-btn-later {
-  background: transparent;
-  border-color: rgba(30, 58, 95, 0.8);
-  color: #8b9dc5;
-  &:hover { background: rgba(30, 58, 95, 0.5); border-color: #3b82f6; color: #fff; }
-}
-
-.alarm-btn-now {
-  background: linear-gradient(135deg, #ff4d4f 0%, #ff6b6b 100%);
-  border-color: #ff4d4f;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(255, 77, 79, 0.3);
-  &:hover { background: linear-gradient(135deg, #ff7875 0%, #ff8a8a 100%); }
-}
 </style>
 
 <style lang="scss">
@@ -2470,6 +2442,32 @@ $cyan: #4fc3f7;
     &:hover {
       background: rgba(24, 144, 255, 0.15) !important;
       color: #fff !important;
+    }
+  }
+  .el-popper__arrow::before {
+    background: rgba(15, 32, 55, 0.92);
+    border: 1px solid rgba(40, 70, 110, 0.45);
+  }
+}
+
+// 租户下拉面板（大屏标题旁，暗色毛玻璃，与头部下拉统一）
+.tenant-select-popper {
+  background: rgba(15, 32, 55, 0.92) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(40, 70, 110, 0.45) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+
+  .el-select-dropdown__item {
+    color: #b0c0dd;
+    &.is-hovering,
+    &:hover {
+      background: rgba(24, 144, 255, 0.15);
+      color: #fff;
+    }
+    &.is-selected {
+      color: #4fc3f7;
     }
   }
   .el-popper__arrow::before {
@@ -2528,4 +2526,6 @@ $cyan: #4fc3f7;
     }
   }
 }
+
+
 </style>

@@ -46,7 +46,7 @@
 		{
 			"path": "pages/profile/device-list",
 			"style": {
-				"navigationBarTitleText": "设备列表",
+				"navigationBarTitleText": "设备总览",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true
 			}
@@ -55,6 +55,13 @@
 			"path": "pages/alarm-detail/index",
 			"style": {
 				"navigationBarTitleText": "告警详情",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/video-monitor/index",
+			"style": {
+				"navigationBarTitleText": "消控室监控",
 				"navigationStyle": "custom"
 			}
 		},
@@ -72,6 +79,13 @@
 				"navigationBarTitleText": "列表",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/common/agreement",
+			"style": {
+				"navigationBarTitleText": "协议",
+				"navigationStyle": "custom"
 			}
 		}
 	],

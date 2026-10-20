@@ -79,13 +79,10 @@
 				<text class="exp-txt exp-txt--w">导出隐患清单</text>
 			</view>
 		</view>
-
-		<TabBar current="workspace" />
 	</view>
 </template>
 
 <script>
-import TabBar from '@/components/TabBar.vue'
 import NavBar from '@/components/NavBar/NavBar.vue'
 import { get } from '@/utils/request.js'
 
@@ -93,7 +90,7 @@ const THEME = '#1e39b1'
 const THEME_LIGHT = '#7b93e8'
 
 export default {
-	components: { TabBar, NavBar },
+	components: { NavBar },
 	data() {
 		return {
 			loading: false,
@@ -254,7 +251,7 @@ export default {
 .page {
 	min-height: 100vh;
 	background: #f2f4f8;
-	padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+	padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
 }
 
 /* ===== 今日按钮 ===== */

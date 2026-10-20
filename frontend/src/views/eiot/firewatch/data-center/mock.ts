@@ -1,8 +1,9 @@
 /**
  * 数据中心 Mock 数据
- * 当后端接口尚未实现（返回空）时，自动使用此兜底数据渲染图表
- * 对应后端：FireDataCenterServiceImpl（空壳）；页面已向用户展示「开发中」标识与示例数据说明，
- * 接口真实实现后同步移除本兜底与页面提示
+ *
+ * @deprecated 第二轮退场：后端 15 个统计接口已全部真实化，本文件与各组件的 fallback 均为过渡期兜底，
+ * 逐 Tab 核对通过后统一删除（连同 index.vue 的“开发中”标识与提示条）。保留期间的作用：
+ * 接口异常/空数据时页面仍可渲染。
  */
 
 // ==================== 告警分析 ====================
@@ -46,7 +47,7 @@ export const mockPropertyAlarmRank = [
   { propertyName: '招商·雍景湾', alarmCount: 12 },
 ]
 
-export const mockAlarmHourlyHeatmap = Array.from({ length: 24 }, (_, i) => {
+export const mockAlarmHourlyDistribution = Array.from({ length: 24 }, (_, i) => {
   // 模拟真实分布：夜间少、白天多、傍晚高峰
   const hourFactors = [2, 1, 1, 0, 0, 1, 3, 6, 8, 10, 12, 9, 11, 13, 10, 8, 14, 16, 12, 9, 7, 5, 4, 3]
   return { hour: i, count: hourFactors[i] + Math.round(Math.random() * 3) }
@@ -57,7 +58,7 @@ export const mockAlarmHourlyHeatmap = Array.from({ length: 24 }, (_, i) => {
 export const mockDeviceStatus = {
   total: 1286,
   normal: 1043,
-  alarm: 67,
+  alarmDeviceCountInRange: 67,
   fault: 89,
   offline: 52,
   inactive: 35,
@@ -133,7 +134,6 @@ export const mockRepairStats = {
   inProgress: 18,
   completed: 102,
   overdue: 13,
-  avgHandleHours: 4.8,
 }
 
 export const mockHazardStats = {
@@ -141,6 +141,7 @@ export const mockHazardStats = {
   pending: 12,
   rectified: 52,
   closed: 23,
+  hazardOverdue: 9,
   rectificationRate: 86.2,
 }
 

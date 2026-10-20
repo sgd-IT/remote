@@ -56,6 +56,9 @@ public class AlarmOrderRespVO {
     @Schema(description = "告警级别名称")
     private String alarmLevelName;
 
+    @Schema(description = "确认档位：1=Ⅰ档 2=Ⅱ档 3=Ⅲ档 4=Ⅳ档（仅一级事件；余为空）")
+    private Integer tier;
+
     @Schema(description = "告警时间")
     private LocalDateTime alarmTime;
 

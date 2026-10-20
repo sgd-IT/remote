@@ -18,8 +18,17 @@
         playsinline
         @pause="isPaused = true"
         @play="isPaused = false"
+        @playing="onPlaying"
+        @waiting="onWaiting"
         @click="togglePlay"
       ></video>
+      <div
+        v-if="buffering && !isPaused"
+        class="video-buffering"
+      >
+        <el-icon class="is-loading"><Loading /></el-icon>
+        <span>正在连接视频流...</span>
+      </div>
       <div
         v-if="isPaused"
         class="play-overlay"
@@ -61,6 +70,53 @@ const videoRef = ref<HTMLVideoElement | null>(null)
 const localError = ref<string | null>(null)
 const isPaused = ref(false)
 const manuallyPaused = ref(false)
+
+// 缓冲/连接中指示：流地址已就绪但画面尚未出帧（拉流、MSE 缓冲、H.265 降级窗口）时显示，
+// 出画（playing）即隐藏；超 15s 仍未出画视为连接超时，给错误+重试入口防止"永远黑屏"
+const buffering = ref(false)
+let bufferingShowTimer: ReturnType<typeof setTimeout> | null = null
+let bufferingStallTimer: ReturnType<typeof setTimeout> | null = null
+
+const clearBufferingTimers = () => {
+  if (bufferingShowTimer) {
+    clearTimeout(bufferingShowTimer)
+    bufferingShowTimer = null
+  }
+  if (bufferingStallTimer) {
+    clearTimeout(bufferingStallTimer)
+    bufferingStallTimer = null
+  }
+}
+
+/** 显示缓冲指示：immediate=true（连接新流）立即显示；false 延迟 300ms（避免播放中瞬断闪一下） */
+const showBuffering = (immediate = false) => {
+  clearBufferingTimers()
+  if (immediate) {
+    buffering.value = true
+  } else {
+    bufferingShowTimer = setTimeout(() => {
+      buffering.value = true
+    }, 300)
+  }
+  bufferingStallTimer = setTimeout(() => {
+    if (!buffering.value) return
+    buffering.value = false
+    localError.value = '视频流连接超时，请点击重试'
+  }, 15000)
+}
+
+const hideBuffering = () => {
+  clearBufferingTimers()
+  buffering.value = false
+}
+
+const onPlaying = () => {
+  hideBuffering()
+}
+const onWaiting = () => {
+  if (manuallyPaused.value) return
+  showBuffering(false)
+}
 
 const togglePlay = () => {
   const video = videoRef.value
@@ -107,7 +163,7 @@ const clearFallbackTimer = () => {
 const cleanupDhflvOverlays = () => {
   const wrapper = videoRef.value?.parentElement
   if (!wrapper) return
-  const allowedSelectors = '.video-element,.video-loading,.video-error,.video-empty'
+  const allowedSelectors = '.video-element,.video-loading,.video-buffering,.video-error,.video-empty,.play-overlay'
   wrapper.querySelectorAll(':scope > :not(' + allowedSelectors + ')').forEach(el => el.remove())
 }
 
@@ -151,6 +207,9 @@ const createFlvPlayer = () => {
     localError.value = '当前浏览器不支持 MSE 播放 FLV 流'
     return
   }
+
+  // 连接新流：显示缓冲指示（降级/重连路径由此兜底；出画后由 playing 隐藏）
+  showBuffering(true)
 
   try {
     const player = flv.createPlayer(
@@ -282,6 +341,9 @@ const createHlsPlayer = () => {
     return
   }
 
+  // 连接新流：显示缓冲指示（出画后由 playing 隐藏）
+  showBuffering(true)
+
   // 优先使用 dhhls 播放器，保证所有浏览器行为一致、低延迟参数统一管控
   if (HlsLib && HlsLib.isSupported()) {
     try {
@@ -396,6 +458,9 @@ const createDhhlsPlayer = () => {
     return
   }
 
+  // 连接新流（FLV 降级/重连路径）：重新显示缓冲指示（出画后由 playing 隐藏）
+  showBuffering(true)
+
   try {
     const hls = new HlsLib({
       autoStartLoad: true,
@@ -493,6 +558,7 @@ const destroyPlayer = () => {
     restoreConsoleLog()
   }
   clearFallbackTimer()
+  hideBuffering()
   if (flvInstance.value) {
     try {
       flvInstance.value.pause()
@@ -524,6 +590,8 @@ const destroyPlayer = () => {
 watch(activeUrl, async (newUrl) => {
   localError.value = null
   if (newUrl) {
+    // 新流就绪但尚未出画：立即显示"正在连接视频流..."，出画后由 playing 事件隐藏
+    showBuffering(true)
     await nextTick()
     // 确保 dhflv / dhhls 脚本已通过 Vite asset 管道加载完成
     try {
@@ -539,6 +607,7 @@ watch(activeUrl, async (newUrl) => {
       createHlsPlayer()
     }
   } else {
+    hideBuffering()
     destroyPlayer()
   }
 }, { immediate: true })
@@ -580,6 +649,7 @@ onUnmounted(() => {
   cursor: pointer;
 }
 .video-loading,
+.video-buffering,
 .video-error,
 .video-empty {
   position: absolute;
@@ -589,11 +659,23 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: #fff;
+  color: #8b9dc5;
   font-size: 14px;
 }
 .video-error {
-  color: #f56c6c;
+  color: #ff4d4f;
+}
+/* 重试按钮跟随主题 accent（Element 默认蓝 #409eff 与深色 HUD 主题冲突） */
+.video-error :deep(.el-button--primary) {
+  --el-button-bg-color: rgba(79, 195, 247, 0.12);
+  --el-button-border-color: rgba(79, 195, 247, 0.5);
+  --el-button-text-color: #4fc3f7;
+  --el-button-hover-bg-color: rgba(79, 195, 247, 0.22);
+  --el-button-hover-border-color: rgba(79, 195, 247, 0.8);
+  --el-button-hover-text-color: #fff;
+  --el-button-active-bg-color: rgba(79, 195, 247, 0.3);
+  --el-button-active-border-color: rgba(79, 195, 247, 0.9);
+  --el-button-active-text-color: #fff;
 }
 .play-overlay {
   position: absolute;

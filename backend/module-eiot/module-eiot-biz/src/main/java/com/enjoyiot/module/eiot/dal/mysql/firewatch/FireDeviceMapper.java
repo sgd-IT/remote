@@ -1,6 +1,7 @@
 package com.enjoyiot.module.eiot.dal.mysql.firewatch;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -76,5 +77,26 @@ public interface FireDeviceMapper {
             "WHERE (d.deleted = 0 OR d.deleted IS NULL) " +
             "ORDER BY d.state ASC, d.name ASC")
     List<Map<String, Object>> selectDeviceList();
+
+    /** 联网单位数（有设备的租户去重数） */
+    @Select("SELECT COUNT(DISTINCT tenant_id) FROM eiot_device_info WHERE (deleted = 0 OR deleted IS NULL)")
+    Integer countTenants();
+
+    /** 离线设备清单（state=0，关联 fire_property 取单位名，供月度报告使用） */
+    @Select("SELECT d.id, d.name, d.dn, d.addr, d.tenant_id, p.property_name " +
+            "FROM eiot_device_info d " +
+            "LEFT JOIN (" +
+            "  SELECT tenant_id, GROUP_CONCAT(name SEPARATOR '/') AS property_name " +
+            "  FROM fire_property WHERE (deleted = 0 OR deleted IS NULL) GROUP BY tenant_id" +
+            ") p ON p.tenant_id = d.tenant_id " +
+            "WHERE (d.deleted = 0 OR d.deleted IS NULL) AND d.state = 0 " +
+            "ORDER BY d.name ASC LIMIT #{limit}")
+    List<Map<String, Object>> selectOfflineDevices(@Param("limit") int limit);
+
+    /** 各租户设备数量排名（用于数据中心"各物业设备数量"，物业名在服务层按 tenant 映射） */
+    @Select("SELECT tenant_id, COUNT(*) as count FROM eiot_device_info " +
+            "WHERE (deleted = 0 OR deleted IS NULL) " +
+            "GROUP BY tenant_id ORDER BY count DESC LIMIT #{limit}")
+    List<Map<String, Object>> rankDeviceByTenant(@Param("limit") int limit);
 
 }

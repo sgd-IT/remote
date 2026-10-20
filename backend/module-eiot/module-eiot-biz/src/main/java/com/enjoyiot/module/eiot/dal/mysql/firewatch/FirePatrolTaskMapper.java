@@ -87,6 +87,25 @@ public interface FirePatrolTaskMapper extends BaseMapperX<FirePatrolTaskDO> {
                                           @Param("endDate") LocalDate endDate);
 
     /**
+     * 按计划日期分组统计巡检任务创建/完成数（用于数据中心趋势）
+     * 口径：plan_date 为 NULL 的"每天"重复任务不计入；租户过滤由拦截器自动追加
+     */
+    @Select("<script>" +
+            "SELECT plan_date, COUNT(*) as created_count, " +
+            "  SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed_count " +
+            "FROM fire_patrol_task " +
+            "<where>" +
+            "  <if test='propertyId != null'>AND property_id = #{propertyId}</if>" +
+            "  AND plan_date BETWEEN #{startDate} AND #{endDate}" +
+            "  AND deleted = 0" +
+            "</where>" +
+            "GROUP BY plan_date ORDER BY plan_date" +
+            "</script>")
+    List<Map<String, Object>> countTrendByDay(@Param("propertyId") Long propertyId,
+                                              @Param("startDate") LocalDate startDate,
+                                              @Param("endDate") LocalDate endDate);
+
+    /**
      * 统计今日待执行任务数
      */
     @Select("<script>" +

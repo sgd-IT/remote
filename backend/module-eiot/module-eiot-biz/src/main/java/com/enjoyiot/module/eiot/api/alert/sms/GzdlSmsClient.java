@@ -55,7 +55,7 @@ public class GzdlSmsClient {
     /**
      * 短信平台账号（可在配置文件中覆盖）
      */
-    @Value("${sms.gzdl.cdkey:**}")
+    @Value("${sms.gzdl.cdkey:GZDLNQ0MS3749018276}")
     private String cdkey;
 
     /**

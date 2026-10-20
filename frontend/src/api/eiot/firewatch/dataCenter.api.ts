@@ -6,7 +6,7 @@ enum Api {
   alarmTrend = '/eiot/firewatch/data-center/alarm-trend',
   alarmTypeDistribution = '/eiot/firewatch/data-center/alarm-type-distribution',
   alarmPropertyRank = '/eiot/firewatch/data-center/alarm-property-rank',
-  alarmHourlyHeatmap = '/eiot/firewatch/data-center/alarm-hourly-heatmap',
+  alarmHourlyDistribution = '/eiot/firewatch/data-center/alarm-hourly-distribution',
   alarmLevelDistribution = '/eiot/firewatch/data-center/alarm-level-distribution',
 
   // 设备分析
@@ -34,26 +34,26 @@ export const getAlarmTrend = (days: number = 30, propertyId?: number) => {
   return request.get({ url: Api.alarmTrend, params: { days, propertyId } })
 }
 
-export const getAlarmTypeDistribution = (propertyId?: number) => {
-  return request.get({ url: Api.alarmTypeDistribution, params: { propertyId } })
+export const getAlarmTypeDistribution = (days: number = 30, propertyId?: number) => {
+  return request.get({ url: Api.alarmTypeDistribution, params: { days, propertyId } })
 }
 
 export const getAlarmPropertyRank = (days: number = 30) => {
   return request.get({ url: Api.alarmPropertyRank, params: { days } })
 }
 
-export const getAlarmHourlyHeatmap = (propertyId?: number) => {
-  return request.get({ url: Api.alarmHourlyHeatmap, params: { propertyId } })
+export const getAlarmHourlyDistribution = (days: number = 30, propertyId?: number) => {
+  return request.get({ url: Api.alarmHourlyDistribution, params: { days, propertyId } })
 }
 
-export const getAlarmLevelDistribution = (propertyId?: number) => {
-  return request.get({ url: Api.alarmLevelDistribution, params: { propertyId } })
+export const getAlarmLevelDistribution = (days: number = 30, propertyId?: number) => {
+  return request.get({ url: Api.alarmLevelDistribution, params: { days, propertyId } })
 }
 
 // ==================== 设备分析 ====================
 
-export const getDeviceStatus = (propertyId?: number) => {
-  return request.get({ url: Api.deviceStatus, params: { propertyId } })
+export const getDeviceStatus = (days: number = 30, propertyId?: number) => {
+  return request.get({ url: Api.deviceStatus, params: { days, propertyId } })
 }
 
 export const getDeviceCategory = (propertyId?: number) => {
@@ -76,8 +76,8 @@ export const getDutyUserRank = (year: number, month: number, propertyId?: number
 
 // ==================== 巡检统计 ====================
 
-export const getPatrolStats = (propertyId?: number) => {
-  return request.get({ url: Api.patrolStats, params: { propertyId } })
+export const getPatrolStats = (days: number = 30, propertyId?: number) => {
+  return request.get({ url: Api.patrolStats, params: { days, propertyId } })
 }
 
 export const getPatrolTrend = (days: number = 30, propertyId?: number) => {
@@ -90,8 +90,8 @@ export const getRepairStats = (propertyId?: number) => {
   return request.get({ url: Api.repairStats, params: { propertyId } })
 }
 
-export const getHazardStats = (propertyId?: number) => {
-  return request.get({ url: Api.hazardStats, params: { propertyId } })
+export const getHazardStats = (days: number = 30, propertyId?: number) => {
+  return request.get({ url: Api.hazardStats, params: { days, propertyId } })
 }
 
 export const getWorkOrderTrend = (days: number = 30, propertyId?: number) => {

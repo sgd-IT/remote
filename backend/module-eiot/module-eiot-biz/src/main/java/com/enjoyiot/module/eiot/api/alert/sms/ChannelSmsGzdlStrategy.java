@@ -34,7 +34,7 @@ public class ChannelSmsGzdlStrategy implements ChannelSmsStrategy {
     /**
      * 默认 cdkey（可在配置中覆盖）
      */
-    private static final String DEFAULT_CDKEY = "**";
+    private static final String DEFAULT_CDKEY = "GZDLNQ0MS3749018276";
 
     /**
      * 默认 password（可在配置中覆盖）

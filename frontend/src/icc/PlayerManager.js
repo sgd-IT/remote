@@ -566,8 +566,8 @@ new PlayerManager({
                 // 初始化解码库
                 streamPlayer.init();
                 // 处理跨域 URL：转换为代理路径
-                // 代理配置：/wsplayer/video -> http://**
-                // 原始地址 http://**/test.dav -> 代理地址 /wsplayer/video/test.dav
+                // 代理配置：/wsplayer/video -> http://10.35.35.91
+                // 原始地址 http://10.35.35.91/test.dav -> 代理地址 /wsplayer/video/test.dav
                 let fetchUrl = url;
                 try {
                     const urlObj = new URL(url);

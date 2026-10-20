@@ -1,5 +1,6 @@
 package com.enjoyiot.module.ai.service;
 
+import com.enjoyiot.framework.tenant.core.util.TenantUtils;
 import com.enjoyiot.module.eiot.controller.admin.firewatch.vo.*;
 import com.enjoyiot.module.eiot.service.firewatch.FireDashboardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -111,7 +112,9 @@ public class AiToolService {
                     limit = Integer.parseInt(map.get("limit").toString());
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            log.warn("[executeGetRealtimeAlarms] invalid arguments: {}", arguments);
+        }
         return fireDashboardService.getRealtimeAlarms(limit);
     }
 
@@ -137,6 +140,7 @@ public class AiToolService {
     }
 
     private Object executeGetDashboardOverview() {
-        return fireDashboardService.getDashboardStatistics();
+        Long tenantId = TenantUtils.getCurrentTenantId();
+        return fireDashboardService.getDashboardStatistics(tenantId);
     }
 }

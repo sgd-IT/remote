@@ -17,32 +17,53 @@
 					maxlength="16" @focus="focusField = 'user'" @blur="focusField = ''" />
 				<!-- #ifdef MP-WEIXIN -->
 				<button class="wx-phone-btn" open-type="getPhoneNumber" hover-class="wx-phone-btn-hover"
-					@getphonenumber="onGetPhoneNumber">手机号快捷登录</button>
+					:disabled="phoneLoading" @getphonenumber="onGetPhoneNumber">获取当前手机号</button>
 				<!-- #endif -->
 			</view>
 
 			<view class="field" :class="{ focused: focusField === 'pwd' }">
 				<image class="field-icon" src="/static/icon-lock.svg" mode="aspectFit" />
-				<input class="field-input" v-model="password" password placeholder="请输入密码" placeholder-style="color:#b4bcc9"
+				<input class="field-input" v-model="password" :password="!showPassword" placeholder="请输入密码" placeholder-style="color:#b4bcc9"
 					maxlength="16" confirm-type="done" @focus="focusField = 'pwd'" @blur="focusField = ''" @confirm="doLogin" />
+				<view class="eye-btn" hover-class="eye-btn-hover" @tap="showPassword = !showPassword">
+					<image class="eye-icon" :src="showPassword ? '/static/icon-eye-off.svg' : '/static/icon-eye.svg'" mode="aspectFit" />
+				</view>
 			</view>
 
 			<button class="login-btn" type="primary" hover-class="btn-hover" :loading="loading" :disabled="loading" @tap="doLogin">登　录</button>
 
-			<view class="card-footer">
-				<view class="remember" @tap="remember = !remember">
-					<view class="checkbox" :class="{ checked: remember }">
-						<text v-if="remember" class="check-mark">✓</text>
-					</view>
-					<text class="remember-txt">记住密码</text>
+			<view class="agree-row">
+				<view class="checkbox" :class="{ checked: agreed }" @tap="agreed = !agreed">
+					<text v-if="agreed" class="check-mark">✓</text>
 				</view>
-				<text class="forgot" hover-class="forgot-hover" @tap="forgotPassword">忘记密码?</text>
+				<text class="agree-txt" @tap="agreed = !agreed">已阅读并同意</text>
+				<text class="agree-link" @tap="openAgreement('service')">《服务协议》</text>
+				<text class="agree-txt">和</text>
+				<text class="agree-link" @tap="openAgreement('privacy')">《隐私协议》</text>
+			</view>
+
+			<view class="remember" @tap="remember = !remember">
+				<view class="checkbox" :class="{ checked: remember }">
+					<text v-if="remember" class="check-mark">✓</text>
+				</view>
+				<text class="remember-txt">记住密码</text>
 			</view>
 		</view>
 
 		<view class="page-footer">
-			<image class="footer-icon" src="/static/icon-shield-gray.svg" mode="aspectFit" />
-			<text class="footer-txt">安为智慧消防远程值守系统</text>
+			<view class="contact-block">
+				<text class="contact-label">业务负责人：</text>
+				<view class="contact-list">
+					<view class="contact-row" hover-class="contact-hover" @tap="callPhone('18576897600')">
+						<text class="contact-txt">胡经理18576897600</text>
+					</view>
+					<view class="contact-row" hover-class="contact-hover" @tap="callPhone('13430148074')">
+						<text class="contact-txt">郭经理13430148074</text>
+					</view>
+				</view>
+			</view>
+			<text class="copyright">Copyright © 2025 广东安为科技有限公司</text>
+			<text class="version">Version {{ version }}</text>
 		</view>
 	</view>
 </template>
@@ -75,11 +96,21 @@ export default {
 			username: '',
 			password: '',
 			remember: false,
+			agreed: false,
+			showPassword: false,
+			phoneLoading: false,
 			loading: false,
-			focusField: ''
+			focusField: '',
+			version: '2.0.1'
 		}
 	},
 	onLoad() {
+		// 版本号：体验版/线上版取微信运行时版本号，开发版回退 manifest.json 的 versionName
+		// #ifdef MP-WEIXIN
+		try {
+			this.version = uni.getAccountInfoSync().miniProgram.version || '2.0.1'
+		} catch (e) {}
+		// #endif
 		if (uni.getStorageSync('token')) {
 			uni.reLaunch({ url: '/pages/index/index' })
 			return
@@ -94,6 +125,10 @@ export default {
 	methods: {
 		async doLogin() {
 			if (this.loading) return
+			if (!this.agreed) {
+				uni.showToast({ title: '请先阅读并同意《服务协议》和《隐私协议》', icon: 'none', duration: 2500 })
+				return
+			}
 			if (!/^[A-Za-z0-9]{4,16}$/.test(this.username)) {
 				uni.showToast({ title: '账号为 4-16 位字母或数字', icon: 'none' })
 				return
@@ -118,11 +153,13 @@ export default {
 
 		async onGetPhoneNumber(e) {
 			// 微信 getPhoneNumber 仅返回一次性 code，需服务端换取手机号后回填账号框
+			if (this.phoneLoading) return
 			const code = e?.detail?.code
 			if (!code) {
 				uni.showToast({ title: '已取消授权', icon: 'none' })
 				return
 			}
+			this.phoneLoading = true
 			try {
 				const mobile = await rawPost('/system/auth/wx-ma-phone', { phoneCode: code })
 				if (mobile) {
@@ -131,6 +168,8 @@ export default {
 				}
 			} catch (err) {
 				uni.showToast({ title: err?.msg || '获取手机号失败，请重试', icon: 'none', duration: 2500 })
+			} finally {
+				this.phoneLoading = false
 			}
 		},
 
@@ -152,8 +191,15 @@ export default {
 			}, 500)
 		},
 
-		forgotPassword() {
-			uni.showToast({ title: '请联系管理员重置密码', icon: 'none' })
+		openAgreement(type) {
+			uni.navigateTo({ url: `/pages/common/agreement?type=${type}` })
+		},
+
+		callPhone(phone) {
+			uni.makePhoneCall({
+				phoneNumber: phone,
+				fail: () => uni.showToast({ title: `请手动拨打 ${phone}`, icon: 'none' })
+			})
 		}
 	}
 }
@@ -303,6 +349,29 @@ $brand: #3d5bd9;
 	opacity: 0.7;
 }
 
+/* 取号进行中禁用态：维持原视觉，仅降低透明度 */
+.wx-phone-btn[disabled] {
+	color: $brand;
+	background: rgba(61, 91, 217, 0.08);
+	opacity: 0.6;
+}
+
+/* 密码可见性切换：睁眼=显示，闭眼=隐藏 */
+.eye-btn {
+	flex-shrink: 0;
+	padding: 12rpx 0 12rpx 24rpx;
+}
+
+.eye-btn-hover {
+	opacity: 0.6;
+}
+
+.eye-icon {
+	display: block;
+	width: 40rpx;
+	height: 40rpx;
+}
+
 .login-btn {
 	margin-top: 36rpx;
 	background: linear-gradient(135deg, #4a6ae0, #1e39b1);
@@ -331,16 +400,28 @@ $brand: #3d5bd9;
 	box-shadow: none;
 }
 
-.card-footer {
+.agree-row {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	margin-top: 36rpx;
+	flex-wrap: wrap;
+	margin-top: 32rpx;
+}
+
+.agree-txt {
+	color: $muted;
+	font-size: 24rpx;
+}
+
+.agree-link {
+	color: $brand;
+	font-size: 24rpx;
+	padding: 8rpx 0; /* 扩大点击热区 */
 }
 
 .remember {
 	display: flex;
 	align-items: center;
+	margin-top: 22rpx;
 	padding: 8rpx 0; /* 扩大点击热区 */
 }
 
@@ -372,37 +453,58 @@ $brand: #3d5bd9;
 	font-size: 26rpx;
 }
 
-.forgot {
-	color: $brand;
-	font-size: 26rpx;
-	padding: 8rpx 0;
-}
-
-.forgot-hover {
-	opacity: 0.6;
-}
-
 .page-footer {
 	position: relative;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	margin-top: auto;
 	padding-top: 56rpx; /* 内容较长时与卡片的最小间距 */
 	padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 44rpx);
 	animation: rise 0.5s 0.2s ease-out both;
 }
 
-.footer-icon {
-	width: 26rpx;
-	height: 26rpx;
-	margin-right: 12rpx;
-	opacity: 0.85;
+/* 业务负责人：前缀为一列，联系人竖排一列，点击行拨号 */
+.contact-block {
+	display: flex;
+	align-items: flex-start;
 }
 
-.footer-txt {
+.contact-label {
+	color: $muted;
+	font-size: 24rpx;
+	line-height: 1.7;
+}
+
+.contact-list {
+	display: flex;
+	flex-direction: column;
+}
+
+.contact-row {
+	padding: 2rpx 8rpx;
+}
+
+.contact-hover {
+	opacity: 0.6;
+}
+
+.contact-txt {
+	color: $brand;
+	font-size: 24rpx;
+	line-height: 1.7;
+}
+
+.copyright {
+	margin-top: 30rpx;
 	color: $faint;
 	font-size: 22rpx;
-	letter-spacing: 2rpx;
+}
+
+.version {
+	margin-top: 8rpx;
+	color: $faint;
+	font-size: 22rpx;
+	letter-spacing: 1rpx;
 }
 </style>

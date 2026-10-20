@@ -92,7 +92,7 @@
 | `id` | BIGINT | 主键 |
 | `tenant_id` | BIGINT | 租户ID（多租户唯一）|
 | `server_name` | VARCHAR(64) | 配置名称，如 `大华ICC生产环境` |
-| `base_url` | VARCHAR(256) | ICC 平台基础地址，如 `https://**` |
+| `base_url` | VARCHAR(256) | ICC 平台基础地址，如 `https://10.35.239.81` |
 | `client_id` | VARCHAR(128) | 合作方凭证 ID |
 | `client_secret` | VARCHAR(256) | 合作方凭证密钥（加密存储）|
 | `username` | VARCHAR(64) | ICC 平台登录用户名 |

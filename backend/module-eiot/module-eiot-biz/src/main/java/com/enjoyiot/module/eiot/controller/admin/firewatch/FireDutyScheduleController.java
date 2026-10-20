@@ -225,27 +225,30 @@ public class FireDutyScheduleController {
     @GetMapping("/get-import-template")
     @Operation(summary = "下载排班导入模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
+        // 24 小时值班制示例：明天起三天、全天班隔日换人；
+        // 日期动态生成，避免固定日期过期后示例文件本身导不进去（导入只收明天及以后）
+        LocalDate day1 = LocalDate.now().plusDays(1);
         List<ImportScheduleDataModel> list = Arrays.asList(
                 ImportScheduleDataModel.builder()
-                        .scheduleDate(LocalDate.of(2026, 8, 4))
-                        .shiftType("白班")
-                        .shiftName("白班")
+                        .scheduleDate(day1)
+                        .shiftType("全天班")
+                        .shiftName("全天班")
                         .dutyUserName("张三")
                         .dutyUserPhone("13800138000")
                         .build(),
                 ImportScheduleDataModel.builder()
-                        .scheduleDate(LocalDate.of(2026, 8, 4))
-                        .shiftType("night")
-                        .shiftName("夜班")
+                        .scheduleDate(day1.plusDays(1))
+                        .shiftType("wholeday")
+                        .shiftName("全天班")
                         .dutyUserName("李四")
                         .dutyUserPhone("13900139000")
                         .build(),
                 ImportScheduleDataModel.builder()
-                        .scheduleDate(LocalDate.of(2026, 8, 5))
+                        .scheduleDate(day1.plusDays(2))
                         .shiftType("全天班")
                         .shiftName("全天班")
-                        .dutyUserName("王五")
-                        .dutyUserPhone("13700137000")
+                        .dutyUserName("张三")
+                        .dutyUserPhone("13800138000")
                         .build()
         );
         ExcelUtils.write(response, "排班导入模板.xls", "排班数据", ImportScheduleDataModel.class, list);

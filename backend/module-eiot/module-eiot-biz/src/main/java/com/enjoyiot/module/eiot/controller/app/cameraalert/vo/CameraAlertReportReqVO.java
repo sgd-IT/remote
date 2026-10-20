@@ -2,6 +2,7 @@ package com.enjoyiot.module.eiot.controller.app.cameraalert.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 摄像头报警上报数据（从 multipart 的 data JSON 参数解析）
@@ -26,4 +27,7 @@ public class CameraAlertReportReqVO {
 
     @Schema(description = "事件时间(时间戳)", example = "1722844800000")
     private Long eventDate;
+
+    @Schema(description = "事件图片")
+    private MultipartFile file;
 }

@@ -29,9 +29,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -133,14 +130,6 @@ public class DeviceInstructionServiceImpl implements DeviceInstructionService {
         // 解析协议厂商(向后兼容: 未配置时默认四信)
         ProtocolVendorDO vendor = resolveVendor(brand);
 
-        // 按厂商 invoke_type 路由到对应下发策略
-        Map<String, InstructionSender> senderMap = instructionSenders.stream()
-                .collect(Collectors.toMap(InstructionSender::getInvokeType, Function.identity()));
-        InstructionSender sender = senderMap.get(vendor.getInvokeType());
-        if (sender == null) {
-            return buildResp(false, "不支持的厂商调用类型: " + vendor.getInvokeType());
-        }
-
         InstructionContext context = InstructionContext.builder()
                 .reqVO(reqVO)
                 .deviceFunction(deviceFunction)
@@ -149,6 +138,18 @@ public class DeviceInstructionServiceImpl implements DeviceInstructionService {
                 .brandModel(brandModel)
                 .vendor(vendor)
                 .build();
+
+        InstructionSender sender = instructionSenders.stream()
+                .filter(item -> item.supportsVendor(vendor.getVendorCode()))
+                .findFirst()
+                .orElseGet(() -> instructionSenders.stream()
+                        .filter(item -> !item.isVendorSpecific())
+                        .filter(item -> vendor.getInvokeType().equals(item.getInvokeType()))
+                        .findFirst()
+                        .orElse(null));
+        if (sender == null) {
+            return buildResp(false, "不支持的厂商调用类型: " + vendor.getInvokeType());
+        }
         return sender.send(context);
     }
 

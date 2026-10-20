@@ -1,6 +1,7 @@
 package com.enjoyiot.module.eiot.service.aep;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.enjoyiot.eiot.common.constant.Constants;
 import com.enjoyiot.eiot.common.thing.ThingModelMessage;
 import com.enjoyiot.eiot.message.core.MqProducer;
@@ -292,7 +293,8 @@ public class AepCallbackServiceImpl implements AepCallbackService {
             AlarmParseContext context = AlarmParseContext.builder()
                     .sourceType(AlarmSourceType.AEP_HTTP_PUSH)
                     .deviceId(deviceInfo.getId())
-                    .deviceName(deviceInfo.getDn())
+                    // 名称/详情用设备显示名（如"展厅烟感"），空缺时回退设备编号（dn）
+                    .deviceName(StrUtil.blankToDefault(deviceInfo.getName(), deviceInfo.getDn()))
                     .productKey(deviceInfo.getProductKey())
                     .eventName(messageType)
                     .eventParams(eventParams)

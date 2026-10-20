@@ -9,11 +9,15 @@ defineOptions({ name: 'HomeRedirect' })
 const { replace } = useRouter()
 const { wsCache } = useCache()
 
-// 根据用户角色决定跳转目标：super_admin/monitor_role → /duty-screen(值守端大屏，查看所有企业)，企业账号 → /monitoring-center(监控中心大屏，仅本企业)
+// 与登录页保持同一口径：super_admin/monitor_role/fire_watcher → 值守端大屏，其余企业账号 → 监控中心大屏
 const getHomePath = () => {
   try {
     const userInfo = wsCache.get(CACHE_KEY.USER)
-    if (userInfo?.roles?.some((r: string) => r === 'super_admin' || r === 'monitor_role')) {
+    if (
+      userInfo?.roles?.some(
+        (r: string) => r === 'super_admin' || r === 'monitor_role' || r === 'fire_watcher'
+      )
+    ) {
       return '/duty-screen'
     }
   } catch {

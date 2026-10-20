@@ -30,6 +30,8 @@ import com.enjoyiot.module.eiot.api.alert.dto.AlertConfigPageReqVO;
 import com.enjoyiot.module.eiot.dal.dataobject.alertconfig.AlertConfigDO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 报警配置 Mapper
  *
@@ -51,4 +53,15 @@ public interface AlertConfigMapper extends BaseMapperX<AlertConfigDO> {
         return selectCount(new LambdaQueryWrapperX<AlertConfigDO>()
                 .eq(AlertConfigDO::getMessageTemplateId, templateId));
     };
+
+    /**
+     * 查询启用中（status=0）且算法报警类型匹配的告警配置（按 id 倒序，最新优先）
+     * 需在告警所属租户上下文内调用（依赖租户插件过滤）
+     */
+    default List<AlertConfigDO> selectEnabledByAlgorithmAlertType(Integer algorithmAlertType) {
+        return selectList(new LambdaQueryWrapperX<AlertConfigDO>()
+                .eq(AlertConfigDO::getAlgorithmAlertType, algorithmAlertType)
+                .eq(AlertConfigDO::getStatus, 0)
+                .orderByDesc(AlertConfigDO::getId));
+    }
 }

@@ -56,8 +56,8 @@ public class UserSaveReqVO {
     @DiffLogField(name = "用户昵称")
     private String nickname;
 
-    @Schema(description = "用户类型：1.Web 2.App 3.Wx", example = "1")
-    @DiffLogField(name = "用户类型")
+    @Schema(description = "登录平台：1=PC 端 2=移动端 3=双端（位掩码）", example = "1")
+    @DiffLogField(name = "登录平台")
     private Integer userType;
 
     @Schema(description = "备注", example = "我是一个用户")

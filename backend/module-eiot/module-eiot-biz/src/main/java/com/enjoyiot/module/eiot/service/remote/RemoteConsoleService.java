@@ -49,4 +49,12 @@ public interface RemoteConsoleService {
      * @return 是否成功
      */
     Boolean valveControl(String action, ValveControlReqVO reqVO);
+
+    /**
+     * 拉取并消费智能空开控制命令
+     *
+     * @param deviceId 设备 ID
+     * @return 待执行命令；不存在时返回 {@code null}
+     */
+    ValveCommandRespVO consumeValveCommand(Long deviceId);
 }

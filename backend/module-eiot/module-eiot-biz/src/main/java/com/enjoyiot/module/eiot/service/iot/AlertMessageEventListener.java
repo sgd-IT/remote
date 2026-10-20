@@ -8,6 +8,7 @@ import com.enjoyiot.framework.tenant.core.context.TenantContextHolder;
 import com.enjoyiot.module.eiot.api.alert.dto.AlertConfig;
 import com.enjoyiot.module.eiot.api.alert.dto.Message;
 import com.enjoyiot.module.eiot.service.alarm.AlarmRealtimeNotifyService;
+import com.enjoyiot.module.eiot.service.alarm.AlarmSemantics;
 import com.enjoyiot.module.eiot.service.alert.AlertConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -55,9 +56,15 @@ public class AlertMessageEventListener implements MessageEventListener {
             Map<String, Object> payload = new LinkedHashMap<>();
             payload.put("alertId", recordId);
             payload.put("alertName", alertConfig.getName());
-            payload.put("level", alertConfig.getLevel());
+            // 级别出口对齐四维：与 addAlertRecord 同源归一（AlarmSemantics 纯函数保证一致）
+            Integer alarmKind = AlarmSemantics.alertConfigLevelToKind(alertConfig.getLevel());
+            payload.put("level", alarmKind != null
+                    ? AlarmSemantics.deriveLevel(alarmKind)
+                    : StrUtil.nullToEmpty(alertConfig.getLevel()));
             // 规则引擎告警均为主机报警（TTS 按 alarmType=0 播报）
             payload.put("alarmType", 0);
+            payload.put("alarmKind", alarmKind);
+            payload.put("tier", AlarmSemantics.defaultTierForKind(alarmKind));
             payload.put("deviceId", message.getDeviceId());
             payload.put("devSno", StrUtil.nullToEmpty(message.getDn()));
             payload.put("alertTime", System.currentTimeMillis());

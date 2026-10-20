@@ -125,7 +125,10 @@ public class WebFrameworkUtils {
             return UserTypeEnum.ADMIN.getValue();
         }
         if (request.getServletPath().startsWith(properties.getAppApi().getPrefix())) {
-            return UserTypeEnum.MEMBER.getValue();
+            // 本项目 /app-api 面向移动端（小程序）用户，账号体系同为系统用户（ADMIN），不存在 MEMBER 会员体系；
+            // 若按框架默认返回 MEMBER，移动端 ADMIN token 会被 TokenAuthenticationFilter 判为“错误的用户类型”。
+            // 将来若引入会员体系，需重新评估此处的映射约定。
+            return UserTypeEnum.ADMIN.getValue();
         }
         return null;
     }

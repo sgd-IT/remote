@@ -2,9 +2,8 @@ package com.enjoyiot.eiot.ruleengine.action.alert;
 
 import cn.hutool.core.date.DateUtil;
 import com.enjoyiot.eiot.common.thing.ThingModelMessage;
-import com.enjoyiot.eiot.ruleengine.action.ScriptService;
 import com.enjoyiot.eiot.message.service.MessageService;
-import com.enjoyiot.framework.tenant.core.context.TenantContextHolder;
+import com.enjoyiot.eiot.ruleengine.action.ScriptService;
 import com.enjoyiot.module.eiot.api.alert.dto.Message;
 import com.enjoyiot.module.eiot.api.device.DeviceApi;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -12,7 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;

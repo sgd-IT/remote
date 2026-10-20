@@ -221,11 +221,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public void updateUserType(Long id, Integer userType) {
-        userMapper.updateById(new AdminUserDO().setId(id).setUserType(userType));
-    }
-
-    @Override
     public void updateUserProfile(Long id, UserProfileUpdateReqVO reqVO) {
         // 校验正确性
         validateUserExists(id);

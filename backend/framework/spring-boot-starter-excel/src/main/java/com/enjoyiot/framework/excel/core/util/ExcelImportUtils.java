@@ -107,12 +107,16 @@ public class ExcelImportUtils {
         for (int i = 0; i < dataList.size(); i++) {
             int rowNum = i + 2; // Excel 第1行是表头，数据从第2行开始
             T data = dataList.get(i);
+            // 行处理器校验不过时会自己 addError 再 return，这种情况不能再计成功，否则成功数虚高
+            int failCountBefore = result.failCount;
             try {
                 processor.process(data, rowNum, result);
-                result.successCount++;
             } catch (Exception e) {
                 result.addError(rowNum, e.getMessage());
                 log.warn("[{}] 第{}行导入失败: {}", logTag, rowNum, e.getMessage());
+            }
+            if (result.failCount == failCountBefore) {
+                result.successCount++;
             }
         }
 

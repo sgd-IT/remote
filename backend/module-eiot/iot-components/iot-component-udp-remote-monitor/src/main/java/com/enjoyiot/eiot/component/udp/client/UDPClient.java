@@ -36,7 +36,7 @@ public class UDPClient {
     // 简单测试
     public static void main(String[] args) {
         try {
-            UDPClient sender = new UDPClient("**", 63869);
+            UDPClient sender = new UDPClient("114.215.255.18", 63869);
             Map<String, Object> map = new HashMap<>();
             map.put("deviceId", "123456789");
             map.put("name", "UDP");

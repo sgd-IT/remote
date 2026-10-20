@@ -620,7 +620,7 @@ case FourfaithGbtConstants.CMD_CONFIRM:
   "allowAutoRegister": false,
   "fallbackProductKey": "",
 
-  "fourfaithApiUrl": "http://**:25290",
+  "fourfaithApiUrl": "http://122.112.139.158:25290",
   "fourfaithApiAppId": "从四信商务申请",
   "fourfaithApiAppSecret": "从四信商务申请",
   "fourfaithApiTimeoutMs": 10000,

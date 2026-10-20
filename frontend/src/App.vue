@@ -5,6 +5,8 @@ import { useAppStore } from '@/store/modules/app'
 import { useDesign } from '@/hooks/web/useDesign'
 import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
 import routerSearch from '@/components/RouterSearch/index.vue'
+import VersionUpdateDialog from '@/views/system/changelog/VersionUpdateDialog.vue'
+import { CHANGELOG } from '@/views/system/changelog/data'
 
 defineOptions({ name: 'APP' })
 
@@ -28,6 +30,26 @@ const syncDarkBlueBodyClass = () => {
 }
 watch(() => route.meta?.darkBlue, syncDarkBlueBodyClass, { immediate: true })
 
+/**
+ * 更新提醒弹窗
+ * 登录后落在的首页可能是大屏（不经过 Layout），所以放在 App 全局兜底；
+ * 路由一旦从登录页切到业务页就检查一次，同一会话内只检查一次，避免反复打断操作。
+ */
+const versionDialogVisible = ref(false)
+let versionChecked = false
+const checkVersionUpdate = () => {
+  if (versionChecked) return
+  // 未登录页面不检查，避免登录页提前看到内部更新内容
+  if (['/login', '/sso', '/social-login'].some((path) => route.path.startsWith(path))) return
+  if (!wsCache.get(CACHE_KEY.USER)) return
+  versionChecked = true
+  const latest = CHANGELOG[0]
+  if (latest && wsCache.get(CACHE_KEY.CHANGELOG_READ_VERSION) !== latest.version) {
+    versionDialogVisible.value = true
+  }
+}
+watch(() => route.path, checkVersionUpdate, { immediate: true })
+
 // 根据浏览器当前主题设置系统主题色
 const setDefaultTheme = () => {
   let isDarkTheme = wsCache.get(CACHE_KEY.IS_DARK)
@@ -43,6 +65,7 @@ setDefaultTheme()
   <ConfigGlobal :size="currentSize">
     <RouterView :class="greyMode ? `${prefixCls}-grey-mode` : ''" />
     <routerSearch />
+    <VersionUpdateDialog v-model="versionDialogVisible" />
   </ConfigGlobal>
 </template>
 <style lang="scss">

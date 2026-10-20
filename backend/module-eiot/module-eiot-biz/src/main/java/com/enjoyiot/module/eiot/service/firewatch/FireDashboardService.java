@@ -15,7 +15,7 @@ public interface FireDashboardService {
     /**
      * 获取监控大屏统计数据（当前租户）
      */
-    DashboardStatisticsRespVO getDashboardStatistics();
+    DashboardStatisticsRespVO getDashboardStatistics(Long tenantId);
 
     /**
      * 获取值守端大屏统计数据（全租户，admin使用）

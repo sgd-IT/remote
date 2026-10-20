@@ -1,8 +1,6 @@
 package com.enjoyiot.module.eiot.service.remote;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.enjoyiot.framework.common.exception.ServiceException;
 import com.enjoyiot.framework.common.pojo.PageParam;
@@ -31,10 +29,13 @@ import com.enjoyiot.module.system.dal.dataobject.tenant.TenantDO;
 import com.enjoyiot.module.system.service.tenant.TenantService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,7 +72,15 @@ public class RemoteConsoleServiceImpl implements RemoteConsoleService {
     @Resource
     private ValveApiProperties valveApiProperties;
 
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
     private static final Integer DEVICE_STATE_ONLINE = 1;
+    private static final String VALVE_COMMAND_KEY_PREFIX = "eiot:valve:command:";
+    private static final long VALVE_COMMAND_TTL_SECONDS = 15L;
+    private static final DefaultRedisScript<String> CONSUME_VALVE_COMMAND_SCRIPT = new DefaultRedisScript<>(
+            "local command = redis.call('GET', KEYS[1]); if command then redis.call('DEL', KEYS[1]); end; return command;",
+            String.class);
 
     @Override
     public List<RemoteConsoleDeviceTreeRespVO> getDeviceTree() {
@@ -307,39 +316,16 @@ public class RemoteConsoleServiceImpl implements RemoteConsoleService {
 
         boolean isOpen = "open".equals(action);
         String operationName = isOpen ? "开闸" : "合闸";
-        String apiUrl = valveApiProperties.getUrl() + "/api/things/valve/" + action;
-        int actionValue = isOpen ? 1 : 0;
-
-        // 构造请求体
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("ip", valveApiProperties.getIp());
-        requestBody.put("productID", valveApiProperties.getProductId());
-        requestBody.put("deviceID", valveApiProperties.getDeviceId());
-        requestBody.put("action", actionValue);
-
-        boolean success;
-        String resultMsg;
-        try {
-            String response = HttpRequest.post(apiUrl)
-                    .timeout(valveApiProperties.getTimeoutMs())
-                    .body(JSONUtil.toJsonStr(requestBody))
-                    .execute()
-                    .body();
-            log.info("智能空开{}响应: {}", operationName, response);
-            JSONObject resp = JSONUtil.parseObj(response);
-            boolean code = resp.getBool("success", false);
-            if (code) {
-                success = true;
-                resultMsg = operationName + "成功";
-            } else {
-                success = false;
-                resultMsg = operationName + "失败: " + "当前状态为："+operationName;
-            }
-        } catch (Exception e) {
-            log.error("智能空开{}调用异常: deviceId={}", operationName, deviceId, e);
-            success = false;
-            resultMsg = operationName + "调用异常: " + e.getMessage();
-        }
+        ValveCommandRespVO command = new ValveCommandRespVO();
+        command.setAction(action);
+        command.setIp(valveApiProperties.getIp());
+        command.setProductID(valveApiProperties.getProductId());
+        command.setDeviceID(valveApiProperties.getDeviceId());
+        command.setActionValue(isOpen ? 1 : 0);
+        command.setCreatedAt(LocalDateTime.now());
+        String commandJson = JSONUtil.toJsonStr(command);
+        redisTemplate.opsForValue().set(getValveCommandKey(deviceId), commandJson,
+                VALVE_COMMAND_TTL_SECONDS, TimeUnit.SECONDS);
 
         // 记录操作日志
         Long operatorId = SecurityFrameworkUtils.getLoginUserId();
@@ -354,13 +340,32 @@ public class RemoteConsoleServiceImpl implements RemoteConsoleService {
         operationLog.setFunctionType("VALVE");
         operationLog.setOperatorId(operatorId != null ? operatorId : 0L);
         operationLog.setOperatorName(operatorName != null ? operatorName : "");
-        operationLog.setCommandStatus(success ? 1 : 0);
-        operationLog.setResultMsg(resultMsg);
-        operationLog.setRequestParams(JSONUtil.toJsonStr(requestBody));
+        operationLog.setCommandStatus(1);
+        operationLog.setResultMsg(operationName + "命令已缓存，等待外部执行");
+        operationLog.setRequestParams(commandJson);
         operationLog.setOperationTime(LocalDateTime.now());
         remoteOperationLogService.createLog(operationLog);
 
-        return success;
+        return true;
+    }
+
+    @Override
+    public ValveCommandRespVO consumeValveCommand(Long deviceId) {
+        String commandJson = redisTemplate.execute(CONSUME_VALVE_COMMAND_SCRIPT,
+                Collections.singletonList(getValveCommandKey(deviceId)));
+        if (StrUtil.isBlank(commandJson)) {
+            return null;
+        }
+        try {
+            return JSONUtil.toBean(commandJson, ValveCommandRespVO.class);
+        } catch (Exception e) {
+            log.error("智能空开命令反序列化异常: deviceId={}", deviceId, e);
+            return null;
+        }
+    }
+
+    private String getValveCommandKey(Long deviceId) {
+        return VALVE_COMMAND_KEY_PREFIX + deviceId;
     }
 
     private RemoteConsoleDeviceTreeItemRespVO convertDeviceItem(DeviceShortInfo device) {

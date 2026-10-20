@@ -127,6 +127,24 @@ public interface FireDutyScheduleMapper extends BaseMapperX<FireDutyScheduleDO> 
                           @Param("month") int month);
 
     /**
+     * 指定日期范围内准时签到数（签到时间不晚于班次开始时刻；夜班跨天只影响结束时刻，不影响准时判定）
+     * 租户过滤由拦截器自动追加，propertyId 为 null 时不按物业过滤
+     */
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM fire_duty_schedule " +
+            "<where>" +
+            "  AND check_in_time IS NOT NULL" +
+            "  AND check_in_time &lt;= TIMESTAMP(schedule_date, start_time)" +
+            "  <if test='propertyId != null'>AND property_id = #{propertyId}</if>" +
+            "  AND schedule_date BETWEEN #{startDate} AND #{endDate}" +
+            "  AND deleted = 0" +
+            "</where>" +
+            "</script>")
+    Integer countOnTimeCheckIn(@Param("propertyId") Long propertyId,
+                               @Param("startDate") LocalDate startDate,
+                               @Param("endDate") LocalDate endDate);
+
+    /**
      * 查询当前值班人员
      * tenantId 为 null 时不按租户过滤（用于跨租户查询）
      */

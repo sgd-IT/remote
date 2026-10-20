@@ -470,6 +470,7 @@ import { getSimpleUserList } from '@/api/system/user/index'
 import * as FileApi from '@/api/infra/file'
 import download from '@/utils/download'
 import { getAccessToken, getTenantId } from '@/utils/auth'
+import { showImportResult } from '@/utils/importResult'
 
 defineOptions({ name: 'FireWatchHazard' })
 
@@ -874,23 +875,12 @@ const submitImport = () => {
 
 const handleImportSuccess = (response: any) => {
   if (response.code !== 0) {
-    ElMessage.error(response.msg)
+    ElMessage.error(response.msg || '导入失败')
     return
   }
-  const data = response.data
-  let text = `导入完成！成功 ${data.successCount || 0} 条`
-  if (data.failCount > 0) {
-    text += `，失败 ${data.failCount} 条`
-    if (data.failDetails && data.failDetails.length > 0) {
-      text += '<br/>失败详情：'
-      for (const item of data.failDetails) {
-        text += `<br/>第${item.row}行：${item.reason}`
-      }
-    }
-  }
-  ElMessage.success(text)
   importVisible.value = false
   getList()
+  showImportResult(response)
 }
 
 const handleImportError = () => {

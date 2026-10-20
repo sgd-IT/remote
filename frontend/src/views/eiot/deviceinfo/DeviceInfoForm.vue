@@ -17,6 +17,20 @@
         <el-input v-model="formData.deptId" placeholder="请输入机构id" />
       </el-form-item>
 
+      <el-form-item label="设备类型" prop="deviceType">
+        <el-select v-model="formData.deviceType" placeholder="请选择设备类型" clearable class="!w-240px">
+          <el-option label="用传设备" value="transfer" />
+          <el-option label="摄像头" value="camera" />
+          <el-option label="烟感" value="smoke" />
+          <el-option label="温感" value="temperature" />
+          <el-option label="温湿度传感器" value="temp_humidity" />
+          <el-option label="门磁" value="door_magnet" />
+          <el-option label="燃气" value="gas" />
+          <el-option label="消火栓" value="hydrant" />
+          <el-option label="手报" value="manual" />
+          <el-option label="其他" value="other" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="设备状态" prop="status">
         <el-select
           v-model="formData.status"
@@ -102,6 +116,7 @@ const formData = ref({
   brandCode: undefined,
   apiVersion: undefined,
   remark: undefined,
+  deviceType: undefined,
   lat: undefined,
   lon: undefined,
   addr: undefined

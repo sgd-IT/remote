@@ -48,7 +48,7 @@ spring:
       datasource:
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://**:3306/anwei_fire_remote_monitor?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+          url: jdbc:mysql://192.168.250.160:3306/anwei_fire_remote_monitor?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
           username: root
           password: **
           
@@ -63,7 +63,7 @@ spring:
       port: 6379 # 端口
       database: 11 # 数据库索引
       host: localhost
-#    password: dev # 密码，建议生产环境开启
+#    password: ** # 密码，建议生产环境开启
 
 --- #################### 定时任务相关配置 ####################
 
@@ -100,7 +100,7 @@ spring:
   #  注意缩进
   td-datasource:
     #  taosadpter的地址及端口, 还有数据库
-    url: jdbc:TAOS-RS://**:6041/eiot?timezone=UTC-8&charset=UTF-8&locale=en_US.UTF-8
+    url: jdbc:TAOS-RS://192.168.250.160:6041/eiot?timezone=UTC-8&charset=UTF-8&locale=en_US.UTF-8
     # 使用哪个数据库,和url中的需要保持一致
     db: eiot
     # 账号
@@ -193,8 +193,8 @@ debug: false
 --- #################### 微信公众号、小程序相关配置 ####################
 wx:
   mp: # 公众号配置（必填），参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-starters/wx-java-mp-spring-boot-starter/README.md 文档
-    app-id: test-** # 测试号（自己的）
-    secret: test-**
+    app-id: test-wx5b23ba7a5589ecbb # 测试号（自己的）
+    secret: **
     # 存储配置，解决 AccessToken 的跨节点的共享
     config-storage:
       type: RedisTemplate # 采用 RedisTemplate 操作 Redis，会自动从 Spring 中获取
@@ -202,7 +202,7 @@ wx:
       http-client-type: HttpClient # 采用 HttpClient 请求微信公众号平台
   miniapp: # 小程序配置（必填），参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-starters/wx-java-miniapp-spring-boot-starter/README.md 文档
     # 旧小程序 AppID/AppSecret（已更换）
-    # appid: **
+    # appid: wxc2394977505838f7
     # secret: **
     appid: **
     secret: **
@@ -225,18 +225,18 @@ platform:
     env-version: develop # 小程序版本: 正式版为 "release"；体验版为 "trial"；开发版为 "develop"
   wxa-subscribe-message:
     miniprogram-state: developer # 跳转小程序类型：开发版为 “developer”；体验版为 “trial”为；正式版为 “formal”
-  tencent-lbs-key: ** # QQ 地图的密钥 https://lbs.qq.com/service/staticV2/staticGuide/staticDoc
+  tencent-lbs-key: TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E # QQ 地图的密钥 https://lbs.qq.com/service/staticV2/staticGuide/staticDoc
 
 justauth:
   enabled: true
   type:
     DINGTALK: # 钉钉
-      client-id: test-**
-      client-secret: test-**
+      client-id: test-dingvrnreaje3yqvzhxg
+      client-secret: **
       ignore-check-redirect-uri: true
     WECHAT_ENTERPRISE: # 企业微信
-      client-id: test-**
-      client-secret: test-**
+      client-id: test-wwd411c69a39ad2e54
+      client-secret: **
       agent-id: 1000004
       ignore-check-redirect-uri: true
     # noinspection SpringBootApplicationYaml
@@ -268,22 +268,22 @@ config:
 # 广州电力/东蓝短信配置
 sms:
   gzdl:
-    cdkey: **
+    cdkey: GZDLNQ0MS3749018276
     password: **
 
 # 四信接口配置（测试环境）
 fourfaith:
   api:
-    url: http://**:25290
-    app-id: **
+    url: http://122.112.139.158:25290
+    app-id: 260508
     app-secret: **
     timeout-ms: 10000
 
 # 智能空开接口配置
 valve:
   api:
-    url: http://**:9911
-    ip: **
+    url: http://192.168.250.160:9911
+    ip: 192.168.250.90
     product-id: '001'
     device-id: '1'
     timeout-ms: 10000
@@ -291,7 +291,7 @@ valve:
 --- #################### AI 大模型配置 ####################
 ai:
   llm:
-    url: http://**:8801/v1/chat/completions
+    url: http://14.22.81.203:8801/v1/chat/completions
     model: qwen3.5-35b
-    api-key: **
+    api-key: qwen-35b-a3b
     timeout-ms: 120000

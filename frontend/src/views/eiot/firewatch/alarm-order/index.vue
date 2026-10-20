@@ -5,16 +5,11 @@
       <div class="title-left">
         <div class="title-indicator"></div>
         <div>
-          <h2 class="page-title">火警处置中心</h2>
+          <h2 class="page-title">处置中心</h2>
           <span class="page-subtitle">警情接收 / AI辅助判断 / 迅程处置 (GB/T 26875.16.1 6d)</span>
         </div>
       </div>
       <div class="title-right">
-        <el-button type="primary" plain size="small" @click="handleLinkage">
-          <el-icon><Connection /></el-icon>
-          加载预案
-          <DevelopingTag mini tip="后端无联动预案接口" />
-        </el-button>
         <el-button type="danger" size="small" @click="handleAlarm">
           <el-icon><Bell /></el-icon>
           警报器启用
@@ -32,10 +27,30 @@
         <!-- 实时警情 -->
         <div class="section-card">
           <div class="section-header">
-            <span class="section-title"><i class="dot-icon dot-red"></i>实时警情</span>
+            <span class="section-title">实时警情</span>
             <div class="header-actions">
-              <el-tag effect="dark" type="danger" size="small" round>实时刷新</el-tag>
-              <el-button type="primary" size="small" @click="refreshAlarms" :loading="loading" circle>
+              <el-select
+                v-model="alarmTypeFilter"
+                placeholder="全部类型"
+                clearable
+                size="small"
+                style="width: 118px"
+                @change="handleAlarmTypeChange"
+              >
+                <el-option label="火警" value="fire" />
+                <el-option label="故障" value="fault" />
+                <el-option label="隐患" value="risk" />
+                <el-option label="离线" value="offline" />
+                <el-option label="误报" value="false_alarm" />
+              </el-select>
+              <el-tag effect="plain" type="primary" size="small" round>实时刷新</el-tag>
+              <el-button
+                type="primary"
+                size="small"
+                @click="refreshAlarms"
+                :loading="loading"
+                circle
+              >
                 <el-icon><Refresh /></el-icon>
               </el-button>
               <el-button size="small" @click="showHistoryDialog = true" circle>
@@ -43,13 +58,16 @@
               </el-button>
             </div>
           </div>
-          
+
           <div class="alarm-list" v-loading="loading">
-            <div 
-              class="alarm-card" 
-              v-for="alarm in alarmList" 
+            <div
+              class="alarm-card"
+              v-for="alarm in alarmList"
               :key="alarm.id"
-              :class="['risk-border-' + alarm.riskLevel, { 'selected': selectedAlarm?.id === alarm.id }]"
+              :class="[
+                'risk-border-' + alarm.riskLevel,
+                { selected: selectedAlarm?.id === alarm.id }
+              ]"
               @click="selectAlarm(alarm)"
             >
               <div class="alarm-left">
@@ -75,19 +93,59 @@
                     {{ getStatusText(alarm.status) }}
                   </el-tag>
                 </div>
-                <div class="alarm-detail-line" style="color: #9ca0ad; font-size: 12px;">
+                <div class="alarm-detail-line" style="color: #9ca0ad; font-size: 12px">
                   <span v-if="alarm.tenantName">{{ alarm.tenantName }}</span>
-                  <el-tag v-if="alarm.deviceTypeName" size="small" type="info" effect="plain" style="margin-left: 6px;">{{ alarm.deviceTypeName }}</el-tag>
-                  <span v-if="alarm.alarmDescription" style="margin-left: 8px;">{{ alarm.alarmDescription.substring(0, 30) }}{{ alarm.alarmDescription.length > 30 ? '...' : '' }}</span>
+                  <el-tag
+                    v-if="alarm.deviceTypeName"
+                    size="small"
+                    type="info"
+                    effect="plain"
+                    style="margin-left: 6px"
+                    >{{ alarm.deviceTypeName }}</el-tag
+                  >
+                  <span v-if="alarm.alarmDescription" style="margin-left: 8px"
+                    >{{ alarm.alarmDescription.substring(0, 30)
+                    }}{{ alarm.alarmDescription.length > 30 ? '...' : '' }}</span
+                  >
                 </div>
                 <div class="alarm-actions">
-                  <el-button type="danger" size="small" round @click.stop="confirmFire(alarm)" v-if="(alarm.status === 'pending' || alarm.status === 'handling' || alarm.status === 'confirming') && alarm.alarmType !== 'fault'">
+                  <el-button
+                    type="danger"
+                    size="small"
+                    round
+                    @click.stop="confirmFire(alarm)"
+                    v-if="
+                      (alarm.status === 'pending' ||
+                        alarm.status === 'handling' ||
+                        alarm.status === 'confirming') &&
+                      alarm.alarmType !== 'fault'
+                    "
+                  >
                     确认火警
                   </el-button>
-                  <el-button type="warning" size="small" round @click.stop="confirmDeviceFault(alarm)" v-if="(alarm.status === 'pending' || alarm.status === 'handling' || alarm.status === 'confirming') && alarm.alarmType === 'fault'">
+                  <el-button
+                    size="small"
+                    round
+                    @click.stop="confirmDeviceFault(alarm)"
+                    v-if="
+                      (alarm.status === 'pending' ||
+                        alarm.status === 'handling' ||
+                        alarm.status === 'confirming') &&
+                      alarm.alarmType === 'fault'
+                    "
+                  >
                     确认设备故障
                   </el-button>
-                  <el-button size="small" round @click.stop="markFalseAlarm(alarm)" v-if="alarm.status === 'pending' || alarm.status === 'handling' || alarm.status === 'confirming'">
+                  <el-button
+                    size="small"
+                    round
+                    @click.stop="markFalseAlarm(alarm)"
+                    v-if="
+                      alarm.status === 'pending' ||
+                      alarm.status === 'handling' ||
+                      alarm.status === 'confirming'
+                    "
+                  >
                     标记误报
                   </el-button>
                   <el-button size="small" round @click.stop="playVideo(alarm)">
@@ -95,14 +153,23 @@
                     确取视频
                   </el-button>
                   <el-button size="small" round @click.stop="viewDetail(alarm)">
-                    <el-icon><VideoCamera /></el-icon>
+                    <el-icon><InfoFilled /></el-icon>
                     告警详情
                   </el-button>
                   <el-button size="small" round @click.stop="activatePlan(alarm)">
                     <el-icon><Phone /></el-icon>
                     通知119
                   </el-button>
-                  <el-button type="success" size="small" round @click.stop="markHandled(alarm)" v-if="alarm.status === 'pending' || alarm.status === 'handling' || alarm.status === 'confirming'">
+                  <el-button
+                    size="small"
+                    round
+                    @click.stop="markHandled(alarm)"
+                    v-if="
+                      alarm.status === 'pending' ||
+                      alarm.status === 'handling' ||
+                      alarm.status === 'confirming'
+                    "
+                  >
                     已处理
                   </el-button>
                 </div>
@@ -112,13 +179,18 @@
                   <span class="time-label">报警时间：</span>
                   <span class="alarm-time-value">{{ formatAlarmDate(alarm.time) }}</span>
                 </div>
-                <div class="alarm-elapsed-line" v-if="['pending', 'handling', 'confirming'].includes(alarm.status)">
+                <div
+                  class="alarm-elapsed-line"
+                  v-if="['pending', 'handling', 'confirming'].includes(alarm.status)"
+                >
                   <span class="time-label">持续时间：</span>
-                  <span class="alarm-elapsed">{{ getElapsedTime(alarm.timeMs || alarm.time) }}</span>
+                  <span class="alarm-elapsed">{{
+                    getElapsedTime(alarm.timeMs || alarm.time)
+                  }}</span>
                 </div>
               </div>
             </div>
-            
+
             <el-empty v-if="alarmList.length === 0" description="暂无告警" />
           </div>
           <div class="alarm-pagination" v-if="alarmTotal > 0">
@@ -150,7 +222,7 @@
               </div>
               <div class="event-meta">
                 <span class="event-time">{{ event.time }}</span>
-                <el-tag :type="event.status === 'resolved' ? 'success' : 'danger'" size="small">
+                <el-tag :type="event.status === 'resolved' ? 'info' : 'danger'" size="small">
                   {{ event.status === 'resolved' ? '已处理' : '待处理' }}
                 </el-tag>
               </div>
@@ -159,12 +231,12 @@
         </div>
       </div>
 
-      <!-- 右栏：视频 / AI分析 / 快捷控制 -->
+      <!-- 右栏：视频 / AI分析 -->
       <div class="right-column">
         <!-- 现场视频 -->
         <div class="panel-card video-panel">
           <div class="card-header">
-            <span><i class="header-dot live"></i>现场视频</span>
+            <span>现场视频</span>
             <div class="card-actions">
               <el-icon class="action-icon" @click="toggleFullscreen"><FullScreen /></el-icon>
               <el-icon class="action-icon" @click="refreshVideo"><RefreshRight /></el-icon>
@@ -183,9 +255,9 @@
             </div>
           </div>
           <div class="camera-list" v-if="cameraList.length > 0">
-            <div 
-              class="camera-item" 
-              v-for="camera in cameraList" 
+            <div
+              class="camera-item"
+              v-for="camera in cameraList"
               :key="camera.id"
               :class="{ active: selectedCamera?.id === camera.id }"
               @click="selectCamera(camera)"
@@ -195,14 +267,16 @@
             </div>
           </div>
           <div class="camera-list" v-else>
-            <div style="padding: 8px; text-align: center; color: #909399; font-size: 12px;">该设备未绑定摄像头</div>
+            <div style="padding: 8px; text-align: center; color: #909399; font-size: 12px"
+              >该设备未绑定摄像头</div
+            >
           </div>
         </div>
 
         <!-- AI智能分析 -->
         <div class="panel-card ai-panel">
           <div class="card-header">
-            <span><i class="header-dot ai"></i>AI智能分析</span>
+            <span>AI智能分析</span>
           </div>
           <div class="ai-analysis">
             <div class="ai-top-row">
@@ -215,7 +289,7 @@
               <div class="analysis-item" v-for="item in analysisItems" :key="item.name">
                 <span class="name">{{ item.name }}</span>
                 <div class="progress-bar">
-                  <div class="progress" :style="{ width: item.value + '%', background: item.color }"></div>
+                  <div class="progress" :style="{ width: item.value + '%' }"></div>
                 </div>
                 <span class="value">{{ item.value }}%</span>
               </div>
@@ -229,73 +303,17 @@
           </div>
         </div>
 
-        <!-- 快捷控制 -->
-        <div class="panel-card response-panel">
-          <div class="card-header">
-            <span><i class="header-dot response"></i>快捷控制</span>
-          </div>
-          <div class="quick-response">
-            <div class="response-grid">
-              <div class="response-item alarm" @click="handleAlarm">
-                <el-icon><Bell /></el-icon>
-                <span>报警</span>
-              </div>
-              <div class="response-item notify" @click="handleNotify">
-                <el-icon><Message /></el-icon>
-                <span>通知</span>
-              </div>
-              <div class="response-item link" @click="handleLinkage">
-                <el-icon><Connection /></el-icon>
-                <span>联动</span>
-                <DevelopingTag mini />
-              </div>
-              <div class="response-item report" @click="handleReport">
-                <el-icon><Upload /></el-icon>
-                <span>上报</span>
-                <DevelopingTag mini />
-              </div>
-              <div class="response-item dispatch" @click="handleDispatch">
-                <el-icon><User /></el-icon>
-                <span>派单</span>
-                <DevelopingTag mini />
-              </div>
-              <div class="response-item inspect" @click="handleInspect">
-                <el-icon><Search /></el-icon>
-                <span>巡检</span>
-              </div>
-              <div class="response-item callback" @click="handleCallback">
-                <el-icon><Phone /></el-icon>
-                <span>回访</span>
-              </div>
-              <div class="response-item review" @click="handleReview">
-                <el-icon><Document /></el-icon>
-                <span>复盘</span>
-                <DevelopingTag mini />
-              </div>
-              <div class="response-item reset" @click="handleReset">
-                <el-icon><RefreshLeft /></el-icon>
-                <span>复位</span>
-              </div>
-              <div class="response-item mute" :class="{ active: isMuted }" @click="handleMute">
-                <el-icon><TurnOff /></el-icon>
-                <span>{{ isMuted ? '已消音' : '消音' }}</span>
-              </div>
-              <div class="response-item false-alarm" @click="handleFalseAlarmQuick">
-                <el-icon><CircleClose /></el-icon>
-                <span>误报</span>
-              </div>
-              <div class="response-item timeline-btn" @click="showTimelineDialog = true">
-                <el-icon><Stopwatch /></el-icon>
-                <span>时间线</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
     <!-- 通知弹窗 -->
-    <el-dialog v-model="notifyVisible" title="发送通知" width="650px" destroy-on-close>
+    <el-dialog
+      v-model="notifyVisible"
+      class="alarm-center-dialog"
+      title="发送通知"
+      width="650px"
+      destroy-on-close
+    >
       <el-form :model="notifyForm" label-width="100px" ref="notifyFormRef">
         <el-form-item label="通知方式" required>
           <el-checkbox-group v-model="notifyForm.methods">
@@ -306,35 +324,50 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="接收人" required>
-          <el-select 
-            v-model="notifyForm.receivers" 
-            multiple 
-            filterable 
-            allow-create 
+          <el-select
+            v-model="notifyForm.receivers"
+            multiple
+            filterable
+            allow-create
             default-first-option
-            placeholder="选择企业联系人或输入手机号" 
+            placeholder="选择企业联系人或输入手机号"
             style="width: 100%"
           >
-            <el-option-group v-for="group in contactGroupList" :key="group.label" :label="group.label">
-              <el-option 
-                v-for="contact in group.contacts" 
-                :key="contact.value" 
-                :label="`${contact.label} (${contact.phone})`" 
-                :value="contact.value" 
+            <el-option-group
+              v-for="group in contactGroupList"
+              :key="group.label"
+              :label="group.label"
+            >
+              <el-option
+                v-for="contact in group.contacts"
+                :key="contact.value"
+                :label="`${contact.label} (${contact.phone})`"
+                :value="contact.value"
               />
             </el-option-group>
           </el-select>
           <div class="text-xs text-gray-400 mt-1">可直接输入手机号，回车添加</div>
         </el-form-item>
         <el-form-item label="短信模板" v-if="notifyForm.methods.includes('sms')">
-          <el-select v-model="notifyForm.smsTemplateCode" placeholder="选择短信模板" style="width: 100%">
+          <el-select
+            v-model="notifyForm.smsTemplateCode"
+            placeholder="选择短信模板"
+            style="width: 100%"
+          >
             <el-option label="火警通知模板(fire_alarm_notify)" value="fire_alarm_notify" />
             <el-option label="设备故障通知模板(device_fault_notify)" value="device_fault_notify" />
           </el-select>
-          <div class="text-xs text-gray-400 mt-1">短信将按模板格式发送，模板可在 系统管理→消息中心→短信模板 中配置</div>
+          <div class="text-xs text-gray-400 mt-1"
+            >短信将按模板格式发送，模板可在 系统管理→消息中心→短信模板 中配置</div
+          >
         </el-form-item>
         <el-form-item label="通知模板">
-          <el-select v-model="notifyForm.template" placeholder="选择通知模板" style="width: 100%" @change="applyTemplate">
+          <el-select
+            v-model="notifyForm.template"
+            placeholder="选择通知模板"
+            style="width: 100%"
+            @change="applyTemplate"
+          >
             <el-option label="火警通知" value="fire" />
             <el-option label="设备故障通知" value="fault" />
             <el-option label="巡检通知" value="inspect" />
@@ -342,7 +375,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="通知内容" required>
-          <el-input v-model="notifyForm.content" type="textarea" :rows="4" placeholder="请输入通知内容" />
+          <el-input
+            v-model="notifyForm.content"
+            type="textarea"
+            :rows="4"
+            placeholder="请输入通知内容"
+          />
         </el-form-item>
         <el-form-item label="附件">
           <UploadFile v-model="notifyForm.attachments" :limit="5" />
@@ -358,7 +396,13 @@
     </el-dialog>
 
     <!-- 报警弹窗 -->
-    <el-dialog v-model="alarmVisible" :title="alarmForm.type === 'fault' ? '确认设备故障' : '确认报警'" width="550px" destroy-on-close>
+    <el-dialog
+      v-model="alarmVisible"
+      class="alarm-center-dialog"
+      :title="alarmForm.type === 'fault' ? '确认设备故障' : '确认报警'"
+      width="550px"
+      destroy-on-close
+    >
       <el-form :model="alarmForm" label-width="100px" ref="alarmFormRef" :rules="alarmRules">
         <el-form-item label="报警类型" prop="type">
           <el-select v-model="alarmForm.type" placeholder="请选择报警类型" style="width: 100%">
@@ -392,14 +436,25 @@
     </el-dialog>
 
     <!-- 拨打电话弹窗 -->
-    <el-dialog v-model="callVisible" title="拨打电话" width="450px" destroy-on-close>
+    <el-dialog
+      v-model="callVisible"
+      class="alarm-center-dialog"
+      title="拨打电话"
+      width="450px"
+      destroy-on-close
+    >
       <el-form :model="callForm" label-width="100px">
         <el-form-item label="联系人">
-          <el-select v-model="callForm.contact" placeholder="请选择联系人" style="width: 100%" @change="onContactChange">
-            <el-option 
-              v-for="contact in contactList" 
-              :key="contact.value" 
-              :label="contact.label" 
+          <el-select
+            v-model="callForm.contact"
+            placeholder="请选择联系人"
+            style="width: 100%"
+            @change="onContactChange"
+          >
+            <el-option
+              v-for="contact in contactList"
+              :key="contact.value"
+              :label="contact.label"
               :value="contact.value"
             />
           </el-select>
@@ -423,7 +478,7 @@
               </div>
               <div class="call-meta">
                 <span class="call-time">{{ record.time }}</span>
-                <el-tag :type="record.status === 'connected' ? 'success' : 'info'" size="small">
+                <el-tag :type="record.status === 'connected' ? 'primary' : 'info'" size="small">
                   {{ record.status === 'connected' ? '已接通' : '未接通' }}
                 </el-tag>
               </div>
@@ -434,7 +489,13 @@
     </el-dialog>
 
     <!-- 联动预案弹窗 -->
-    <el-dialog v-model="linkageVisible" title="联动预案" width="600px" destroy-on-close>
+    <el-dialog
+      v-model="linkageVisible"
+      class="alarm-center-dialog"
+      title="联动预案"
+      width="600px"
+      destroy-on-close
+    >
       <div class="linkage-content">
         <div class="linkage-warning">
           <el-icon class="warning-icon"><WarningFilled /></el-icon>
@@ -460,18 +521,29 @@
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="执行说明">
-            <el-input v-model="linkageForm.remark" type="textarea" :rows="2" placeholder="请输入执行说明" />
+            <el-input
+              v-model="linkageForm.remark"
+              type="textarea"
+              :rows="2"
+              placeholder="请输入执行说明"
+            />
           </el-form-item>
         </el-form>
       </div>
       <template #footer>
         <el-button @click="linkageVisible = false">取消</el-button>
-        <el-button type="warning" @click="executeLinkage" :loading="linkageLoading">执行联动</el-button>
+        <el-button @click="executeLinkage" :loading="linkageLoading">执行联动</el-button>
       </template>
     </el-dialog>
 
     <!-- 派单弹窗 -->
-    <el-dialog v-model="dispatchVisible" title="派单" width="550px" destroy-on-close>
+    <el-dialog
+      v-model="dispatchVisible"
+      class="alarm-center-dialog"
+      title="派单"
+      width="550px"
+      destroy-on-close
+    >
       <el-form :model="dispatchForm" label-width="100px" ref="dispatchFormRef">
         <el-form-item label="工单类型" required>
           <el-select v-model="dispatchForm.type" placeholder="请选择工单类型" style="width: 100%">
@@ -482,8 +554,17 @@
           </el-select>
         </el-form-item>
         <el-form-item label="指派人员" required>
-          <el-select v-model="dispatchForm.assignee" placeholder="请选择指派人员" style="width: 100%">
-            <el-option v-for="user in dutyUsers" :key="user.id" :label="user.name" :value="user.id" />
+          <el-select
+            v-model="dispatchForm.assignee"
+            placeholder="请选择指派人员"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="user in dutyUsers"
+              :key="user.id"
+              :label="user.name"
+              :value="user.id"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="优先级">
@@ -495,7 +576,12 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="任务描述">
-          <el-input v-model="dispatchForm.description" type="textarea" :rows="3" placeholder="请输入任务描述" />
+          <el-input
+            v-model="dispatchForm.description"
+            type="textarea"
+            :rows="3"
+            placeholder="请输入任务描述"
+          />
         </el-form-item>
         <el-form-item label="截止时间">
           <el-date-picker
@@ -508,12 +594,20 @@
       </el-form>
       <template #footer>
         <el-button @click="dispatchVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitDispatch" :loading="dispatchLoading">派发工单</el-button>
+        <el-button type="primary" @click="submitDispatch" :loading="dispatchLoading"
+          >派发工单</el-button
+        >
       </template>
     </el-dialog>
 
     <!-- 上报弹窗 -->
-    <el-dialog v-model="reportVisible" title="上报事件" width="550px" destroy-on-close>
+    <el-dialog
+      v-model="reportVisible"
+      class="alarm-center-dialog"
+      title="上报事件"
+      width="550px"
+      destroy-on-close
+    >
       <el-form :model="reportForm" label-width="100px">
         <el-form-item label="上报对象">
           <el-select v-model="reportForm.target" placeholder="请选择上报对象" style="width: 100%">
@@ -524,7 +618,11 @@
           </el-select>
         </el-form-item>
         <el-form-item label="事件类型">
-          <el-select v-model="reportForm.eventType" placeholder="请选择事件类型" style="width: 100%">
+          <el-select
+            v-model="reportForm.eventType"
+            placeholder="请选择事件类型"
+            style="width: 100%"
+          >
             <el-option label="火警事件" value="fire" />
             <el-option label="设备故障" value="fault" />
             <el-option label="安全隐患" value="hazard" />
@@ -532,56 +630,93 @@
           </el-select>
         </el-form-item>
         <el-form-item label="事件描述">
-          <el-input v-model="reportForm.description" type="textarea" :rows="4" placeholder="请详细描述事件情况" />
+          <el-input
+            v-model="reportForm.description"
+            type="textarea"
+            :rows="4"
+            placeholder="请详细描述事件情况"
+          />
         </el-form-item>
         <el-form-item label="附件">
-          <el-upload
-            action="#"
-            :auto-upload="false"
-            multiple
-          >
+          <el-upload action="#" :auto-upload="false" multiple>
             <el-button size="small">上传附件</el-button>
           </el-upload>
         </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="reportVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitReport" :loading="reportLoading">确认上报</el-button>
+        <el-button type="primary" @click="submitReport" :loading="reportLoading"
+          >确认上报</el-button
+        >
       </template>
     </el-dialog>
 
     <!-- 复盘弹窗 -->
-    <el-dialog v-model="reviewVisible" title="事件复盘" width="700px" destroy-on-close>
+    <el-dialog
+      v-model="reviewVisible"
+      class="alarm-center-dialog"
+      title="事件复盘"
+      width="700px"
+      destroy-on-close
+    >
       <el-form :model="reviewForm" label-width="100px">
         <el-form-item label="关联事件">
           <el-input v-model="reviewForm.eventName" disabled />
         </el-form-item>
         <el-form-item label="复盘分析">
-          <el-input v-model="reviewForm.analysis" type="textarea" :rows="4" placeholder="请输入事件复盘分析" />
+          <el-input
+            v-model="reviewForm.analysis"
+            type="textarea"
+            :rows="4"
+            placeholder="请输入事件复盘分析"
+          />
         </el-form-item>
         <el-form-item label="处理过程">
-          <el-input v-model="reviewForm.process" type="textarea" :rows="3" placeholder="请描述处理过程" />
+          <el-input
+            v-model="reviewForm.process"
+            type="textarea"
+            :rows="3"
+            placeholder="请描述处理过程"
+          />
         </el-form-item>
         <el-form-item label="经验教训">
-          <el-input v-model="reviewForm.lesson" type="textarea" :rows="3" placeholder="请总结经验教训" />
+          <el-input
+            v-model="reviewForm.lesson"
+            type="textarea"
+            :rows="3"
+            placeholder="请总结经验教训"
+          />
         </el-form-item>
         <el-form-item label="改进措施">
-          <el-input v-model="reviewForm.improvement" type="textarea" :rows="3" placeholder="请提出改进措施" />
+          <el-input
+            v-model="reviewForm.improvement"
+            type="textarea"
+            :rows="3"
+            placeholder="请提出改进措施"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="reviewVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitReview" :loading="reviewLoading">保存复盘</el-button>
+        <el-button type="primary" @click="submitReview" :loading="reviewLoading"
+          >保存复盘</el-button
+        >
       </template>
     </el-dialog>
 
     <!-- 历史记录弹窗 -->
-    <el-dialog v-model="showHistoryDialog" title="历史告警记录" width="800px" destroy-on-close>
+    <el-dialog
+      v-model="showHistoryDialog"
+      class="alarm-center-dialog"
+      title="历史告警记录"
+      width="800px"
+      destroy-on-close
+    >
       <el-table :data="historyAlarms" style="width: 100%">
         <el-table-column prop="location" label="位置" width="150" />
         <el-table-column prop="type" label="类型" width="100">
           <template #default="{ row }">
-            <el-tag :type="row.type === 'fire' ? 'danger' : 'warning'" size="small">
+            <el-tag :type="row.type === 'fire' ? 'danger' : 'info'" size="small">
               {{ row.type === 'fire' ? '火警' : '故障' }}
             </el-tag>
           </template>
@@ -591,7 +726,7 @@
         <el-table-column prop="handleTime" label="处理时间" width="160" />
         <el-table-column prop="status" label="状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="row.status === 'resolved' ? 'success' : 'info'" size="small">
+            <el-tag type="info" size="small">
               {{ row.status === 'resolved' ? '已处理' : '已关闭' }}
             </el-tag>
           </template>
@@ -600,13 +735,23 @@
     </el-dialog>
 
     <!-- 告警详情弹窗 -->
-    <el-dialog v-model="detailVisible" title="告警详情" width="600px" destroy-on-close>
+    <el-dialog
+      v-model="detailVisible"
+      class="alarm-center-dialog"
+      title="告警详情"
+      width="600px"
+      destroy-on-close
+    >
       <el-descriptions :column="2" border v-if="selectedAlarm">
         <el-descriptions-item label="工单编号">{{ selectedAlarm.orderNo }}</el-descriptions-item>
-        <el-descriptions-item label="所属租户">{{ selectedAlarm.tenantName || selectedAlarm.propertyName || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="所属租户">{{
+          selectedAlarm.tenantName || selectedAlarm.propertyName || '-'
+        }}</el-descriptions-item>
         <el-descriptions-item label="告警位置">{{ selectedAlarm.location }}</el-descriptions-item>
         <el-descriptions-item label="设备类型">
-          <el-tag size="small" type="info" effect="plain">{{ selectedAlarm.deviceTypeName || '-' }}</el-tag>
+          <el-tag size="small" type="info" effect="plain">{{
+            selectedAlarm.deviceTypeName || '-'
+          }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="告警级别">
           <el-tag :type="getRiskTagType(selectedAlarm.riskLevel)">
@@ -624,17 +769,34 @@
           <el-tag size="small">{{ selectedAlarm.alarmTypeName || selectedAlarm.alarmType }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="响应时长">
-          <span v-if="['pending', 'handling', 'confirming'].includes(selectedAlarm.status)" style="color: #f56c6c; font-weight: bold;">
+          <span
+            v-if="['pending', 'handling', 'confirming'].includes(selectedAlarm.status)"
+            style="color: #f56c6c; font-weight: bold"
+          >
             {{ getElapsedTime(selectedAlarm.timeMs || selectedAlarm.time) }}
           </span>
-          <span v-else-if="selectedAlarm.responseDuration">{{ selectedAlarm.responseDuration }}秒</span>
+          <span v-else-if="selectedAlarm.responseDuration"
+            >{{ selectedAlarm.responseDuration }}秒</span
+          >
           <span v-else>-</span>
         </el-descriptions-item>
-        <el-descriptions-item label="处理人">{{ selectedAlarm.handler || '-' }}</el-descriptions-item>
-        <el-descriptions-item label="告警描述" :span="2">{{ selectedAlarm.alarmDescription || '-' }}</el-descriptions-item>
-        <el-descriptions-item label="处理备注" :span="2" v-if="selectedAlarm.handleRemark">{{ selectedAlarm.handleRemark }}</el-descriptions-item>
+        <el-descriptions-item label="处理人">{{
+          selectedAlarm.handler || '-'
+        }}</el-descriptions-item>
+        <el-descriptions-item label="告警描述" :span="2">{{
+          selectedAlarm.alarmDescription || '-'
+        }}</el-descriptions-item>
+        <el-descriptions-item label="处理备注" :span="2" v-if="selectedAlarm.handleRemark">{{
+          selectedAlarm.handleRemark
+        }}</el-descriptions-item>
         <el-descriptions-item label="告警标签" :span="2">
-          <el-tag v-for="tag in selectedAlarm.tags" :key="tag" size="small" style="margin-right: 4px">{{ tag }}</el-tag>
+          <el-tag
+            v-for="tag in selectedAlarm.tags"
+            :key="tag"
+            size="small"
+            style="margin-right: 4px"
+            >{{ tag }}</el-tag
+          >
         </el-descriptions-item>
       </el-descriptions>
       <!-- 处置时间线 -->
@@ -651,26 +813,60 @@
           >
             <div class="timeline-content">
               <span class="timeline-action">{{ record.action }}</span>
-              <span class="timeline-operator" v-if="record.operator">（{{ record.operator }}）</span>
+              <span class="timeline-operator" v-if="record.operator"
+                >（{{ record.operator }}）</span
+              >
             </div>
             <div class="timeline-desc" v-if="record.desc">{{ record.desc }}</div>
           </el-timeline-item>
         </el-timeline>
       </div>
-      <div class="detail-actions" style="margin-top: 20px; text-align: right;">
-        <el-button type="danger" @click="confirmFire(selectedAlarm)" v-if="selectedAlarm?.alarmType !== 'fault'">确认火警</el-button>
-        <el-button type="warning" @click="confirmDeviceFault(selectedAlarm)" v-if="selectedAlarm?.alarmType === 'fault'">确认设备故障</el-button>
-        <el-button type="info" @click="markFalseAlarm(selectedAlarm)" v-if="selectedAlarm?.status === 'pending' || selectedAlarm?.status === 'handling' || selectedAlarm?.status === 'confirming'">标记误报</el-button>
-        <el-button type="warning" @click="activatePlan(selectedAlarm)">联动预案</el-button>
-        <el-button type="success" @click="markHandled(selectedAlarm)" v-if="selectedAlarm?.status === 'pending' || selectedAlarm?.status === 'handling' || selectedAlarm?.status === 'confirming'">标记已处理</el-button>
+      <div class="detail-actions" style="margin-top: 20px; text-align: right">
+        <el-button
+          type="danger"
+          @click="confirmFire(selectedAlarm)"
+          v-if="selectedAlarm?.alarmType !== 'fault'"
+          >确认火警</el-button
+        >
+        <el-button
+          @click="confirmDeviceFault(selectedAlarm)"
+          v-if="selectedAlarm?.alarmType === 'fault'"
+          >确认设备故障</el-button
+        >
+        <el-button
+          type="info"
+          @click="markFalseAlarm(selectedAlarm)"
+          v-if="
+            selectedAlarm?.status === 'pending' ||
+            selectedAlarm?.status === 'handling' ||
+            selectedAlarm?.status === 'confirming'
+          "
+          >标记误报</el-button
+        >
+        <el-button @click="activatePlan(selectedAlarm)">联动预案</el-button>
+        <el-button
+          @click="markHandled(selectedAlarm)"
+          v-if="
+            selectedAlarm?.status === 'pending' ||
+            selectedAlarm?.status === 'handling' ||
+            selectedAlarm?.status === 'confirming'
+          "
+          >标记已处理</el-button
+        >
       </div>
     </el-dialog>
 
     <!-- 处置时间线弹窗 -->
-    <el-dialog v-model="showTimelineDialog" title="处置时间线" width="650px" destroy-on-close>
-      <div v-if="!selectedAlarm" style="text-align: center; color: #909399;">请先选择一个告警</div>
+    <el-dialog
+      v-model="showTimelineDialog"
+      class="alarm-center-dialog"
+      title="处置时间线"
+      width="650px"
+      destroy-on-close
+    >
+      <div v-if="!selectedAlarm" style="text-align: center; color: #909399">请先选择一个告警</div>
       <template v-else>
-        <el-descriptions :column="3" border style="margin-bottom: 20px;">
+        <el-descriptions :column="3" border style="margin-bottom: 20px">
           <el-descriptions-item label="告警位置">{{ selectedAlarm.location }}</el-descriptions-item>
           <el-descriptions-item label="发生时间">{{ selectedAlarm.time }}</el-descriptions-item>
           <el-descriptions-item label="当前状态">
@@ -688,18 +884,25 @@
             :color="record.color"
             placement="top"
           >
-            <el-card shadow="never" style="padding: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
+            <el-card shadow="never" style="padding: 8px">
+              <div style="display: flex; justify-content: space-between; align-items: center">
                 <div>
-                  <span style="font-weight: 500;">{{ record.action }}</span>
-                  <span v-if="record.operator" style="color: #909399; margin-left: 8px;">操作人: {{ record.operator }}</span>
+                  <span style="font-weight: 500">{{ record.action }}</span>
+                  <span v-if="record.operator" style="color: #909399; margin-left: 8px"
+                    >操作人: {{ record.operator }}</span
+                  >
                 </div>
                 <el-tag v-if="record.type" :type="record.type" size="small" effect="plain">
                   {{ record.tag || record.action }}
                 </el-tag>
               </div>
-              <div v-if="record.desc" style="color: #909399; font-size: 12px; margin-top: 4px;">{{ record.desc }}</div>
-              <div v-if="record.smsNotified" style="color: #409eff; font-size: 12px; margin-top: 4px;">
+              <div v-if="record.desc" style="color: #909399; font-size: 12px; margin-top: 4px">{{
+                record.desc
+              }}</div>
+              <div
+                v-if="record.smsNotified"
+                style="color: #199b96; font-size: 12px; margin-top: 4px"
+              >
                 <el-icon><Message /></el-icon> 已发送短信通知
               </div>
             </el-card>
@@ -709,16 +912,26 @@
     </el-dialog>
 
     <!-- 误报确认弹窗 -->
-    <el-dialog v-model="falseAlarmVisible" title="确认误报" width="500px" destroy-on-close>
+    <el-dialog
+      v-model="falseAlarmVisible"
+      class="alarm-center-dialog"
+      title="确认误报"
+      width="500px"
+      destroy-on-close
+    >
       <el-alert
         title="确认此告警为误报后，将不再需要进一步处置。"
         type="warning"
         :closable="false"
-        style="margin-bottom: 16px;"
+        style="margin-bottom: 16px"
       />
       <el-form :model="falseAlarmForm" label-width="100px">
         <el-form-item label="误报原因" required>
-          <el-select v-model="falseAlarmForm.reason" placeholder="请选择误报原因" style="width: 100%">
+          <el-select
+            v-model="falseAlarmForm.reason"
+            placeholder="请选择误报原因"
+            style="width: 100%"
+          >
             <el-option label="设备误触发" value="device_trigger" />
             <el-option label="烟雾/灰尘干扰" value="smoke_dust" />
             <el-option label="施工/装修影响" value="construction" />
@@ -728,7 +941,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="详细说明">
-          <el-input v-model="falseAlarmForm.remark" type="textarea" :rows="3" placeholder="请输入详细说明" />
+          <el-input
+            v-model="falseAlarmForm.remark"
+            type="textarea"
+            :rows="3"
+            placeholder="请输入详细说明"
+          />
         </el-form-item>
         <el-form-item label="后续措施">
           <el-checkbox-group v-model="falseAlarmForm.followUp">
@@ -740,12 +958,19 @@
       </el-form>
       <template #footer>
         <el-button @click="falseAlarmVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitFalseAlarm" :loading="falseAlarmLoading">确认误报</el-button>
+        <el-button type="primary" @click="submitFalseAlarm" :loading="falseAlarmLoading"
+          >确认误报</el-button
+        >
       </template>
     </el-dialog>
 
     <!-- 键盘快捷键提示 -->
-    <el-drawer v-model="shortcutVisible" title="键盘快捷键" size="320px">
+    <el-drawer
+      v-model="shortcutVisible"
+      class="alarm-center-dialog"
+      title="键盘快捷键"
+      size="320px"
+    >
       <div class="shortcut-list">
         <div class="shortcut-item" v-for="item in shortcutList" :key="item.key">
           <kbd>{{ item.key }}</kbd>
@@ -755,7 +980,13 @@
     </el-drawer>
 
     <!-- 实时视频弹窗 -->
-    <el-dialog v-model="videoVisible" title="实时视频" width="800px" destroy-on-close>
+    <el-dialog
+      v-model="videoVisible"
+      class="alarm-center-dialog"
+      title="实时视频"
+      width="800px"
+      destroy-on-close
+    >
       <VideoPlayer
         :video-url="currentVideoUrl"
         :loading="videoLoading"
@@ -768,13 +999,13 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed, watch, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox, FormInstance, FormRules } from 'element-plus'
-import { 
-  Bell, Document,
-  Refresh, WarningFilled, VideoCamera, Message, Connection,
-  Upload, Search, Phone, Clock, FullScreen, RefreshRight, Promotion,
-  Timer, RefreshLeft, CircleClose, Stopwatch, TurnOff, User
+import {
+  Bell,
+  Refresh, WarningFilled, VideoCamera, Message,
+  Phone, Clock, FullScreen, RefreshRight, Promotion,
+  InfoFilled
 } from '@element-plus/icons-vue'
 import request from '@/config/axios'
 import UploadImgs from '@/components/UploadFile/src/UploadImgs.vue'
@@ -783,12 +1014,11 @@ import { confirmAlarm } from '@/api/eiot/firewatch/firewatch.api'
 import { getLiveUrl } from '@/api/eiot/video/videoCamera.api'
 import { getCamerasByDevice } from '@/api/eiot/video/deviceCameraRelation.api'
 import VideoPlayer from '@/views/eiot/video/components/VideoPlayer.vue'
-import DevelopingTag from '@/components/DevelopingTag/index.vue'
 import { createRepairOrderFromAlert } from '@/api/eiot/firewatch/firewatch.api'
 
 defineOptions({ name: 'FireWatchAlarmOrder' })
 
-const router = useRouter()
+const route = useRoute()
 
 // 当前时间
 const currentTime = ref('')
@@ -841,6 +1071,9 @@ const playVideo = async (alarm: any) => {
 const alarmPageNo = ref(1)
 const alarmPageSize = ref(10)
 const alarmTotal = ref(0)
+
+// 报警类型筛选（空=全部）
+const alarmTypeFilter = ref('')
 
 // 将后端 AlarmOrderRespVO 映射为前端展示字段
 const mapAlarmToDisplay = (item: any) => {
@@ -927,14 +1160,12 @@ const detailVisible = ref(false)
 const cameraList = ref<any[]>([])
 const selectedCamera = ref<any>(null)
 
-// AI分析
-const aiScore = ref(89.7)
-const riskAnalysis = ref({ high: 60, medium: 25, low: 15 })
+// AI分析：分数暂为联调占位；进度条颜色统一由样式控制，不在数据里逐条配色
 const analysisItems = ref([
-  { name: '火情风险', value: 60, color: '#ff4d4d' },
-  { name: '人员聚集', value: 20, color: '#ff9900' },
-  { name: '设备异常', value: 10, color: '#52c41a' },
-  { name: '其他风险', value: 10, color: '#1890ff' }
+  { name: '火情风险', value: 60 },
+  { name: '人员聚集', value: 20 },
+  { name: '设备异常', value: 10 },
+  { name: '其他风险', value: 10 }
 ])
 
 // 值班人员
@@ -979,7 +1210,7 @@ const loadEnterpriseContacts = async () => {
         if (!prop.contactPhone) return
         const phones = prop.contactPhone.split(/[,，\s]+/).filter((p: string) => p.trim())
         phones.forEach((phone: string, idx: number) => {
-          const label = phones.length > 1 
+          const label = phones.length > 1
             ? `${prop.propertyName}|${prop.contactName || '联系人'}${idx + 1}`
             : `${prop.propertyName}|${prop.contactName || '联系人'}`
           contactList.value.push({
@@ -1166,11 +1397,12 @@ const getRiskLevelText = (level: string) => {
 }
 
 // 获取风险等级标签类型
-const getRiskTagType = (level: string): 'success' | 'warning' | 'info' | 'primary' | 'danger' => {
-  const map: Record<string, 'success' | 'warning' | 'info' | 'primary' | 'danger'> = {
+const getRiskTagType = (level: string): 'info' | 'danger' => {
+  // 风险等级只保留 A 级红色，B/C 走中性（等级文字本身可辨识）
+  const map: Record<string, 'info' | 'danger'> = {
     A: 'danger',
-    B: 'warning',
-    C: 'success'
+    B: 'info',
+    C: 'info'
   }
   return map[level] || 'info'
 }
@@ -1179,7 +1411,7 @@ const getRiskTagType = (level: string): 'success' | 'warning' | 'info' | 'primar
 const refreshAlarms = async () => {
   loading.value = true
   try {
-    const res = await request.get({ url: '/eiot/firewatch/alarm-order/page', params: { pageNo: alarmPageNo.value, pageSize: alarmPageSize.value } })
+    const res = await request.get({ url: '/eiot/firewatch/alarm-order/page', params: { pageNo: alarmPageNo.value, pageSize: alarmPageSize.value, alarmType: alarmTypeFilter.value || undefined } })
     if (res?.list) {
       alarmList.value = res.list.map(mapAlarmToDisplay)
       alarmTotal.value = res.total || 0
@@ -1210,6 +1442,12 @@ const refreshAlarms = async () => {
 // 分页切换
 const handleAlarmPageChange = (page: number) => {
   alarmPageNo.value = page
+  refreshAlarms()
+}
+
+// 切换报警类型筛选：回到第一页重新拉取
+const handleAlarmTypeChange = () => {
+  alarmPageNo.value = 1
   refreshAlarms()
 }
 
@@ -1254,15 +1492,23 @@ const viewDetail = (alarm: any) => {
   detailVisible.value = true
 }
 
+/** 从值守大屏带 ?id= 跳进来：选中对应告警（id 即告警记录 id）并直接打开详情弹窗 */
+const openAlarmFromQuery = () => {
+  const id = route.query.id
+  if (!id) return
+  const target = alarmList.value.find((a: any) => String(a.id) === String(id))
+  if (target) viewDetail(target)
+}
+
 // 标记已处理
 const markHandled = async (alarm: any) => {
   try {
     await ElMessageBox.confirm('确定要标记该告警为已处理吗？', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
-      type: 'warning'
+      customClass: 'alarm-center-dialog'
     })
-    
+
     try {
       await request.put({ url: '/eiot/firewatch/alarm-order/handle', data: { id: alarm.id, handleType: 'manual', handleRemark: '已处理' } })
       alarm.status = 'handled'
@@ -1295,7 +1541,7 @@ const handleNotify = async () => {
   notifyForm.template = selectedAlarm.value ? 'fire' : ''
   notifyForm.smsTemplateCode = 'fire_alarm_notify'
   notifyForm.attachments = []
-  
+
   // 自动选中报警关联企业的联系人
   if (selectedAlarm.value?.propertyId) {
     const relatedContacts = contactList.value
@@ -1303,7 +1549,7 @@ const handleNotify = async () => {
       .map(c => c.value)
     notifyForm.receivers = relatedContacts
   }
-  
+
   // 通知内容自动填充：与短信模板格式保持一致
   // 短信模板格式：火警通知：{propertyName}{location}发生{alarmType}，请立即处理！
   if (selectedAlarm.value) {
@@ -1314,60 +1560,13 @@ const handleNotify = async () => {
   } else {
     notifyForm.content = ''
   }
-  
+
   notifyVisible.value = true
-}
-
-const handleLinkage = () => {
-  // 后端无 /eiot/firewatch/linkage/* 接口，联动预案仅为 UI 占位
-  // ponytail: 接口就绪后删掉下面两行，恢复 linkageVisible 弹窗
-  ElMessage.info('联动预案功能敬请期待')
-}
-
-const handleReport = () => {
-  // 后端无 /eiot/firewatch/report/* 接口，事件上报仅为 UI 占位
-  ElMessage.info('事件上报功能敬请期待')
 }
 
 const handleDispatch = () => {
   // 后端无 /eiot/firewatch/workorder/* 接口（维修工单请用 repair-order 页面），此处仅为 UI 占位
   ElMessage.info('一键派单功能敬请期待')
-}
-
-const handleInspect = () => {
-  router.push('/eiot/firewatch/patrol')
-}
-
-const handleCallback = () => {
-  callForm.contact = ''
-  callForm.phone = ''
-  callVisible.value = true
-}
-
-const handleReview = () => {
-  // 后端无 /eiot/firewatch/review/* 接口，复盘仅为 UI 占位
-  ElMessage.info('复盘归档功能敬请期待')
-}
-
-// 复位操作
-const handleReset = async () => {
-  if (!selectedAlarm.value) {
-    ElMessage.warning('请先选择一个告警')
-    return
-  }
-  try {
-    await ElMessageBox.confirm('确定要对该告警关联设备执行复位操作吗？', '复位确认', {
-      confirmButtonText: '确认复位',
-      cancelButtonText: '取消',
-      type: 'warning'
-    })
-    await request.put({ url: '/eiot/firewatch/alarm-order/reset-device', params: { id: selectedAlarm.value.id } })
-    ElMessage.success('复位指令已发送')
-    // 添加到时间线
-    addTimelineRecord(selectedAlarm.value, '设备复位', '系统', '执行了设备复位操作')
-  } catch {
-    // 取消
-  }
 }
 
 // 消音操作
@@ -1378,15 +1577,6 @@ const handleMute = () => {
   } else {
     ElMessage.info('已恢复告警声音')
   }
-}
-
-// 快速误报（从快捷面板）
-const handleFalseAlarmQuick = () => {
-  if (!selectedAlarm.value) {
-    ElMessage.warning('请先选择一个告警')
-    return
-  }
-  markFalseAlarm(selectedAlarm.value)
 }
 
 // 标记误报
@@ -1406,15 +1596,17 @@ const submitFalseAlarm = async () => {
     ElMessage.warning('请选择误报原因')
     return
   }
+  // 组装完整备注：原因中文 + 详细说明
+  const reasonText = getFalseAlarmReasonText(falseAlarmForm.reason)
+  const detail = falseAlarmForm.remark.trim()
+  const remark = detail ? `${reasonText}；详细说明：${detail}` : reasonText
   falseAlarmLoading.value = true
   try {
-    try {
-      await request.put({
-        url: '/eiot/firewatch/alarm-order/false-alarm',
-        params: { id: falseAlarmForm.alarmId, remark: falseAlarmForm.reason }
-      })
-    } catch {}
-    // 更新本地状态
+    await request.put({
+      url: '/eiot/firewatch/alarm-order/false-alarm',
+      params: { id: falseAlarmForm.alarmId, remark }
+    })
+    // 更新本地状态（请求成功后才执行）
     const alarm = alarmList.value.find((a: any) => a.id === falseAlarmForm.alarmId)
     if (alarm) {
       alarm.status = 'false_alarm'
@@ -1423,7 +1615,10 @@ const submitFalseAlarm = async () => {
     ElMessage.success('已标记为误报')
     falseAlarmVisible.value = false
     // 添加到时间线
-    addTimelineRecord(alarm, '标记误报', '当前用户', `原因: ${getFalseAlarmReasonText(falseAlarmForm.reason)}`)
+    addTimelineRecord(alarm, '标记误报', '当前用户', `原因: ${remark}`)
+  } catch (e) {
+    // 错误提示由 axios 封装统一弹出，这里只记录日志，保留弹窗与输入
+    console.warn('标记误报失败:', e)
   } finally {
     falseAlarmLoading.value = false
   }
@@ -1498,13 +1693,14 @@ const formatAlarmDate = (time: string) => {
 }
 
 // 获取状态标签类型
-const getStatusTagType = (status: string): 'success' | 'warning' | 'info' | 'primary' | 'danger' => {
-  const map: Record<string, 'success' | 'warning' | 'info' | 'primary' | 'danger'> = {
+const getStatusTagType = (status: string): 'info' | 'primary' | 'danger' => {
+  // 状态配色收敛：未闭环红色警示，处置中走主题青绿，闭环后中性
+  const map: Record<string, 'info' | 'primary' | 'danger'> = {
     pending: 'danger',
-    handling: 'warning',
-    confirming: 'warning',
-    handled: 'success',
-    resolved: 'success',
+    handling: 'primary',
+    confirming: 'primary',
+    handled: 'info',
+    resolved: 'info',
     closed: 'info',
     false_alarm: 'info',
     confirmed: 'primary',
@@ -1525,7 +1721,7 @@ const getAlarmTimeline = (alarm: any) => {
     action: '系统接收到告警',
     operator: '系统',
     type: 'danger',
-    color: '#f56c6c',
+    color: '#e65353',
     tag: '告警触发',
     desc: `设备 ${alarm.device} 在 ${alarm.location} 触发告警`
   })
@@ -1539,8 +1735,8 @@ const getAlarmTimeline = (alarm: any) => {
       time: alarm.handleTime || new Date().toLocaleString(),
       action: '告警已处理',
       operator: alarm.handler || '值班人员',
-      type: 'success',
-      color: '#67c23a',
+      type: 'primary',
+      color: '#199b96',
       tag: '已处理'
     })
   } else if (alarm.status === 'false_alarm') {
@@ -1567,7 +1763,7 @@ const addTimelineRecord = (alarm: any, action: string, operator: string, desc?: 
     action,
     operator,
     type: 'primary',
-    color: '#409eff',
+    color: '#199b96',
     tag: action,
     desc,
     smsNotified
@@ -1715,21 +1911,21 @@ const loadCamerasForAlarm = async (alarm: any) => {
 // 提交报警
 const submitAlarm = async () => {
   if (!alarmFormRef.value) return
-  
+
   await alarmFormRef.value.validate(async (valid) => {
     if (!valid) return
-    
+
     const alarmId = selectedAlarm.value?.id
     if (!alarmId) {
       ElMessage.error('未选择告警记录')
       return
     }
-    
+
     alarmLoading.value = true
     try {
       await confirmAlarm(alarmId, undefined, alarmForm.remark)
       const actionText = alarmForm.type === 'fault' ? '确认设备故障' : '确认火警'
-      
+
       // 设备故障：显式调用创建维修工单接口
       if (alarmForm.type === 'fault') {
         try {
@@ -1742,7 +1938,7 @@ const submitAlarm = async () => {
       } else {
         ElMessage.success(actionText + '成功')
       }
-      
+
       if (selectedAlarm.value) {
         addTimelineRecord(selectedAlarm.value, actionText, '值班人员', `级别: ${alarmForm.level}, 类型: ${alarmForm.type === 'fault' ? '故障' : '火警'}`)
       }
@@ -1770,7 +1966,7 @@ const sendNotify = async () => {
     ElMessage.warning('请输入通知内容')
     return
   }
-  
+
   notifyLoading.value = true
 
   // 如果通知方式包含短信，通过系统短信API发送
@@ -1807,7 +2003,7 @@ const sendNotify = async () => {
         if (result !== null && result !== undefined) {
           const successCount = typeof result === 'number' ? result : (result as any)?.data ?? phones.length
           if (selectedAlarm.value) {
-            addTimelineRecord(selectedAlarm.value, '发送通知', '值班人员', 
+            addTimelineRecord(selectedAlarm.value, '发送通知', '值班人员',
               `短信已发送至 ${phones.join('、')}，模板: ${templateCode}，成功: ${successCount}/${phones.length}`, true)
           }
           ElMessage.success(`短信发送完成，成功 ${successCount}/${phones.length} 个号码`)
@@ -1869,7 +2065,7 @@ const makeCall = async () => {
     ElMessage.warning('请输入电话号码')
     return
   }
-  
+
   callLoading.value = true
   try {
     await request.post({
@@ -1905,7 +2101,7 @@ const executeLinkage = async () => {
     ElMessage.warning('请选择预案')
     return
   }
-  
+
   linkageLoading.value = true
   try {
     await request.post({ url: '/eiot/firewatch/linkage/execute', data: linkageForm })
@@ -1929,7 +2125,7 @@ const submitDispatch = async () => {
     ElMessage.warning('请填写必填项')
     return
   }
-  
+
   dispatchLoading.value = true
   try {
     await request.post({ url: '/eiot/firewatch/workorder/create', data: dispatchForm })
@@ -1954,7 +2150,7 @@ const submitReport = async () => {
     ElMessage.warning('请填写完整信息')
     return
   }
-  
+
   reportLoading.value = true
   try {
     await request.post({ url: '/eiot/firewatch/report/create', data: reportForm })
@@ -1973,7 +2169,7 @@ const submitReview = async () => {
     ElMessage.warning('请填写复盘分析')
     return
   }
-  
+
   reviewLoading.value = true
   try {
     await request.post({ url: '/eiot/firewatch/review/create', data: reviewForm })
@@ -2059,18 +2255,18 @@ const retryRightVideo = () => {
 onMounted(() => {
   updateTime()
   timeTimer = setInterval(updateTime, 1000)
-  
+
   // 响应计时器（每秒更新一次以刷新已持续时间显示）
   elapsedTimer = setInterval(() => {
     // 触发响应式更新 - 通过修改ref触发页面重绘
     pendingCount.value = alarmList.value.filter((a: any) => a.status === 'pending').length
   }, 60000) // 每分钟更新一次
-  
+
   // 注册键盘快捷键
   window.addEventListener('keydown', handleKeyboard)
-  
-  // 加载告警数据
-  refreshAlarms()
+
+  // 加载告警数据；大屏带 ?id= 跳进来时，加载完成后自动打开对应告警详情
+  refreshAlarms().then(() => openAlarmFromQuery())
 })
 
 onUnmounted(() => {
@@ -2100,20 +2296,11 @@ $ink-muted: #7b8e90;
 
 $coral: #e65353;
 $coral-soft: #fde8e7;
-$coral-glow: rgba(230, 83, 83, 0.12);
-$amber: #f3a42a;
-$amber-soft: #fff2d9;
-$emerald: #53b57d;
-$emerald-soft: #e8f5ed;
-$sky: #4c8fe5;
-$sky-soft: #e9f1fc;
-$violet: #199b96;
 
 $shadow-xs: 0 1px 2px rgba(41, 59, 61, 0.04);
 $shadow-sm: 0 2px 8px rgba(41, 59, 61, 0.05);
 $shadow-md: 0 4px 16px rgba(41, 59, 61, 0.07);
 $shadow-lg: 0 8px 32px rgba(41, 59, 61, 0.09);
-$shadow-warm: 0 4px 20px rgba(230, 83, 83, 0.08);
 
 $r-sm: 8px;
 $r-md: 12px;
@@ -2122,6 +2309,15 @@ $r-pill: 100px;
 
 // === Root Container ===
 .alarm-center {
+  // 本页统一主题青绿：覆盖 Element 默认蓝，避免红/琥珀/绿/蓝多色混杂
+  --el-color-primary: #199b96;
+  --el-color-primary-light-3: #5eb9b6;
+  --el-color-primary-light-5: #8ccdcb;
+  --el-color-primary-light-7: #bae1e0;
+  --el-color-primary-light-8: #d1ebea;
+  --el-color-primary-light-9: #e8f5f5;
+  --el-color-primary-dark-2: #147c78;
+
   width: 100%;
   min-height: calc(100vh - 84px);
   background: $warm-bg;
@@ -2191,15 +2387,9 @@ $r-pill: 100px;
         height: 6px;
         border-radius: 50%;
         background: $coral;
-        animation: pulse-dot 2s ease-in-out infinite;
       }
     }
   }
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.35; transform: scale(0.7); }
 }
 
 // === Two-Column Layout ===
@@ -2219,9 +2409,16 @@ $r-pill: 100px;
   gap: 22px;
   overflow-y: auto;
 
-  &::-webkit-scrollbar { width: 3px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: $border-medium; border-radius: 2px; }
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $border-medium;
+    border-radius: 2px;
+  }
 }
 
 .right-column {
@@ -2233,9 +2430,16 @@ $r-pill: 100px;
   gap: 18px;
   overflow-y: auto;
 
-  &::-webkit-scrollbar { width: 3px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: $border-medium; border-radius: 2px; }
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $border-medium;
+    border-radius: 2px;
+  }
 }
 
 // === Section Cards ===
@@ -2261,18 +2465,6 @@ $r-pill: 100px;
     align-items: center;
     gap: 9px;
     letter-spacing: -0.01em;
-
-    .dot-icon {
-      display: inline-block;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-
-      &.dot-red {
-        background: $coral;
-        box-shadow: 0 0 8px $coral-glow, 0 0 3px rgba($coral, 0.3);
-      }
-    }
   }
 
   .header-actions {
@@ -2305,21 +2497,6 @@ $r-pill: 100px;
   padding: 18px 20px;
   cursor: pointer;
   transition: all 0.22s ease;
-  position: relative;
-
-  // Warm gradient accent line at bottom (hidden by default)
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 12px;
-    right: 12px;
-    height: 3px;
-    border-radius: 3px 3px 0 0;
-    background: linear-gradient(90deg, #199b96, #4cb5b0, #8fc8c5);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-  }
 
   &:hover {
     border-color: $border-medium;
@@ -2328,24 +2505,18 @@ $r-pill: 100px;
   }
 
   &.selected {
-    border-color: rgba($coral, 0.25);
+    border-color: rgba($coral, 0.35);
     background: $warm-hover;
-    box-shadow: $shadow-warm;
-
-    &::after {
-      opacity: 1;
-    }
+    box-shadow: $shadow-md;
   }
 
-  // Risk-level left accents
+  // 风险等级左侧标识：仅 A 级保留火警红，B/C 走中性
   &.risk-border-A {
     border-left: 4px solid $coral;
   }
-  &.risk-border-B {
-    border-left: 4px solid $amber;
-  }
+  &.risk-border-B,
   &.risk-border-C {
-    border-left: 4px solid $emerald;
+    border-left: 4px solid $border-medium;
   }
 
   .alarm-left {
@@ -2364,15 +2535,11 @@ $r-pill: 100px;
       &.icon-A {
         background: $coral-soft;
         color: $coral;
-        box-shadow: 0 2px 8px $coral-glow;
       }
-      &.icon-B {
-        background: $amber-soft;
-        color: $amber;
-      }
+      &.icon-B,
       &.icon-C {
-        background: $emerald-soft;
-        color: $emerald;
+        background: $warm-bg;
+        color: $ink-muted;
       }
     }
   }
@@ -2469,13 +2636,10 @@ $r-pill: 100px;
       background: $coral-soft;
       color: $coral;
     }
-    &.risk-B {
-      background: $amber-soft;
-      color: $amber;
-    }
+    &.risk-B,
     &.risk-C {
-      background: $emerald-soft;
-      color: $emerald;
+      background: $warm-bg;
+      color: $ink-secondary;
     }
   }
 }
@@ -2494,7 +2658,9 @@ $r-pill: 100px;
   padding: 14px 0;
   border-bottom: 1px solid $border-light;
 
-  &:last-child { border-bottom: none; }
+  &:last-child {
+    border-bottom: none;
+  }
 
   .event-icon {
     width: 34px;
@@ -2506,9 +2672,15 @@ $r-pill: 100px;
     font-size: 14px;
     flex-shrink: 0;
 
-    &.level-high { background: $coral-soft; color: $coral; }
-    &.level-medium { background: $amber-soft; color: $amber; }
-    &.level-low { background: $emerald-soft; color: $emerald; }
+    &.level-high {
+      background: $coral-soft;
+      color: $coral;
+    }
+    &.level-medium,
+    &.level-low {
+      background: $warm-bg;
+      color: $ink-muted;
+    }
   }
 
   .event-info {
@@ -2558,29 +2730,6 @@ $r-pill: 100px;
     font-size: 15px;
     font-weight: 700;
     color: $ink;
-
-    .header-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 9px;
-      vertical-align: middle;
-
-      &.live {
-        background: $coral;
-        box-shadow: 0 0 6px rgba($coral, 0.45);
-        animation: pulse-dot 1.5s infinite;
-      }
-      &.ai {
-        background: $violet;
-        box-shadow: 0 0 6px rgba($violet, 0.35);
-      }
-      &.response {
-        background: $sky;
-        box-shadow: 0 0 6px rgba($sky, 0.35);
-      }
-    }
 
     .card-actions {
       display: flex;
@@ -2668,7 +2817,6 @@ $r-pill: 100px;
       height: 5px;
       border-radius: 50%;
       background: #fff;
-      animation: blink 1.2s infinite;
     }
   }
 }
@@ -2696,7 +2844,7 @@ $r-pill: 100px;
     &:hover {
       background: #eef8f7;
       color: #199b96;
-      border-color: rgba($sky, 0.15);
+      border-color: rgba(#199b96, 0.15);
     }
     &.active {
       background: #199b96;
@@ -2704,11 +2852,6 @@ $r-pill: 100px;
       border-color: #199b96;
     }
   }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.15; }
 }
 
 // === AI Analysis ===
@@ -2731,22 +2874,6 @@ $r-pill: 100px;
     }
   }
 
-  .risk-bar {
-    height: 5px;
-    border-radius: 3px;
-    overflow: hidden;
-    display: flex;
-    background: $warm-bg;
-    margin-bottom: 14px;
-
-    .bar-segment {
-      height: 100%;
-      &.high { background: linear-gradient(90deg, $coral, #ff8a80); }
-      &.medium { background: linear-gradient(90deg, $amber, #ffc964); }
-      &.low { background: linear-gradient(90deg, $emerald, #69f0ae); }
-    }
-  }
-
   .analysis-items {
     margin-bottom: 16px;
 
@@ -2756,7 +2883,9 @@ $r-pill: 100px;
       gap: 12px;
       margin-bottom: 11px;
 
-      &:last-child { margin-bottom: 0; }
+      &:last-child {
+        margin-bottom: 0;
+      }
 
       .name {
         width: 52px;
@@ -2773,7 +2902,9 @@ $r-pill: 100px;
         overflow: hidden;
 
         .progress {
+          // 统一主题色，避免每条进度条一个颜色
           height: 100%;
+          background: #199b96;
           border-radius: 4px;
           transition: width 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -2798,69 +2929,6 @@ $r-pill: 100px;
   }
 }
 
-// === Quick Response ===
-.quick-response {
-  padding: 16px 18px;
-
-  .response-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-  }
-
-  .response-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 14px 4px;
-    background: $warm-bg;
-    border-radius: $r-md;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: $shadow-md;
-    }
-
-    .el-icon {
-      font-size: 21px;
-      transition: transform 0.15s;
-    }
-    &:hover .el-icon { transform: scale(1.1); }
-
-    span {
-      font-size: 11px;
-      font-weight: 600;
-      color: $ink-secondary;
-    }
-
-    // 竖向卡片内的「敬请期待」标签去掉行内左边距，保持居中
-    :deep(.dev-tag) {
-      margin-left: 0;
-    }
-
-    &.alarm { .el-icon { color: $coral; } &:hover { background: $coral-soft; border-color: rgba($coral, 0.12); } }
-    &.notify { .el-icon { color: $sky; } &:hover { background: $sky-soft; border-color: rgba($sky, 0.12); } }
-    &.link { .el-icon { color: $emerald; } &:hover { background: $emerald-soft; border-color: rgba($emerald, 0.12); } }
-    &.report { .el-icon { color: $amber; } &:hover { background: $amber-soft; border-color: rgba($amber, 0.12); } }
-    &.dispatch { .el-icon { color: $sky; } &:hover { background: $sky-soft; border-color: rgba($sky, 0.12); } }
-    &.inspect { .el-icon { color: $emerald; } &:hover { background: $emerald-soft; border-color: rgba($emerald, 0.12); } }
-    &.callback { .el-icon { color: $violet; } &:hover { background: rgba($violet, 0.06); border-color: rgba($violet, 0.12); } }
-    &.review { .el-icon { color: $ink-secondary; } &:hover { background: $sky-soft; border-color: rgba($sky, 0.12); } }
-    &.reset { .el-icon { color: $ink-muted; } &:hover { border-color: $border-medium; } }
-    &.mute {
-      .el-icon { color: $amber; }
-      &:hover { background: $amber-soft; border-color: rgba($amber, 0.12); }
-      &.active { background: $amber-soft; border-color: rgba($amber, 0.2); box-shadow: 0 0 12px rgba($amber, 0.08); }
-    }
-    &.false-alarm { .el-icon { color: $ink-muted; } &:hover { border-color: $border-medium; } }
-    &.timeline-btn { .el-icon { color: $sky; } &:hover { background: $sky-soft; border-color: rgba($sky, 0.12); } }
-  }
-}
-
 // === Dialogs / Misc ===
 .linkage-content {
   .linkage-warning {
@@ -2868,13 +2936,18 @@ $r-pill: 100px;
     align-items: center;
     gap: 10px;
     padding: 14px 16px;
-    background: $amber-soft;
-    border: 1px solid rgba($amber, 0.18);
+    background: $warm-bg;
+    border: 1px solid $border-light;
     border-radius: $r-md;
     margin-bottom: 20px;
 
-    .warning-icon { font-size: 22px; color: $amber; }
-    span { font-weight: 500; }
+    .warning-icon {
+      font-size: 22px;
+      color: $ink-muted;
+    }
+    span {
+      font-weight: 500;
+    }
   }
 }
 
@@ -2889,15 +2962,29 @@ $r-pill: 100px;
     padding: 10px 0;
     border-bottom: 1px solid $border-light;
 
-    &:last-child { border-bottom: none; }
+    &:last-child {
+      border-bottom: none;
+    }
 
     .call-info {
-      .call-name { font-weight: 600; margin-right: 8px; font-size: 13px; }
-      .call-phone { color: $ink-muted; font-size: 12px; }
+      .call-name {
+        font-weight: 600;
+        margin-right: 8px;
+        font-size: 13px;
+      }
+      .call-phone {
+        color: $ink-muted;
+        font-size: 12px;
+      }
     }
     .call-meta {
-      display: flex; align-items: center; gap: 8px;
-      .call-time { color: $ink-muted; font-size: 12px; }
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .call-time {
+        color: $ink-muted;
+        font-size: 12px;
+      }
     }
   }
 }
@@ -2912,14 +2999,24 @@ $r-pill: 100px;
     font-size: 14px;
     margin-bottom: 16px;
     padding-left: 12px;
-    border-left: 3px solid $sky;
+    border-left: 3px solid #199b96;
   }
 
   .timeline-content {
-    .timeline-action { font-weight: 600; font-size: 13px; }
-    .timeline-operator { color: $ink-muted; font-size: 12px; }
+    .timeline-action {
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .timeline-operator {
+      color: $ink-muted;
+      font-size: 12px;
+    }
   }
-  .timeline-desc { color: $ink-secondary; font-size: 12px; margin-top: 4px; }
+  .timeline-desc {
+    color: $ink-secondary;
+    font-size: 12px;
+    margin-top: 4px;
+  }
 }
 
 .shortcut-list {
@@ -2930,7 +3027,9 @@ $r-pill: 100px;
     padding: 12px 0;
     border-bottom: 1px solid $border-light;
 
-    &:last-child { border-bottom: none; }
+    &:last-child {
+      border-bottom: none;
+    }
 
     kbd {
       display: inline-flex;
@@ -2945,7 +3044,24 @@ $r-pill: 100px;
       font-size: 12px;
       font-weight: 600;
     }
-    span { color: $ink-secondary; font-size: 13px; }
+    span {
+      color: $ink-secondary;
+      font-size: 13px;
+    }
   }
+}
+</style>
+
+<style lang="scss">
+// 本页弹窗/抽屉会被 teleport 到 body，挂不到 .alarm-center 作用域里的主题变量上，
+// 统一挂到 alarm-center-dialog 类名上收敛，避免 Element 默认蓝混进青绿页面
+.alarm-center-dialog {
+  --el-color-primary: #199b96;
+  --el-color-primary-light-3: #5eb9b6;
+  --el-color-primary-light-5: #8ccdcb;
+  --el-color-primary-light-7: #bae1e0;
+  --el-color-primary-light-8: #d1ebea;
+  --el-color-primary-light-9: #e8f5f5;
+  --el-color-primary-dark-2: #147c78;
 }
 </style>

@@ -37,8 +37,7 @@ public interface DeviceAlertConfigService {
      * 根据 devSno 查找设备，写入报警记录（含报警图片）
      *
      * @param reqVO       解析后的报警事件数据
-     * @param alertImageUrl 上传后的报警图片 URL（可为 null）
      */
-    void reportCameraAlert(CameraAlertReportReqVO reqVO, String alertImageUrl);
+    void reportCameraAlert(CameraAlertReportReqVO reqVO);
 
 }

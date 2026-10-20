@@ -49,4 +49,9 @@ public class AlertRecordPageReq extends PageParam {
      */
     private String productKey;
 
+    /**
+     * 租户ID（系统租户可按租户筛选；企业租户由租户拦截器自动隔离）
+     */
+    private Long tenantId;
+
 }

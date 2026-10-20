@@ -4,6 +4,7 @@ import com.enjoyiot.framework.common.pojo.CommonResult;
 import com.enjoyiot.module.ai.controller.admin.vo.ChatReqVO;
 import com.enjoyiot.module.ai.controller.admin.vo.ChatRespVO;
 import com.enjoyiot.module.ai.service.AiToolService;
+import com.enjoyiot.module.ai.service.LlmClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -14,17 +15,18 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 import static com.enjoyiot.framework.common.pojo.CommonResult.success;
@@ -36,20 +38,11 @@ import static com.enjoyiot.framework.common.pojo.CommonResult.success;
 @Slf4j
 public class ChatController {
 
-    @Value("${ai.llm.url:http://**:8801/v1/chat/completions}")
-    private String llmUrl;
-
-    @Value("${ai.llm.model:qwen3.5-35b}")
-    private String llmModel;
-
-    @Value("${ai.llm.api-key:**}")
-    private String llmApiKey;
-
-    @Value("${ai.llm.timeout-ms:120000}")
-    private int timeoutMs;
-
     @Resource
     private ObjectMapper objectMapper;
+
+    @Resource
+    private LlmClient llmClient;
 
     @Resource
     private AiToolService aiToolService;
@@ -65,7 +58,7 @@ public class ChatController {
             String finalContent = null;
             for (int round = 0; round < maxRounds; round++) {
                 ObjectNode body = buildRequestBody(reqVO, false);
-                String response = doPost(llmUrl, body);
+                String response = llmClient.post(body);
                 JsonNode root = objectMapper.readTree(response);
                 JsonNode choice = root.path("choices").path(0);
                 String content = choice.path("message").path("content").asText("");
@@ -77,7 +70,7 @@ public class ChatController {
                     // 没有工具调用，直接返回
                     return success(ChatRespVO.builder()
                             .content(content)
-                            .model(root.path("model").asText(llmModel))
+                            .model(root.path("model").asText(llmClient.getLlmModel()))
                             .streaming(false)
                             .finishReason(finishReason)
                             .build());
@@ -105,7 +98,7 @@ public class ChatController {
             // 超过最大轮次，返回最后一次内容
             return success(ChatRespVO.builder()
                     .content(finalContent != null ? finalContent : "工具调用轮次超限，请简化问题后重试。")
-                    .model(llmModel)
+                    .model(llmClient.getLlmModel())
                     .streaming(false)
                     .finishReason("max_rounds")
                     .build());
@@ -125,13 +118,7 @@ public class ChatController {
 
         try {
             ObjectNode body = buildRequestBody(reqVO, true);
-            HttpURLConnection conn = (HttpURLConnection) URI.create(llmUrl).toURL().openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            conn.setRequestProperty(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            conn.setRequestProperty(HttpHeaders.AUTHORIZATION, "Bearer " + llmApiKey);
-            conn.setConnectTimeout(10000);
-            conn.setReadTimeout(timeoutMs);
+            HttpURLConnection conn = llmClient.openConnection();
 
             try (OutputStream os = conn.getOutputStream()) {
                 os.write(objectMapper.writeValueAsBytes(body));
@@ -169,11 +156,7 @@ public class ChatController {
      * 构建发送给 LLM 的请求体
      */
     private ObjectNode buildRequestBody(ChatReqVO reqVO, boolean stream) {
-        ObjectNode body = objectMapper.createObjectNode();
-        body.put("model", llmModel);
-        body.put("stream", stream);
-        body.put("temperature", reqVO.getTemperature() != null ? reqVO.getTemperature() : 0.7);
-        body.put("max_tokens", reqVO.getMaxTokens() != null ? reqVO.getMaxTokens() : 2048);
+        ObjectNode body = llmClient.createBody(stream, reqVO.getTemperature(), reqVO.getMaxTokens());
 
         ArrayNode messagesNode = objectMapper.createArrayNode();
         for (ChatReqVO.ChatMessage msg : reqVO.getMessages()) {
@@ -268,35 +251,6 @@ public class ChatController {
     }
 
     /**
-     * 发送 HTTP POST 请求并返回响应体
+     * 发送 HTTP POST 请求并返回响应体（已迁移到 {@link LlmClient}）
      */
-    private String doPost(String url, ObjectNode body) throws Exception {
-        HttpURLConnection conn = (HttpURLConnection) URI.create(url).toURL().openConnection();
-        conn.setRequestMethod("POST");
-        conn.setDoOutput(true);
-        conn.setRequestProperty(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        conn.setRequestProperty(HttpHeaders.AUTHORIZATION, "Bearer " + llmApiKey);
-        conn.setConnectTimeout(10000);
-        conn.setReadTimeout(timeoutMs);
-
-        try (OutputStream os = conn.getOutputStream()) {
-            os.write(objectMapper.writeValueAsBytes(body));
-            os.flush();
-        }
-
-        int code = conn.getResponseCode();
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(code >= 200 && code < 300 ? conn.getInputStream() : conn.getErrorStream(),
-                        StandardCharsets.UTF_8))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-            if (code >= 200 && code < 300) {
-                return sb.toString();
-            }
-            throw new RuntimeException("LLM API 返回错误 HTTP " + code + ": " + sb);
-        }
-    }
 }

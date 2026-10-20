@@ -1,0 +1,65 @@
+### 摄像头报警上报 · 开放接口（@PermitAll 免登录）· 本地实例
+### 用法：点请求行号左侧绿三角 ▶ 或 Ctrl+Enter 发送
+### 注意：data 必须以「表单字段」提交（multipart / x-www-form-urlencoded）
+###     写成 Content-Type: application/json 的裸 JSON body 收不到，会静默返回 {"code":0,"data":false}
+### 成功标志：{"code":0,"data":true}
+### 定级：eventType 1/2/3 -> 一级（全屏弹窗，含辅助判断区）；4/5 -> 二级（通知匣+提示音）
+### 测试设备：租户 166，productKey 均为 nk7kzc4eCTsrT67H
+
+### 一级 · 三合一事件报警（三合一算法摄像头 id=14）
+POST http://127.0.0.1:48080/app-api/open/camera-alert/report
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="data"
+
+{"productKey":"nk7kzc4eCTsrT67H","eventType":1,"tenantId":166,"devSno":"CD0F9BDGDEA744C"}
+--WebAppBoundary--
+
+### 一级 · 热成像事件报警（热成像摄像头 id=17）
+POST http://127.0.0.1:48080/app-api/open/camera-alert/report
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="data"
+
+{"productKey":"nk7kzc4eCTsrT67H","eventType":2,"tenantId":166,"devSno":"CE0DD7APAGA8B59"}
+--WebAppBoundary--
+
+### 一级 · 烟火事件报警（烟火算法摄像头 id=8）
+POST http://127.0.0.1:48080/app-api/open/camera-alert/report
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="data"
+
+{"productKey":"nk7kzc4eCTsrT67H","eventType":3,"tenantId":166,"devSno":"BL094C4PCU38258"}
+--WebAppBoundary--
+
+### 二级 · 离岗报警（离岗监测摄像头 id=13 -> 通知匣）
+POST http://127.0.0.1:48080/app-api/open/camera-alert/report
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="data"
+
+{"productKey":"nk7kzc4eCTsrT67H","eventType":4,"tenantId":166,"devSno":"CD008CCPAGDD657"}
+--WebAppBoundary--
+
+### 二级 · 通道堵塞报警（消防通道堵塞摄像头 id=12 -> 通知匣）
+POST http://127.0.0.1:48080/app-api/open/camera-alert/report
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="data"
+
+{"productKey":"nk7kzc4eCTsrT67H","eventType":5,"tenantId":166,"devSno":"CD008CCPAG564D9"}
+--WebAppBoundary--
+
+### 可选：抓拍图。multipart 再加一个分部即可（文件名/内容类型按实际图片改），示例：
+### --WebAppBoundary
+### Content-Disposition: form-data; name="file"; filename="snapshot.jpg"
+### Content-Type: image/jpeg
+###
+### < ./snapshot.jpg
+### --WebAppBoundary--

@@ -39,7 +39,7 @@ public class YwnClient {
 
     private static final Logger log = LoggerFactory.getLogger(YwnClient.class);
 
-    private static final String DEFAULT_HOST = "**";
+    private static final String DEFAULT_HOST = "192.168.250.144";
     private static final int DEFAULT_PORT = 8839;
     private static final int HEARTBEAT_INTERVAL_SECONDS = 180; // 3分钟
     private static final int WRITER_IDLE_SECONDS = 30;

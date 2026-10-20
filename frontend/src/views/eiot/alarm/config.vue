@@ -25,6 +25,9 @@
     <template #pushPostIds="scope">
       <span>{{ getPostNames(scope.row.pushPostIds) }}</span>
     </template>
+    <template #algorithmAlertType="scope">
+      <span>{{ getAlgorithmAlertTypeName(scope.row.algorithmAlertType) }}</span>
+    </template>
   </yt-crud>
 </template>
 
@@ -53,12 +56,13 @@ const column = ref<IColumn[]>([{
   search: true,
   rules: [{ required: true, message: '配置名称不能为空' }],
 }, {
-  label: '告警等级',
+  // 主机事件类别标签按库内事实校正（1火警/2故障/3电源故障/4离线/5其他，与后端归一映射一致）
+  label: '告警类型',
   key: 'level',
   tableWidth: 120,
   search: true,
   type: 'select',
-  rules: [{ required: true, message: '请选择告警等级' }],
+  rules: [{ required: true, message: '请选择告警类型' }],
   componentProps: {
     style: 'width: 150px',
     options: [{
@@ -68,10 +72,10 @@ const column = ref<IColumn[]>([{
       label: '故障',
       value: 2,
     }, {
-      label: '离线',
+      label: '电源故障',
       value: 3,
     }, {
-      label: '反馈',
+      label: '离线',
       value: 4,
     }, {
       label: '其他',
@@ -90,15 +94,42 @@ const column = ref<IColumn[]>([{
     options: []
   }
 }, {
+  label: '算法报警类型',
+  key: 'algorithmAlertType',
+  type: 'select',
+  slot: true,
+  tableWidth: 150,
+  componentProps: {
+    clearable: true,
+    placeholder: '不选则需绑定规则',
+    options: [{
+      label: '高温事件报警',
+      value: 1,
+    }, {
+      label: '热成像事件报警',
+      value: 2,
+    }, {
+      label: '烟火事件报警',
+      value: 3,
+    }, {
+      label: '离岗事件报警',
+      value: 4,
+    }, {
+      label: '消防通道占用事件报警',
+      value: 5,
+    }]
+  }
+}, {
   label: '规则',
   key: 'ruleInfoId',
   tableWidth: 120,
   type: 'select',
-  rules: [{ required: true, message: '请选择规则' }],
   componentProps: {
     labelAlias: 'name',
     valueAlias: 'id',
-    options: []
+    options: [],
+    clearable: true,
+    placeholder: '选择算法报警类型后可不选'
   }
 }, {
   label: '消息推送岗位',
@@ -142,6 +173,16 @@ const getPostNames = (ids: number[]) => {
   if (!ids || ids.length === 0) return '--'
   return ids.map(id => postOptions.value.find(p => p.id === id)?.name || id).join('、')
 }
+
+// 算法报警类型显示映射
+const algorithmAlertTypeNames: Record<number, string> = {
+  1: '高温事件报警',
+  2: '热成像事件报警',
+  3: '烟火事件报警',
+  4: '离岗事件报警',
+  5: '消防通道占用事件报警',
+}
+const getAlgorithmAlertTypeName = (v?: number) => (v ? algorithmAlertTypeNames[v] || String(v) : '--')
 
 const getDict = async () => {
   let options: any[] = []
@@ -203,6 +244,11 @@ const onSave = ({type, data, cancel}: any) => {
   // 消息推送岗位最多支持选择 3 个
   if (data?.pushPostIds && data.pushPostIds.length > 3) {
     ElMessage.warning('消息推送岗位最多支持选择 3 个')
+    return
+  }
+  // 算法报警类型与规则联动：未选择算法报警类型（通用规则配置）时，规则必填；选择算法报警类型时规则可不选
+  if (!data?.algorithmAlertType && !data?.ruleInfoId) {
+    ElMessage.warning('未选择算法报警类型时，规则不能为空')
     return
   }
   state.loading = true

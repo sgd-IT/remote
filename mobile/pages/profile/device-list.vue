@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<NavBar title="设备列表" title-mode="center" :border="false" />
+		<NavBar title="设备总览" title-mode="center" :border="false" />
 
 		<view class="device-list">
 			<view class="device-card" v-for="d in deviceList" :key="d.id">
@@ -101,6 +101,8 @@ export default {
 			}
 			try {
 				const params = { pageNo: this.pageNo, pageSize: PAGE_SIZE }
+				// 按当前登录用户所属租户查询设备（与后端租户拦截器双保险）
+				if (this.tenantId) params.tenantId = this.tenantId
 				const d = await get('/eiot/device/page', params)
 				const list = d.list || []
 				this.deviceList = reset ? list : this.deviceList.concat(list)

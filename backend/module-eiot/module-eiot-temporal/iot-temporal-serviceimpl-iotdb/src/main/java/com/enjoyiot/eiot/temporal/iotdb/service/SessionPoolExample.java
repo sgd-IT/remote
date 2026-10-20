@@ -49,14 +49,14 @@
 //    private static void constructSessionPool() {
 //        sessionPool =
 //                new SessionPool.Builder()
-//                        .nodeUrls(Collections.singletonList("**:16667"))
+//                        .nodeUrls(Collections.singletonList("47.104.95.120:16667"))
 //                        .user("root")
 //                        .password("**")
 //                        .maxSize(3)
 //                        .build();
 //        System.out.println(sessionPool.getVersion());
 //        HikariDataSource dataSource = new HikariDataSource();
-//        dataSource.setJdbcUrl("jdbc:iotdb://**:16667/");
+//        dataSource.setJdbcUrl("jdbc:iotdb://47.104.95.120:16667/");
 //        dataSource.setUsername("root");
 //        dataSource.setPassword("**");
 //        dataSource.setDriverClassName("org.apache.iotdb.jdbc.IoTDBDriver");

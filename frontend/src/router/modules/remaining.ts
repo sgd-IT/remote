@@ -179,6 +179,26 @@ const remainingRouter: AppRouteRecordRaw[] = [
       darkBlue: true
     }
   },
+  // 更新日志：登录弹窗、用户菜单与侧边栏共用此页面，静态注册保证所有登录用户可达
+  {
+    path: '/changelog',
+    component: Layout,
+    name: 'Changelog',
+    meta: {},
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/system/changelog/index.vue'),
+        name: 'SystemChangelog',
+        meta: {
+          canTo: true,
+          noTagsView: false,
+          icon: 'ep:document',
+          title: '更新日志'
+        }
+      }
+    ]
+  },
   {
     path: '/user',
     component: Layout,
@@ -395,12 +415,12 @@ const remainingRouter: AppRouteRecordRaw[] = [
       //   },
       //   component: () => import('@/views/eiot/firewatch/dashboard/index.vue')
       // },
-      // 火警处置：大屏/值守大屏跳转入口，静态注册保证路由可达
+      // 处置中心：大屏/值守大屏跳转入口，静态注册保证路由可达
       {
         path: '/eiot/firewatch/alarm-order',
         name: 'FireWatchAlarmOrder',
         meta: {
-          title: '火警处置',
+          title: '处置中心',
           noCache: true,
           hidden: true,
           activeMenu: '/eiot/firewatch'
@@ -501,18 +521,6 @@ const remainingRouter: AppRouteRecordRaw[] = [
       }
 
     ]
-  },
-  // 报警弹窗独立预览页
-  {
-    path: '/alarm-popup',
-    component: () => import('@/views/eiot/firewatch/alarm-popup/index.vue'),
-    name: 'AlarmPopup',
-    meta: {
-      hidden: true,
-      title: '报警弹窗',
-      noTagsView: true,
-      darkBlue: true
-    }
   },
   // 百度地图测试页
   {

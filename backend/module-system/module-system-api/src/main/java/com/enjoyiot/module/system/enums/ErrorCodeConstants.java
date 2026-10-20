@@ -46,6 +46,8 @@ public interface ErrorCodeConstants {
     ErrorCode AUTH_SSO_USER_NOT_FOUND = new ErrorCode(1_002_000_013, "SSO ticket 对应的用户不存在");
     ErrorCode AUTH_SSO_APP_KEY_INVALID = new ErrorCode(1_002_000_014, "SSO 应用标识或密钥不正确");
     ErrorCode AUTH_LOGIN_MOBILE_TENANT_DUPLICATE = new ErrorCode(1_002_000_015, "该手机号已归属多个单位，请联系管理员处理");
+    ErrorCode AUTH_LOGIN_PLATFORM_NOT_MATCH_PC = new ErrorCode(1_002_000_016, "该账号为移动端账号，请使用小程序登录");
+    ErrorCode AUTH_LOGIN_PLATFORM_NOT_MATCH_MOBILE = new ErrorCode(1_002_000_017, "该账号为 PC 端账号，请使用电脑端登录");
 
     // ========== 菜单模块 1-002-001-000 ==========
     ErrorCode MENU_NAME_DUPLICATE = new ErrorCode(1_002_001_000, "已经存在该名字的菜单");

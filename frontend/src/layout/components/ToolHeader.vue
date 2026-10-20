@@ -53,8 +53,11 @@ export default defineComponent({
       try {
         const { wsCache } = useCache()
         const userInfo = wsCache.get(CACHE_KEY.USER)
-        const isAdmin = userInfo?.roles?.some((r: string) => r === 'super_admin') || false
-        router.push(isAdmin ? '/duty-screen' : '/monitoring-center')
+        // 值班员与超管回值守大屏；其余角色仍去企业监控中心
+        const isDutyScreenUser =
+          userInfo?.roles?.some((r: string) => r === 'super_admin' || r === 'fire_watcher') ||
+          false
+        router.push(isDutyScreenUser ? '/duty-screen' : '/monitoring-center')
       } catch {
         router.push('/monitoring-center')
       }

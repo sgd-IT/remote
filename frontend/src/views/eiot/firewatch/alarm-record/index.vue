@@ -1,8 +1,14 @@
 <template>
   <div class="alarm-record-container">
-    <!-- 搜索区域 -->
-    <el-card shadow="never" class="search-card">
-      <el-form :model="queryParams" inline>
+    <header class="page-head">
+      <h1 class="page-title">报警统计</h1>
+      <p class="page-sub">查询条件同时作用于统计指标与下方明细</p>
+    </header>
+
+    <!-- 筛选与指标合成一块控制面板，避免卡片堆叠 -->
+    <div class="control-panel">
+      <div class="filter-bar">
+        <el-form :model="queryParams" inline>
         <el-form-item label="报警时间">
           <el-date-picker
             v-model="queryParams.timeRange"
@@ -52,54 +58,29 @@
             重置
           </el-button>
         </el-form-item>
-      </el-form>
-    </el-card>
+        </el-form>
+      </div>
 
-    <!-- 统计卡片 -->
-    <div class="stat-cards">
-      <div class="stat-card">
-        <div class="stat-icon total">
-          <el-icon :size="28"><Bell /></el-icon>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ statistics.totalAlarms }}</div>
+      <div class="stat-strip">
+        <div class="stat-cell stat-cell--lead">
           <div class="stat-label">报警总数</div>
+          <div class="stat-value">{{ statistics.totalAlarms }}</div>
         </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon fire">
-          <el-icon :size="28"><Warning /></el-icon>
+        <div class="stat-cell">
+          <div class="stat-label">火警</div>
+          <div class="stat-value stat-value--alert">{{ statistics.fireAlarms }}</div>
         </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ statistics.fireAlarms }}</div>
-          <div class="stat-label">火警数量</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon handled">
-          <el-icon :size="28"><CircleCheck /></el-icon>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ statistics.handledAlarms }}</div>
+        <div class="stat-cell">
           <div class="stat-label">已处置</div>
+          <div class="stat-value">{{ statistics.handledAlarms }}</div>
         </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon rate">
-          <el-icon :size="28"><TrendCharts /></el-icon>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ statistics.handleRate }}%</div>
+        <div class="stat-cell">
           <div class="stat-label">处置率</div>
+          <div class="stat-value">{{ statistics.handleRate }}<span class="unit">%</span></div>
         </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon response">
-          <el-icon :size="28"><Timer /></el-icon>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ statistics.avgResponseTime }}s</div>
+        <div class="stat-cell">
           <div class="stat-label">平均响应</div>
+          <div class="stat-value">{{ statistics.avgResponseTime }}<span class="unit">s</span></div>
         </div>
       </div>
     </div>
@@ -108,10 +89,11 @@
     <el-card shadow="never" class="chart-card">
       <template #header>
         <div class="card-header">
-          <span class="title">
-            <el-icon><TrendCharts /></el-icon>
-            报警趋势分析
-          </span>
+          <div class="card-heading">
+            <span class="section-no">01</span>
+            <span class="title">报警趋势</span>
+            <span class="section-rule"></span>
+          </div>
           <div class="header-actions">
             <el-radio-group v-model="trendPeriod" size="small" @change="loadTrendData">
               <el-radio-button value="day">按日</el-radio-button>
@@ -136,10 +118,11 @@
     <el-card shadow="never" class="chart-card">
       <template #header>
         <div class="card-header">
-          <span class="title">
-            <el-icon><DataAnalysis /></el-icon>
-            多维度统计
-          </span>
+          <div class="card-heading">
+            <span class="section-no">02</span>
+            <span class="title">多维度统计</span>
+            <span class="section-rule"></span>
+          </div>
           <div class="header-actions">
             <el-radio-group v-model="statDimension" size="small" @change="loadDimensionData">
               <el-radio-button value="unit">按单位</el-radio-button>
@@ -159,24 +142,63 @@
       </div>
     </el-card>
 
+    <!-- 周期运行报告：工具带形态，与上方分析卡片区分 -->
+    <div class="report-strip">
+      <div class="report-info">
+        <span class="report-title">周期运行报告</span>
+        <span class="report-tip">按月 / 季 / 年生成 PDF，含告警分析、设备状态与 AI 建议</span>
+      </div>
+      <div class="report-actions">
+        <el-select v-model="reportPeriodType" style="width: 92px" @change="handlePeriodTypeChange">
+          <el-option v-for="opt in periodTypeOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
+        </el-select>
+        <el-date-picker
+          v-if="reportPeriodType === 'monthly'"
+          v-model="reportPeriod"
+          type="month"
+          value-format="YYYY-MM"
+          placeholder="选择月份"
+          :clearable="false"
+          style="width: 132px"
+        />
+        <el-date-picker
+          v-else-if="reportPeriodType === 'yearly'"
+          v-model="reportPeriod"
+          type="year"
+          value-format="YYYY"
+          placeholder="选择年度"
+          :clearable="false"
+          style="width: 132px"
+        />
+        <el-select v-else v-model="reportPeriod" placeholder="选择季度" style="width: 146px">
+          <el-option v-for="opt in quarterOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
+        </el-select>
+        <el-button type="primary" :loading="exporting" @click="handleExportReport">
+          <el-icon><Download /></el-icon>
+          导出报表
+        </el-button>
+      </div>
+    </div>
+
     <!-- 数据表格 -->
     <el-card shadow="never" class="table-card">
       <template #header>
         <div class="card-header">
-          <span class="title">
-            <el-icon><List /></el-icon>
-            报警记录明细
-          </span>
+          <div class="card-heading">
+            <span class="section-no">03</span>
+            <span class="title">报警记录明细</span>
+            <span class="section-rule"></span>
+          </div>
           <div class="header-actions">
-            <el-button type="success" @click="handleExportExcel">
+            <el-button plain @click="handleExportExcel">
               <el-icon><Download /></el-icon>
-              导出Excel
+              导出 Excel
             </el-button>
-            <el-button type="warning" @click="handleExportPdf">
+            <el-button plain @click="handleExportPdf">
               <el-icon><Document /></el-icon>
-              导出PDF
+              导出 PDF
             </el-button>
-            <el-button @click="loadTableData">
+            <el-button plain @click="loadTableData">
               <el-icon><Refresh /></el-icon>
               刷新
             </el-button>
@@ -188,7 +210,6 @@
         :data="tableData"
         v-loading="loading"
         border
-        stripe
         style="width: 100%"
         :default-sort="{ prop: 'alarmTime', order: 'descending' }"
         @sort-change="handleSortChange"
@@ -282,12 +303,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import {
-  Search, Refresh, Download, Document, Bell, Warning, CircleCheck,
-  TrendCharts, Timer, DataAnalysis, List, View
-} from '@element-plus/icons-vue'
+import { Search, Refresh, Download, Document, View } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
 import request from '@/config/axios'
 import download from '@/utils/download'
@@ -295,6 +313,10 @@ import { getPropertyList, getAlarmOrderPage, getDeviceCategory, getAlarmTrend, g
 import { getMsgList } from '@/api/eiot/alarm/alarm.api'
 
 defineOptions({ name: 'FireWatchAlarmRecord' })
+
+// 图表主色跟随系统主题色，避免页面里再引入第二套品牌色
+const THEME_COLOR =
+  getComputedStyle(document.documentElement).getPropertyValue('--el-color-primary').trim() || '#409eff'
 
 // 日期快捷选项
 const dateShortcuts = [
@@ -494,10 +516,14 @@ const mapAlertRecordToDisplay = (item: any) => {
     deviceName = item.name || ''
   }
 
-  // level映射告警类型: 1-火警, 2-故障, 3-隐患, 4-离线, 5-误报
-  if (!alarmType && item.level) {
-    const levelMap: Record<string, string> = { '1': 'fire', '2': 'fault', '3': 'risk', '4': 'offline', '5': 'false_alarm' }
-    alarmType = levelMap[String(item.level)] || ''
+  // 类型判定（双读）：alarmKind 非空=新语义；为空=旧语义回退（level 旧编码=类型）
+  if (!alarmType) {
+    const typeMap: Record<string, string> = { '1': 'fire', '2': 'fault', '3': 'risk', '4': 'offline', '5': 'false_alarm', '6': 'info' }
+    if (item.alarmKind !== null && item.alarmKind !== undefined) {
+      alarmType = typeMap[String(item.alarmKind)] || ''
+    } else if (item.level) {
+      alarmType = typeMap[String(item.level)] || ''
+    }
   }
 
   return {
@@ -675,7 +701,8 @@ const fallbackStatistics = () => {
 
   // 统计卡片：totalAlarms 使用分页API返回的真实总数，其余从当前页估算
   statistics.totalAlarms = total.value || allData.length
-  const fireRatio = allData.filter(d => d.alarmType === 'fire' || d.level === '1').length / Math.max(1, allData.length)
+  // 火警统计只认类型（alarmType 映射自 alarm_kind / 旧编码）；新语义下 level='1' 表示"一级"而非"火警"，不再参与判定
+  const fireRatio = allData.filter(d => d.alarmType === 'fire').length / Math.max(1, allData.length)
   const handledRatio = allData.filter(d => d.status !== 'pending').length / Math.max(1, allData.length)
   statistics.fireAlarms = Math.round(statistics.totalAlarms * fireRatio)
   statistics.handledAlarms = Math.round(statistics.totalAlarms * handledRatio)
@@ -689,8 +716,8 @@ const fallbackStatistics = () => {
   if (typeChart) {
     const typeCount: Record<string, number> = {}
     const levelToColor: Record<string, string> = {
-      '1': '#f56c6c', '2': '#e6a23c', '3': '#409eff', '4': '#909399', '5': '#67c23a',
-      fire: '#f56c6c', fault: '#e6a23c', risk: '#409eff', offline: '#909399', false_alarm: '#67c23a'
+      '1': THEME_COLOR, '2': '#9a6b1f', '3': '#3a3a36', '4': '#8b8b80', '5': '#2f6b4f',
+      fire: THEME_COLOR, fault: '#9a6b1f', risk: '#3a3a36', offline: '#8b8b80', false_alarm: '#2f6b4f'
     }
     allData.forEach((d: any) => {
       const type = d.alarmType || d.level || 'unknown'
@@ -719,7 +746,7 @@ const fallbackStatistics = () => {
 // 报警类型对应的颜色
 const getAlarmTypeColor = (type: string) => {
   const colorMap: Record<string, string> = {
-    fire: '#f56c6c', fault: '#e6a23c', risk: '#409eff', offline: '#909399', false_alarm: '#67c23a'
+    fire: THEME_COLOR, fault: '#9a6b1f', risk: '#3a3a36', offline: '#8b8b80', false_alarm: '#2f6b4f'
   }
   return colorMap[type] || '#c0c4cc'
 }
@@ -792,8 +819,8 @@ const loadHandleRateChart = () => {
         { type: 'value', name: '响应时长(s)', splitLine: { show: false } }
       ],
       series: [
-        { name: '处置率(%)', type: 'bar', data: [], itemStyle: { color: '#67c23a' }, barWidth: '30%' },
-        { name: '平均响应时长(s)', type: 'line', yAxisIndex: 1, data: [], smooth: true, itemStyle: { color: '#409eff' } }
+        { name: '处置率(%)', type: 'bar', data: [], itemStyle: { color: '#2f6b4f' }, barWidth: '30%' },
+        { name: '平均响应时长(s)', type: 'line', yAxisIndex: 1, data: [], smooth: true, itemStyle: { color: '#3a3a36' } }
       ]
     })
     return
@@ -810,8 +837,8 @@ const loadHandleRateChart = () => {
       { type: 'value', name: '响应时长(s)', splitLine: { show: false } }
     ],
     series: [
-      { name: '处置率(%)', type: 'bar', data: rates, itemStyle: { color: '#67c23a', borderRadius: [4, 4, 0, 0] }, barWidth: '30%' },
-      { name: '平均响应时长(s)', type: 'line', yAxisIndex: 1, data: avgTimes, smooth: true, itemStyle: { color: '#409eff' } }
+      { name: '处置率(%)', type: 'bar', data: rates, itemStyle: { color: '#2f6b4f', borderRadius: [2, 2, 0, 0] }, barWidth: '30%' },
+      { name: '平均响应时长(s)', type: 'line', yAxisIndex: 1, data: avgTimes, smooth: true, itemStyle: { color: '#3a3a36' } }
     ]
   })
 }
@@ -944,6 +971,88 @@ const handleExportPdf = async () => {
   }
 }
 
+// ========== 周期运行报告（月/季/年同一模板） ==========
+const reportPeriodType = ref<'monthly' | 'quarterly' | 'yearly'>('monthly')
+const reportPeriod = ref('')
+const exporting = ref(false)
+
+const periodTypeOptions = [
+  { label: '月度', value: 'monthly' },
+  { label: '季度', value: 'quarterly' },
+  { label: '年度', value: 'yearly' },
+]
+
+// 默认上一完整期：上月 / 上季 / 上一年
+const defaultPeriod = (type: string) => {
+  const now = new Date()
+  if (type === 'monthly') {
+    const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    return `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, '0')}`
+  }
+  if (type === 'quarterly') {
+    const q = Math.floor(now.getMonth() / 3) + 1
+    const prevQ = q === 1 ? 4 : q - 1
+    const year = q === 1 ? now.getFullYear() - 1 : now.getFullYear()
+    return `${year}-Q${prevQ}`
+  }
+  return String(now.getFullYear() - 1)
+}
+
+// 近 8 个季度选项（含当前季度）
+const quarterOptions = computed(() => {
+  const now = new Date()
+  let year = now.getFullYear()
+  let q = Math.floor(now.getMonth() / 3) + 1
+  const list: { label: string; value: string }[] = []
+  for (let i = 0; i < 8; i++) {
+    list.push({ label: `${year}年第${q}季度`, value: `${year}-Q${q}` })
+    q--
+    if (q === 0) {
+      q = 4
+      year--
+    }
+  }
+  return list
+})
+
+reportPeriod.value = defaultPeriod('monthly')
+
+const handlePeriodTypeChange = () => {
+  reportPeriod.value = defaultPeriod(reportPeriodType.value)
+}
+
+const periodTypeName = computed(
+  () => periodTypeOptions.find((o) => o.value === reportPeriodType.value)?.label || ''
+)
+
+const handleExportReport = async () => {
+  if (exporting.value) return
+  if (!reportPeriod.value) {
+    ElMessage.warning('请先选择报告周期')
+    return
+  }
+  exporting.value = true
+  try {
+    ElMessage.info(`正在生成${periodTypeName.value}报告...`)
+    const res = await request.download({
+      url: '/eiot/firewatch/monthly-report/export-pdf',
+      params: { periodType: reportPeriodType.value, period: reportPeriod.value }
+    })
+    const blob = new Blob([res as any], { type: 'application/pdf' })
+    const href = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = href
+    link.download = `${periodTypeName.value}报告_${reportPeriod.value}.pdf`
+    link.click()
+    URL.revokeObjectURL(href)
+    ElMessage.success('导出成功')
+  } catch {
+    ElMessage.error('导出失败，请稍后重试')
+  } finally {
+    exporting.value = false
+  }
+}
+
 // 初始化趋势图
 const initTrendChart = () => {
   if (!trendChartRef.value) return
@@ -982,13 +1091,13 @@ const loadTrendData = async () => {
         series: [
           {
             name: '报警数量', type: 'line', data: fireData, smooth: true,
-            itemStyle: { color: '#f56c6c' },
-            areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(245, 108, 108, 0.3)' }, { offset: 1, color: 'rgba(245, 108, 108, 0.05)' }]) }
+            itemStyle: { color: THEME_COLOR },
+            areaStyle: { color: THEME_COLOR, opacity: 0.1 }
           },
           {
             name: '处置数量', type: 'line', data: handledData, smooth: true,
-            itemStyle: { color: '#67c23a' },
-            areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(103, 194, 58, 0.3)' }, { offset: 1, color: 'rgba(103, 194, 58, 0.05)' }]) }
+            itemStyle: { color: '#2f6b4f' },
+            areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(47, 107, 79, 0.18)' }, { offset: 1, color: 'rgba(47, 107, 79, 0.02)' }]) }
           }
         ]
       })
@@ -1004,8 +1113,8 @@ const loadTrendData = async () => {
       xAxis: { type: 'category', data: [] },
       yAxis: { type: 'value' },
       series: [
-        { name: '报警数量', type: 'line', data: [], smooth: true, itemStyle: { color: '#f56c6c' } },
-        { name: '处置数量', type: 'line', data: [], smooth: true, itemStyle: { color: '#67c23a' } }
+        { name: '报警数量', type: 'line', data: [], smooth: true, itemStyle: { color: THEME_COLOR } },
+        { name: '处置数量', type: 'line', data: [], smooth: true, itemStyle: { color: '#2f6b4f' } }
       ]
     })
   }
@@ -1026,7 +1135,7 @@ const initTypeChart = () => {
       radius: ['35%', '60%'],
       center: ['60%', '50%'],
       avoidLabelOverlap: false,
-      itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
+      itemStyle: { borderRadius: 2, borderColor: '#fffefb', borderWidth: 2 },
       label: { show: true, formatter: '{b}\n{d}%' },
       data: []
     }]
@@ -1108,11 +1217,8 @@ const loadDimensionData = () => {
       type: 'bar',
       data: values,
       itemStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          { offset: 0, color: '#ff6b6b' },
-          { offset: 1, color: '#ffa07a' }
-        ]),
-        borderRadius: [4, 4, 0, 0]
+        color: THEME_COLOR,
+        borderRadius: [2, 2, 0, 0]
       },
       barWidth: '40%'
     }]
@@ -1135,8 +1241,8 @@ const initHandleRateChart = () => {
       { type: 'value', name: '响应时长(s)', splitLine: { show: false } }
     ],
     series: [
-      { name: '处置率(%)', type: 'bar', data: [], itemStyle: { color: '#67c23a', borderRadius: [4, 4, 0, 0] }, barWidth: '30%' },
-      { name: '平均响应时长(s)', type: 'line', yAxisIndex: 1, data: [], smooth: true, itemStyle: { color: '#409eff' } }
+      { name: '处置率(%)', type: 'bar', data: [], itemStyle: { color: '#2f6b4f', borderRadius: [2, 2, 0, 0] }, barWidth: '30%' },
+      { name: '平均响应时长(s)', type: 'line', yAxisIndex: 1, data: [], smooth: true, itemStyle: { color: '#3a3a36' } }
     ]
   })
 }
@@ -1177,119 +1283,279 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+// 值班记录页：纸张底色 + 细线分隔，强调色统一跟随系统主题色
+// 刻意不用渐变/彩色图标/悬浮阴影，避免仪表盘模板感
+$ink: #1c1c19;
+$ink-2: #57574f;
+$muted: #8b8b80;
+$line: #e1e0d7;
+$paper: #f2f1ec;
+$card: #fffefb;
+$accent: var(--el-color-primary);
+
 .alarm-record-container {
-  padding: 0;
-  background: #f5f7fa;
   min-height: 100%;
+  padding: 0;
+  color: $ink;
+  font-variant-numeric: tabular-nums;
+  background: $paper;
+
+  :deep(.el-card) {
+    background: $card;
+    border: 1px solid $line;
+    border-radius: 2px;
+    box-shadow: none;
+
+    .el-card__header {
+      padding: 14px 18px;
+      border-bottom: 1px solid $line;
+    }
+
+    .el-card__body {
+      padding: 18px;
+    }
+  }
+
+  :deep(.el-button) {
+    border-radius: 2px;
+  }
+
+  :deep(.el-input__wrapper),
+  :deep(.el-select__wrapper) {
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px $line inset;
+  }
+
+  :deep(.el-tag) {
+    border-radius: 2px;
+  }
+
+  :deep(.el-radio-button__inner) {
+    border-radius: 0 !important;
+  }
 }
 
-.search-card {
+// 页头：主题色竖线 + 标题 + 口径说明
+.page-head {
+  padding: 2px 0 14px;
+}
+
+.page-title {
+  position: relative;
+  padding-left: 12px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: $ink;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 3px;
+    height: 18px;
+    content: '';
+    background: $accent;
+    transform: translateY(-50%);
+  }
+}
+
+.page-sub {
+  margin: 6px 0 0 12px;
+  font-size: 12px;
+  color: $muted;
+}
+
+// 控制面板：筛选与指标同属一块，细线分隔
+.control-panel {
   margin-bottom: 16px;
-  border-radius: 8px;
+  background: $card;
+  border: 1px solid $line;
+  border-radius: 2px;
+}
+
+.filter-bar {
+  padding: 16px 18px 6px;
+  border-bottom: 1px solid $line;
 
   :deep(.el-form-item) {
     margin-bottom: 10px;
   }
+
+  :deep(.el-form-item__label) {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: $muted;
+  }
 }
 
-.stat-cards {
+.stat-strip {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
 
-  .stat-card {
-    flex: 1;
-    background: #fff;
-    border-radius: 8px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s, box-shadow 0.2s;
+.stat-cell {
+  flex: 1;
+  min-width: 140px;
+  padding: 16px 18px;
+  border-left: 1px solid $line;
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .stat-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-
-      &.total { background: linear-gradient(135deg, #667eea, #764ba2); }
-      &.fire { background: linear-gradient(135deg, #f56c6c, #f093fb); }
-      &.handled { background: linear-gradient(135deg, #67c23a, #43e97b); }
-      &.rate { background: linear-gradient(135deg, #409eff, #4facfe); }
-      &.response { background: linear-gradient(135deg, #e6a23c, #f0a030); }
-    }
-
-    .stat-info {
-      .stat-value {
-        font-size: 22px;
-        font-weight: 700;
-        color: #303133;
-        line-height: 1.2;
-      }
-      .stat-label {
-        font-size: 13px;
-        color: #909399;
-        margin-top: 4px;
-      }
-    }
+  &:first-child {
+    border-left: none;
   }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: $muted;
+  }
+
+  .stat-value {
+    margin-top: 8px;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+    color: $ink;
+    letter-spacing: -0.01em;
+  }
+
+  .unit {
+    margin-left: 2px;
+    font-size: 12px;
+    font-weight: 400;
+    color: $muted;
+  }
+}
+
+.stat-cell--lead .stat-value {
+  font-size: 34px;
+}
+
+.stat-cell .stat-value--alert {
+  color: $accent;
+}
+
+// 区块头：编号 + 标题 + 延伸细线
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.card-heading {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  gap: 10px;
+
+  .section-no {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: $muted;
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: $ink;
+    white-space: nowrap;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    margin-left: 2px;
+    background: $line;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .chart-card {
   margin-bottom: 16px;
-  border-radius: 8px;
+}
 
-  .card-header {
+.chart-row {
+  display: flex;
+  gap: 20px;
+
+  .chart-item {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// 报表工具带：淡主题色底 + 左侧主题色边，与数据卡区分
+.report-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  margin-bottom: 16px;
+  background: var(--el-color-primary-light-9);
+  border: 1px solid $line;
+  border-left: 3px solid $accent;
+  border-radius: 2px;
+
+  .report-info {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .title {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #303133;
-    }
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
   }
 
-  .chart-row {
-    display: flex;
-    gap: 16px;
+  .report-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: $ink;
+  }
 
-    .chart-item {
-      flex: 1;
-      min-width: 0;
-    }
+  .report-tip {
+    font-size: 12px;
+    color: $muted;
+  }
+
+  .report-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  // 全页唯一实心主按钮，跟随主题色
+  :deep(.el-button--primary) {
+    --el-button-bg-color: #{$accent};
+    --el-button-border-color: #{$accent};
+    --el-button-hover-bg-color: var(--el-color-primary-dark-2);
+    --el-button-hover-border-color: var(--el-color-primary-dark-2);
+    --el-button-active-bg-color: var(--el-color-primary-dark-2);
+    --el-button-active-border-color: var(--el-color-primary-dark-2);
   }
 }
 
 .table-card {
-  border-radius: 8px;
+  :deep(.el-table) {
+    --el-table-border-color: #{$line};
+    --el-table-header-bg-color: #f7f5ee;
+    --el-table-header-text-color: #{$ink-2};
+    --el-table-text-color: #{$ink-2};
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-size: 13px;
 
-    .title {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 15px;
+    th.el-table__cell {
+      font-size: 11px;
       font-weight: 600;
-      color: #303133;
+      letter-spacing: 0.08em;
+      color: $muted;
     }
   }
 }
@@ -1300,16 +1566,19 @@ onUnmounted(() => {
   margin-top: 16px;
 }
 
+// 响应时长分级用低饱和色，避免整页彩色
 .response-fast {
-  color: #67c23a;
+  color: #2f6b4f;
   font-weight: 600;
 }
+
 .response-normal {
-  color: #e6a23c;
+  color: #9a6b1f;
   font-weight: 600;
 }
+
 .response-slow {
-  color: #f56c6c;
+  color: $accent;
   font-weight: 600;
 }
 </style>

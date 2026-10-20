@@ -105,6 +105,14 @@
       </el-row>
       <el-row>
         <el-col :span="12">
+          <el-form-item label="登录平台">
+            <el-checkbox v-model="pcChecked">PC 端</el-checkbox>
+            <el-checkbox v-model="mobileChecked">移动端</el-checkbox>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
           <el-form-item label="所在地区">
             <el-cascader
               v-model="areaPath"
@@ -174,6 +182,7 @@ const formData = ref({
   roleIds: [],
   areaCode: '',
   pushEnabled: false,
+  userType: 1,
   tenantId: undefined as number | undefined
 })
 const formRules = reactive<FormRules>({
@@ -201,6 +210,8 @@ const postList = ref([] as PostApi.PostVO[]) // 岗位列表
 const tenantList = ref([] as TenantApi.TenantVO[]) // 归属租户列表
 const areaTree = ref([]) // 省市区级联数据
 const areaPath = ref<number[]>([]) // 级联选中值（区域编码数组）
+const pcChecked = ref(true) // 登录平台勾选：PC 端（userType 位 1）
+const mobileChecked = ref(false) // 登录平台勾选：移动端（userType 位 2）
 // 仅平台租户（系统租户）可见归属租户选择；企业租户管理员建的用户自然落本租户
 const isPlatformTenant = computed(() => Number(getTenantId()) === 1)
 
@@ -219,6 +230,10 @@ const open = async (type: string, id?: number) => {
       formLoading.value = false
     }
   }
+  // 平台勾选回显：userType 位掩码（1=PC、2=移动端、3=双端），null 按 PC 兜底（存量账号）
+  const platformBits = formData.value.userType ?? 1
+  pcChecked.value = (platformBits & 1) !== 0
+  mobileChecked.value = (platformBits & 2) !== 0
   // 加载部门树
   deptList.value = handleTree(await DeptApi.getSimpleDeptList())
   // 加载岗位列表
@@ -252,6 +267,12 @@ const submitForm = async () => {
   } else {
     formData.value.areaCode = ''
   }
+  // 平台位掩码折算：1=PC、2=移动端、3=双端；一个都不勾谁都登不进，直接拦下
+  if (!pcChecked.value && !mobileChecked.value) {
+    message.warning('请至少勾选一个登录平台')
+    return
+  }
+  formData.value.userType = (pcChecked.value ? 1 : 0) + (mobileChecked.value ? 2 : 0)
   formLoading.value = true
   try {
     const data = formData.value as unknown as UserApi.UserVO
@@ -287,6 +308,7 @@ const resetForm = () => {
     roleIds: [],
     areaCode: '',
     pushEnabled: false,
+    userType: 1,
     tenantId: undefined
   }
   areaPath.value = []

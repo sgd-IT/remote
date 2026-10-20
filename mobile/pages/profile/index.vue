@@ -53,8 +53,6 @@ export default {
 			userInfo: { name: '', role: '', mobile: '', avatar: '' },
 
 			menuGroup2: [
-				{ key: 'project', label: '项目切换', icon: 'map-filled', iconColor: '#1565c0', iconBg: '#e3f2fd', extra: '万达广场' },
-				{ key: 'feedback', label: '问题反馈', icon: 'compose', iconColor: '#e65100', iconBg: '#fff3e0' },
 				{ key: 'settings', label: '系统设置', icon: 'gear-filled', iconColor: '#666', iconBg: '#f5f5f5' },
 				{ key: 'help', label: '帮助与反馈', icon: 'help-filled', iconColor: '#c62828', iconBg: '#fbe9e7' }
 			]

@@ -24,9 +24,19 @@ public class AlertRecord  extends TenantModel {
     private String name;
 
     /**
-     * 告警严重度（1-5）
+     * 告警等级：新语义 1/2/3（1 最急）；过渡期兼容旧编码
      */
     private String level;
+
+    /**
+     * 报警类型（新语义）：1=火警 2=故障 3=隐患 4=离线 5=误报 6=信息；NULL=过渡期旧数据
+     */
+    private Integer alarmKind;
+
+    /**
+     * 确认档位（新语义，仅一级）：1=Ⅰ档 2=Ⅱ档 3=Ⅲ档 4=Ⅳ档；NULL=不适用或过渡期旧数据
+     */
+    private Integer tier;
 
     /**
      * 告警时间

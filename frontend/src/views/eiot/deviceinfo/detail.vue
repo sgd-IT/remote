@@ -33,11 +33,8 @@
               <el-form-item label="序列号" prop="serial No">
                 <el-input v-model="state.deviceDetail.serialNo" :disabled="!inAdd">
                   <template #append>
-                    <el-button v-if="state.nodeType !== 3" @click="generateSerialNo" :disabled="!inAdd">
-                      {{ $t('输入序列号') }}
-                    </el-button>
-                    <el-button v-if="state.nodeType === 3" @click="generateSerialNo" :disabled="!inAdd">
-                      {{ $t('生成') }}
+                    <el-button @click="generateSerialNo" :disabled="!inAdd">
+                      {{ state.nodeType === 3 ? $t('生成') : $t('输入序列号') }}
                     </el-button>
                   </template>
                 </el-input>
@@ -48,8 +45,22 @@
               <el-form-item label="设备密钥" prop="secret">
                 <el-input v-model="state.deviceDetail.secret" :disabled="true" />
               </el-form-item>
-              <el-form-item label="设备地址" prop="addr">
-                <el-input v-model="state.deviceDetail.addr" :disabled="!inEdit" />
+              <el-form-item label="设备地址" prop="spaceId">
+                <el-select
+                  v-if="inEdit"
+                  v-model="state.deviceDetail.spaceId"
+                  filterable
+                  :placeholder="spacePlaceholder"
+                  style="width: 100%"
+                >
+                  <el-option
+                    v-for="space in state.spaceOptions"
+                    :key="space.id"
+                    :label="formatSpaceLabel(space)"
+                    :value="space.id"
+                  />
+                </el-select>
+                <el-input v-else :model-value="state.deviceDetail.addr" disabled />
               </el-form-item>
               <el-form-item label="经度" prop="lon">
                 <el-input v-model="state.deviceDetail.lon" disabled />
@@ -76,11 +87,15 @@
               </el-form-item>
               <el-form-item label="设备类型" prop="deviceType">
                 <el-select v-model="state.deviceDetail.deviceType" :disabled="!inEdit" placeholder="请选择设备类型" style="width: 100%">
-                  <el-option label="用传" value="transfer" />
+                  <el-option label="用传设备" value="transfer" />
                   <el-option label="摄像头" value="camera" />
                   <el-option label="烟感" value="smoke" />
+                  <el-option label="温感" value="temperature" />
                   <el-option label="温湿度传感器" value="temp_humidity" />
-                  <el-option label="门磁传感器" value="door_magnet" />
+                  <el-option label="门磁" value="door_magnet" />
+                  <el-option label="燃气" value="gas" />
+                  <el-option label="消火栓" value="hydrant" />
+                  <el-option label="手报" value="manual" />
                   <el-option label="其他" value="other" />
                 </el-select>
               </el-form-item>
@@ -92,10 +107,10 @@
                 <el-tag type="warning" v-if="state.deviceDetail.state === 0">离线</el-tag>
               </el-form-item>
               <el-form-item label="创建时间" prop="createTime" v-if="!inAdd">
-                <el-input v-model="state.deviceDetail.createTime" disabled="true" />
+                <el-input v-model="state.deviceDetail.createTime" disabled />
               </el-form-item>
               <el-form-item label="激活时间" prop="activeTime" v-if="!inAdd">
-                <el-input v-model="state.deviceDetail.activeTime" disabled="true" />
+                <el-input v-model="state.deviceDetail.activeTime" disabled />
               </el-form-item>
               <div class="flex justify-center" v-if="handleType != 'view'">
                 <el-button type="primary" @click="submitForm"
@@ -117,7 +132,6 @@
                 :center="mapCenter"
                 :address="deviceAddress"
                 @locate-change="handleLocateChange"
-                @address-change="handleAddressChange"
               />
             </el-card>
           </el-col>
@@ -187,7 +201,7 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 align="right"
-                @change="timeRangeChange"
+                @change="refreshPropertyHistory"
               />
             </el-col>
             <el-col :span="4">
@@ -230,14 +244,6 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-<!--      <el-tab-pane label="设备通道" name="subChannel" v-if="state.nodeType === 3">-->
-<!--        <Channel ref="ChannelRef" :device="state.deviceDetail" @player-event="getPlayerData" />-->
-<!--      </el-tab-pane>-->
-
-<!--      <el-tab-pane name="sipPlayer" label="直播" v-if="state.nodeType === 3" lazy>-->
-<!--        <device-live-stream ref="deviceLiveStreamRef" :device="state.deviceDetail" />-->
-<!--      </el-tab-pane>-->
-
       <el-tab-pane label="关联摄像头" name="cameras" :disabled="inAdd">
         <CameraBindPanel
           v-if="state.activeName === 'cameras' && state.deviceDetail.id"
@@ -298,13 +304,6 @@
             @current-change="getEvents"
           />
         </div>
-        <!--        <Pagination
-          :data="state.formInline"
-          :total="state.formInline.total"
-          :page="state.formInline.pageNo"
-          :limit="state.formInline.pageSize"
-          @pagination="getEvents"
-        />-->
       </el-tab-pane>
 
       <el-tab-pane label="模拟上报" name="report" :disabled="inAdd">
@@ -329,7 +328,7 @@
                   <el-input v-model="scope.row.value" size="small" />
                 </el-form-item>
                 <el-form-item label="内容" v-else>
-                  <el-input type="textarea" v-model="scope.row.content" size="small" rows="4" />
+                  <el-input type="textarea" v-model="scope.row.content" size="small" :rows="4" />
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" size="small" @click="sendDeviceMsg(scope.row)"
@@ -388,11 +387,12 @@
               <el-input v-model="state.alertRecordQuery.name" placeholder="请输入告警名称" clearable style="width: 150px" />
             </el-form-item>
             <el-form-item label="告警等级">
+              <!-- 新语义等级 1/2/3（与告警消息列表口径一致）；混存期旧数据按旧编码命中 -->
               <el-select v-model="state.alertRecordQuery.level" placeholder="请选择" clearable style="width: 120px">
                 <el-option label="全部" value="" />
-                <el-option label="火警" value="1" />
-                <el-option label="设备故障" value="2" />
-                <el-option label="电源故障" value="3" />
+                <el-option label="一级" value="1" />
+                <el-option label="二级" value="2" />
+                <el-option label="三级" value="3" />
               </el-select>
             </el-form-item>
             <el-form-item label="状态">
@@ -575,8 +575,9 @@
 <script lang="ts" setup>
 import { formatDate } from '@/utils/formatTime'
 import { ThingModelApi } from '@/api/eiot/thingmodel'
-import { ProductApi, ProductVO } from '@/api/eiot/product'
-import { DeviceInfoApi } from '@/api/eiot/deviceinfo/index'
+import { ProductApi } from '@/api/eiot/product'
+import { DeviceInfoApi, DeviceInfoVO } from '@/api/eiot/deviceinfo/index'
+import { SpaceApi } from '@/api/eiot/firewatch/space.api'
 
 import {
   deviceLogs,
@@ -611,7 +612,6 @@ const productListRef = ref()
 const inAdd = handleType == 'add' ? true : false
 const inEdit = handleType == 'edit' || inAdd ? true : false
 
-const { showMap } = route.query || false
 const goBack = () => {
   router.push({
     path: '/device/device-info'
@@ -640,10 +640,8 @@ const state = reactive<any>({
     params: []
   },
   showAddTag: false,
-  showDeviceMap: false,
   tagForm: {
     name: '',
-    identifier: '',
     value: ''
   },
   rules: {
@@ -658,9 +656,8 @@ const state = reactive<any>({
   properties: [],
   services: [],
   events: [],
-  eventMap: {},
-  mapLnglat: '',
   tags: [],
+  spaceOptions: [],
   formInline: {
     type: '',
     identifier: '',
@@ -668,7 +665,6 @@ const state = reactive<any>({
     pageSize: 10,
     total: 0
   },
-  deviceLogs: [],
   typeMap: {
     lifetime: '生命周期',
     state: '设备状态',
@@ -702,43 +698,18 @@ const state = reactive<any>({
   ],
   pickerOptions: {
     shortcuts: [
-      {
-        text: '最近1小时',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000)
-          picker.$emit('pick', [start, end])
-        }
-      },
-      {
-        text: '最近6小时',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 6)
-          picker.$emit('pick', [start, end])
-        }
-      },
-      {
-        text: '最近1天',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 24)
-          picker.$emit('pick', [start, end])
-        }
-      },
-      {
-        text: '最近5天',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 24 * 5)
-          picker.$emit('pick', [start, end])
-        }
+      { text: '最近1小时', hours: 1 },
+      { text: '最近6小时', hours: 6 },
+      { text: '最近1天', hours: 24 },
+      { text: '最近5天', hours: 120 }
+    ].map(({ text, hours }) => ({
+      text,
+      onClick(picker) {
+        const end = new Date()
+        const start = new Date(end.getTime() - hours * 3600 * 1000)
+        picker.$emit('pick', [start, end])
       }
-    ]
+    }))
   }
 })
 
@@ -752,6 +723,8 @@ const getProductData = (product) => {
   state.deviceDetail.productName = product.name
   state.nodeType = product.nodeType
   state.product = product
+  // 设备租户与产品租户一致：新增模式选定产品后按产品租户加载空间下拉（避免 admin 全量加载时同名空间混淆）
+  loadSpaceOptions(product.tenantId)
 }
 
 const generateSerialNo = () => {
@@ -815,12 +788,11 @@ const getdata = () => {
   }
   state.deviceId = id
   DeviceInfoApi.getDeviceInfo(state.deviceId).then((data: any) => {
-    state.onlineTime = data.onlineTime
-
     state.deviceDetail = data
-    state.mapLnglat = data.lon + ',' + data.lat
-    state.showDeviceMap = true
-
+    // 设备地址下拉：仅编辑态按设备所属租户加载空间（admin 跨租户编辑时以设备租户口径过滤，查看态不渲染下拉、不发无效请求）
+    if (inEdit) {
+      loadSpaceOptions(data.tenantId)
+    }
     //取设备物模型信息
     console.log('state.thingModel', state.thingModel)
     if (!state.thingModel) {
@@ -938,18 +910,7 @@ const addTag = () => {
 }
 const submitAddTag = () => {
   state.tagForm.deviceId = state.deviceId
-  formRef.value.validate((valid) => {
-    if (valid) {
-      // devicesTagAdd(state.tagForm).then(() => {
-      //   ElMessage({
-      //     type: 'success',
-      //     message: '添加成功',
-      //   })
-      //   getdata()
-      //   state.showAddTag = false
-      // })
-    }
-  })
+  // TODO: 标签提交逻辑待接入（devicesTagAdd 接口未启用）
 }
 const logSearch = () => {
   state.formInline.pageNo = 1
@@ -1045,16 +1006,8 @@ const refreshPropertyHistory = () => {
 }
 
 
-const timeRangeChange = (e) => {
-  refreshPropertyHistory()
-}
-const channelRef = ref()
 const handleClick = (tab) => {
-  if (tab.name === 'sipChannel') {
-    nextTick(() => {
-      channelRef.value.getList()
-    })
-  } else if (tab.name === 'event') {
+  if (tab.name === 'event') {
     getEvents()
   } else if (tab.name === 'config') {
     loadDeviceConfig()
@@ -1269,29 +1222,9 @@ const closeDialog = () => {
   state.propertyWriteFormVisible = false
   state.serviceFormVisible = false
 }
-const locateChange = (e) => {
-  state.propertyWriteForm.value = e[0] * 1 + ',' + e[1] * 1
-}
 
 const openPropertyTable = () => {
   PropertyTableRef.value.open(state)
-}
-
-const sipInfo = reactive<any>({
-  channelId: undefined
-})
-
-const deviceLiveStreamRef = ref()
-// 获取直播子组件传递的激活选项卡名称
-const getPlayerData = (data) => {
-  sipInfo.channelId = data.channelId
-  // this.$set(this.form, 'channelId', this.channelId);
-  nextTick(() => {
-    if (sipInfo.channelId) {
-      deviceLiveStreamRef.value.channelId = data.channelId
-      deviceLiveStreamRef.value.changeChannel()
-    }
-  })
 }
 
 const formattedProductName = computed(() => {
@@ -1321,19 +1254,47 @@ const handleLocateChange = (lnglat: string[]) => {
   }
 }
 
-const handleAddressChange = (address: string) => {
-  state.deviceDetail.addr = address
+// 空间地址部分（楼栋+楼层+区域+详细位置，无分隔符；也是 addr 快照的口径）
+const formatSpaceAddr = (space: any) =>
+  [space.building, space.floor, space.area, space.position].filter(Boolean).join('')
+
+// 下拉选项展示：租户名称（园区）在前 + 地址部分，同名空间可分辨
+const formatSpaceLabel = (space: any) =>
+  space.tenantName ? `${space.tenantName} ${formatSpaceAddr(space)}` : formatSpaceAddr(space)
+
+// 未选空间时若存在存量 addr（历史上由地图/手输写入），用占位提示展示
+const spacePlaceholder = computed(() => {
+  const addr = state.deviceDetail.addr
+  return addr ? `当前：${addr}（存量地址，重新选择后替换）` : '请选择空间（楼栋/楼层/区域/详细位置）'
+})
+
+// 选择空间后同步本地 addr 快照（口径=楼栋+楼层+区域+详细位置，不含租户名；提交时后端会再按空间字段重拼）
+watch(
+  () => state.deviceDetail.spaceId,
+  (spaceId) => {
+    const space = state.spaceOptions.find((item: any) => item.id === spaceId)
+    if (space) {
+      state.deviceDetail.addr = formatSpaceAddr(space)
+    }
+  }
+)
+
+const loadSpaceOptions = async (tenantId?: number) => {
+  try {
+    state.spaceOptions = (await SpaceApi.getSpaceList(tenantId)) || []
+  } catch (e) {
+    state.spaceOptions = []
+  }
 }
 
-const getLevelType = (level: string) => {
-  const levelMap: Record<string, string> = {
+const getLevelType = (level: string): 'danger' | 'warning' | 'info' | undefined => {
+  const levelMap: Record<string, 'danger' | 'warning' | 'info'> = {
     '1': 'danger',
     '2': 'warning',
     '3': 'info',
-    '4': '',
     '5': 'info'
   }
-  return levelMap[level] || ''
+  return levelMap[level]
 }
 
 const loadAlertRecords = async () => {
@@ -1378,6 +1339,7 @@ const resetAlertRecordQuery = () => {
 
 getdata()
 logSearch()
+// 空间下拉加载时机：编辑模式由 getdata 按设备租户加载；新增模式在选定产品后按产品租户加载（设备租户=产品租户）
 </script>
 
 <style lang="scss" scoped>

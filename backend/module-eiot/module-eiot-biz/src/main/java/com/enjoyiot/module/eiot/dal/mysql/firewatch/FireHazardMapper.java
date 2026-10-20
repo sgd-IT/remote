@@ -93,4 +93,21 @@ public interface FireHazardMapper extends BaseMapperX<FireHazardDO> {
                                          @Param("startDate") LocalDate startDate,
                                          @Param("endDate") LocalDate endDate);
 
+    /**
+     * 指定时间范围内超期未整改隐患数（整改期限已过且未闭环/未关闭）
+     */
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM fire_hazard " +
+            "<where>" +
+            "  <if test='tenantId != null'>AND tenant_id = #{tenantId}</if>" +
+            "  AND found_date BETWEEN #{startDate} AND #{endDate}" +
+            "  AND deleted = 0" +
+            "  AND deadline IS NOT NULL AND deadline &lt; CURDATE()" +
+            "  AND status NOT IN ('closed', 'cancelled')" +
+            "</where>" +
+            "</script>")
+    Integer countOverdue(@Param("tenantId") Long tenantId,
+                         @Param("startDate") LocalDate startDate,
+                         @Param("endDate") LocalDate endDate);
+
 }

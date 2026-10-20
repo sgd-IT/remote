@@ -47,9 +47,11 @@ public class AlertConfigSaveReqVO {
     @NotNull(message = "关联消息转发模板ID不能为空")
     private Long messageTemplateId;
 
-    @Schema(description = "规则引擎id", requiredMode = Schema.RequiredMode.REQUIRED, example = "14376")
-    @NotNull(message = "规则引擎id不能为空")
+    @Schema(description = "规则引擎id（未选择算法报警类型时必填）", example = "14376")
     private Long ruleInfoId;
+
+    @Schema(description = "算法报警类型：1=高温事件报警 2=热成像事件报警 3=烟火事件报警 4=离岗事件报警 5=消防通道占用事件报警（可选，未选择时为通用规则配置）", example = "3")
+    private Integer algorithmAlertType;
 
     @Schema(description = "告警等级")
     private String level;

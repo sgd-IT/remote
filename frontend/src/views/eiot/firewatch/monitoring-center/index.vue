@@ -186,7 +186,7 @@
               <div class="alarm-item" v-for="a in alarmList" :key="a.id" :class="'lv-' + a.level" @click="viewAlarm(a)">
                 <div class="ai-dot"></div>
                 <div class="ai-body">
-                  <div class="ai-desc">{{ extractAlarmSummary(a.content) }}</div>
+                  <div class="ai-desc"><span class="ai-tenant" v-if="a.tenantName">{{ a.tenantName }}</span>{{ extractAlarmSummary(a.content) }}</div>
                   <div class="ai-time">{{ a.time }}</div>
                 </div>
                 <span class="ai-tag" :class="'tag-' + a.level">{{ levelText(a.level) }}</span>
@@ -265,73 +265,23 @@
 
   </div>
 
-  <!-- ====== 报警弹窗（与值守大屏一致） ====== -->
-  <Teleport to="body">
-    <div class="alarm-popup-overlay" :class="'flash-' + getPopupSeverity()" v-if="popupVisible" @click.self="closePopup">
-      <div class="alarm-popup-card">
-        <!-- 倒计时进度条 -->
-        <div class="alarm-countdown-bar">
-          <div class="alarm-countdown-fill" :style="{ width: popupCountdownPercent + '%' }"></div>
-        </div>
+  <!-- 报警弹窗（公共组件：两屏共用一份实现，弹窗内动作经事件回到本页） -->
+  <AlarmPopupDialog
+    ref="popupRef"
+    later-text="标记误报"
+    primary-text="确认火警"
+    @later="onMarkFalseAlarm"
+    @primary="onConfirmFire"
+    @overlay="closePopup"
+  />
 
-        <!-- 顶栏 -->
-        <div class="alarm-popup-header">
-          <div class="alarm-popup-header-left">
-            <span class="alarm-popup-icon">⚠</span>
-            <span class="alarm-popup-type">{{ popupAlarm?.name || '设备报警' }}</span>
-          </div>
-          <div class="alarm-popup-header-right">
-            <span class="alarm-popup-severity" :class="'severity-' + getPopupSeverity()">{{ getPopupSeverityText() }}</span>
-            <span class="alarm-sound-toggle" :class="{ muted: !soundEnabled }" @click.stop="onToggleSound" :title="soundEnabled ? '点击静音' : '点击开启声音'">{{ soundEnabled ? '🔊' : '🔇' }}</span>
-            <span class="alarm-popup-timer">{{ popupCountdown }}s</span>
-            <span class="alarm-popup-queue" v-if="alertQueue.length > 1">第 {{ alertQueue.length - remainingAlerts }}/{{ alertQueue.length }} 条</span>
-          </div>
-        </div>
-
-        <!-- 主体 -->
-        <div class="alarm-popup-body">
-          <!-- 左侧图片 -->
-          <div class="alarm-popup-image">
-            <img v-if="popupAlarm?.alertImage" :src="popupAlarm.alertImage" alt="报警抓拍" />
-            <div v-else class="alarm-popup-no-image">
-              <span class="no-image-icon">📹</span>
-              <span class="no-image-text">暂无抓拍图片</span>
-            </div>
-          </div>
-
-          <!-- 右侧信息 -->
-          <div class="alarm-popup-info">
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">📋 单位</span>
-              <span class="alarm-info-value">{{ popupAlarm?.tenantName || '未知单位' }}</span>
-            </div>
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">📟 设备</span>
-              <span class="alarm-info-value">{{ popupAlarm?.deviceName || popupAlarm?.name || '未知设备' }}</span>
-            </div>
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">📍 位置</span>
-              <span class="alarm-info-value">{{ popupAlarm?.deviceAddr || '未知位置' }}</span>
-            </div>
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">🕐 时间</span>
-              <span class="alarm-info-value">{{ formatPopupTime(popupAlarm?.alertTime) }}</span>
-            </div>
-            <div class="alarm-info-row">
-              <span class="alarm-info-label">📝 详情</span>
-              <span class="alarm-info-value alarm-detail-text">{{ popupAlarm?.details || '无详情' }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 底栏 -->
-        <div class="alarm-popup-footer">
-          <button class="alarm-btn alarm-btn-later" @click="onMarkFalseAlarm">标记误报</button>
-          <button class="alarm-btn alarm-btn-now" @click="onConfirmFire">确认火警</button>
-        </div>
-      </div>
-    </div>
-  </Teleport>
+  <!-- 二三级告警通知匣（层级低于一级全屏弹窗，锚在中栏告警趋势卡左下侧，位置可微调） -->
+  <AlarmNotice
+    ref="alarmNoticeRef"
+    :offset-left="304"
+    :offset-bottom="20"
+    @open="handleNoticeOpen"
+  />
 
   <!-- 确认火警表单弹窗（与火警处置中心一致） -->
   <el-dialog
@@ -419,10 +369,12 @@ import * as echarts from 'echarts'
 import type { ECharts } from 'echarts'
 import request from '@/config/axios'
 import AMapLoader from '@amap/amap-jsapi-loader'
-import { stopAlarmSpeech, speakAlarmSpeech } from '@/utils/alarmSpeech'
-import { stopAlarmSoundLoop, isAlarmSoundEnabled, toggleAlarmSound, closeAlarmAudio } from '@/utils/alarmSound'
+import { stopAlarmSpeech } from '@/utils/alarmSpeech'
+import { closeAlarmAudio } from '@/utils/alarmSound'
 import { getRecentUnprocessedAlerts, confirmAlertRecord, confirmAlarm, markFalseAlarm } from '@/api/eiot/firewatch/firewatch.api'
 import { getAccessToken, getRefreshToken } from '@/utils/auth'
+import AlarmNotice, { isLightAlarmLevel } from '@/views/eiot/firewatch/alarm-notice/index.vue'
+import AlarmPopupDialog from '@/views/eiot/firewatch/components/AlarmPopupDialog.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -465,84 +417,22 @@ const cameraList = ref<any[]>([])
 const alarmDialogVisible = ref(false)
 const selectedAlarm = ref<any>(null)
 
-// ==================== 报警弹窗逻辑（与值守大屏一致） ====================
-const popupVisible = ref(false)
-const popupAlarm = ref<any>(null)
-const popupCountdown = ref(15)
-const alertQueue = ref<any[]>([])
+// ==================== 报警弹窗逻辑（一级弹窗由公共组件 AlarmPopupDialog 承载） ====================
+const alarmNoticeRef = ref<InstanceType<typeof AlarmNotice> | null>(null)
+// 一级报警弹窗组件：enqueue=入队告警，close=关闭弹窗；弹窗内动作经 later/primary/overlay 事件回到本页
+const popupRef = ref<InstanceType<typeof AlarmPopupDialog> | null>(null)
+// 通知匣（二三级）已推送过的告警 id；一级不复用此集合（一级的周期重复提醒由弹窗组件内部管理）
 const alertShownIds = ref<Set<number>>(new Set())
-const remainingAlerts = ref(0)
-let popupAutoHideTimer: ReturnType<typeof setInterval> | null = null
 let alertPollingTimer: ReturnType<typeof setInterval> | null = null
 
-const POPUP_AUTO_HIDE_SECONDS = 15
-const popupCountdownPercent = computed(() => (popupCountdown.value / POPUP_AUTO_HIDE_SECONDS) * 100)
 
-const getPopupSeverity = () => {
-  const level = popupAlarm.value?.level
-  if (level === '1' || level === 'critical') return 'critical'
-  if (level === '2' || level === 'major') return 'major'
-  if (level === '3' || level === 'warning') return 'warning'
-  return 'info'
-}
 
-const getPopupSeverityText = () => {
-  const map: Record<string, string> = { critical: '紧急', major: '较重', warning: '一般', info: '提示' }
-  return map[getPopupSeverity()] || '未知'
-}
-
-const formatPopupTime = (t: any) => {
-  if (!t) return ''
-  if (typeof t === 'number') {
-    return new Date(t).toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')
-  }
-  return String(t).replace('T', ' ').substring(0, 19)
-}
-
-const startAutoHide = () => {
-  stopAutoHide()
-  popupCountdown.value = POPUP_AUTO_HIDE_SECONDS
-  popupAutoHideTimer = setInterval(() => {
-    popupCountdown.value--
-    if (popupCountdown.value <= 0) {
-      closePopup()
-    }
-  }, 1000)
-}
-
-const stopAutoHide = () => {
-  if (popupAutoHideTimer) {
-    clearInterval(popupAutoHideTimer)
-    popupAutoHideTimer = null
-  }
-}
-
-const closePopup = () => {
-  stopAutoHide()
-  stopAlarmSoundLoop()
-  stopAlarmSpeech()
-  popupVisible.value = false
-  popupAlarm.value = null
-  setTimeout(() => showNextAlert(), 300)
-}
-
-const showNextAlert = () => {
-  if (alertQueue.value.length === 0) {
-    popupVisible.value = false
-    return
-  }
-  popupAlarm.value = alertQueue.value.shift()
-  remainingAlerts.value = alertQueue.value.length
-  popupVisible.value = true
-  startAutoHide()
-  // 按报警类型语音播报
-  speakAlarmSpeech(popupAlarm.value)
-}
+// 弹窗由公共组件管理：动作完成/取消时调组件 close()（关闭弹窗并推进队列）
+const closePopup = () => popupRef.value?.close()
 
 /** WebSocket alarm-push 推送的告警转成弹窗数据结构 */
 const pushPopupAlarm = (alarm: any) => {
   const id = alarm.id ?? alarm.alertId
-  if (id != null && alertShownIds.value.has(id)) return
   const item = {
     id,
     name: alarm.name || alarm.alertName || alarm.alarmTypeName || alarm.typeName || '设备报警',
@@ -550,6 +440,7 @@ const pushPopupAlarm = (alarm: any) => {
     alertTime: alarm.alertTime || alarm.alarmTime || alarm.time,
     alertImage: alarm.alertImage || null,
     level: alarm.level ?? alarm.alarmLevel ?? '2',
+    alarmKind: alarm.alarmKind,
     details: alarm.details || alarm.alarmDescription || alarm.content || '',
     deviceName: alarm.deviceName || '',
     deviceAddr: alarm.deviceAddr || alarm.alarmLocation || alarm.location || '',
@@ -557,14 +448,20 @@ const pushPopupAlarm = (alarm: any) => {
     tenantName: alarm.tenantName || '',
     alarmType: alarm.alarmType
   }
-  if (id != null) alertShownIds.value.add(id)
-  alertQueue.value.push(item)
-  if (!popupVisible.value) {
-    showNextAlert()
+  // 二三级进通知匣：页面生命周期内每条只推一次
+  if (isLightAlarmLevel(item.level)) {
+    if (id != null && alertShownIds.value.has(id)) return
+    if (id != null) alertShownIds.value.add(id)
+    alarmNoticeRef.value?.push(item)
+  } else {
+    // 一级：入队（弹窗组件内部判定重复提醒周期），空闲时立即弹出
+    popupRef.value?.enqueue(item)
   }
 }
 
 // ==================== 确认火警/标记误报表单（与火警处置中心一致） ====================
+// 当前正在处置的告警（打开表单时留存，提交时取用；弹窗数据本身由公共组件管理）
+const editingAlarm = ref<any>(null)
 const confirmDialogVisible = ref(false)
 const confirmLoading = ref(false)
 const confirmFormRef = ref<FormInstance>()
@@ -591,12 +488,12 @@ const falseRules: FormRules = {
 }
 
 /** 确认火警：打开确认报警表单弹窗（与火警处置中心一致） */
-const onConfirmFire = () => {
-  const alarm = popupAlarm.value
+const onConfirmFire = (alarm: any) => {
   if (!alarm?.id) {
     closePopup()
     return
   }
+  editingAlarm.value = alarm
   confirmForm.type = 'fire'
   confirmForm.level = 'B'
   confirmForm.location = alarm.deviceAddr || alarm.deviceName || ''
@@ -609,7 +506,7 @@ const submitConfirmFire = async () => {
   if (!confirmFormRef.value) return
   const valid = await confirmFormRef.value.validate().catch(() => false)
   if (!valid) return
-  const alarm = popupAlarm.value
+  const alarm = editingAlarm.value
   if (!alarm?.id) {
     confirmDialogVisible.value = false
     closePopup()
@@ -636,15 +533,28 @@ const submitConfirmFire = async () => {
 }
 
 /** 标记误报：打开误报原因表单弹窗（与火警处置中心一致） */
-const onMarkFalseAlarm = () => {
-  const alarm = popupAlarm.value
+const onMarkFalseAlarm = (alarm: any) => {
   if (!alarm?.id) {
     closePopup()
     return
   }
+  editingAlarm.value = alarm
   falseForm.reason = ''
   falseForm.remark = ''
   falseDialogVisible.value = true
+}
+
+/** 误报原因编码转中文 */
+const getFalseAlarmReasonText = (reason: string) => {
+  const map: Record<string, string> = {
+    device_trigger: '设备误触发',
+    smoke_dust: '烟雾/灰尘干扰',
+    construction: '施工/装修影响',
+    test: '测试/演练',
+    device_fault: '设备故障',
+    other: '其他'
+  }
+  return map[reason] || reason
 }
 
 /** 提交标记误报 */
@@ -652,15 +562,19 @@ const submitFalseAlarm = async () => {
   if (!falseFormRef.value) return
   const valid = await falseFormRef.value.validate().catch(() => false)
   if (!valid) return
-  const alarm = popupAlarm.value
+  const alarm = editingAlarm.value
   if (!alarm?.id) {
     falseDialogVisible.value = false
     closePopup()
     return
   }
+  // 组装完整备注：原因中文 + 详细说明
+  const reasonText = getFalseAlarmReasonText(falseForm.reason)
+  const detail = falseForm.remark.trim()
+  const remark = detail ? `${reasonText}；详细说明：${detail}` : reasonText
   falseLoading.value = true
   try {
-    await markFalseAlarm(alarm.id, undefined, falseForm.reason)
+    await markFalseAlarm(alarm.id, undefined, remark)
     // 同步更新告警记录状态：已读 + 已处理
     try {
       await confirmAlertRecord(alarm.id)
@@ -680,27 +594,25 @@ const submitFalseAlarm = async () => {
 
 const fetchRecentAlerts = async () => {
   try {
-    const res = await getRecentUnprocessedAlerts(5)
+    const res = await getRecentUnprocessedAlerts()
     const alerts = (Array.isArray(res) ? res : res?.data) || []
     console.log('[MonitorCenter] fetchRecentAlerts =>', alerts.length, '条告警')
-    const newAlerts = alerts.filter((a: any) => !alertShownIds.value.has(a.id))
-    if (newAlerts.length === 0) return
 
-    alertQueue.value.push(...newAlerts)
-    newAlerts.forEach((a: any) => alertShownIds.value.add(a.id))
+    // 一级（含缺省/未知，就高不就低）走全屏弹窗：不做一次性去重，未处置的按周期重复提醒直到处置（判定在弹窗组件内）
+    alerts
+      .filter((a: any) => !isLightAlarmLevel(a.level))
+      .forEach((a: any) => popupRef.value?.enqueue(a))
 
-    if (!popupVisible.value) {
-      showNextAlert()
-    }
+    // 二三级进通知匣：页面生命周期内每条只推一次
+    alerts
+      .filter((a: any) => isLightAlarmLevel(a.level) && !alertShownIds.value.has(a.id))
+      .forEach((a: any) => {
+        alertShownIds.value.add(a.id)
+        alarmNoticeRef.value?.push(a)
+      })
   } catch (e) {
     // 静默失败
   }
-}
-
-// Sound
-const soundEnabled = ref(isAlarmSoundEnabled())
-const onToggleSound = () => {
-  soundEnabled.value = toggleAlarmSound()
 }
 
 // ========== WebSocket 实时告警推送 ==========
@@ -727,24 +639,31 @@ function connectWebSocket() {
         // 值守大屏推送格式：firewatch-alert-new
         if (msg.type === 'firewatch-alert-new' && content) {
           const alertId = content.alertId
-          if (alertId && !alertShownIds.value.has(alertId)) {
-            alertQueue.value.push({
+          if (alertId) {
+            const item = {
               id: alertId,
               name: content.alertName || '设备报警',
               deviceId: content.deviceId,
               alertTime: content.alertTime,
               alertImage: content.alertImage || null,
-              level: content.level || '2',
+              level: content.level,
+              alarmKind: content.alarmKind,
               details: '',
               deviceName: content.deviceName || '',
               deviceAddr: '',
               productName: '',
               tenantName: content.tenantName || '',
               alarmType: content.alarmType
-            })
-            alertShownIds.value.add(alertId)
-            if (!popupVisible.value) {
-              showNextAlert()
+            }
+            // 二三级进通知匣：页面生命周期内每条只推一次
+            if (isLightAlarmLevel(item.level)) {
+              if (!alertShownIds.value.has(alertId)) {
+                alertShownIds.value.add(alertId)
+                alarmNoticeRef.value?.push(item)
+              }
+            } else {
+              // 一级：入队（弹窗组件内部判定重复提醒周期），空闲时立即弹出
+              popupRef.value?.enqueue(item)
             }
           }
         }
@@ -832,6 +751,18 @@ const extractAlarmSummary = (desc: string) => {
 const goToAdmin = () => router.push(getAdminPath())
 const toggleFullscreen = () => { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen() }
 const viewAlarm = (a: any) => { selectedAlarm.value = a; alarmDialogVisible.value = true }
+/** 通知匣条目点击：映射为详情弹窗数据结构后打开 */
+const handleNoticeOpen = (alarm: any) => {
+  const lv = String(alarm.level ?? alarm.alarmLevel ?? '')
+  viewAlarm({
+    deviceName: alarm.deviceName || alarm.name || '未知设备',
+    typeName: alarm.name || alarm.alarmTypeName || '未知类型',
+    level: lv === '2' || lv === 'major' ? 'major' : 'warning',
+    time: alarm.time || formatTime(alarm.alertTime || alarm.alarmTime),
+    location: alarm.deviceAddr || alarm.alarmLocation || '',
+    content: alarm.details || alarm.alarmDescription || ''
+  })
+}
 const formatTime = (t: any) => {
   if (!t) return ''
   if (typeof t === 'number') return new Date(t).toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')
@@ -1189,7 +1120,7 @@ onMounted(() => {
   window.addEventListener('resize', handleResize)
   connectWebSocket()
 
-  // 每10秒拉取近5分钟未处置告警
+  // 每10秒拉取当天未处置告警（回捞窗口：当天 0 点起，重启/刷新后仍能恢复待处置提示）
   fetchRecentAlerts()
   alertPollingTimer = setInterval(fetchRecentAlerts, 10000)
 })
@@ -1199,7 +1130,6 @@ onUnmounted(() => {
   if (wsReconnectTimer) clearTimeout(wsReconnectTimer)
   if (ws) { ws.onclose = null; ws.close(); ws = null }
   if (alertPollingTimer) clearInterval(alertPollingTimer)
-  stopAutoHide()
   closeAlarmAudio()
   trendChart?.dispose(); typeChart?.dispose(); deviceChart?.dispose()
   mapInstance?.destroy()
@@ -1708,6 +1638,7 @@ $tx2:      #8b9dc5;
   .ai-body {
     flex: 1; min-width: 0;
     .ai-name { font-size: 14px; font-weight: 600; color: $tx; }
+    .ai-tenant { color: $accent; font-weight: 600; margin-right: 6px; }
     .ai-desc { font-size: 14px; color: $slate; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .ai-time { font-size: 12px; color: $ghost; margin-top: 3px; font-variant-numeric: tabular-nums; }
   }
@@ -1922,253 +1853,4 @@ $tx2:      #8b9dc5;
   50% { box-shadow: 0 0 20px rgba($red, 0.4), 0 0 30px rgba($red, 0.15); }
 }
 
-// ─── Alarm Popup (与值守大屏一致) ───
-.alarm-popup-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(4px);
-  animation: alarmFadeIn 0.3s ease;
-
-  // 等级闪烁动画
-  &.flash-critical {
-    animation: alarmFadeIn 0.3s ease, flashCritical 0.8s ease-in-out infinite;
-  }
-  &.flash-major {
-    animation: alarmFadeIn 0.3s ease, flashMajor 1.2s ease-in-out infinite;
-  }
-  &.flash-warning {
-    animation: alarmFadeIn 0.3s ease, flashWarning 1.8s ease-in-out infinite;
-  }
-}
-
-@keyframes alarmFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes flashCritical {
-  0%, 100% { box-shadow: inset 0 0 80px rgba(255, 77, 79, 0.0), 0 0 0 rgba(255, 77, 79, 0); }
-  50% { box-shadow: inset 0 0 80px rgba(255, 77, 79, 0.35), 0 0 60px rgba(255, 77, 79, 0.25); }
-}
-
-@keyframes flashMajor {
-  0%, 100% { box-shadow: inset 0 0 60px rgba(250, 140, 22, 0.0), 0 0 0 rgba(250, 140, 22, 0); }
-  50% { box-shadow: inset 0 0 60px rgba(250, 140, 22, 0.25), 0 0 40px rgba(250, 140, 22, 0.2); }
-}
-
-@keyframes flashWarning {
-  0%, 100% { box-shadow: inset 0 0 40px rgba(250, 219, 20, 0.0), 0 0 0 rgba(250, 219, 20, 0); }
-  50% { box-shadow: inset 0 0 40px rgba(250, 219, 20, 0.15), 0 0 30px rgba(250, 219, 20, 0.12); }
-}
-
-.alarm-popup-card {
-  width: 680px;
-  max-width: 90vw;
-  background: #0f2747;
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow:
-    0 0 40px rgba(255, 77, 79, 0.25),
-    0 16px 48px rgba(0, 0, 0, 0.4);
-  animation: alarmSlideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes alarmSlideIn {
-  from { opacity: 0; transform: scale(0.95) translateY(12px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.alarm-countdown-bar {
-  height: 3px;
-  background: rgba(30, 58, 95, 0.5);
-  .alarm-countdown-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #ff6b6b, #ff4d4f);
-    transition: width 1s linear;
-    border-radius: 0 2px 2px 0;
-  }
-}
-
-.alarm-popup-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: linear-gradient(135deg, rgba(255, 77, 79, 0.12) 0%, transparent 100%);
-  border-bottom: 1px solid rgba(30, 58, 95, 0.8);
-}
-
-.alarm-popup-header-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.alarm-popup-icon {
-  font-size: 20px;
-  animation: alarmIconPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes alarmIconPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.15); }
-}
-
-.alarm-popup-type {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.5px;
-}
-
-.alarm-popup-header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.alarm-popup-severity {
-  padding: 2px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  &.severity-critical { background: rgba(255, 77, 79, 0.2); color: #ff8a8a; border: 1px solid rgba(255, 77, 79, 0.4); }
-  &.severity-major { background: rgba(250, 140, 22, 0.2); color: #ffa940; border: 1px solid rgba(250, 140, 22, 0.4); }
-  &.severity-warning { background: rgba(250, 219, 20, 0.2); color: #fadb14; border: 1px solid rgba(250, 219, 20, 0.4); }
-  &.severity-info { background: rgba(24, 144, 255, 0.2); color: #40a9ff; border: 1px solid rgba(24, 144, 255, 0.4); }
-}
-
-.alarm-popup-timer {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ff6b6b;
-  font-variant-numeric: tabular-nums;
-  min-width: 32px;
-  text-align: center;
-}
-
-.alarm-sound-toggle {
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.2s;
-  user-select: none;
-  &:hover { transform: scale(1.2); }
-  &.muted { opacity: 0.5; }
-}
-
-.alarm-popup-queue {
-  font-size: 11px;
-  color: #8b9dc5;
-  background: rgba(30, 58, 95, 0.6);
-  padding: 2px 8px;
-  border-radius: 8px;
-}
-
-.alarm-popup-body {
-  display: flex;
-  min-height: 280px;
-  padding: 0;
-}
-
-.alarm-popup-image {
-  width: 360px;
-  min-height: 280px;
-  flex-shrink: 0;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-.alarm-popup-no-image {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  .no-image-icon { font-size: 48px; opacity: 0.4; }
-  .no-image-text { font-size: 13px; color: #6b7b9a; }
-}
-
-.alarm-popup-info {
-  flex: 1;
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.alarm-info-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.alarm-info-label {
-  font-size: 13px;
-  color: #8b9dc5;
-  flex-shrink: 0;
-  min-width: 70px;
-}
-
-.alarm-info-value {
-  font-size: 14px;
-  color: #fff;
-  font-weight: 500;
-  flex: 1;
-}
-
-.alarm-detail-text {
-  line-height: 1.5;
-  color: #c8d6e5;
-  font-weight: 400;
-  word-break: break-all;
-}
-
-.alarm-popup-footer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 12px 20px;
-  border-top: 1px solid rgba(30, 58, 95, 0.8);
-  background: rgba(15, 39, 71, 0.6);
-}
-
-.alarm-btn {
-  padding: 8px 24px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s;
-  letter-spacing: 0.5px;
-}
-
-.alarm-btn-later {
-  background: transparent;
-  border-color: rgba(30, 58, 95, 0.8);
-  color: #8b9dc5;
-  &:hover { background: rgba(30, 58, 95, 0.5); border-color: #3b82f6; color: #fff; }
-}
-
-.alarm-btn-now {
-  background: linear-gradient(135deg, #ff4d4f 0%, #ff6b6b 100%);
-  border-color: #ff4d4f;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(255, 77, 79, 0.3);
-  &:hover { background: linear-gradient(135deg, #ff7875 0%, #ff8a8a 100%); }
-}
 </style>

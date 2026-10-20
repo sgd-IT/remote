@@ -1,12 +1,17 @@
 <template>
   <div>
-    <yt-table-search v-bind="bind.searchBind" :data="data" :column="column" v-model:query="query"
-                     @handle-search="search">
+    <yt-table-search
+      v-bind="bind.searchBind"
+      :data="data"
+      :column="column"
+      v-model:query="query"
+      @handle-search="search"
+    >
       <template v-for="(item, index) in searchSlots" :key="index" #[item]="scope">
         <slot
           :name="item"
           v-bind="{
-            ...scope,
+            ...scope
           }"
         ></slot>
       </template>
@@ -23,6 +28,12 @@
     >
       <template #rightToolbar>
         <slot name="rightToolbar"></slot>
+      </template>
+      <template #addRight>
+        <slot name="addRight"></slot>
+      </template>
+      <template #exportRight>
+        <slot name="exportRight"></slot>
       </template>
       <yt-table
         v-bind="bind.tableBind"
@@ -41,22 +52,25 @@
       >
         <template #customTable>
           <slot
-name="customTable" :handle-update="handleUpdate" :handle-delete="handleDel"
-                :handle-view="handleView"></slot>
+            name="customTable"
+            :handle-update="handleUpdate"
+            :handle-delete="handleDel"
+            :handle-view="handleView"
+          ></slot>
         </template>
         <template #menuSlot="scope">
           <slot
             name="menuSlot"
             v-bind="{
-            ...scope,
-          }"
+              ...scope
+            }"
           ></slot>
         </template>
         <template v-for="(item, index) in tableSlots" :key="index" #[item]="scope">
           <slot
             :name="item"
             v-bind="{
-            ...scope,
+              ...scope
             }"
           ></slot>
         </template>
@@ -75,7 +89,7 @@ name="customTable" :handle-update="handleUpdate" :handle-delete="handleDel"
         <slot
           :name="item"
           v-bind="{
-            ...scope,
+            ...scope
           }"
         ></slot>
       </template>
@@ -83,7 +97,7 @@ name="customTable" :handle-update="handleUpdate" :handle-delete="handleDel"
         <slot
           :name="item"
           v-bind="{
-            ...scope,
+            ...scope
           }"
         ></slot>
       </template>
@@ -91,7 +105,7 @@ name="customTable" :handle-update="handleUpdate" :handle-delete="handleDel"
   </div>
 </template>
 <script lang="ts" setup>
-import {crudProps} from './props/crudProps'
+import { crudProps } from './props/crudProps'
 
 import YtTableSearch from '@/components/common/yt-table-search'
 import YtTableFun from '@/components/common/yt-table-fun.vue'
@@ -99,25 +113,41 @@ import YtTable from '@/components/common/yt-table'
 import YtTableForm from '@/components/common/yt-table-form'
 
 const props = defineProps({
-  ...crudProps,
+  ...crudProps
 })
 let tableSlots = ref<string[]>([])
 let formSlots = ref<string[]>([])
 let formItemSlots = ref<string[]>([])
 
 let searchSlots = ref<string[]>([])
-watch(() => props.column, (newV) => {
-  if (newV?.length > 0) {
-    tableSlots.value = newV.filter(f => f.slot).map(m => m.key)
-    formSlots.value = newV.filter(f => f.formSlot).map(m => m.key + 'Form')
-    formItemSlots.value = newV.filter(f => f.formItemSlot).map(m => m.key + 'FormItem')
-    searchSlots.value = newV.filter(f => f.searchSlot).map(m => m.key + 'Search')
+watch(
+  () => props.column,
+  (newV) => {
+    if (newV?.length > 0) {
+      tableSlots.value = newV.filter((f) => f.slot).map((m) => m.key)
+      formSlots.value = newV.filter((f) => f.formSlot).map((m) => m.key + 'Form')
+      formItemSlots.value = newV.filter((f) => f.formItemSlot).map((m) => m.key + 'FormItem')
+      searchSlots.value = newV.filter((f) => f.searchSlot).map((m) => m.key + 'Search')
+    }
+  },
+  {
+    immediate: true,
+    deep: true
   }
-}, {
-  immediate: true,
-  deep: true,
-})
-const emits = defineEmits(['change', 'onLoad', 'update:query', 'saveFun', 'rowClick', 'delFun', 'openBeforeFun', 'exportFun', 'update:page', 'editCallback', 'addCallback'])
+)
+const emits = defineEmits([
+  'change',
+  'onLoad',
+  'update:query',
+  'saveFun',
+  'rowClick',
+  'delFun',
+  'openBeforeFun',
+  'exportFun',
+  'update:page',
+  'editCallback',
+  'addCallback'
+])
 const ytTableRef = ref()
 const getTableRef = () => {
   return ytTableRef.value
@@ -186,42 +216,50 @@ const bind = reactive({
   searchBind: objBind,
   tableBind: objBind,
   funBind: {},
-  formBind: objBind,
+  formBind: objBind
 })
 
-watch(props, (newV) => {
-  // 搜索组件绑定值
-  if (props.searchProps) bind.searchBind = {
-    ...bind.searchBind,
-    ...props.searchProps,
+watch(
+  props,
+  (newV) => {
+    // 搜索组件绑定值
+    if (props.searchProps)
+      bind.searchBind = {
+        ...bind.searchBind,
+        ...props.searchProps
+      }
+    // 表格组件绑定值
+    if (props.tableProps)
+      bind.tableBind = {
+        ...bind.tableBind,
+        ...props.tableProps
+      }
+    // 功能区组件绑定值
+    if (props.funProps)
+      bind.funBind = {
+        ...props.funProps
+      }
+    // 表单组件绑定值
+    if (props.formProps)
+      bind.formBind = {
+        ...bind.formBind,
+        ...props.formProps
+      }
+    if (props.editCallback) bind.formBind.editCallback = props.editCallback
+    if (props.addCallback) bind.formBind.addCallback = props.addCallback
+  },
+  {
+    immediate: true,
+    deep: true
   }
-  // 表格组件绑定值
-  if (props.tableProps) bind.tableBind = {
-    ...bind.tableBind,
-    ...props.tableProps,
-  }
-  // 功能区组件绑定值
-  if (props.funProps) bind.funBind = {
-    ...props.funProps,
-  }
-  // 表单组件绑定值
-  if (props.formProps) bind.formBind = {
-    ...bind.formBind,
-    ...props.formProps,
-  }
-  if (props.editCallback) bind.formBind.editCallback = props.editCallback
-  if (props.addCallback) bind.formBind.addCallback = props.addCallback
-}, {
-  immediate: true,
-  deep: true,
-})
+)
 
 defineExpose({
   getTableRef,
   handleAdd,
   handleDel,
   handleUpdate,
-  handleView,
+  handleView
 })
 </script>
 

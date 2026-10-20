@@ -94,7 +94,7 @@
 		<view v-if="!alarmList.length && !loading" class="empty">暂无告警</view>
 
 		<view class="section-title section-title-standalone">
-			<text class="section-title-text">企业待办</text>
+			<text class="section-title-text">消防运行</text>
 		</view>
 		<view class="entry-grid">
 			<view class="entry" v-for="e in todoList" :key="e.key" @click="onTodo(e)">
@@ -111,6 +111,7 @@
 
 <script>
 import { get, post } from '@/utils/request'
+import { getDutyRoomCameras } from '@/utils/videoApi.js'
 import TabBar from '@/components/TabBar.vue'
 import NavBar from '@/components/NavBar/NavBar.vue'
 import qiunDataCharts from '@/components/qiun-data-charts/qiun-data-charts.vue'
@@ -130,12 +131,12 @@ export default {
       stats: { todayTotal: 0, fire: 0, fault: 0, falseAlarm: 0, pending: 0, handled: 0 },
 			alarmList: [],
 			todoList: [
-				{ key: 'D01', icon: 'camera-filled', title: '设备状态', desc: '加载中...' },
+				{ key: 'V01', icon: 'videocam-filled', title: '消控室监控', desc: '加载中...' },
+				{ key: 'D01', icon: 'camera-filled', title: '设备总览', desc: '加载中...' },
 				{ key: 'E01', icon: 'home-filled', title: '值班管理', desc: '加载中...' },
 				{ key: 'F01', icon: 'navigate-filled', title: '巡检任务', desc: '加载中...' },
 				{ key: 'I01', icon: 'flag-filled', title: '隐患管理', desc: '加载中...' },
-				{ key: 'R01', icon: 'gear-filled', title: '维修工单', desc: '加载中...' },
-				{ key: 'T13', icon: 'notification-filled', title: '维保提醒', desc: '加载中...' }
+				{ key: 'R01', icon: 'gear-filled', title: '维修工单', desc: '加载中...' }
 			],
 			trendCategories: [],
 			trendSeries: [[], []],
@@ -198,10 +199,16 @@ export default {
 	},
   onShow() {
     if (this.timer) clearInterval(this.timer)
+    // 未登录时不启动轮询：避免泄漏的定时器在登录页被反复 401 踢出
+    if (!uni.getStorageSync('token')) return
     this.pullData()
     this.timer = setInterval(() => this.fetchAlerts(), 30000)
   },
   onHide() {
+    clearInterval(this.timer)
+  },
+  // reLaunch 关闭页面只触发 onUnload 不触发 onHide，必须在此兜底清理定时器
+  onUnload() {
     clearInterval(this.timer)
   },
 	onPullDownRefresh() {
@@ -274,6 +281,7 @@ export default {
 				this.fetchAlerts()
 				this.fetchDutyTodo()
 				this.fetchMaintenanceTodo()
+				this.fetchVideoTodo()
 			}
 		},
 
@@ -291,19 +299,43 @@ export default {
 					: list.length ? `企业今日 ${list.length} 班` : '今日无排班'
 			} catch (err) {}
 		},
-	// 维保/维修待办描述：一次聚合接口同时覆盖维修工单与维保提醒
+	// 维修待办描述：聚合接口取待处理维修工单数（维保提醒入口已移至工作台，不在首页展示）
 		async fetchMaintenanceTodo() {
 			try {
 				const d = await get('/eiot/firewatch/maintenance/dashboard')
 				if (!d) return
 				const eR = this.todoList.find(t => t.key === 'R01')
 				if (eR) eR.desc = `待处理工单 ${d.pendingOrders || 0} 个`
-				const eT = this.todoList.find(t => t.key === 'T13')
-				if (eT) eT.desc = `逾期计划 ${d.overduePlans || 0} · 到期合同 ${d.contractExpiring || 0}`
+			} catch (err) {}
+		},
+
+		// 消控室监控入口描述：按"值班室"关键词取本租户摄像头在线情况
+		async fetchVideoTodo() {
+			try {
+				const d = await getDutyRoomCameras()
+				const list = d.list || []
+				const e = this.todoList.find(t => t.key === 'V01')
+				if (!e) return
+				if (!list.length) {
+					e.desc = '未配置'
+					return
+				}
+				const online = list.filter(c => c.status === 1).length
+				e.desc = online === list.length ? `${list.length} 路在线` : `${online}/${list.length} 路在线`
 			} catch (err) {}
 		},
 
 		onTodo(e) {
+			// 消控室监控：直达视频页（只展示本租户的值班室摄像头）
+			if (e.key === 'V01') {
+				uni.navigateTo({ url: '/pages/video-monitor/index' })
+				return
+			}
+			// 设备总览：按当前登录用户所属租户展示设备
+			if (e.key === 'D01') {
+				uni.navigateTo({ url: '/pages/profile/device-list' })
+				return
+			}
 			if (e.key === 'E01') {
 				uni.navigateTo({ url: '/pages/duty/index' })
 				return
@@ -312,6 +344,8 @@ export default {
 		},
 
 		async fetchAlerts() {
+			// 无 token 时跳过请求：防止残留轮询在登录页触发 401 后被反复踢回
+			if (!uni.getStorageSync('token')) return
 			try {
 				const d = await post('/alert/selectAlertRecordPage', { pageNo: 1, pageSize: 5 })
 				this.alarmList = (d.list || []).map(item => toCard(item))

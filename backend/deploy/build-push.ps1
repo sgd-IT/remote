@@ -1,4 +1,4 @@
-﻿param(
+param(
     [Parameter(Mandatory=$true, HelpMessage="Image version, e.g. v1.0")]
     [string]$Version,
     [string]$ACR = "**:8800/anwei-remote-monitor",

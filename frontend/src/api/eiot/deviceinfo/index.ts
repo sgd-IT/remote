@@ -15,6 +15,8 @@ export interface DeviceInfoVO {
   remark: string // 备注
   lat: number // 经纬度
   lon: number // 经纬度
+  addr: string // 设备地址（空间字段快照，如“1号楼3层东区”）
+  spaceId: number // 空间ID（关联 eiot_space.id，设备地址以它为准）
 }
 
 // 设备信息 API

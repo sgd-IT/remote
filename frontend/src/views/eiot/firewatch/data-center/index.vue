@@ -62,6 +62,11 @@
           </div>
         </div>
 
+        <!-- 口径说明：挡掉“筛了怎么没变”的质疑 -->
+        <div class="filter-note">
+          时间范围仅影响告警、巡检与处置趋势；值班为本月统计，设备与工单摘要为当前快照
+        </div>
+
         <div class="filter-section">
           <div class="filter-label">物业单位</div>
           <div
@@ -81,42 +86,26 @@
             {{ p.name }}
           </div>
         </div>
+
+        <!-- 越权口径如实标注：告警/设备表无 property_id（模型债），只能按“物业→其联网单位”近似过滤 -->
+        <div class="filter-note">
+          告警与设备数据按联网单位聚合，暂不支持物业级精确过滤
+        </div>
       </aside>
 
-      <!-- 图表内容区 -->
+      <!-- 图表内容区（KeepAlive 缓存各 Tab：切换不重发请求、图表实例与滚动位置保留） -->
       <div class="chart-area">
-        <AlarmAnalysis
-          v-if="activeTab === 'alarm'"
-          :property-id="selectedPropertyId"
-          :days="selectedDays"
-        />
-        <DeviceAnalysis
-          v-if="activeTab === 'device'"
-          :property-id="selectedPropertyId"
-          :days="selectedDays"
-        />
-        <DutyAnalysis
-          v-if="activeTab === 'duty'"
-          :property-id="selectedPropertyId"
-          :days="selectedDays"
-        />
-        <PatrolAnalysis
-          v-if="activeTab === 'patrol'"
-          :property-id="selectedPropertyId"
-          :days="selectedDays"
-        />
-        <WorkOrderAnalysis
-          v-if="activeTab === 'workorder'"
-          :property-id="selectedPropertyId"
-          :days="selectedDays"
-        />
+        <KeepAlive>
+          <component :is="currentComponent" :property-id="selectedPropertyId" :days="selectedDays" />
+        </KeepAlive>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import type { Component } from 'vue'
 import { useRouter } from 'vue-router'
 import { Close, Warning, Monitor, User, TrendCharts, Document, InfoFilled } from '@element-plus/icons-vue'
 import request from '@/config/axios'
@@ -140,6 +129,16 @@ const tabs = [
 ]
 
 const activeTab = ref('alarm')
+
+// Tab → 组件映射（KeepAlive + 动态组件取代 v-if：切 Tab 不销毁组件、不重发请求）
+const tabComponents: Record<string, Component> = {
+  alarm: AlarmAnalysis,
+  device: DeviceAnalysis,
+  duty: DutyAnalysis,
+  patrol: PatrolAnalysis,
+  workorder: WorkOrderAnalysis,
+}
+const currentComponent = computed(() => tabComponents[activeTab.value])
 
 // Filters
 const dayOptions = [
@@ -392,6 +391,16 @@ $red: #ff4d4f;
     background: rgba(24, 144, 255, 0.15);
     font-weight: 600;
   }
+}
+
+.filter-note {
+  padding: 8px;
+  margin-bottom: 16px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(139, 157, 197, 0.6);
+  background: rgba(79, 195, 247, 0.04);
+  border-radius: 5px;
 }
 
 // ====== Chart Area ======

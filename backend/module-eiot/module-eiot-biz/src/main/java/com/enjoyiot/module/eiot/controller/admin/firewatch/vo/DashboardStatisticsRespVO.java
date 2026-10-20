@@ -41,6 +41,12 @@ public class DashboardStatisticsRespVO {
     @Schema(description = "设备健康率(%)")
     private Double deviceHealthRate;
 
+    @Schema(description = "租户ID")
+    private Long tenantId;
+
+    @Schema(description = "租户名称")
+    private String tenantName;
+
     @Schema(description = "隐患待整改数")
     private Integer pendingIssues;
 

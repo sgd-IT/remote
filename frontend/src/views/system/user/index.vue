@@ -129,6 +129,13 @@
             :show-overflow-tooltip="true"
           />
           <el-table-column label="手机号码" align="center" prop="mobile" width="120" />
+          <el-table-column
+            label="登录平台"
+            align="center"
+            prop="userType"
+            :formatter="platformFormatter"
+            width="100"
+          />
           <el-table-column label="状态" key="status">
             <template #default="scope">
               <el-switch
@@ -247,6 +254,12 @@ const queryFormRef = ref() // 搜索的表单
 // 平台租户（系统租户）跨租户查看用户列表，才提供租户筛选；企业租户只能看到本租户数据
 const isPlatformTenant = computed(() => Number(getTenantId()) === 1)
 const tenantOptions = ref([] as TenantApi.TenantVO[]) // 归属租户下拉选项
+
+/** 登录平台位掩码转文字：1=PC 端、2=移动端、3=双端；null 按 PC 兜底（与后端登录校验口径一致） */
+const platformFormatter = (_row: any, _column: any, cellValue?: number) => {
+  if (cellValue === 3) return '双端'
+  return cellValue === 2 ? '移动端' : 'PC 端'
+}
 
 /** 查询列表 */
 const getList = async () => {

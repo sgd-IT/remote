@@ -85,17 +85,31 @@ const alarmTypeTextMap: Record<number, string> = {
   5: '消防通道占用事件报警'
 }
 
+/** 报警类型（alarm_kind 新语义）→ 文本 */
+const kindTextMap: Record<number, string> = {
+  1: '火警',
+  2: '故障',
+  3: '隐患',
+  4: '离线',
+  5: '误报',
+  6: '信息'
+}
+
 const getLevelClass = (level?: string): string => {
   if (!level) return 'level-default'
   return `level-${levelMap[String(level)] || 'default'}`
 }
 
 /**
- * 报警类型显示：优先使用 alarmType 字段，旧数据无该字段时回退按 level 判断
+ * 报警类型显示：优先 alarmType（来源 0-5）；缺失时按双读判定——alarmKind 非空=新语义，
+ * 为空=旧语义回退（level 旧编码=类型）
  */
 const getAlarmTypeText = (item: AlertRecordVO): string => {
   if (item.alarmType !== undefined && item.alarmType !== null && alarmTypeTextMap[item.alarmType]) {
     return alarmTypeTextMap[item.alarmType]
+  }
+  if (item.alarmKind !== undefined && item.alarmKind !== null && kindTextMap[item.alarmKind]) {
+    return kindTextMap[item.alarmKind]
   }
   if (item.level) {
     const cat = levelMap[String(item.level)]

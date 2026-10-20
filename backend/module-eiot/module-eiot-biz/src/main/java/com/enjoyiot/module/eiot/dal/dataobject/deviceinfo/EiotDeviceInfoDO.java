@@ -117,6 +117,11 @@ public class EiotDeviceInfoDO extends TenantBaseDO {
 
     private String addr;
 
+    /**
+     * 空间ID（关联 eiot_space.id，设备地址）
+     */
+    private Long spaceId;
+
     private String firmVersion;
 
     private Integer nodeType;
@@ -124,8 +129,11 @@ public class EiotDeviceInfoDO extends TenantBaseDO {
     private Boolean transparent;
 
     /**
-     * 设备类型枚举：transfer(用传设备), camera(摄像头), smoke(烟感),
-     * temp_humidity(温湿度传感器), door_magnet(门磁传感器) 等
+     * 设备类型（物理设备分类，与 alarm_kind 告警类型正交）：
+     * transfer=用传设备, camera=摄像头, smoke=烟感, temperature=温感,
+     * temp_humidity=温湿度, door_magnet=门磁, gas=燃气, hydrant=消火栓,
+     * manual=手报, NULL=未分类
+     * findTransferDeviceId 只认 "transfer"，其余走父链上溯或摄像头兜底
      */
     private String deviceType;
 

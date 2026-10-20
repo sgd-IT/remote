@@ -17,6 +17,14 @@ public interface InstructionSender {
     /** 执行指令下发 */
     InstructionSendRespVO send(InstructionContext context);
 
+    default boolean supportsVendor(String vendorCode) {
+        return false;
+    }
+
+    default boolean isVendorSpecific() {
+        return false;
+    }
+
     default InstructionSendRespVO buildResp(boolean success, String message) {
         InstructionSendRespVO resp = new InstructionSendRespVO();
         resp.setSuccess(success);

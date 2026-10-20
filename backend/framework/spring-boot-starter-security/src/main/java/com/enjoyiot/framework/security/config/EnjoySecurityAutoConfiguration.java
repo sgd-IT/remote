@@ -32,6 +32,7 @@ import com.enjoyiot.framework.security.core.service.SecurityFrameworkServiceImpl
 import com.enjoyiot.framework.web.core.handler.GlobalExceptionHandler;
 import com.enjoyiot.module.system.api.oauth2.OAuth2TokenApi;
 import com.enjoyiot.module.system.api.permission.PermissionApi;
+import com.enjoyiot.module.system.api.user.AdminUserApi;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -98,8 +99,9 @@ public class EnjoySecurityAutoConfiguration {
     }
 
     @Bean("ss") // 使用 Spring Security 的缩写，方便使用
-    public SecurityFrameworkService securityFrameworkService(PermissionApi permissionApi) {
-        return new SecurityFrameworkServiceImpl(permissionApi);
+    public SecurityFrameworkService securityFrameworkService(PermissionApi permissionApi,
+                                                             AdminUserApi adminUserApi) {
+        return new SecurityFrameworkServiceImpl(permissionApi, adminUserApi);
     }
 
     /**

@@ -1589,7 +1589,7 @@ INSERT INTO infra_config  VALUES (7, 'url', 2, 'MySQL 监控的地址', 'url.dru
 INSERT INTO infra_config  VALUES (8, 'url', 2, 'SkyWalking 监控的地址', 'url.skywalking', '', '1', '', '1', '2023-04-07 13:41:16', '1', '2023-04-07 14:57:03', '0');
 INSERT INTO infra_config  VALUES (9, 'url', 2, 'Spring Boot Admin 监控的地址', 'url.spring-boot-admin', '', '1', '', '1', '2023-04-07 13:41:16', '1', '2023-04-07 14:52:07', '0');
 INSERT INTO infra_config  VALUES (10, 'url', 2, 'Swagger 接口文档的地址', 'url.swagger', '', '1', '', '1', '2023-04-07 13:41:16', '1', '2023-04-07 14:59:00', '0');
-INSERT INTO infra_config  VALUES (11, 'ui', 2, '腾讯地图 key', 'tencent.lbs.key', '**', '1', '腾讯地图 key', '1', '2023-06-03 19:16:27', '1', '2023-06-03 19:16:27', '0');
+INSERT INTO infra_config  VALUES (11, 'ui', 2, '腾讯地图 key', 'tencent.lbs.key', 'TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E', '1', '腾讯地图 key', '1', '2023-06-03 19:16:27', '1', '2023-06-03 19:16:27', '0');
 INSERT INTO infra_config  VALUES (12, 'test2', 2, 'test3', 'test4', 'test5', '1', 'test6', '1', '2023-12-03 09:55:16', '1', '2023-12-03 09:55:27', '0');
 COMMIT;
 -- @formatter:on
@@ -2753,7 +2753,7 @@ COMMENT ON TABLE system_login_log IS '系统访问记录';
 BEGIN;
 INSERT INTO system_login_log  VALUES (3426, 100, '', 1, 2, 'admin', 0, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 06:35:01', NULL, '2025-02-23 06:35:01', '0', 1);
 INSERT INTO system_login_log  VALUES (3427, 100, '', 1, 2, 'admin', 0, '**', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 19:59:22', NULL, '2025-02-23 19:59:22', '0', 1);
-INSERT INTO system_login_log  VALUES (3428, 100, '', 1, 2, 'admin', 0, '**', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 20:00:21', NULL, '2025-02-23 20:00:21', '0', 1);
+INSERT INTO system_login_log  VALUES (3428, 100, '', 1, 2, 'admin', 0, '222.247.113.4', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 20:00:21', NULL, '2025-02-23 20:00:21', '0', 1);
 INSERT INTO system_login_log  VALUES (3429, 200, '', 1, 2, 'admin', 0, '**', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', '1', '2025-02-23 20:11:40', '1', '2025-02-23 20:11:40', '0', 1);
 INSERT INTO system_login_log  VALUES (3430, 100, '', 104, 2, 'test', 10, '**', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 20:11:48', NULL, '2025-02-23 20:11:48', '0', 1);
 INSERT INTO system_login_log  VALUES (3431, 100, '', 1, 2, 'admin', 0, '**', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 20:12:00', NULL, '2025-02-23 20:12:00', '0', 1);
@@ -3783,7 +3783,7 @@ COMMENT ON TABLE system_operate_log IS '操作日志记录 V2 版本';
 -- @formatter:off
 BEGIN;
 INSERT INTO system_operate_log  VALUES (9064, '', 1, 2, 'SYSTEM 角色', '创建角色', 154, '创建了角色【只读用户】', '1', '', 'POST', '/admin-api/system/role/create', '**', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 20:05:09', NULL, '2025-02-23 20:05:09', '0', 1);
-INSERT INTO system_operate_log  VALUES (9065, '', 1, 2, 'SYSTEM 用户', '重置用户密码', 104, '将用户【测试号】的密码从【$2a$04$jDFLttgfik0QqJKAbfhMa.2A9xXoZmAIxakdFJUzkX.MgBKT6ddo6】重置为【$2a$04$KG9vBvKLO5PP9Tfd8ttF0.CDObtXPhMQb8I7vPEdVBSuI7uOx51Ey】', '1', '', 'PUT', '/admin-api/system/user/update-password', '**', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 20:12:38', NULL, '2025-02-23 20:12:38', '0', 1);
+INSERT INTO system_operate_log  VALUES (9065, '', 1, 2, 'SYSTEM 用户', '重置用户密码', 104, '将用户【测试号】的密码从【**】重置为【**】', '1', '', 'PUT', '/admin-api/system/user/update-password', '**', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', NULL, '2025-02-23 20:12:38', NULL, '2025-02-23 20:12:38', '0', 1);
 COMMIT;
 -- @formatter:on
 
@@ -4165,7 +4165,7 @@ COMMENT ON TABLE system_sms_channel IS '短信渠道';
 -- @formatter:off
 BEGIN;
 INSERT INTO system_sms_channel  VALUES (2, 'Ballcat', 'ALIYUN', 0, '你要改哦，只有我可以用！！！！', '**', '**', NULL, '', '2021-03-31 11:53:10', '1', '2024-08-04 08:53:26', '0');
-INSERT INTO system_sms_channel  VALUES (4, '测试渠道', 'DEBUG_DING_TALK', 0, '123', '696b5d8ead48071237e4aa5861ff08dbadb2b4ded1c688a7b7c9afc615579859', 'SEC5c4e5ff888bc8a9923ae47f59e7ccd30af1f14d93c55b4e2c9cb094e35aeed67', NULL, '1', '2021-04-13 00:23:14', '1', '2022-03-27 20:29:49', '0');
+INSERT INTO system_sms_channel  VALUES (4, '测试渠道', 'DEBUG_DING_TALK', 0, '123', '**', '**', NULL, '1', '2021-04-13 00:23:14', '1', '2022-03-27 20:29:49', '0');
 INSERT INTO system_sms_channel  VALUES (7, 'mock腾讯云', 'TENCENT', 0, '', '1 2', '2 3', '', '1', '2024-09-30 08:53:45', '1', '2024-09-30 08:55:01', '0');
 COMMIT;
 -- @formatter:on
@@ -4402,9 +4402,9 @@ COMMENT ON TABLE system_social_client IS '社交客户端表';
 -- ----------------------------
 -- @formatter:off
 BEGIN;
-INSERT INTO system_social_client  VALUES (1, '钉钉', 20, 2, '**', '**', NULL, 0, '', '2023-10-18 11:21:18', '1', '2023-12-20 21:28:26', '1', 1);
+INSERT INTO system_social_client  VALUES (1, '钉钉', 20, 2, 'dingvrnreaje3yqvzhxg', 'i8E6iZyDvZj51JIb0tYsYfVQYOks9Cq1lgryEjFRqC79P3iJcrxEwT6Qk2QvLrLI', NULL, 0, '', '2023-10-18 11:21:18', '1', '2023-12-20 21:28:26', '1', 1);
 INSERT INTO system_social_client  VALUES (2, '钉钉（王土豆）', 20, 2, 'dingtsu9hpepjkbmthhw', 'FP_bnSq_HAHKCSncmJjw5hxhnzs6vaVDSZZn3egj6rdqTQ_hu5tQVJyLMpgCakdP', NULL, 0, '', '2023-10-18 11:21:18', '', '2023-12-20 21:28:26', '1', 121);
-INSERT INTO system_social_client  VALUES (3, '微信公众号', 31, 1, '**', '**', NULL, 0, '', '2023-10-18 16:07:46', '1', '2023-12-20 21:28:23', '1', 1);
+INSERT INTO system_social_client  VALUES (3, '微信公众号', 31, 1, 'wx5b23ba7a5589ecbb', '2a7b3b20c537e52e74afd395eb85f61f', NULL, 0, '', '2023-10-18 16:07:46', '1', '2023-12-20 21:28:23', '1', 1);
 INSERT INTO system_social_client  VALUES (43, '微信小程序', 34, 1, 'wx63c280fe3248a3e7', '6f270509224a7ae1296bbf1c8cb97aed', NULL, 0, '', '2023-10-19 13:37:41', '1', '2023-12-20 21:28:25', '1', 1);
 COMMIT;
 -- @formatter:on
@@ -4759,8 +4759,8 @@ COMMENT ON TABLE system_users IS '用户信息表';
 -- ----------------------------
 -- @formatter:off
 BEGIN;
-INSERT INTO system_users  VALUES (1, 'admin', '$2a$10$mRMIYLDtRHlf6.9ipiqH1.Z.bh/R9dO9d5iHiGYPigi6r5KOoR2Wm', 'EnjoyIot', '管理员', 103, '[1,2]', '**', '**', 1, 'http://127.0.0.1:48080/admin-api/infra/file/29/get/ed16f2223a3b2999b491dcf8fcf989e7342ae9d73e6bb419c0e4084f1c20c6d5.png', 0, '**', '2025-02-23 21:26:47', 'admin', '2021-01-05 17:03:47', NULL, '2025-02-23 21:26:47', '0', 1);
-INSERT INTO system_users  VALUES (104, 'test', '$2a$04$KG9vBvKLO5PP9Tfd8ttF0.CDObtXPhMQb8I7vPEdVBSuI7uOx51Ey', '测试号', NULL, 107, '[1,2]', '**', '**', 1, '', 0, '**', '2025-02-23 21:25:34', '', '2021-01-21 02:13:53', NULL, '2025-02-23 21:25:34', '0', 1);
+INSERT INTO system_users  VALUES (1, 'admin', '$2a$10$mRMIYLDtRHlf6.9ipiqH1.Z.bh/R9dO9d5iHiGYPigi6r5KOoR2Wm', 'EnjoyIot', '管理员', 103, '[1,2]', 'xw2sy@163.com', '19918996474', 1, 'http://127.0.0.1:48080/admin-api/infra/file/29/get/ed16f2223a3b2999b491dcf8fcf989e7342ae9d73e6bb419c0e4084f1c20c6d5.png', 0, '**', '2025-02-23 21:26:47', 'admin', '2021-01-05 17:03:47', NULL, '2025-02-23 21:26:47', '0', 1);
+INSERT INTO system_users  VALUES (104, 'test', '**', '测试号', NULL, 107, '[1,2]', '111@qq.com', '15601691200', 1, '', 0, '**', '2025-02-23 21:25:34', '', '2021-01-21 02:13:53', NULL, '2025-02-23 21:25:34', '0', 1);
 COMMIT;
 -- @formatter:on
 

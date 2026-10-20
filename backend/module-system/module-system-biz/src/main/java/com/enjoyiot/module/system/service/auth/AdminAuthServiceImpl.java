@@ -26,6 +26,7 @@ package com.enjoyiot.module.system.service.auth;
 import cn.hutool.core.util.ObjectUtil;
 import com.enjoyiot.framework.common.enums.CommonStatusEnum;
 import com.enjoyiot.framework.common.enums.UserTypeEnum;
+import com.enjoyiot.framework.common.exception.ErrorCode;
 import com.enjoyiot.framework.common.util.monitor.TracerUtils;
 import com.enjoyiot.framework.common.util.servlet.ServletUtils;
 import com.enjoyiot.framework.common.util.validation.ValidationUtils;
@@ -318,6 +319,21 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         return LOGIN_IP_LOCK_KEY_PREFIX + ip;
     }
 
+    /** user_type 平台位：1=PC 端、2=移动端，两位置起（3）=双端，对应 system_users.user_type */
+    private static final int PLATFORM_BIT_PC = 1;
+    private static final int PLATFORM_BIT_MOBILE = 2;
+
+    /**
+     * 平台门禁：账号平台位不覆盖目标端就拒绝登录。
+     * null 按 PC 处理——存量账号大量为 null，不兜底会永远登不进来；移动端必须显式配 2/3，口径更收紧
+     */
+    private void checkLoginPlatform(Integer userType, int platformBit, ErrorCode errorCode) {
+        int bits = userType == null ? PLATFORM_BIT_PC : userType;
+        if ((bits & platformBit) == 0) {
+            throw exception(errorCode);
+        }
+    }
+
     @Override
     public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
         // 校验登录 nonce（防重放攻击）
@@ -329,13 +345,14 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 使用账号密码，进行登录
         AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
+        // 平台门禁：PC 通道只放行 PC/双端账号。放在密码校验之后，不给猜密码的人暴露账号平台
+        checkLoginPlatform(user.getUserType(), PLATFORM_BIT_PC, AUTH_LOGIN_PLATFORM_NOT_MATCH_PC);
+
         // 如果 socialType 非空，说明需要绑定社交用户
         if (reqVO.getSocialType() != null) {
             socialUserService.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
                     reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState()));
         }
-        // 更新用户类型：Web登录
-        userService.updateUserType(user.getId(), 1);
         // 创建 Token 令牌，记录登录日志
         return createTokenAfterLoginSuccess(user.getId(), reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
@@ -369,8 +386,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw exception(USER_NOT_EXISTS);
         }
 
-        // 更新用户类型：App登录
-        userService.updateUserType(user.getId(), 2);
+        // 平台门禁：PC 短信通道同样只放行 PC/双端账号
+        checkLoginPlatform(user.getUserType(), PLATFORM_BIT_PC, AUTH_LOGIN_PLATFORM_NOT_MATCH_PC);
         // 创建 Token 令牌，记录登录日志
         return createTokenAfterLoginSuccess(user.getId(), reqVO.getMobile(), LoginLogTypeEnum.LOGIN_MOBILE);
     }
@@ -409,6 +426,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw exception(USER_NOT_EXISTS);
         }
 
+        // 平台门禁：社交登录也走 PC 通道
+        checkLoginPlatform(user.getUserType(), PLATFORM_BIT_PC, AUTH_LOGIN_PLATFORM_NOT_MATCH_PC);
         // 创建 Token 令牌，记录登录日志
         return createTokenAfterLoginSuccess(user.getId(), user.getUsername(), LoginLogTypeEnum.LOGIN_SOCIAL);
     }
@@ -533,7 +552,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         AdminUserDO user = users.get(0);
         return TenantUtils.execute(user.getTenantId(), () -> {
             AdminUserDO loginUser = authenticate(user.getUsername(), reqVO.getPassword());
-            userService.updateUserType(loginUser.getId(), 3); // 3 = Wx 小程序端
+            // 平台门禁：小程序通道只放行移动端/双端账号
+            checkLoginPlatform(loginUser.getUserType(), PLATFORM_BIT_MOBILE, AUTH_LOGIN_PLATFORM_NOT_MATCH_MOBILE);
             return createTokenAfterLoginSuccess(loginUser.getId(), reqVO.getAccount(), LoginLogTypeEnum.LOGIN_MOBILE);
         });
     }

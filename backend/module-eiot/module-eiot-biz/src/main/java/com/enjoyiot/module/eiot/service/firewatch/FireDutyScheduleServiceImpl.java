@@ -104,7 +104,8 @@ public class FireDutyScheduleServiceImpl implements FireDutyScheduleService {
             throw new ServiceException(400, "该日期和班次已存在排班记录");
         } catch (Exception e) {
             log.error("[createSchedule] 数据库插入失败，schedule={}", schedule, e);
-            throw new ServiceException(500, "排班保存失败，请查看服务端日志确认具体原因");
+            // 面向用户的兜底文案不暴露日志/技术细节，具体原因留在上面的 error 日志里
+            throw new ServiceException(500, "排班保存失败，请稍后重试或联系管理员");
         }
 
         log.info("[createSchedule] 创建排班成功，ID={}，日期：{}，班次：{}，值班人：{}",
@@ -508,80 +509,87 @@ public class FireDutyScheduleServiceImpl implements FireDutyScheduleService {
         if (dutyUsers == null || dutyUsers.isEmpty()) {
             throw new ServiceException(400, "值班人员列表不能为空");
         }
+        // 去重但保留所选顺序：重复 ID 会让轮换序列错位，同一人被连排两天
+        List<Long> orderedUsers = dutyUsers.stream()
+                .filter(Objects::nonNull)
+                .distinct()
+                .collect(Collectors.toList());
+        if (orderedUsers.isEmpty()) {
+            throw new ServiceException(400, "值班人员列表不能为空");
+        }
 
         // 批量查询用户信息
-        Map<Long, AdminUserRespDTO> userMap = adminUserApi.getUserMap(dutyUsers);
+        Map<Long, AdminUserRespDTO> userMap = adminUserApi.getUserMap(orderedUsers);
 
         YearMonth yearMonth = YearMonth.of(year, month);
-        int daysInMonth = yearMonth.lengthOfMonth();
+        LocalDate monthEnd = yearMonth.atEndOfMonth();
+        // 24 小时值班制：只排明天及以后；排未来月份时从月初开始
+        LocalDate startDate = LocalDate.now().plusDays(1);
+        if (startDate.isBefore(yearMonth.atDay(1))) {
+            startDate = yearMonth.atDay(1);
+        }
 
         String propertyName = getPropertyName(propertyId);
-        int count = 0;
 
-        for (int day = 1; day <= daysInMonth; day++) {
-            LocalDate date = LocalDate.of(year, month, day);
-            int userIndex = (day - 1) % dutyUsers.size();
-            Long userId = dutyUsers.get(userIndex);
+        // 轮换锚点取该单位日期最大的一条全天班排班（含未来月份），用"锚点日期 + N 天"全局推算，
+        // 先排哪个月结果都一致；月末 08:00 跨到次月 08:00 的边界班次，也不会和次月第一天连排同一人
+        FireDutyScheduleDO anchor = fireDutyScheduleMapper.selectOne(
+                new LambdaQueryWrapper<FireDutyScheduleDO>()
+                        .eq(FireDutyScheduleDO::getPropertyId, propertyId)
+                        .eq(FireDutyScheduleDO::getShiftType, "wholeday")
+                        .orderByDesc(FireDutyScheduleDO::getScheduleDate)
+                        .last("LIMIT 1"));
+        int anchorIndex = anchor == null ? -1 : orderedUsers.indexOf(anchor.getDutyUserId());
+        // 锚点人已不在本次名单（调岗/换人，或导入排班没填值班人 ID）时无法按旧序列推算，从名单第 1 位重新起头
+        if (anchorIndex < 0) {
+            anchor = null;
+        }
+
+        // 已有排班的日期一次查出来，跳过不重复生成
+        Set<LocalDate> existingDates = fireDutyScheduleMapper.selectList(
+                        new LambdaQueryWrapper<FireDutyScheduleDO>()
+                                .eq(FireDutyScheduleDO::getPropertyId, propertyId)
+                                .eq(FireDutyScheduleDO::getShiftType, "wholeday")
+                                .between(FireDutyScheduleDO::getScheduleDate, startDate, monthEnd))
+                .stream()
+                .map(FireDutyScheduleDO::getScheduleDate)
+                .collect(Collectors.toSet());
+
+        int count = 0;
+        for (LocalDate date = startDate; !date.isAfter(monthEnd); date = date.plusDays(1)) {
+            if (existingDates.contains(date)) {
+                continue;
+            }
+            // 每天 1 条全天班（08:00 → 次日 08:00），名单里依次轮换：2 人隔日交替，3 人上 1 休 2
+            int userIndex = anchor != null
+                    ? Math.floorMod(anchorIndex + (int) (date.toEpochDay() - anchor.getScheduleDate().toEpochDay()),
+                            orderedUsers.size())
+                    : Math.floorMod(date.toEpochDay() - startDate.toEpochDay(), orderedUsers.size());
+            Long userId = orderedUsers.get(userIndex);
             AdminUserRespDTO user = userMap.get(userId);
             String userName = user != null ? user.getNickname() : ("用户" + userId);
             String userPhone = user != null && user.getMobile() != null ? user.getMobile() : "";
 
-            // 检查该日白班是否已存在
-            LambdaQueryWrapper<FireDutyScheduleDO> checkWrapper = new LambdaQueryWrapper<>();
-            checkWrapper.eq(FireDutyScheduleDO::getPropertyId, propertyId)
-                    .eq(FireDutyScheduleDO::getScheduleDate, date)
-                    .eq(FireDutyScheduleDO::getShiftType, "day");
-            if (fireDutyScheduleMapper.selectCount(checkWrapper) == 0) {
-                FireDutyScheduleDO dayShift = FireDutyScheduleDO.builder()
-                        .propertyId(propertyId)
-                        .propertyName(propertyName)
-                        .scheduleDate(date)
-                        .shiftType("day")
-                        .shiftName("白班")
-                        .startTime("08:00")
-                        .endTime("18:00")
-                        .dutyUserId(userId)
-                        .dutyUserName(userName)
-                        .dutyUserPhone(userPhone)
-                        .status("scheduled")
-                        .build();
-                fireDutyScheduleMapper.insert(dayShift);
-                count++;
-            }
-
-            // 夜班
-            int nightUserIndex = (day) % dutyUsers.size();
-            Long nightUserId = dutyUsers.get(nightUserIndex);
-            AdminUserRespDTO nightUser = userMap.get(nightUserId);
-            String nightUserName = nightUser != null ? nightUser.getNickname() : ("用户" + nightUserId);
-            String nightUserPhone = nightUser != null && nightUser.getMobile() != null ? nightUser.getMobile() : "";
-
-            // 检查该日夜班是否已存在
-            LambdaQueryWrapper<FireDutyScheduleDO> nightCheckWrapper = new LambdaQueryWrapper<>();
-            nightCheckWrapper.eq(FireDutyScheduleDO::getPropertyId, propertyId)
-                    .eq(FireDutyScheduleDO::getScheduleDate, date)
-                    .eq(FireDutyScheduleDO::getShiftType, "night");
-            if (fireDutyScheduleMapper.selectCount(nightCheckWrapper) == 0) {
-                FireDutyScheduleDO nightShift = FireDutyScheduleDO.builder()
-                        .propertyId(propertyId)
-                        .propertyName(propertyName)
-                        .scheduleDate(date)
-                        .shiftType("night")
-                        .shiftName("夜班")
-                        .startTime("18:00")
-                        .endTime("08:00")
-                        .dutyUserId(nightUserId)
-                        .dutyUserName(nightUserName)
-                        .dutyUserPhone(nightUserPhone)
-                        .status("scheduled")
-                        .build();
-                fireDutyScheduleMapper.insert(nightShift);
-                count++;
-            }
+            FireDutyScheduleDO schedule = FireDutyScheduleDO.builder()
+                    .propertyId(propertyId)
+                    .propertyName(propertyName)
+                    .scheduleDate(date)
+                    .shiftType("wholeday")
+                    .shiftName("全天班")
+                    .startTime("08:00")
+                    .endTime("08:00")
+                    .dutyUserId(userId)
+                    .dutyUserName(userName)
+                    .dutyUserPhone(userPhone)
+                    .status("scheduled")
+                    .build();
+            fireDutyScheduleMapper.insert(schedule);
+            count++;
         }
 
-        log.info("[autoSchedule] 自动排班完成，物业ID：{}，年月：{}-{}，生成排班数：{}",
-                propertyId, year, month, count);
+        log.info("[autoSchedule] 自动排班完成，物业ID：{}，年月：{}-{}，人数：{}，起始日：{}，锚点：{}，生成排班数：{}",
+                propertyId, year, month, orderedUsers.size(), startDate,
+                anchor == null ? "无" : anchor.getScheduleDate() + "/" + anchor.getDutyUserName(), count);
 
         return count;
     }
@@ -609,6 +617,11 @@ public class FireDutyScheduleServiceImpl implements FireDutyScheduleService {
             // 校验必填字段
             if (data.getScheduleDate() == null) {
                 result.addError(rowNum, "排班日期不能为空");
+                return;
+            }
+            // 只排明天及以后：今天和过去不导入（与自动排班同一规则）
+            if (!data.getScheduleDate().isAfter(LocalDate.now())) {
+                result.addError(rowNum, "日期已过期，仅支持导入明天及以后的排班");
                 return;
             }
 

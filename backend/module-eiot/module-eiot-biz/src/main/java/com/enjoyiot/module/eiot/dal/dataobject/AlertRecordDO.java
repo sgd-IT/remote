@@ -63,9 +63,17 @@ public class AlertRecordDO extends TenantBaseDO {
      */
     private Integer alarmType;
     /**
-     * 告警等级
+     * 告警等级: 1-3级
      */
     private String level;
+    /**
+     * 报警类型（新语义）：1=火警 2=故障 3=隐患 4=离线 5=误报 6=信息；NULL=过渡期旧数据（按 level 旧语义解释）
+     */
+    private Integer alarmKind;
+    /**
+     * 确认档位（新语义，仅一级）：1=Ⅰ档 2=Ⅱ档 3=Ⅲ档 4=Ⅳ档；NULL=不适用或过渡期旧数据
+     */
+    private Integer tier;
     /**
      * 告警名称
      */

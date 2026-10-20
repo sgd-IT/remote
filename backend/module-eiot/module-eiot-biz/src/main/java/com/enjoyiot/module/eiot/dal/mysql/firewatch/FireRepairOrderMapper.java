@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,26 @@ public interface FireRepairOrderMapper extends BaseMapperX<FireRepairOrderDO> {
     @Select("SELECT order_status, COUNT(*) as count FROM fire_repair_order " +
             "WHERE deleted = 0 GROUP BY order_status")
     List<Map<String, Object>> countAllByStatus();
+
+    /**
+     * 按天统计维修工单创建数与完成数（创建按 create_time 归日、完成按 complete_time 归日，UNION 后合并同一日期；
+     * 用于数据中心"处置事项趋势"；租户过滤由拦截器自动追加）
+     */
+    @Select("<script>" +
+            "SELECT d.date, SUM(d.created) as created_count, SUM(d.completed) as completed_count FROM (" +
+            "  SELECT DATE(create_time) as date, 1 as created, 0 as completed FROM fire_repair_order " +
+            "  WHERE deleted = 0 AND create_time >= #{startDateTime} AND create_time &lt; #{endDateTime} " +
+            "  <if test='propertyId != null'>AND property_id = #{propertyId}</if> " +
+            "  UNION ALL " +
+            "  SELECT DATE(complete_time) as date, 0 as created, 1 as completed FROM fire_repair_order " +
+            "  WHERE deleted = 0 AND complete_time IS NOT NULL " +
+            "  AND complete_time >= #{startDateTime} AND complete_time &lt; #{endDateTime} " +
+            "  <if test='propertyId != null'>AND property_id = #{propertyId}</if> " +
+            ") d GROUP BY d.date ORDER BY d.date" +
+            "</script>")
+    List<Map<String, Object>> countTrendByDay(@Param("propertyId") Long propertyId,
+                                              @Param("startDateTime") LocalDateTime startDateTime,
+                                              @Param("endDateTime") LocalDateTime endDateTime);
 
     /**
      * 统计企业待处理工单数

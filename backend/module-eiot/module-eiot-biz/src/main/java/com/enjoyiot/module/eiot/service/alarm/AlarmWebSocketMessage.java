@@ -1,5 +1,6 @@
 package com.enjoyiot.module.eiot.service.alarm;
 
+import com.enjoyiot.module.eiot.dal.dataobject.AlertRecordDO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,8 +39,14 @@ public class AlarmWebSocketMessage {
     /** 告警类型名称（中文：火警/故障/离线等） */
     private String alarmTypeName;
 
-    /** 告警级别（critical/major/warning/info） */
+    /** 告警级别（critical/major/warning/info）——由定级层产出的等级（1/2/3）投影 */
     private String alarmLevel;
+
+    /** 报警类型（新语义）：1=火警 2=故障 3=隐患 4=离线 5=误报 6=信息 */
+    private Integer alarmKind;
+
+    /** 确认档位（仅一级）：1=Ⅰ档 2=Ⅱ档 3=Ⅲ档 4=Ⅳ档 */
+    private Integer tier;
 
     /** 告警描述 */
     private String alarmDescription;
@@ -71,13 +78,16 @@ public class AlarmWebSocketMessage {
     // ==================== 工厂方法 ====================
 
     /**
-     * 从 AlarmMessage + 入库后的 ID 构建 WebSocket 推送消息
+     * 从 AlarmMessage + 入库后的告警记录构建 WebSocket 推送消息
+     * <p>
+     * 写侧三写（定稿 4.2 R8）：级别出口对齐四维——alarmLevel 由记录的新语义等级（1/2/3）投影，
+     * 取代旧的"由输入级别字符串直接透传"；同时附带 alarmKind/tier 供前端使用
      *
-     * @param message  原始告警消息
-     * @param recordId 入库后的 eiot_alert_record.id
+     * @param message 原始告警消息
+     * @param record  入库后的 eiot_alert_record 记录（含生成 ID）
      * @return WebSocket 推送消息
      */
-    public static AlarmWebSocketMessage from(AlarmMessage message, Long recordId) {
+    public static AlarmWebSocketMessage from(AlarmMessage message, AlertRecordDO record) {
         String timeStr = "";
         if (message.getAlarmTime() != null && message.getAlarmTime() > 0) {
             LocalDateTime dt = LocalDateTime.ofInstant(
@@ -87,11 +97,13 @@ public class AlarmWebSocketMessage {
         }
 
         AlarmWebSocketMessage wsMsg = AlarmWebSocketMessage.builder()
-                .id(recordId)
+                .id(record.getId())
                 .deviceId(message.getDeviceId())
                 .deviceName(message.getDeviceName())
                 .alarmTypeName(AlarmMessage.getAlarmTypeLabel(message.getAlarmType()))
-                .alarmLevel(message.getAlarmLevel())
+                .alarmLevel(AlarmSemantics.toAlarmLevelText(record.getLevel()))
+                .alarmKind(record.getAlarmKind())
+                .tier(record.getTier())
                 .alarmDescription(message.getAlarmDescription())
                 .alarmLocation(message.getAlarmLocation())
                 .alarmTime(timeStr)

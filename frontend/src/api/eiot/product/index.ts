@@ -26,6 +26,7 @@ export interface ProductVO {
   transparent: boolean // 是否透传
   dnTyp: number // 唯一标识类型(1序列号 2蓝牙mac)
   locateType: number // 定位方式(0无定位, 1自动上报 2手动定位)
+  tenantId: number // 租户编号（设备租户与产品租户一致）
 }
 
 // 物联网产品 API

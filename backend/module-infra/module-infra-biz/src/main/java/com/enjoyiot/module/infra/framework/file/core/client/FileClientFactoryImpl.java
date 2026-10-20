@@ -83,7 +83,7 @@ public class FileClientFactoryImpl implements FileClientFactory {
 
     public static void main(String[] args) {
         S3FileClientConfig config = new S3FileClientConfig();
-        config.setEndpoint("http://**:9000");
+        config.setEndpoint("http://8.134.104.234:9000");
         config.setDomain("");
         config.setBucket("eiot");
         config.setAccessKey("minio");

@@ -1,77 +1,110 @@
 <template>
   <div class="analysis-grid">
-    <!-- 值班统计摘要卡片 -->
-    <div class="stat-cards-row">
-      <div class="stat-card">
-        <div class="stat-num">{{ dutyStats.monthDutyCount || 0 }}</div>
-        <div class="stat-label">本月值班人次</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" style="color:#52c41a">{{ dutyStats.checkInRate ? dutyStats.checkInRate + '%' : '--' }}</div>
-        <div class="stat-label">签到率</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" style="color:#1890ff">{{ dutyStats.onTimeRate ? dutyStats.onTimeRate + '%' : '--' }}</div>
-        <div class="stat-label">准时率</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" style="color:#4FC3F7">{{ dutyStats.handoverCount || 0 }}</div>
-        <div class="stat-label">交接班记录</div>
-      </div>
-    </div>
+    <!-- 值班摘要（固定本月口径，不受时间范围筛选影响） -->
+    <ChartCard title="值班摘要" :icon="User" :loading="loading" :empty="statsEmpty" height="150px">
+      <template #extra><span class="card-note">固定本月口径</span></template>
+      <StatGrid :items="statItems" :cols="4" />
+    </ChartCard>
 
-    <!-- 值班人员排班天数排名 -->
-    <ChartCard title="值班人员排班排名" :icon="User" :loading="loading" :empty="!userRank.length" height="360px">
-      <div class="data-list">
-        <div v-for="(d, i) in userRank" :key="d.userName" class="data-row">
-          <span class="data-label">{{ i + 1 }}. {{ d.userName }}</span>
-          <span class="data-val">{{ d.dutyDays }} 天</span>
-        </div>
+    <!-- 值班人员排班排名（横向柱；排班天数 = 去重后的排班日期数） -->
+    <ChartCard
+      title="值班人员排班排名"
+      :icon="Trophy"
+      :loading="loading"
+      :empty="isSeriesEmpty(userRank, (d) => d.dutyDays)"
+      height="330px"
+    >
+      <div :style="{ flex: 1, minWidth: 0, minHeight: 0 }">
+        <div ref="rankEl" :style="{ width: '100%', height: '100%' }"></div>
       </div>
     </ChartCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
-import { User } from '@element-plus/icons-vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import { User, Trophy } from '@element-plus/icons-vue'
 import ChartCard from './ChartCard.vue'
+import StatGrid from './StatGrid.vue'
+import { useChart, isSeriesEmpty, fmtInt, fmtRate, darkTooltip, darkAxis } from '../useChart'
 import { getDutyStats, getDutyUserRank } from '@/api/eiot/firewatch/dataCenter.api'
+// @deprecated 第二轮退场：mock 兜底为过渡期保留，逐 Tab 核对通过后随 mock.ts 一并删除
 import { mockDutyStats, mockUserDutyRank } from '../mock'
 
 const props = defineProps<{ propertyId?: number; days: number }>()
 
-const loading = ref(false)
+const { renderChart } = useChart()
+
+// loading 仅用于首屏（刷新时不切 loading，保持图表容器 DOM 稳定，避免实例随 slot 重建）
+const loading = ref(true)
 const dutyStats = ref<any>({})
 const userRank = ref<any[]>([])
 
+const rankEl = ref<HTMLDivElement>()
+
+const statItems = computed(() => {
+  const s = dutyStats.value || {}
+  return [
+    { label: '本月值班人次', value: fmtInt(s.monthDutyCount), color: '#fff' },
+    { label: '签到率', value: fmtRate(s.checkInRate), color: '#52c41a' },
+    { label: '准时率', value: fmtRate(s.onTimeRate), color: '#1890ff' },
+    { label: '交接班记录', value: fmtInt(s.handoverCount), color: '#4FC3F7' },
+  ]
+})
+
+const statsEmpty = computed(() => !Number(dutyStats.value?.monthDutyCount) && !Number(dutyStats.value?.handoverCount))
+
 const safe = async (fn: () => Promise<any>) => {
-  try { return await fn() } catch { return null }
+  try {
+    return await fn()
+  } catch {
+    return null
+  }
+}
+
+const renderCharts = () => {
+  renderChart(rankEl.value, {
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, ...darkTooltip },
+    grid: { left: 8, right: 24, top: 8, bottom: 8, containLabel: true },
+    xAxis: { type: 'value', minInterval: 1, ...darkAxis },
+    yAxis: {
+      type: 'category',
+      ...darkAxis,
+      data: userRank.value.map((d) => d.userName || '未知人员').reverse(), // 反转让第一名在顶部
+    },
+    series: [
+      {
+        type: 'bar',
+        barMaxWidth: 16,
+        itemStyle: { color: '#4FC3F7', borderRadius: [0, 3, 3, 0] },
+        data: userRank.value.map((d) => d.dutyDays || 0).reverse(),
+      },
+    ],
+  })
 }
 
 const loadData = async () => {
-  loading.value = true
   try {
     const now = new Date()
     const [s, r] = await Promise.all([
       safe(() => getDutyStats(props.propertyId)),
       safe(() => getDutyUserRank(now.getFullYear(), now.getMonth() + 1, props.propertyId)),
     ])
-    dutyStats.value = (s && s.monthDutyCount) ? s : mockDutyStats
-    userRank.value = (r && r.length) ? r : mockUserDutyRank
+    dutyStats.value = s && (s.monthDutyCount || s.handoverCount) ? s : mockDutyStats
+    userRank.value = r?.length ? r : mockUserDutyRank
   } finally {
     loading.value = false
+    await nextTick()
+    renderCharts()
   }
 }
 
-watch(() => [props.propertyId, props.days], () => loadData())
+// 值班为固定本月口径，days 与数据无关，不触发重载
+watch(() => props.propertyId, () => loadData())
 onMounted(() => loadData())
 </script>
 
 <style lang="scss" scoped>
-$bg-card: linear-gradient(170deg, rgba(14,44,78,0.70) 0%, rgba(10,36,66,0.65) 35%, rgba(8,30,56,0.70) 100%);
-$bd: rgba(79,195,247,0.1);
-
 .analysis-grid {
   display: flex;
   flex-direction: column;
@@ -79,48 +112,8 @@ $bd: rgba(79,195,247,0.1);
   width: 100%;
 }
 
-.stat-cards-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-
-.stat-card {
-  background: $bg-card;
-  border: 1px solid $bd;
-  border-radius: 8px;
-  padding: 20px 16px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.18);
-
-  .stat-num {
-    font-size: 32px;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 6px;
-  }
-  .stat-label {
-    font-size: 13px;
-    color: #8b9dc5;
-  }
-}
-
-.data-list {
-  flex: 1;
-  overflow-y: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
-}
-
-.data-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(79,195,247,0.06);
-  font-size: 13px;
-
-  .data-label { color: #8b9dc5; }
-  .data-val { color: #fff; font-weight: 500; }
+.card-note {
+  font-size: 11px;
+  color: #8b9dc5;
 }
 </style>

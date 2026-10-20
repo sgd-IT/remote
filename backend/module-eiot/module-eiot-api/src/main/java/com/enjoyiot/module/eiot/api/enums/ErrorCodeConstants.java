@@ -76,6 +76,10 @@ public interface ErrorCodeConstants {
     ErrorCode CAMERA_DEVICE_NOT_EXISTS = new ErrorCode(2_006_006_000, "摄像头设备不存在");
     ErrorCode CAMERA_ALERT_ALREADY_ACTIVE = new ErrorCode(2_006_006_001, "该报警已处于活跃状态");
 
+    // ========== 告警配置 2_006_008_000 ==========
+    ErrorCode ALERT_CONFIG_ALGORITHM_TYPE_INVALID = new ErrorCode(2_006_008_000, "算法报警类型不合法（可选值：1高温 2热成像 3烟火 4离岗 5消防通道占用）");
+    ErrorCode ALERT_CONFIG_RULE_REQUIRED = new ErrorCode(2_006_008_001, "未选择算法报警类型时，规则不能为空");
+
     // ========== 消防值守-座机号码 2_006_007_000 ==========
     ErrorCode DUTY_PHONE_NOT_SYSTEM_TENANT = new ErrorCode(2_006_007_000, "仅值守平台（系统租户）可维护座机号码");
     ErrorCode DUTY_PHONE_EXISTS = new ErrorCode(2_006_007_001, "该租户下座机号码已存在");
@@ -86,4 +90,9 @@ public interface ErrorCodeConstants {
     ErrorCode CALL_RECORD_NO_VOICE = new ErrorCode(2_006_007_101, "该通话无对应录音文件");
     ErrorCode CALL_RECORD_VOICE_FETCH_FAILED = new ErrorCode(2_006_007_102, "录音文件拉取失败，请稍后重试");
     ErrorCode CALL_PUSH_SESSION_ID_EMPTY = new ErrorCode(2_006_007_103, "话单推送缺少必填参数 sessionid");
+
+    // ========== 消防值守-空间管理 2_006_007_200 ==========
+    ErrorCode SPACE_EXISTS = new ErrorCode(2_006_007_200, "该租户下相同楼栋/楼层/区域/详细位置的空间已存在");
+    ErrorCode SPACE_NOT_EXISTS = new ErrorCode(2_006_007_201, "空间不存在");
+    ErrorCode SPACE_USED_BY_DEVICE = new ErrorCode(2_006_007_202, "该空间下存在设备，无法删除");
 }

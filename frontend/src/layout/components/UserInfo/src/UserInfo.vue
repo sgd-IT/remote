@@ -49,6 +49,9 @@ const loginOut = async () => {
 const toProfile = async () => {
   push('/user/profile')
 }
+const toChangelog = async () => {
+  push('/changelog')
+}
 const toResetPwd = async () => {
   push('/user/profile')
 }
@@ -67,6 +70,10 @@ const toResetPwd = async () => {
         <ElDropdownItem>
           <Icon icon="ep:tools" />
           <div @click="toProfile">{{ t('common.profile') }}</div>
+        </ElDropdownItem>
+        <ElDropdownItem>
+          <Icon icon="ep:document" />
+          <div @click="toChangelog">更新日志</div>
         </ElDropdownItem>
         <ElDropdownItem divided>
           <Icon icon="ep:edit" />

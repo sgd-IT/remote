@@ -34,12 +34,14 @@ import com.enjoyiot.module.eiot.api.device.dto.DeviceInfo;
 import com.enjoyiot.module.eiot.api.enums.ErrorCodeConstants;
 import com.enjoyiot.module.eiot.controller.admin.alertconfig.vo.AlertConfigSaveReqVO;
 import com.enjoyiot.module.eiot.controller.admin.alertconfig.vo.AlertRecordPageReq;
+import com.enjoyiot.module.eiot.controller.app.cameraalert.enums.CameraEventTypeEnum;
 import com.enjoyiot.module.eiot.convert.AlertConfigConvert;
 import com.enjoyiot.module.eiot.convert.AlertRecordConvert;
 import com.enjoyiot.module.eiot.dal.dataobject.AlertRecordDO;
 import com.enjoyiot.module.eiot.dal.dataobject.alertconfig.AlertConfigDO;
 import com.enjoyiot.module.eiot.dal.mysql.AlertRecordMapper;
 import com.enjoyiot.module.eiot.dal.mysql.alertconfig.AlertConfigMapper;
+import com.enjoyiot.module.eiot.service.alarm.AlarmSemantics;
 import com.enjoyiot.module.eiot.service.device.DeviceInfoService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -69,6 +71,8 @@ public class AlertConfigServiceImpl implements AlertConfigService {
 
     @Override
     public Long createAlertConfig(AlertConfigSaveReqVO createReqVO) {
+        // 校验算法报警类型与规则的联动规则
+        validateAlgorithmAlertType(createReqVO);
         // 插入
         AlertConfigDO alertConfig = BeanUtils.toBean(createReqVO, AlertConfigDO.class);
         alertConfigMapper.insert(alertConfig);
@@ -80,6 +84,8 @@ public class AlertConfigServiceImpl implements AlertConfigService {
     public void updateAlertConfig(AlertConfigSaveReqVO updateReqVO) {
         // 校验存在
         validateAlertConfigExists(updateReqVO.getId());
+        // 校验算法报警类型与规则的联动规则
+        validateAlgorithmAlertType(updateReqVO);
         // 更新
         AlertConfigDO updateObj = BeanUtils.toBean(updateReqVO, AlertConfigDO.class);
         alertConfigMapper.updateById(updateObj);
@@ -109,8 +115,13 @@ public class AlertConfigServiceImpl implements AlertConfigService {
     }
 
     public Long addAlertRecord(AlertConfig config, Message message) {
+        // 写侧三写（定稿 4.1 W5）：接入层归一——主机告警配置 level（1火警/2故障/3电源故障/4离线/5其他）→ 报警类型；
+        // 定级层派生等级，一级兜底Ⅳ档；无法识别时不写新语义（回退旧透传，走双读回退）
+        Integer alarmKind = AlarmSemantics.alertConfigLevelToKind(config.getLevel());
         AlertRecord record = AlertRecord.builder()
-                .level(config.getLevel())
+                .level(alarmKind != null ? AlarmSemantics.deriveLevel(alarmKind) : config.getLevel())
+                .alarmKind(alarmKind)
+                .tier(AlarmSemantics.defaultTierForKind(alarmKind))
                 .name(config.getName())
                 .deviceId(message.getDeviceId())
                 .productKey(message.getProductKey())
@@ -147,6 +158,21 @@ public class AlertConfigServiceImpl implements AlertConfigService {
     private void validateAlertConfigExists(Long id) {
         if (alertConfigMapper.selectById(id) == null) {
             throw ServiceExceptionUtil.exception(ErrorCodeConstants.NOT_EXISTS);
+        }
+    }
+
+    /**
+     * 算法报警类型与规则联动校验：
+     * 1. 选择算法报警类型时必须为 1-5 的合法值，此时规则引擎非必填
+     * 2. 未选择算法报警类型（通用规则配置）时，规则引擎必填
+     */
+    private void validateAlgorithmAlertType(AlertConfigSaveReqVO reqVO) {
+        Integer algorithmAlertType = reqVO.getAlgorithmAlertType();
+        if (algorithmAlertType != null && CameraEventTypeEnum.valueOfType(algorithmAlertType) == null) {
+            throw ServiceExceptionUtil.exception(ErrorCodeConstants.ALERT_CONFIG_ALGORITHM_TYPE_INVALID);
+        }
+        if (algorithmAlertType == null && reqVO.getRuleInfoId() == null) {
+            throw ServiceExceptionUtil.exception(ErrorCodeConstants.ALERT_CONFIG_RULE_REQUIRED);
         }
     }
 

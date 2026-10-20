@@ -152,6 +152,11 @@ public class DeviceInfo  extends BaseModel {
     private String addr;
 
     /**
+     * 空间ID（关联 eiot_space.id，设备地址）
+     */
+    private Long spaceId;
+
+    /**
      * 经纬度
      */
     private Double lat;

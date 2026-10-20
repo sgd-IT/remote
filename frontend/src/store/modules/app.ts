@@ -57,6 +57,8 @@ export const useAppStore = defineStore('app', {
       hamburger: false,
       // 全屏图标
       screenfull: false,
+      // 搜索
+      search: true,
       // 尺寸图标
       size: false,
       // 多语言图标

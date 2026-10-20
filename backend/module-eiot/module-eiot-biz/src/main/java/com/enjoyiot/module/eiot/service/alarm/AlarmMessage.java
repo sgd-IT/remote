@@ -139,17 +139,24 @@ public class AlarmMessage {
 
     /**
      * 生成告警详情（用于存入 eiot_alert_record.details）
+     * <p>
+     * 主口径（2026-10-10 确认）：具体事件描述-租户名称，如"烟感报警-广东安为安全科技有限公司"；
+     * 租户名缺失时回退旧口径「描述 | 来源」，保证详情不落空
      */
-    public String buildDetails() {
+    public String buildDetails(String tenantName) {
         StringBuilder sb = new StringBuilder();
-        sb.append(alarmDescription != null ? alarmDescription : buildAlarmName());
+        String desc = alarmDescription != null ? alarmDescription : buildAlarmName();
+        if (tenantName != null && !tenantName.isEmpty()) {
+            sb.append(desc).append('-').append(tenantName);
+        } else {
+            sb.append(desc).append(" | 来源: ").append(sourceType.getDescription());
+        }
         if (alarmLocation != null) {
             sb.append(" | 位置: ").append(alarmLocation);
         }
         if (componentInfo != null && componentInfo.componentDesc != null) {
             sb.append(" | 部件: ").append(componentInfo.componentDesc);
         }
-        sb.append(" | 来源: ").append(sourceType.getDescription());
         return sb.toString();
     }
 

@@ -17,6 +17,7 @@ export interface UserVO {
   pushEnabled?: boolean
   tenantId?: number
   tenantName?: string
+  userType?: number
   loginDate: Date
   createTime: Date
 }

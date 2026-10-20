@@ -78,7 +78,7 @@
   <ContentWrap>
     <el-row :gutter="10" class="mb-10px" align="middle">
       <el-col :span="1.5">
-        <el-button type="primary" @click="handleCreate"><Icon icon="ep:plus" class="mr-5px" />新增排班</el-button>
+        <el-button type="primary" @click="handleCreate()"><Icon icon="ep:plus" class="mr-5px" />新增排班</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" @click="handleAutoSchedule"><Icon icon="ep:calendar" class="mr-5px" />自动排班</el-button>
@@ -108,10 +108,9 @@
           <el-tag :type="getShiftTypeTag(row.shiftType)" size="small">{{ row.shiftTypeName }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="班次名称" prop="shiftName" width="90" />
-      <el-table-column label="值班时间" width="110">
+      <el-table-column label="值班时间" width="140">
         <template #default="{ row }">
-          {{ row.startTime }} - {{ row.endTime }}
+          {{ formatDutyTimeRange(row) }}
         </template>
       </el-table-column>
       <el-table-column label="值班人" prop="dutyUserName" width="90" />
@@ -166,9 +165,6 @@
           <el-radio label="wholeday">全天班</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="班次名称" prop="shiftName">
-        <el-input v-model="formData.shiftName" placeholder="请输入班次名称" />
-      </el-form-item>
       <el-row>
         <el-col :span="12">
           <el-form-item label="开始时间" prop="startTime">
@@ -204,6 +200,13 @@
 
   <!-- 自动排班对话框 -->
   <el-dialog v-model="autoScheduleVisible" title="自动排班" width="500px" append-to-body>
+    <el-alert
+      type="info"
+      :closable="false"
+      show-icon
+      class="mb-10px"
+      title="生成规则：只从明天开始排（今天及以前不生成）——每天 1 条「全天班」（08:00 → 次日 08:00），按下方顺序每天轮换（2 人隔日交替，3 人上 1 休 2，依次类推）；首次从第 1 位开始，之后自动接续上一条排班的下一位；月末最后一天的班到次月 1 日 08:00 结束，次月 1 日由下一位接着值，不会让同一人连续值班；已有排班的日期会跳过，不重复生成。"
+    />
     <el-form ref="autoFormRef" :model="autoScheduleForm" :rules="autoScheduleRules" label-width="100px">
       <el-form-item label="所属单位" prop="propertyId">
         <el-select v-model="autoScheduleForm.propertyId" placeholder="请选择单位" style="width: 100%" @change="handleAutoPropertyChange">
@@ -217,6 +220,22 @@
         <el-select v-model="autoScheduleForm.dutyUsers" multiple placeholder="请选择值班人员" style="width: 100%">
           <el-option v-for="item in userList" :key="item.id" :label="item.nickname" :value="item.id" />
         </el-select>
+        <!-- 勾选顺序就是初始轮换顺序，可上移/下移调整；后端按这个顺序循环排班 -->
+        <div v-if="autoScheduleForm.dutyUsers.length" class="mt-8px w-full">
+          <div class="mb-4px text-12px" style="color: var(--el-text-color-secondary)">轮换顺序（第 1 位先值）</div>
+          <div
+            v-for="(userId, index) in autoScheduleForm.dutyUsers"
+            :key="userId"
+            class="mb-4px flex items-center gap-8px"
+            style="padding: 4px 8px; border-radius: 4px; background: var(--el-fill-color-lighter)"
+          >
+            <span class="w-16px text-center text-12px" style="color: var(--el-text-color-secondary)">{{ index + 1 }}</span>
+            <span class="flex-1">{{ getUserName(userId) }}</span>
+            <el-button link :disabled="index === 0" @click="moveDutyUser(index, -1)">上移</el-button>
+            <el-button link :disabled="index === autoScheduleForm.dutyUsers.length - 1" @click="moveDutyUser(index, 1)">下移</el-button>
+            <el-button link type="danger" @click="removeDutyUser(index)">移除</el-button>
+          </div>
+        </div>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -270,6 +289,7 @@
           <el-link :underline="false" style="font-size: 12px; margin-left: 8px" type="primary" @click="handleDownloadTemplate">
             下载模板
           </el-link>
+          <div style="margin-top: 4px">填写提醒：日期填班次开始当天，且只导入明天及以后的排班；班次填「全天班」（08:00 → 次日 08:00）。</div>
         </div>
       </template>
     </el-upload>
@@ -332,7 +352,7 @@
         <el-timeline-item
           v-for="item in selectedDaySchedules"
           :key="item.id"
-          :timestamp="item.startTime + ' - ' + item.endTime"
+          :timestamp="formatDutyTimeRange(item)"
           placement="top"
           :color="getShiftTimelineColor(item.shiftType)"
         >
@@ -390,6 +410,7 @@ import { getPropertyList } from '@/api/eiot/firewatch/firewatch.api'
 import { getSimpleUserList } from '@/api/system/user/index'
 import { getTenantId } from '@/utils/auth'
 import download from '@/utils/download'
+import { showImportResult } from '@/utils/importResult'
 
 defineOptions({ name: 'FireWatchDuty' })
 
@@ -450,10 +471,10 @@ const formData = ref<any>({
   id: undefined,
   propertyId: undefined,
   scheduleDate: undefined,
-  shiftType: 'day',
-  shiftName: '白班',
+  shiftType: 'wholeday',
+  shiftName: '全天班',
   startTime: '08:00',
-  endTime: '18:00',
+  endTime: '08:00',
   dutyUserId: undefined,
   dutyUserName: '',
   dutyUserPhone: '',
@@ -493,6 +514,26 @@ const autoScheduleRules = reactive<FormRules>({
   month: [{ required: true, message: '请选择排班月份', trigger: 'change' }],
   dutyUsers: [{ required: true, message: '请选择值班人员', trigger: 'change' }]
 })
+
+// 按 ID 取姓名，顺序列表里用；找不到时兜底显示 ID，避免空白
+const getUserName = (userId: number) => {
+  const user = userList.value.find((u: any) => u.id === userId)
+  return user?.nickname || `用户${userId}`
+}
+
+// 上移/下移调整轮换顺序，直接改数组顺序，提交时后端按这个顺序轮换
+const moveDutyUser = (index: number, offset: number) => {
+  const list = autoScheduleForm.value.dutyUsers
+  const target = index + offset
+  if (target < 0 || target >= list.length) return
+  const [item] = list.splice(index, 1)
+  list.splice(target, 0, item)
+}
+
+// 从顺序列表移除，等价于在多选里取消勾选
+const removeDutyUser = (index: number) => {
+  autoScheduleForm.value.dutyUsers.splice(index, 1)
+}
 
 // 换班
 const changeDutyVisible = ref(false)
@@ -793,6 +834,17 @@ const handleAutoSchedule = () => {
   autoScheduleVisible.value = true
 }
 
+// 与后端"只从明天开始排"的规则对齐：算出某月可排天数（明天 ~ 月末；全过期返回 0）
+const getSchedulableDays = (year: number, month: number): number => {
+  const monthEnd = new Date(year, month, 0)
+  const now = new Date()
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+  const monthStart = new Date(year, month - 1, 1)
+  const from = tomorrow > monthStart ? tomorrow : monthStart
+  if (from > monthEnd) return 0
+  return Math.round((monthEnd.getTime() - from.getTime()) / 86400000) + 1
+}
+
 // 提交自动排班
 const submitAutoSchedule = async () => {
   if (!autoScheduleForm.value.propertyId || !autoScheduleForm.value.month || !autoScheduleForm.value.dutyUsers.length) {
@@ -800,8 +852,18 @@ const submitAutoSchedule = async () => {
     return
   }
   const [year, month] = (autoScheduleForm.value.month as string).split('-').map(Number)
+  // 整月都已过期就没必要发请求，提前拦下来
+  const schedulableDays = getSchedulableDays(year, month)
+  if (schedulableDays <= 0) {
+    ElMessage.warning('所选月份没有可排日期（自动排班只排明天及以后）')
+    return
+  }
   const res = await autoScheduleApi(autoScheduleForm.value.propertyId, year, month, autoScheduleForm.value.dutyUsers)
-  ElMessage.success(`自动排班完成，共生成 ${res || 'N'} 条排班记录`)
+  const generated = res ?? 0
+  // 少于可排天数的差额 = 当天已有排班被跳过的天数，给用户一句交代，避免看到"0 条"发懵
+  const skipped = schedulableDays - generated
+  const skipTip = skipped > 0 ? `（${skipped} 天已有排班，未重复生成）` : ''
+  ElMessage.success(`自动排班完成，共生成 ${generated} 条排班记录${skipTip}`)
   autoScheduleVisible.value = false
   getList()
   loadStatistics()
@@ -838,10 +900,10 @@ const handleExport = async () => {
       return
     }
     // 生成CSV
-    const headers = ['排班日期', '班次', '班次名称', '值班时间', '值班人', '联系电话', '岗位', '状态', '签到时间', '签退时间', '备注']
+    const headers = ['排班日期', '班次', '值班时间', '值班人', '联系电话', '岗位', '状态', '签到时间', '签退时间', '备注']
     const rows = data.map((row: any) => [
-      row.scheduleDate, row.shiftTypeName, row.shiftName,
-      `${row.startTime}-${row.endTime}`, row.dutyUserName, row.dutyUserPhone,
+      row.scheduleDate, row.shiftTypeName,
+      formatDutyTimeRange(row), row.dutyUserName, row.dutyUserPhone,
       row.dutyUserPosition, row.statusName, formatTimestamp(row.checkInTime), formatTimestamp(row.checkOutTime), row.remark || ''
     ])
     const csv = '\uFEFF' + headers.join(',') + '\n' + rows.map((r: string[]) => r.map(c => `"${c}"`).join(',')).join('\n')
@@ -884,22 +946,18 @@ const submitImport = async () => {
     formData.append('file', importFileList.value[0].raw)
     formData.append('propertyId', String(importPropertyId.value))
     const res = await importDutySchedule(formData)
-    let text = `导入完成！成功 ${res.successCount || 0} 条`
-    if (res.failCount > 0) {
-      text += `，失败 ${res.failCount} 条`
-      if (res.errors && res.errors.length > 0) {
-        text += '<br/>失败详情：'
-        for (const item of res.errors) {
-          text += `<br/>第${item.row}行：${item.message}`
-        }
-      }
-    }
-    ElMessage({ message: text, type: res.failCount > 0 ? 'warning' : 'success', dangerouslyUseHTMLString: true })
+    // 注意：upload 封装返回的是完整报文（成功条数在 res.data 里），不像 post 会解包，别直接读 res.successCount
+    showImportResult(res)
     importVisible.value = false
     getList()
     loadStatistics()
   } catch (e: any) {
-    ElMessage.error(e?.message || '导入失败')
+    // 业务错误（如"导入数据为空"）请求层已弹出具体原因，这里不再重复弹通用失败提示
+    if (e?.message) {
+      ElMessage.error(e.message)
+    } else {
+      console.error('[排班导入] 导入失败:', e)
+    }
   } finally {
     importLoading.value = false
   }
@@ -926,8 +984,8 @@ const handleShiftTypeChange = (val: string) => {
     formData.value.endTime = '08:00'
   } else {
     formData.value.shiftName = '全天班'
-    formData.value.startTime = '00:00'
-    formData.value.endTime = '23:59'
+    formData.value.startTime = '08:00'
+    formData.value.endTime = '08:00'
   }
 }
 
@@ -938,10 +996,10 @@ const resetForm = () => {
     id: undefined,
     propertyId: undefined,
     scheduleDate: undefined,
-    shiftType: 'day',
-    shiftName: '白班',
+    shiftType: 'wholeday',
+    shiftName: '全天班',
     startTime: '08:00',
-    endTime: '18:00',
+    endTime: '08:00',
     dutyUserId: undefined,
     dutyUserName: '',
     dutyUserPhone: '',
@@ -1007,6 +1065,14 @@ const submitForm = async () => {
     console.error('[submitForm] 保存失败:', e)
     ElMessage.error(e?.response?.data?.msg || e?.message || '保存失败，请重试')
   }
+}
+
+// 跨天班次（结束时间不晚于开始时间，如全天班 08:00→08:00、夜班 18:00→08:00）展示时标注"次日"，
+// 否则 "08:00 - 08:00" 看不出是到第二天早上结束；跨天口径与后端 Mapper.SHIFT_ENDED 一致
+const formatDutyTimeRange = (row: any): string => {
+  if (!row.startTime || !row.endTime) return `${row.startTime || ''} - ${row.endTime || ''}`
+  const crossDay = row.endTime <= row.startTime
+  return `${row.startTime} - ${crossDay ? '次日 ' : ''}${row.endTime}`
 }
 
 // 获取班次类型标签

@@ -43,13 +43,14 @@
 
     <VerifyModal v-model="verifyVisible" :action-name="currentActionName" @confirm="handleVerifyConfirm" />
 
-    <!-- 滚动告警弹窗 -->
+    <!-- 滚动告警弹窗（支持收起：收起后本次会话静默，出现新告警时重新弹出） -->
     <Teleport to="body">
-      <div v-if="currentScrollAlert" class="rc-scroll-alert" :class="'level-' + getAlertLevel(currentScrollAlert)">
+      <div v-if="currentScrollAlert && !scrollAlertDismissed" class="rc-scroll-alert" :class="'level-' + getAlertLevel(currentScrollAlert)">
         <div class="rc-scroll-alert-header">
           <span class="rc-scroll-alert-badge" :class="'sev-' + getAlertLevel(currentScrollAlert)">{{ getAlertLevelText(currentScrollAlert) }}</span>
           <span class="rc-scroll-alert-device">{{ currentScrollAlert.deviceName || '未知设备' }}</span>
           <span class="rc-scroll-alert-count">{{ scrollAlertIndex + 1 }}/{{ pendingAlerts.length }}</span>
+          <button class="rc-scroll-alert-close" title="收起" @click="dismissScrollAlert"><el-icon><Close /></el-icon></button>
         </div>
         <div class="rc-scroll-alert-body">
           <span class="rc-scroll-alert-content">{{ currentScrollAlert.details || currentScrollAlert.name || '设备告警' }}</span>
@@ -123,6 +124,15 @@ const pendingAlerts = ref<any[]>([])
 let alertPollingTimer: ReturnType<typeof setInterval> | null = null
 let alertScrollTimer: ReturnType<typeof setInterval> | null = null
 const scrollAlertIndex = ref(0)
+// 收起态：本次会话静默（内存态，刷新/重进页面复位）；收起时记下已见过的告警 id，
+// 静默期间只对"新出现的告警"重新弹出，已见过的不再打扰
+const scrollAlertDismissed = ref(false)
+const dismissedAlertIds = ref<Set<any>>(new Set())
+
+const dismissScrollAlert = () => {
+  scrollAlertDismissed.value = true
+  dismissedAlertIds.value = new Set(pendingAlerts.value.map((a: any) => a.id))
+}
 
 const currentScrollAlert = computed(() => {
   if (pendingAlerts.value.length === 0) return null
@@ -146,11 +156,13 @@ const displayCameras = computed(() => {
   return cameras.value
 })
 
+// 等级收敛为纯数字 1/2/3：数据源（未处置告警 AlertRecord）level 为落库数字编码；
+// 旧数据/未归一记录的 '4'/'5' 走 info 兜底
 const getAlertLevel = (alert: any) => {
   const level = alert?.level
-  if (level === '1' || level === 'critical') return 'critical'
-  if (level === '2' || level === 'major') return 'major'
-  if (level === '3' || level === 'warning') return 'warning'
+  if (level === '1') return 'critical'
+  if (level === '2') return 'major'
+  if (level === '3') return 'warning'
   return 'info'
 }
 
@@ -199,12 +211,20 @@ const loadAlertDeviceCameras = async (deviceId: string | number) => {
 const fetchDeviceAlerts = async () => {
   if (!selectedDeviceId.value) return
   try {
-    // 后端按父设备ID查询，自动覆盖父设备自身 + 其子设备的告警
-    const res = await getUnprocessedAlertsByParentDevice(Number(selectedDeviceId.value), 5)
+    // 后端按父设备ID查询，自动覆盖父设备自身 + 其子设备；未传窗口时默认当天（重启/刷新后仍能恢复待处置提示）
+    const res = await getUnprocessedAlertsByParentDevice(Number(selectedDeviceId.value))
     const alerts = (Array.isArray(res) ? res : res?.data) || []
     pendingAlerts.value = alerts
     // 启动/重启滚动定时器
     if (alerts.length > 0) startAlertScroll()
+    // 收起状态下出现新告警 → 重新弹出并定位到第一条新告警（本次会话静默只针对已见过的那批）
+    if (scrollAlertDismissed.value) {
+      const firstNewIndex = alerts.findIndex((a: any) => !dismissedAlertIds.value.has(a.id))
+      if (firstNewIndex >= 0) {
+        scrollAlertIndex.value = firstNewIndex
+        scrollAlertDismissed.value = false
+      }
+    }
   } catch (e) {
     // 静默失败
   }
@@ -535,6 +555,24 @@ onUnmounted(() => {
   font-size: 11px;
   color: #6b7b9a;
   flex-shrink: 0;
+}
+
+.rc-scroll-alert-close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #6b7b9a;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover { color: #fff; background: rgba(255, 255, 255, 0.12); }
 }
 
 .rc-scroll-alert-body {

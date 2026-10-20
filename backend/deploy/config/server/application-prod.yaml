@@ -163,16 +163,16 @@ debug: false
 --- #################### 微信公众号、小程序相关配置 ####################
 wx:
   mp:
-    app-id: test-**
-    secret: test-**
+    app-id: test-wx5b23ba7a5589ecbb
+    secret: **
     config-storage:
       type: RedisTemplate
       key-prefix: wx
       http-client-type: HttpClient
   miniapp:
     # 旧小程序 AppID/AppSecret（已更换，测试号）
-    # appid: test-**
-    # secret: test-**
+    # appid: test-wx66186af0759f47c9
+    # secret: **
     appid: **
     secret: **
     config-storage:
@@ -193,18 +193,18 @@ platform:
     env-version: develop
   wxa-subscribe-message:
     miniprogram-state: developer
-  tencent-lbs-key: **
+  tencent-lbs-key: TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E
 
 justauth:
   enabled: true
   type:
     DINGTALK:
-      client-id: test-**
-      client-secret: test-**
+      client-id: test-dingvrnreaje3yqvzhxg
+      client-secret: **
       ignore-check-redirect-uri: true
     WECHAT_ENTERPRISE:
-      client-id: test-**
-      client-secret: test-**
+      client-id: test-wwd411c69a39ad2e54
+      client-secret: **
       agent-id: 1000004
       ignore-check-redirect-uri: true
     WECHAT_MINI_APP:
@@ -233,13 +233,13 @@ config:
 
 sms:
   gzdl:
-    cdkey: **
+    cdkey: GZDLNQ0MS3749018276
     password: **
 
 # 四信接口配置
 fourfaith:
   api:
-    url: https://**
+    url: https://api.fourfaith.com
     brand-code: fourfaith
     model: FF-GBT-01
     version: "1.0"

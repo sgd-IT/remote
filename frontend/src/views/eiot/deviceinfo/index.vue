@@ -22,6 +22,7 @@
       v-model:page="state.page"
       v-model:query="state.query"
       @del-fun="handleDelete"
+      @export-fun="handleExport"
       :addFunc="handleAdd"
       @open-before-fun="openBeforeFun"
       @change="onChange"
@@ -48,11 +49,7 @@
           >添加设备到组
         </el-button>
 
-        <el-button
-          type="success"
-          @click="handleBatchAssignTenant"
-          >批量分配租户
-        </el-button>
+        <el-button type="success" @click="handleBatchAssignTenant">批量分配租户 </el-button>
 
         <el-radio-group v-model="layoutType">
           <el-radio-button value="table">
@@ -80,10 +77,7 @@
                   {{ item.name }}
                 </div>
                 <div class="title-r">
-                  <status-tag
-                    :type="getStateType(item.state)"
-                    :text="getStateText(item.state)"
-                  />
+                  <status-tag :type="getStateType(item.state)" :text="getStateText(item.state)" />
                 </div>
               </div>
               <div class="text flex">
@@ -221,6 +215,22 @@
           </template>
         </el-input>
       </template>
+      <template #exportRight>
+        <el-select
+          v-model="state.query.tenantId"
+          clearable
+          placeholder="所属企业"
+          style="width: 220px; margin-left: 10px"
+          @change="handleTenantChange"
+        >
+          <el-option
+            v-for="item in tenantOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          />
+        </el-select>
+      </template>
     </yt-crud>
     <children-dialog ref="childrenDialogRef" />
 
@@ -251,18 +261,17 @@
     </el-dialog>
 
     <!-- 批量分配租户弹窗 -->
-    <el-dialog title="批量分配租户" v-model="state.showBatchAssignTenant" width="900px" append-to-body destroy-on-close>
-      <el-alert
-        type="info"
-        :closable="false"
-        show-icon
-        style="margin-bottom: 16px"
-      >
-        <template #title>
-          请勾选需要分配租户的设备，已有租户的设备不会被修改。
-        </template>
+    <el-dialog
+      title="批量分配租户"
+      v-model="state.showBatchAssignTenant"
+      width="900px"
+      append-to-body
+      destroy-on-close
+    >
+      <el-alert type="info" :closable="false" show-icon style="margin-bottom: 16px">
+        <template #title> 请勾选需要分配租户的设备，已有租户的设备不会被修改。 </template>
       </el-alert>
-      
+
       <!-- 设备选择表格 -->
       <el-table
         ref="batchDeviceTableRef"
@@ -279,18 +288,20 @@
         <el-table-column prop="serialNo" label="序列号" width="180" />
         <el-table-column prop="tenantName" label="所属企业" width="120">
           <template #default="{ row }">
-            <el-tag v-if="row.tenantId && row.tenantId !== 0" type="success">{{ row.tenantName || '已分配' }}</el-tag>
+            <el-tag v-if="row.tenantId && row.tenantId !== 0" type="success">{{
+              row.tenantName || '已分配'
+            }}</el-tag>
             <el-tag v-else type="info">未分配</el-tag>
           </template>
         </el-table-column>
       </el-table>
-      
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="color: #606266;">
-          已选择 <b style="color: #409eff;">{{ batchSelectedDevices.length }}</b> 个设备
+
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <div style="color: #606266">
+          已选择 <b style="color: #409eff">{{ batchSelectedDevices.length }}</b> 个设备
         </div>
-        <el-form label-width="80px" style="display: flex; align-items: center;">
-          <el-form-item label="选择租户" style="margin-bottom: 0;">
+        <el-form label-width="80px" style="display: flex; align-items: center">
+          <el-form-item label="选择租户" style="margin-bottom: 0">
             <el-select v-model="state.assignTenantId" placeholder="请选择租户" style="width: 200px">
               <el-option
                 v-for="item in tenantOptions"
@@ -302,11 +313,15 @@
           </el-form-item>
         </el-form>
       </div>
-      
+
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="state.showBatchAssignTenant = false">取 消</el-button>
-          <el-button type="primary" @click="confirmBatchAssignTenant" :disabled="batchSelectedDevices.length === 0 || !state.assignTenantId">
+          <el-button
+            type="primary"
+            @click="confirmBatchAssignTenant"
+            :disabled="batchSelectedDevices.length === 0 || !state.assignTenantId"
+          >
             确 定
           </el-button>
         </span>
@@ -332,17 +347,23 @@
         </el-form-item>
         <!-- 新增：父设备选择（可选） -->
         <el-form-item label="父设备">
-          <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px">
             <select-device
               :id="importParentObj?.id?.toString() || ''"
               :node-type="0"
               size="default"
               placeholder="请选择父设备（可选）"
               @on-select="handleSelectParent"
-              @update:id="(val) => { if (!val) clearImportParent() }"
-              style="flex: 1;"
+              @update:id="
+                (val) => {
+                  if (!val) clearImportParent()
+                }
+              "
+              style="flex: 1"
             />
-            <el-button v-if="importParentObj" link type="danger" @click="clearImportParent">清除</el-button>
+            <el-button v-if="importParentObj" link type="danger" @click="clearImportParent"
+              >清除</el-button
+            >
           </div>
         </el-form-item>
         <el-form-item label="文件名">
@@ -419,7 +440,7 @@ const state = reactive({
   loading: false,
   showDeviceMap: false,
   mapLnglat: '' as any,
-  query: {},
+  query: {} as Record<string, any>,
   showDeviceToGroup: false,
   toGroupId: '',
   showBatchAssignTenant: false,
@@ -541,10 +562,29 @@ getGroupsList()
 // 租户列表
 const tenantOptions = ref<any[]>([])
 
+//拉取企业列表
 const loadTenantOptions = () => {
   getTenantPage({ pageNo: 1, pageSize: 100 }).then((res) => {
     tenantOptions.value = res.list || []
   })
+}
+loadTenantOptions()
+// 按租户筛选：回第 1 页重新查询；清空时删掉条件恢复全量
+const handleTenantChange = () => {
+  if (!state.query.tenantId) {
+    delete state.query.tenantId
+  }
+  state.page.pageNo = 1
+  getData()
+}
+// 导出：把当前筛选条件（含租户）一起带给后端
+const handleExport = async () => {
+  try {
+    const res = await DeviceInfoApi.exportDeviceInfo({ ...state.query })
+    download.excel(res, '设备信息.xls')
+  } catch (e) {
+    ElMessage.error('导出失败，请稍后重试')
+  }
 }
 
 const column = ref<IColumn[]>([
@@ -561,7 +601,7 @@ const column = ref<IColumn[]>([
     tableWidth: 240,
     componentProps: {
       placeholder: '别名'
-    },
+    }
   },
   {
     label: '唯一标识',
@@ -695,8 +735,9 @@ const column = ref<IColumn[]>([
         {
           label: '离线',
           value: 0
-        },{
-         label: '未激活',
+        },
+        {
+          label: '未激活',
           value: 2
         },
         {
@@ -902,15 +943,15 @@ const confirmBatchAssignTenant = async () => {
       tenantId: state.assignTenantId
     })
     console.log('[批量分配租户] 响应:', res)
-    
+
     // 处理响应：请求工具可能已解包，直接返回 data；也可能返回完整的 {code, data} 结构
     const data = res?.data || res
     const successCount = data?.successCount ?? 0
     const skippedCount = data?.skippedCount ?? 0
     const totalCount = data?.totalCount ?? deviceIds.length
-    
+
     console.log('[批量分配租户] 结果:', { successCount, skippedCount, totalCount })
-    
+
     // 根据结果展示不同的提示
     if (successCount > 0 && skippedCount === 0) {
       // 全部成功
@@ -927,7 +968,7 @@ const confirmBatchAssignTenant = async () => {
       // 都没有
       ElMessage.info('没有设备被分配租户')
     }
-    
+
     getData()
   } catch (e: any) {
     // 异常捕获
@@ -1039,7 +1080,7 @@ const options = reactive({
           align-items: center;
           flex: 1;
           min-width: 0; // 添加这行
-          
+
           // 添加这个样式块
           > div:last-child {
             overflow: hidden;
@@ -1096,10 +1137,10 @@ const options = reactive({
             display: inline-block;
             color: #0b1d30;
             flex: 1;
-            overflow: hidden;      // 添加这行
+            overflow: hidden; // 添加这行
             text-overflow: ellipsis; // 添加这行
-            white-space: nowrap;   // 修改这行
-            max-width: 180px;      // 添加这行
+            white-space: nowrap; // 修改这行
+            max-width: 180px; // 添加这行
 
             &.active {
               color: #0070ff;

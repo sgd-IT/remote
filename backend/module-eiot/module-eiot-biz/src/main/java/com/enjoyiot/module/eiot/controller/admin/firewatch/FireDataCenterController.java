@@ -20,12 +20,11 @@ import static com.enjoyiot.framework.common.pojo.CommonResult.success;
 /**
  * 数据中心 Controller
  *
- * <p>注意：本模块全部查询接口目前为开发中状态，Service 为空壳实现（固定返回空集合/空对象占位），
- * 前端已同步展示「开发中」标识与示例数据说明，详见 data-center/index.vue。</p>
+ * <p>统计口径与依赖说明见 FireDataCenterService 类头注释（近 N 天窗口、双读类型、租户与物业过滤规则）。</p>
  *
  * @author EnjoyIot
  */
-@Tag(name = "管理后台 - 数据中心", description = "开发中：以下接口均为空壳占位，尚未实现真实统计逻辑")
+@Tag(name = "管理后台 - 数据中心", description = "数据中心统计接口")
 @RestController
 @RequestMapping("/eiot/firewatch/data-center")
 @Validated
@@ -46,11 +45,12 @@ public class FireDataCenterController {
     }
 
     @GetMapping("/alarm-type-distribution")
-    @Operation(summary = "获取告警类型分布")
+    @Operation(summary = "获取告警类型分布（近 N 天）")
     @PreAuthorize("@ss.hasPermission('eiot:firewatch:data-center:query')")
     public CommonResult<List<DataCenterRespVO.AlarmTypeItem>> getAlarmTypeDistribution(
+            @RequestParam(value = "days", defaultValue = "30") Integer days,
             @RequestParam(value = "propertyId", required = false) Long propertyId) {
-        return success(fireDataCenterService.getAlarmTypeDistribution(propertyId));
+        return success(fireDataCenterService.getAlarmTypeDistribution(days, propertyId));
     }
 
     @GetMapping("/alarm-property-rank")
@@ -61,30 +61,33 @@ public class FireDataCenterController {
         return success(fireDataCenterService.getPropertyAlarmRank(days));
     }
 
-    @GetMapping("/alarm-hourly-heatmap")
-    @Operation(summary = "获取24h告警时段热力数据")
+    @GetMapping("/alarm-hourly-distribution")
+    @Operation(summary = "获取24小时告警时段分布（近 N 天）")
     @PreAuthorize("@ss.hasPermission('eiot:firewatch:data-center:query')")
-    public CommonResult<List<DataCenterRespVO.HourlyHeatmapItem>> getAlarmHourlyHeatmap(
+    public CommonResult<List<DataCenterRespVO.HourlyDistributionItem>> getAlarmHourlyDistribution(
+            @RequestParam(value = "days", defaultValue = "30") Integer days,
             @RequestParam(value = "propertyId", required = false) Long propertyId) {
-        return success(fireDataCenterService.getAlarmHourlyHeatmap(propertyId));
+        return success(fireDataCenterService.getAlarmHourlyDistribution(days, propertyId));
     }
 
     @GetMapping("/alarm-level-distribution")
-    @Operation(summary = "获取告警等级分布")
+    @Operation(summary = "获取告警档位分布（近 N 天，仅一级事件有档位）")
     @PreAuthorize("@ss.hasPermission('eiot:firewatch:data-center:query')")
     public CommonResult<List<DataCenterRespVO.AlarmLevelItem>> getAlarmLevelDistribution(
+            @RequestParam(value = "days", defaultValue = "30") Integer days,
             @RequestParam(value = "propertyId", required = false) Long propertyId) {
-        return success(fireDataCenterService.getAlarmLevelDistribution(propertyId));
+        return success(fireDataCenterService.getAlarmLevelDistribution(days, propertyId));
     }
 
     // ==================== 设备分析 ====================
 
     @GetMapping("/device-status")
-    @Operation(summary = "获取设备状态统计")
+    @Operation(summary = "获取设备状态统计（快照；仅告警设备数为近 N 天口径）")
     @PreAuthorize("@ss.hasPermission('eiot:firewatch:data-center:query')")
     public CommonResult<DataCenterRespVO.DeviceStatusItem> getDeviceStatus(
+            @RequestParam(value = "days", defaultValue = "30") Integer days,
             @RequestParam(value = "propertyId", required = false) Long propertyId) {
-        return success(fireDataCenterService.getDeviceStatus(propertyId));
+        return success(fireDataCenterService.getDeviceStatus(days, propertyId));
     }
 
     @GetMapping("/device-category")
@@ -125,11 +128,12 @@ public class FireDataCenterController {
     // ==================== 巡检统计 ====================
 
     @GetMapping("/patrol-stats")
-    @Operation(summary = "获取巡检统计摘要")
+    @Operation(summary = "获取巡检统计摘要（近 N 天）")
     @PreAuthorize("@ss.hasPermission('eiot:firewatch:data-center:query')")
     public CommonResult<DataCenterRespVO.PatrolStatsItem> getPatrolStats(
+            @RequestParam(value = "days", defaultValue = "30") Integer days,
             @RequestParam(value = "propertyId", required = false) Long propertyId) {
-        return success(fireDataCenterService.getPatrolStats(propertyId));
+        return success(fireDataCenterService.getPatrolStats(days, propertyId));
     }
 
     @GetMapping("/patrol-trend")
@@ -152,11 +156,12 @@ public class FireDataCenterController {
     }
 
     @GetMapping("/hazard-stats")
-    @Operation(summary = "获取隐患统计")
+    @Operation(summary = "获取隐患统计（近 N 天，按发现日期）")
     @PreAuthorize("@ss.hasPermission('eiot:firewatch:data-center:query')")
     public CommonResult<DataCenterRespVO.HazardStatsItem> getHazardStats(
+            @RequestParam(value = "days", defaultValue = "30") Integer days,
             @RequestParam(value = "propertyId", required = false) Long propertyId) {
-        return success(fireDataCenterService.getHazardStats(propertyId));
+        return success(fireDataCenterService.getHazardStats(days, propertyId));
     }
 
     @GetMapping("/work-order-trend")

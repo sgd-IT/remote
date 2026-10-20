@@ -184,8 +184,13 @@ const handleLogin = async (params: any) => {
     permissionStore.getAddRouters.forEach((route) => {
       router.addRoute(route as unknown as RouteRecordRaw)
     })
+    // 消控室值班员整天盯的就是值守大屏，登录后不要再绕一层监控中心
     let defaultPath = '/monitoring-center'
-    if (userStore.getRoles?.some(r => r === 'super_admin' || r === 'monitor_role')) {
+    if (
+      userStore.getRoles?.some(
+        (r) => r === 'super_admin' || r === 'monitor_role' || r === 'fire_watcher'
+      )
+    ) {
       defaultPath = '/duty-screen'
     }
     if (!redirect.value || redirect.value === '/' || redirect.value === '/index') {

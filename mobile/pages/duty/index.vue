@@ -41,7 +41,7 @@
 					</view>
 					<view class="info-row">
 						<text class="info-label">时间</text>
-						<text class="info-val">{{ item.startTime || '' }} - {{ item.endTime || '' }}</text>
+						<text class="info-val">{{ dutyTimeText(item) }}</text>
 					</view>
 					<view class="info-row" v-if="item.dutyUserPhone">
 						<text class="info-label">电话</text>
@@ -245,6 +245,11 @@ export default {
 			const now = new Date()
 			const nowStr = `${now.getFullYear()}-${p(now.getMonth() + 1)}-${p(now.getDate())} ${p(now.getHours())}:${p(now.getMinutes())}`
 			return `${date} ${item.endTime}` < nowStr
+		},
+		// 跨天班次（如全天班 08:00→08:00、夜班 18:00→08:00）展示时标注"次日"，避免看不出结束日期
+		dutyTimeText(item) {
+			if (!item.startTime || !item.endTime) return `${item.startTime || ''} - ${item.endTime || ''}`
+			return `${item.startTime} - ${item.endTime <= item.startTime ? '次日 ' : ''}${item.endTime}`
 		}
 	}
 }

@@ -1,7 +1,8 @@
+<!--工具栏"零件"组件-->
 <template>
   <el-card shadow="never" v-if="!hide">
     <template #header>
-      <el-row justify="space-between" style="margin-bottom: 0;">
+      <el-row justify="space-between" style="margin-bottom: 0">
         <el-row :gutter="gutter" align="middle">
           <el-col :span="span" v-if="addBtn">
             <el-button v-bind="addBind" type="primary" @click="emits('handleAdd')">
@@ -9,14 +10,28 @@
               {{ addBtnText }}
             </el-button>
           </el-col>
+          <!-- 新增按钮右侧扩展位 -->
+          <slot name="addRight"></slot>
           <el-col :span="span" v-if="exportBtn">
             <el-button v-bind="exportBind" plain @click="emits('handleExport')">
-              <Icon icon="ep:folder-opened"  class="mr-5px" />
+              <Icon icon="ep:folder-opened" class="mr-5px" />
               <span>{{ exportBtnText }}</span>
             </el-button>
           </el-col>
-          <el-col :span="span" v-if="delBtn" class="ml10" style="display: flex;align-items: center;">
-            <el-checkbox v-model="isAll" @change="(e) => emits('changeAll', e)" :indeterminate="isIndeterminate" label="all" size="large">
+          <slot name="exportRight"></slot>
+          <el-col
+            :span="span"
+            v-if="delBtn"
+            class="ml10"
+            style="display: flex; align-items: center"
+          >
+            <el-checkbox
+              v-model="isAll"
+              @change="(e) => emits('changeAll', e)"
+              :indeterminate="isIndeterminate"
+              label="all"
+              size="large"
+            >
               <div class="checkbox-txt">
                 已选<span>{{ props.multipleSelection.length || 0 }}</span
                 >项
@@ -29,11 +44,10 @@
               v-bind="delBind"
               :disabled="props.multipleSelection.length === 0"
               @click="handleDel"
-              >
+            >
               <Icon icon="ep:delete" class="mr-5px" />
               {{ delBtnText }}
-            </el-button
-            >
+            </el-button>
           </el-col>
         </el-row>
         <div class="rightToolbar">
@@ -53,17 +67,29 @@
 import { funProps } from './props/crudProps'
 
 import { ElMessageBox } from 'element-plus'
-const props = defineProps({...funProps})
-const exportBind = reactive(props.exportPermi ? {
-  vHasPermi: props.exportPermi
-} : {})
+const props = defineProps({ ...funProps })
+const exportBind = reactive(
+  props.exportPermi
+    ? {
+        vHasPermi: props.exportPermi
+      }
+    : {}
+)
 
-const addBind = reactive(props.addPermi ? {
-  vHasPermi: props.addPermi
-} : {})
-const delBind = reactive(props.delPermi ? {
-  vHasPermi: props.delPermi
-} : {})
+const addBind = reactive(
+  props.addPermi
+    ? {
+        vHasPermi: props.addPermi
+      }
+    : {}
+)
+const delBind = reactive(
+  props.delPermi
+    ? {
+        vHasPermi: props.delPermi
+      }
+    : {}
+)
 
 // 参数
 const showSearch = ref(false)
@@ -72,21 +98,19 @@ const isIndeterminate = ref(false)
 const emits = defineEmits(['handleAdd', 'handleDel', 'handleExport', 'reloadData', 'changeAll'])
 
 const handleDel = () => {
-  ElMessageBox.confirm(
-    `是否确认批量删除${props.multipleSelection.length}条数据?`,
-    '提示',
-    {
-      type: 'warning',
-    }
-  )
-    .then(() => {
-      emits('handleDel', props.multipleSelection)
-    })
+  ElMessageBox.confirm(`是否确认批量删除${props.multipleSelection.length}条数据?`, '提示', {
+    type: 'warning'
+  }).then(() => {
+    emits('handleDel', props.multipleSelection)
+  })
 }
-watch(() => props.multipleSelection, (newV) => {
-  isAll.value = newV.length === props.limit
-  isIndeterminate.value = 0 < newV.length && newV.length < props.limit
-})
+watch(
+  () => props.multipleSelection,
+  (newV) => {
+    isAll.value = newV.length === props.limit
+    isIndeterminate.value = 0 < newV.length && newV.length < props.limit
+  }
+)
 </script>
 
 <style lang="scss" scoped>

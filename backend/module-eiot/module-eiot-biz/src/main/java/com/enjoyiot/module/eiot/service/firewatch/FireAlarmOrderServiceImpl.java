@@ -18,6 +18,7 @@ import com.enjoyiot.module.eiot.dal.mysql.deviceinfo.EiotDeviceInfoMapper;
 import com.enjoyiot.module.eiot.dal.mysql.firewatch.FirePropertyMapper;
 import com.enjoyiot.module.eiot.dal.mysql.product.ProductMapper;
 import com.enjoyiot.module.eiot.service.UserTenantResolver;
+import com.enjoyiot.module.eiot.service.alarm.AlarmSemantics;
 import com.enjoyiot.module.system.api.sms.SmsSendApi;
 import com.enjoyiot.module.system.api.sms.dto.send.SmsSendSingleToUserReqDTO;
 import com.enjoyiot.module.system.api.tenant.TenantApi;
@@ -26,8 +27,6 @@ import com.enjoyiot.module.system.api.user.dto.AdminUserRespDTO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.fontbox.ttf.TrueTypeCollection;
-import org.apache.fontbox.ttf.TrueTypeFont;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -37,10 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -108,9 +104,16 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
             }
         }
 
+        // 写侧三写（定稿 4.1 W4）：手工建单=人工直接触发→一级+Ⅰ档（1.5）；类型按入参归一，缺省/未知按火警
+        Integer alarmKind = AlarmSemantics.alarmTypeToKind(createReqVO.getAlarmType());
+        if (alarmKind == null) {
+            alarmKind = AlarmSemantics.KIND_FIRE;
+        }
         AlertRecordDO record = AlertRecordDO.builder()
                 .alertTime(alertTimeMs)
-                .level(createReqVO.getAlarmLevel() != null ? createReqVO.getAlarmLevel() : "1")
+                .level(AlarmSemantics.deriveLevel(alarmKind))
+                .alarmKind(alarmKind)
+                .tier(alarmKind == AlarmSemantics.KIND_FIRE ? AlarmSemantics.TIER_I : null)
                 .name(createReqVO.getAlarmDescription())
                 .details(createReqVO.getAlarmDescription())
                 .alarmType(0)
@@ -237,7 +240,7 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
 
         // 2. 生成PDF
         try (PDDocument document = new PDDocument()) {
-            PDType0Font font = loadChineseFont(document);
+            PDType0Font font = PdfReportUtils.loadChineseFont(document);
 
             // A4 横向
             float pageWidth = PDRectangle.A4.getHeight();
@@ -313,7 +316,7 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
                     float yPos = tableY;
 
                     // 画表头
-                    drawPdfTableHeader(cs, font, headers, widths, marginLeft, yPos, headerRowHeight);
+                    PdfReportUtils.drawPdfTableHeader(cs, font, headers, widths, marginLeft, yPos, headerRowHeight);
                     yPos -= headerRowHeight;
 
                     // 画数据行
@@ -333,7 +336,7 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
                                 row.getOrDefault("handleTime", ""),
                                 row.getOrDefault("responseTime", "")
                         };
-                        drawPdfTableRow(cs, font, values, widths, marginLeft, yPos, rowHeight,
+                        PdfReportUtils.drawPdfTableRow(cs, font, values, widths, marginLeft, yPos, rowHeight,
                                 i % 2 == 0);
                         yPos -= rowHeight;
                     }
@@ -396,8 +399,9 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
                 throw new IllegalArgumentException("未知的处理类型：" + handleType);
         }
 
-        // 标记为已读 + 追加处置备注
+        // 标记为已读 + 同步处置状态 + 追加处置备注
         record.setReadFlg(true);
+        record.setHandleStatus(resolveHandleStatusByAction(action));
         String newDetails = appendRemarkToDetails(record.getDetails(), handleReqVO.getHandler(), action, handleReqVO.getHandleRemark());
         record.setDetails(newDetails);
         alertRecordMapper.updateById(record);
@@ -437,9 +441,19 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
             throw new IllegalArgumentException("告警记录不存在: id=" + id);
         }
         record.setReadFlg(true);
+        record.setHandleStatus(resolveHandleStatusByAction(action));
         String newDetails = appendRemarkToDetails(record.getDetails(), handler, action, remark);
         record.setDetails(newDetails);
         alertRecordMapper.updateById(record);
+    }
+
+    /**
+     * 按处置动作解析同步落库的处置状态（与 AlertOrderStatusResolver 展示语义一致）：
+     * 确认火警 → 2 处置中（未闭环）；标记误报 / 确认真实火警 / 关闭工单 / 手动处理 → 3 已闭环。
+     * 大屏「待处理」统计判据为 handle_status < 3，处置动作不同步该字段会导致处置后计数不减。
+     */
+    private Integer resolveHandleStatusByAction(String action) {
+        return "确认火警".equals(action) ? 2 : 3;
     }
 
     /**
@@ -599,6 +613,29 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
         }
     }
 
+    /**
+     * 新语义：alarm_kind(1-6) → 前端报警类型（值域与 mapLevelToAlarmType 完全一致）
+     */
+    private String mapAlarmKindToAlarmType(Integer alarmKind) {
+        if (alarmKind == null) return "fire";
+        switch (alarmKind) {
+            case 1:
+                return "fire";        // 火警
+            case 2:
+                return "fault";       // 故障
+            case 3:
+                return "risk";        // 隐患
+            case 4:
+                return "offline";     // 离线
+            case 5:
+                return "false_alarm"; // 误报
+            case 6:
+                return "info";        // 信息
+            default:
+                return "fire";
+        }
+    }
+
     private String getAlarmTypeName(String alarmType) {
         if (alarmType == null) return "";
         switch (alarmType) {
@@ -668,17 +705,19 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
         }
 
         // ====== 2. 报警类型筛选（前端传 alarmType） ======
+        // 双读：新数据取 alarm_kind，旧数据回退 level（类型语义），编号一致故可 COALESCE 后直接比对
         if (StrUtil.isNotBlank(pageReqVO.getAlarmType())) {
-            String level = mapAlarmTypeToLevel(pageReqVO.getAlarmType());
-            log.info("【报警记录搜索】按报警类型筛选: alarmType={}, mappedLevel={}", pageReqVO.getAlarmType(), level);
-            if (level != null) {
-                wrapper.eq(AlertRecordDO::getLevel, level);
+            String kind = mapAlarmTypeToLevel(pageReqVO.getAlarmType());
+            log.info("【报警记录搜索】按报警类型筛选: alarmType={}, mappedKind={}", pageReqVO.getAlarmType(), kind);
+            if (kind != null) {
+                wrapper.apply("COALESCE(alarm_kind, CAST(level AS UNSIGNED)) = {0}", kind);
             } else {
                 log.warn("【报警记录搜索】无法映射报警类型: {}", pageReqVO.getAlarmType());
             }
         }
 
         // ====== 3. 兼容 alarmLevel 参数（后端 VO 原有字段） ======
+        // 无需双读：critical/major/warning 新旧语义均直接映射到 level 值 "1"/"2"/"3" 查询
         if (StrUtil.isNotBlank(pageReqVO.getAlarmLevel())) {
             String recordLevel = mapAlarmLevelToRecordLevel(pageReqVO.getAlarmLevel());
             log.info("【报警记录搜索】按告警级别筛选: alarmLevel={}, mappedLevel={}", pageReqVO.getAlarmLevel(), recordLevel);
@@ -811,16 +850,16 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
             result.setHandleRate(0.0);
         }
 
-        // 4. 按等级统计各类报警数量
-        List<Map<String, Object>> levelStats = alertRecordMapper.countAlertsByLevelAll();
+        // 4. 按报警类型统计各类报警数量
+        List<Map<String, Object>> kindStats = alertRecordMapper.countAlertsByAlarmKindAll();
         int fireAlarms = 0, faultAlarms = 0, riskAlarms = 0, offlineAlarms = 0, falseAlarmAlarms = 0;
-        // level 映射: 1=火警, 2=故障, 3=隐患, 4=离线, 5=误报
-        Map<String, Integer> levelCountMap = new HashMap<>();
-        for (Map<String, Object> stat : levelStats) {
-            String level = stat.get("level") != null ? stat.get("level").toString() : "1";
+        // kind 映射（双读）: 1=火警, 2=故障, 3=隐患, 4=离线, 5=误报
+        Map<String, Integer> kindCountMap = new HashMap<>();
+        for (Map<String, Object> stat : kindStats) {
+            String kind = stat.get("alarmKind") != null ? stat.get("alarmKind").toString() : "1";
             int count = stat.get("count") != null ? Integer.parseInt(stat.get("count").toString()) : 0;
-            levelCountMap.put(level, count);
-            switch (level) {
+            kindCountMap.put(kind, count);
+            switch (kind) {
                 case "1":
                     fireAlarms = count;
                     break;
@@ -850,11 +889,11 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
         result.setAvgResponseTime(0);
 
         // 6. 报警类型分布（含各类已处置数）
-        List<Map<String, Object>> levelReadStats = alertRecordMapper.countAlertsByLevelAndReadStatus();
-        // 构建每个level的已处置数映射: level -> readCount
-        Map<String, Integer> levelReadCountMap = new HashMap<>();
-        for (Map<String, Object> stat : levelReadStats) {
-            String level = stat.get("level") != null ? stat.get("level").toString() : "1";
+        List<Map<String, Object>> kindReadStats = alertRecordMapper.countAlertsByAlarmKindAndReadStatus();
+        // 构建每个类型的已处置数映射: kind -> readCount
+        Map<String, Integer> kindReadCountMap = new HashMap<>();
+        for (Map<String, Object> stat : kindReadStats) {
+            String kind = stat.get("alarmKind") != null ? stat.get("alarmKind").toString() : "1";
             // read_flg 在 MySQL 中若为 TINYINT(1)，JDBC 驱动会映射为 Boolean
             // 此处兼容处理 Boolean 和 Integer 两种类型
             Object readFlgObj = stat.get("readFlg");
@@ -866,17 +905,17 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
             }
             int count = stat.get("count") != null ? Integer.parseInt(stat.get("count").toString()) : 0;
             if (isRead) {
-                levelReadCountMap.put(level, count);
+                kindReadCountMap.put(kind, count);
             }
         }
 
-        // level → alarmType 映射
-        Map<String, String> levelToAlarmType = new HashMap<>();
-        levelToAlarmType.put("1", "fire");
-        levelToAlarmType.put("2", "fault");
-        levelToAlarmType.put("3", "risk");
-        levelToAlarmType.put("4", "offline");
-        levelToAlarmType.put("5", "false_alarm");
+        // kind → alarmType 映射
+        Map<String, String> kindToAlarmType = new HashMap<>();
+        kindToAlarmType.put("1", "fire");
+        kindToAlarmType.put("2", "fault");
+        kindToAlarmType.put("3", "risk");
+        kindToAlarmType.put("4", "offline");
+        kindToAlarmType.put("5", "false_alarm");
 
         Map<String, String> alarmTypeNameMap = new HashMap<>();
         alarmTypeNameMap.put("fire", "火警");
@@ -886,11 +925,11 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
         alarmTypeNameMap.put("false_alarm", "误报");
 
         List<AlarmRecordStatisticsRespVO.AlarmTypeCountVO> typeDistribution = new ArrayList<>();
-        for (Map.Entry<String, String> entry : levelToAlarmType.entrySet()) {
-            String level = entry.getKey();
+        for (Map.Entry<String, String> entry : kindToAlarmType.entrySet()) {
+            String kind = entry.getKey();
             String alarmType = entry.getValue();
-            int count = levelCountMap.getOrDefault(level, 0);
-            int handledCount = levelReadCountMap.getOrDefault(level, 0);
+            int count = kindCountMap.getOrDefault(kind, 0);
+            int handledCount = kindReadCountMap.getOrDefault(kind, 0);
             if (count > 0) {
                 AlarmRecordStatisticsRespVO.AlarmTypeCountVO vo = new AlarmRecordStatisticsRespVO.AlarmTypeCountVO();
                 vo.setAlarmType(alarmType);
@@ -920,10 +959,19 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
         vo.setId(record.getId());
         vo.setOrderNo("ALERT-" + record.getId());
 
-        // level 映射到告警类型和级别
-        String level = record.getLevel();
-        vo.setAlarmLevel(mapLevel(level));
-        vo.setAlarmType(mapLevelToAlarmType(level));
+        // level/alarm_kind 映射到告警类型和级别（双读：alarm_kind 非空=新语义；为空=旧语义回退）
+        if (record.getAlarmKind() != null) {
+            vo.setAlarmLevel(mapLevelNew(record.getLevel()));
+            vo.setAlarmType(mapAlarmKindToAlarmType(record.getAlarmKind()));
+            vo.setTier(record.getTier());
+        } else {
+            String level = record.getLevel();
+            vo.setAlarmLevel(mapLevel(level));
+            vo.setAlarmType(mapLevelToAlarmType(level));
+        }
+
+        // 事件来源出口（定稿 2.2）：alarmCategory 归位为来源维度（0-5=主机/高温/热成像/烟火/离岗/通道占用），此前恒 null
+        vo.setAlarmCategory(record.getAlarmType());
 
         // 时间
         if (record.getAlertTime() != null) {
@@ -960,6 +1008,23 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
                 return "info";
             case "5":
                 return "info";
+            default:
+                return "warning";
+        }
+    }
+
+    /**
+     * 新语义：level(1/2/3) → 前端告警级别（1 为最大优先级）
+     */
+    private String mapLevelNew(String level) {
+        if (level == null) return "warning";
+        switch (level) {
+            case "1":
+                return "critical";
+            case "2":
+                return "major";
+            case "3":
+                return "warning";
             default:
                 return "warning";
         }
@@ -1046,28 +1111,28 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
         LambdaQueryWrapperX<AlertRecordDO> wrapper = new LambdaQueryWrapperX<AlertRecordDO>()
                 .orderByDesc(AlertRecordDO::getAlertTime);
 
-        // 报警类型映射
+        // 报警类型映射（双读：新数据取 alarm_kind，旧数据回退 level 类型语义）
         if (StrUtil.isNotBlank(alarmType)) {
-            String level = null;
+            String kind = null;
             switch (alarmType) {
                 case "fire":
-                    level = "1";
+                    kind = "1";
                     break;
                 case "fault":
-                    level = "2";
+                    kind = "2";
                     break;
                 case "risk":
-                    level = "3";
+                    kind = "3";
                     break;
                 case "offline":
-                    level = "4";
+                    kind = "4";
                     break;
                 case "false_alarm":
-                    level = "5";
+                    kind = "5";
                     break;
             }
-            if (level != null) {
-                wrapper.eq(AlertRecordDO::getLevel, level);
+            if (kind != null) {
+                wrapper.apply("COALESCE(alarm_kind, CAST(level AS UNSIGNED)) = {0}", kind);
             }
         }
 
@@ -1122,8 +1187,10 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
             row.put("alarmTime", "");
         }
 
-        // 报警类型
-        String alarmType = mapLevelToAlarmType(record.getLevel());
+        // 报警类型（双读：alarm_kind 非空=新语义；为空=旧语义回退）
+        String alarmType = record.getAlarmKind() != null
+                ? mapAlarmKindToAlarmType(record.getAlarmKind())
+                : mapLevelToAlarmType(record.getLevel());
         row.put("alarmType", alarmType);
         row.put("alarmTypeName", getAlarmTypeName(alarmType));
 
@@ -1156,167 +1223,6 @@ public class FireAlarmOrderServiceImpl implements FireAlarmOrderService {
         row.put("responseTime", responseTime != null ? responseTime + "s" : "");
 
         return row;
-    }
-
-    /**
-     * 加载中文字体（支持 TTC/OTF/TTF 格式）
-     */
-    private PDType0Font loadChineseFont(PDDocument document) throws IOException {
-        String[] fontPaths = {
-                // Windows 常见中文字体（多为 TTC 格式）
-                "C:/Windows/Fonts/simsun.ttc",
-                "C:/Windows/Fonts/msyh.ttc",
-                "C:/Windows/Fonts/msyhbd.ttc",
-                // Linux 常见中文字体
-                "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttf",
-                "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
-                "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttf",
-                // macOS 常见中文字体
-                "/System/Library/Fonts/PingFang.ttc",
-                "/System/Library/Fonts/STHeiti Light.ttc",
-                "/System/Library/Fonts/STHeiti Medium.ttc",
-        };
-
-        for (String fontPath : fontPaths) {
-            File fontFile = new File(fontPath);
-            if (!fontFile.exists() || !fontFile.isFile()) {
-                continue;
-            }
-
-            try {
-                if (fontPath.toLowerCase().endsWith(".ttc")) {
-                    // TTC (TrueType Collection): 提取嵌入字体
-                    return loadFontFromTtc(document, fontFile);
-                } else {
-                    // TTF/OTF: 直接通过流加载
-                    try (InputStream is = new FileInputStream(fontFile)) {
-                        return PDType0Font.load(document, is, true);
-                    }
-                }
-            } catch (IOException e) {
-                log.warn("[PDF导出] 字体加载失败: {}, 原因: {}", fontPath, e.getMessage());
-            }
-        }
-
-        throw new IOException("未找到系统可用的中文字体文件，请安装中文字体（如宋体、微软雅黑等）后再试");
-    }
-
-    /**
-     * 从 TTC (TrueType Collection) 文件中提取并加载字体
-     */
-    private PDType0Font loadFontFromTtc(PDDocument document, File ttcFile) throws IOException {
-        TrueTypeCollection ttc = new TrueTypeCollection(ttcFile);
-        try {
-            final TrueTypeFont[] firstFont = new TrueTypeFont[1];
-            ttc.processAllFonts(font -> {
-                if (firstFont[0] == null) {
-                    firstFont[0] = font;
-                }
-            });
-            if (firstFont[0] == null) {
-                throw new IOException("TTC文件中未找到字体: " + ttcFile.getAbsolutePath());
-            }
-            // 第二个参数 true 表示将字体嵌入PDF，确保跨平台可移植性
-            return PDType0Font.load(document, firstFont[0], true);
-        } finally {
-            ttc.close();
-        }
-    }
-
-    /**
-     * 绘制PDF表格表头
-     */
-    private void drawPdfTableHeader(PDPageContentStream cs, PDType0Font font, String[] headers,
-                                    float[] widths, float x, float y, float rowHeight) throws IOException {
-        // 背景色
-        cs.setNonStrokingColor(new Color(0.85f, 0.85f, 0.85f));
-        float startX = x;
-        for (int i = 0; i < widths.length; i++) {
-            cs.addRect(startX, y - rowHeight, widths[i], rowHeight);
-            cs.fill();
-            startX += widths[i];
-        }
-        cs.setNonStrokingColor(Color.BLACK);
-
-        // 表头文字
-        cs.setFont(font, 7.5f);
-        startX = x;
-        for (int i = 0; i < headers.length; i++) {
-            cs.beginText();
-            cs.newLineAtOffset(startX + 3, y - rowHeight + 4);
-            cs.showText(headers[i]);
-            cs.endText();
-            startX += widths[i];
-        }
-
-        // 边框
-        drawPdfTableBorders(cs, widths, x, y, rowHeight);
-    }
-
-    /**
-     * 绘制PDF表格数据行
-     */
-    private void drawPdfTableRow(PDPageContentStream cs, PDType0Font font, String[] values,
-                                 float[] widths, float x, float y, float rowHeight,
-                                 boolean isEven) throws IOException {
-        // 交替行背景
-        if (isEven) {
-            cs.setNonStrokingColor(new Color(0.95f, 0.95f, 0.97f));
-            float startX = x;
-            for (float w : widths) {
-                cs.addRect(startX, y - rowHeight, w, rowHeight);
-                cs.fill();
-                startX += w;
-            }
-            cs.setNonStrokingColor(Color.BLACK);
-        }
-
-        // 数据文字
-        cs.setFont(font, 7f);
-        float startX = x;
-        for (int i = 0; i < widths.length; i++) {
-            String text = i < values.length ? values[i] : "";
-            // 截断过长的文本
-            String displayText = truncatePdfText(text, widths[i] - 6, font, 7f);
-            cs.beginText();
-            cs.newLineAtOffset(startX + 3, y - rowHeight + 3);
-            cs.showText(displayText);
-            cs.endText();
-            startX += widths[i];
-        }
-
-        // 边框
-        drawPdfTableBorders(cs, widths, x, y, rowHeight);
-    }
-
-    /**
-     * 绘制PDF表格边框
-     */
-    private void drawPdfTableBorders(PDPageContentStream cs, float[] widths,
-                                     float x, float y, float rowHeight) throws IOException {
-        float totalW = 0;
-        for (float w : widths) totalW += w;
-        // 下边线
-        cs.moveTo(x, y - rowHeight);
-        cs.lineTo(x + totalW, y - rowHeight);
-        cs.stroke();
-    }
-
-    /**
-     * 截断PDF文本使其不超过指定宽度
-     */
-    private String truncatePdfText(String text, float maxWidth, PDType0Font font, float fontSize) throws IOException {
-        if (StrUtil.isBlank(text)) return "";
-        float textWidth = font.getStringWidth(text) / 1000f * fontSize;
-        if (textWidth <= maxWidth) return text;
-        for (int i = text.length(); i > 0; i--) {
-            String sub = text.substring(0, i);
-            float w = font.getStringWidth(sub) / 1000f * fontSize;
-            if (w <= maxWidth - 5) {
-                return sub + "..";
-            }
-        }
-        return "";
     }
 
 }

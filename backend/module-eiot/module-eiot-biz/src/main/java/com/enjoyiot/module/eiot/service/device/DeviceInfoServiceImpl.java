@@ -24,8 +24,8 @@
 package com.enjoyiot.module.eiot.service.device;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.enjoyiot.framework.common.exception.ServiceException;
@@ -34,11 +34,14 @@ import com.enjoyiot.framework.common.pojo.PageResult;
 import com.enjoyiot.framework.common.util.object.BeanUtils;
 import com.enjoyiot.framework.common.util.validation.ValidationUtils;
 import com.enjoyiot.framework.mybatis.core.query.LambdaQueryWrapperX;
+import com.enjoyiot.framework.security.core.util.SecurityFrameworkUtils;
 import com.enjoyiot.framework.tenant.core.aop.TenantIgnore;
 import com.enjoyiot.framework.tenant.core.context.TenantContextHolder;
 import com.enjoyiot.framework.tenant.core.util.TenantUtils;
-import com.enjoyiot.framework.security.core.util.SecurityFrameworkUtils;
-import com.enjoyiot.module.eiot.api.device.dto.*;
+import com.enjoyiot.module.eiot.api.device.dto.DeviceInfo;
+import com.enjoyiot.module.eiot.api.device.dto.DevicePropertyCache;
+import com.enjoyiot.module.eiot.api.device.dto.DeviceShortInfo;
+import com.enjoyiot.module.eiot.api.device.dto.RegisterDevice;
 import com.enjoyiot.module.eiot.api.enums.ErrorCodeConstants;
 import com.enjoyiot.module.eiot.api.product.dto.Product;
 import com.enjoyiot.module.eiot.controller.admin.device.vo.*;
@@ -46,13 +49,17 @@ import com.enjoyiot.module.eiot.controller.admin.device.vo.devicegroup.DeviceImp
 import com.enjoyiot.module.eiot.convert.DeviceInfoConvert;
 import com.enjoyiot.module.eiot.convert.ProductConvert;
 import com.enjoyiot.module.eiot.dal.dataobject.deviceinfo.EiotDeviceInfoDO;
+import com.enjoyiot.module.eiot.dal.dataobject.firewatch.FireSpaceDO;
 import com.enjoyiot.module.eiot.dal.dataobject.product.ProductDO;
 import com.enjoyiot.module.eiot.dal.mysql.EiotIotDeviceGroupMapper;
 import com.enjoyiot.module.eiot.dal.mysql.deviceinfo.EiotDeviceInfoMapper;
+import com.enjoyiot.module.eiot.dal.mysql.firewatch.FireSpaceMapper;
 import com.enjoyiot.module.eiot.dal.mysql.product.ProductMapper;
 import com.enjoyiot.module.eiot.dal.redis.RedisKeyConstants;
 import com.enjoyiot.module.eiot.dal.redis.no.EiotRedisDAO;
 import com.enjoyiot.module.eiot.service.product.ProductService;
+import jakarta.annotation.Resource;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -64,10 +71,9 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
-import jakarta.validation.ConstraintViolationException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.enjoyiot.framework.common.exception.util.ServiceExceptionUtil.exception;
 
@@ -98,6 +104,9 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
     private EiotRedisDAO eiotRedisDAO;
 
     @Resource
+    private FireSpaceMapper fireSpaceMapper;
+
+    @Resource
     private CacheManager cacheManager;
 
 
@@ -119,6 +128,7 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
         // deviceInfo.setId(IdUtil.getSnowflakeNextId());
         deviceInfo.setState(DeviceInfo.STATE_NOT_ACTIVE);
         initProductInfo(deviceInfo, productDO);
+        initSpaceAddr(deviceInfo);
         deviceInfoMapper.insert(deviceInfo);
         // 返回
         return deviceInfo.getId();
@@ -130,6 +140,25 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
 //        deviceInfo.setProtocolCode(productDO.getProtocolCode());
 //        deviceInfo.setKeepAliveTime(productDO.getKeepAliveTime());
         deviceInfo.setTransparent(productDO.getTransparent());
+    }
+
+    /**
+     * 设备地址直接关联空间管理：space_id 非空时以空间字段（楼栋+楼层+区域）刷新 addr 快照
+     * 空间按设备所属租户（来自产品）校验，admin 跨租户编辑设备时同样以设备租户为准
+     */
+    private void initSpaceAddr(EiotDeviceInfoDO deviceInfo) {
+        if (deviceInfo.getSpaceId() == null) {
+            return;
+        }
+        FireSpaceDO space = fireSpaceMapper.selectOne(new LambdaQueryWrapper<FireSpaceDO>()
+                .eq(FireSpaceDO::getTenantId, deviceInfo.getTenantId())
+                .eq(FireSpaceDO::getId, deviceInfo.getSpaceId()));
+        if (space == null) {
+            throw ServiceExceptionUtil.exception(ErrorCodeConstants.SPACE_NOT_EXISTS);
+        }
+        deviceInfo.setAddr(Stream.of(space.getBuilding(), space.getFloor(), space.getArea(), space.getPosition())
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.joining()));
     }
 
     @Override
@@ -150,6 +179,7 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
         // 更新
         EiotDeviceInfoDO updateObj = BeanUtils.toBean(updateReqVO, EiotDeviceInfoDO.class);
         initProductInfo(updateObj, productDO);
+        initSpaceAddr(updateObj);
 
         deviceInfoMapper.updateById(updateObj);
     }

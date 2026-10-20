@@ -1,5 +1,6 @@
 package com.enjoyiot.module.eiot.service.firewatch;
 
+import com.enjoyiot.framework.security.core.service.SecurityFrameworkService;
 import com.enjoyiot.framework.tenant.core.context.TenantContextHolder;
 import com.enjoyiot.framework.tenant.core.util.TenantUtils;
 import com.enjoyiot.module.eiot.controller.admin.firewatch.vo.*;
@@ -17,10 +18,12 @@ import com.enjoyiot.module.eiot.dal.mysql.firewatch.FirePropertyMapper;
 import com.enjoyiot.module.system.api.tenant.TenantApi;
 import com.enjoyiot.module.eiot.service.UserTenantResolver;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.enjoyiot.module.system.enums.permission.RoleCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,52 +60,54 @@ public class FireDashboardServiceImpl implements FireDashboardService {
 
     @Resource
     private UserTenantResolver userTenantResolver;
+    @Resource
+    private SecurityFrameworkService securityFrameworkService;
 
     // ==================== 监控中心大屏（admin 看全部，企业只看自己租户）====================
 
     @Override
-    public DashboardStatisticsRespVO getDashboardStatistics() {
-        // 按当前登录用户账号所属租户统计；系统租户(admin)账号保留看全部
-        return executeWithTenantAware(this::buildStatistics);
+    public DashboardStatisticsRespVO getDashboardStatistics(Long tenantId) {
+        // 仅 super_admin 指定了租户时按该租户查询，其余情况按登录用户所属租户
+        return executeWithTenantAware(this::buildStatistics, tenantId);
     }
 
     // ==================== 值守端大屏（admin 看全部，企业只看自己租户）====================
 
     @Override
     public DashboardStatisticsRespVO getDutyScreenStatistics() {
-        return executeWithTenantAware(this::buildStatistics);
+        return executeWithTenantAware(this::buildStatistics, null);
     }
 
     // ==================== 以下方法保留兼容 ====================
 
     @Override
     public DeviceStatusStatisticsRespVO getDeviceStatusStatistics() {
-        return executeWithTenantAware(this::buildDeviceStatus);
+        return executeWithTenantAware(this::buildDeviceStatus, null);
     }
 
     @Override
     public TodayAlarmStatisticsRespVO getTodayAlarmStatistics() {
-        return executeWithTenantAware(this::buildTodayAlarm);
+        return executeWithTenantAware(this::buildTodayAlarm, null);
     }
 
     @Override
     public List<AlarmOrderRespVO> getRealtimeAlarms(int limit) {
-        return executeWithTenantAware(() -> buildRealtimeAlarms(limit));
+        return executeWithTenantAware(() -> buildRealtimeAlarms(limit), null);
     }
 
     @Override
     public List<DashboardStatisticsRespVO.RiskDistributionVO> getRiskDistribution() {
-        return executeWithTenantAware(this::buildRiskDistribution);
+        return executeWithTenantAware(this::buildRiskDistribution, null);
     }
 
     @Override
     public List<DashboardStatisticsRespVO.AlarmTrendVO> getAlarmTrend(int days) {
-        return executeWithTenantAware(() -> buildAlarmTrend(days));
+        return executeWithTenantAware(() -> buildAlarmTrend(days), null);
     }
 
     @Override
     public List<DashboardStatisticsRespVO.DeviceCategoryVO> getDeviceCategoryDistribution() {
-        return executeWithTenantAware(this::buildDeviceCategory);
+        return executeWithTenantAware(this::buildDeviceCategory, null);
     }
 
     @Override
@@ -165,6 +170,15 @@ public class FireDashboardServiceImpl implements FireDashboardService {
         result.setAlarmTrend(buildAlarmTrend(7));
         result.setDeviceCategoryDistribution(buildDeviceCategory());
         result.setAlarmTypeDistribution(buildAlarmTypeDistribution());
+        Long loginTenantId = userTenantResolver.resolveLoginUserTenantId();
+        result.setTenantId(loginTenantId);
+        if (loginTenantId != null) {
+            try {
+                result.setTenantName(tenantApi.getTenantName(loginTenantId));
+            } catch (Exception e) {
+                log.warn("[大屏] 获取租户名称失败 tenantId={}", loginTenantId, e);
+            }
+        }
 
         // 安全天数
         Integer safeDays = alertRecordMapper.getSafeDays();
@@ -223,11 +237,20 @@ public class FireDashboardServiceImpl implements FireDashboardService {
             int count = row.get("count") != null ? Integer.parseInt(row.get("count").toString()) : 0;
             total += count;
             switch (state) {
-                case 1: online = count; break;       // 在线
-                case 0: offline = count; break;      // 离线
-                case 3: inactive = count; break;     // 未激活
-                case 4: fault = count; break;        // 禁用/故障
-                default: break;                       // 未知状态已计入total，归入未激活
+                case 1:
+                    online = count;
+                    break;       // 在线
+                case 0:
+                    offline = count;
+                    break;      // 离线
+                case 3:
+                    inactive = count;
+                    break;     // 未激活
+                case 4:
+                    fault = count;
+                    break;        // 禁用/故障
+                default:
+                    break;                       // 未知状态已计入total，归入未激活
             }
         }
         log.info("[大屏] 设备统计(raw-GROUP BY): total={}, online={}, offline={}, inactive={}, fault={}",
@@ -290,20 +313,20 @@ public class FireDashboardServiceImpl implements FireDashboardService {
 
         result.setAvgResponseTime(0);
 
-        // 按告警等级统计火警/故障/误报数
-        List<Map<String, Object>> levelStats = alertRecordMapper.countTodayAlertsByLevel();
+        // 按报警类型统计火警/故障/误报数（双读：alarmKind 为类型编码）
+        List<Map<String, Object>> kindStats = alertRecordMapper.countTodayAlertsByAlarmKind();
         int fireAlarmCount = 0;
         int faultAlarmCount = 0;
         int falseAlarmCount = 0;
-        for (Map<String, Object> stat : levelStats) {
-            String level = stat.get("level") != null ? stat.get("level").toString() : "";
+        for (Map<String, Object> stat : kindStats) {
+            String kind = stat.get("alarmKind") != null ? stat.get("alarmKind").toString() : "";
             int count = ((Number) stat.get("count")).intValue();
-            // level=1 为火警, level=2 为故障, level=5 为误报, 其他归为隐患
-            if ("1".equals(level)) {
+            // kind=1 为火警, 2 为故障, 5 为误报
+            if ("1".equals(kind)) {
                 fireAlarmCount += count;
-            } else if ("2".equals(level)) {
+            } else if ("2".equals(kind)) {
                 faultAlarmCount += count;
-            } else if ("5".equals(level)) {
+            } else if ("5".equals(kind)) {
                 falseAlarmCount += count;
             }
         }
@@ -384,14 +407,14 @@ public class FireDashboardServiceImpl implements FireDashboardService {
     }
 
     private List<DashboardStatisticsRespVO.AlarmTypeDistributionVO> buildAlarmTypeDistribution() {
-        // 今日按告警等级统计（level 映射到告警类型: 1=火警, 2=故障, 3=隐患, 4=离线, 5=误报）
-        List<Map<String, Object>> stats = alertRecordMapper.countTodayAlertsByLevel();
-        Map<String, String> levelToType = new HashMap<>();
-        levelToType.put("1", "fire");
-        levelToType.put("2", "fault");
-        levelToType.put("3", "risk");
-        levelToType.put("4", "offline");
-        levelToType.put("5", "false_alarm");
+        // 今日按报警类型统计（kind 映射到告警类型: 1=火警, 2=故障, 3=隐患, 4=离线, 5=误报）
+        List<Map<String, Object>> stats = alertRecordMapper.countTodayAlertsByAlarmKind();
+        Map<String, String> kindToType = new HashMap<>();
+        kindToType.put("1", "fire");
+        kindToType.put("2", "fault");
+        kindToType.put("3", "risk");
+        kindToType.put("4", "offline");
+        kindToType.put("5", "false_alarm");
 
         Map<String, String> typeNameMap = new HashMap<>();
         typeNameMap.put("fire", "火警");
@@ -403,9 +426,9 @@ public class FireDashboardServiceImpl implements FireDashboardService {
         // 按类型聚合
         Map<String, Integer> typeCountMap = new HashMap<>();
         for (Map<String, Object> stat : stats) {
-            String level = stat.get("level") != null ? stat.get("level").toString() : "1";
+            String kind = stat.get("alarmKind") != null ? stat.get("alarmKind").toString() : "1";
             int count = stat.get("count") != null ? Integer.parseInt(stat.get("count").toString()) : 0;
-            String alarmType = levelToType.getOrDefault(level, "smoke");
+            String alarmType = kindToType.getOrDefault(kind, "smoke");
             typeCountMap.merge(alarmType, count, Integer::sum);
         }
 
@@ -550,10 +573,16 @@ public class FireDashboardServiceImpl implements FireDashboardService {
         vo.setId(record.getId());
         vo.setOrderNo("ALERT-" + record.getId());
 
-        // level 映射
-        String level = record.getLevel();
-        vo.setAlarmLevel(mapLevel(level));
-        vo.setAlarmType(mapLevelToAlarmType(level));
+        // level/alarm_kind 映射（双读：alarm_kind 非空=新语义；为空=旧语义回退）
+        if (record.getAlarmKind() != null) {
+            vo.setAlarmLevel(mapLevelNew(record.getLevel()));
+            vo.setAlarmType(mapAlarmKindToAlarmType(record.getAlarmKind()));
+            vo.setTier(record.getTier());
+        } else {
+            String level = record.getLevel();
+            vo.setAlarmLevel(mapLevel(level));
+            vo.setAlarmType(mapLevelToAlarmType(level));
+        }
 
         // 时间
         if (record.getAlertTime() != null) {
@@ -592,41 +621,100 @@ public class FireDashboardServiceImpl implements FireDashboardService {
     private String mapLevel(String level) {
         if (level == null) return "warning";
         switch (level) {
-            case "1": return "critical";
-            case "2": return "major";
-            case "3": return "warning";
-            case "4": return "info";
-            case "5": return "info";
-            case "6": return "info";
-            default: return "warning";
+            case "1":
+                return "critical";
+            case "2":
+                return "major";
+            case "3":
+                return "warning";
+            case "4":
+                return "info";
+            case "5":
+                return "info";
+            case "6":
+                return "info";
+            default:
+                return "warning";
         }
     }
 
     private String mapLevelToAlarmType(String level) {
         if (level == null) return "fire";
         switch (level) {
-            case "1": return "fire";        // 火警
-            case "2": return "fault";       // 故障
-            case "3": return "risk";        // 隐患
-            case "4": return "offline";     // 离线
-            case "5": return "false_alarm"; // 误报
-            case "6": return "info";        // 信息
-            default: return "fire";
+            case "1":
+                return "fire";        // 火警
+            case "2":
+                return "fault";       // 故障
+            case "3":
+                return "risk";        // 隐患
+            case "4":
+                return "offline";     // 离线
+            case "5":
+                return "false_alarm"; // 误报
+            case "6":
+                return "info";        // 信息
+            default:
+                return "fire";
+        }
+    }
+
+    /**
+     * 新语义：alarm_kind(1-6) → 前端报警类型（值域与 mapLevelToAlarmType 完全一致）
+     */
+    private String mapAlarmKindToAlarmType(Integer alarmKind) {
+        if (alarmKind == null) return "fire";
+        switch (alarmKind) {
+            case 1:
+                return "fire";        // 火警
+            case 2:
+                return "fault";       // 故障
+            case 3:
+                return "risk";        // 隐患
+            case 4:
+                return "offline";     // 离线
+            case 5:
+                return "false_alarm"; // 误报
+            case 6:
+                return "info";        // 信息
+            default:
+                return "fire";
+        }
+    }
+
+    /**
+     * 新语义：level(1/2/3) → 前端告警级别（1 为最大优先级）
+     */
+    private String mapLevelNew(String level) {
+        if (level == null) return "warning";
+        switch (level) {
+            case "1":
+                return "critical";
+            case "2":
+                return "major";
+            case "3":
+                return "warning";
+            default:
+                return "warning";
         }
     }
 
     // ==================== 租户隔离工具方法 ====================
 
     /**
-     * 按当前登录用户账号所属租户执行查询逻辑：
-     * - 系统租户(admin)账号：上下文与令牌租户一致时租户拦截器自动跳过，可查看全部数据
-     * - 企业账号：租户拦截器自动添加 WHERE tenant_id = ? 条件，只看本租户
+     * 执行带租户意识的操作
+     * @param supplier
+     * @param overrideTenantId
+     * @return
+     * @param <T>
      */
-    private <T> T executeWithTenantAware(Supplier<T> supplier) {
+    private <T> T executeWithTenantAware(Supplier<T> supplier, Long overrideTenantId) {
         Long userTenantId = userTenantResolver.resolveLoginUserTenantId();
-        if (userTenantId != null) {
-            return TenantUtils.execute(userTenantId, supplier::get);
+        if (userTenantId == null) {
+            return supplier.get();
         }
-        return supplier.get();
+        // 仅超级管理员且显式指定租户时，才允许覆盖登录租户的查询上下文
+        boolean canOverride = overrideTenantId != null
+                && securityFrameworkService.hasRole(RoleCodeEnum.SUPER_ADMIN.getCode());
+        return TenantUtils.execute(canOverride ? overrideTenantId : userTenantId, supplier::get);
     }
 }

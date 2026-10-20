@@ -25,8 +25,8 @@ public class DataCenterRespVO {
     @Schema(description = "各物业告警排名")
     private List<PropertyAlarmRankItem> propertyAlarmRank;
 
-    @Schema(description = "24h告警时段热力数据")
-    private List<HourlyHeatmapItem> hourlyHeatmap;
+    @Schema(description = "24小时告警时段分布数据")
+    private List<HourlyDistributionItem> hourlyDistribution;
 
     @Schema(description = "告警等级分布")
     private List<AlarmLevelItem> alarmLevelDistribution;
@@ -100,9 +100,9 @@ public class DataCenterRespVO {
         private Integer alarmCount;
     }
 
-    @Schema(description = "24h热力项")
+    @Schema(description = "24小时时段分布项")
     @Data
-    public static class HourlyHeatmapItem {
+    public static class HourlyDistributionItem {
         @Schema(description = "小时 0-23")
         private Integer hour;
         @Schema(description = "告警数量")
@@ -120,20 +120,20 @@ public class DataCenterRespVO {
         private Integer count;
     }
 
-    @Schema(description = "设备状态项")
+    @Schema(description = "设备状态项（快照口径；仅 alarmDeviceCountInRange 与 normal 受 days 影响）")
     @Data
     public static class DeviceStatusItem {
-        @Schema(description = "总数")
+        @Schema(description = "设备总数（当前快照）")
         private Integer total;
-        @Schema(description = "正常")
+        @Schema(description = "正常设备数（当前快照，=在线数-近N天告警设备数）")
         private Integer normal;
-        @Schema(description = "告警")
-        private Integer alarm;
-        @Schema(description = "故障")
+        @Schema(description = "近 N 天有告警的设备数（去重；仅此字段与 normal 受 days 影响）")
+        private Integer alarmDeviceCountInRange;
+        @Schema(description = "故障设备数（当前快照）")
         private Integer fault;
-        @Schema(description = "离线")
+        @Schema(description = "离线设备数（当前快照）")
         private Integer offline;
-        @Schema(description = "未激活")
+        @Schema(description = "未激活设备数（当前快照）")
         private Integer inactive;
     }
 
@@ -216,22 +216,22 @@ public class DataCenterRespVO {
         private Integer completed;
         @Schema(description = "超期数")
         private Integer overdue;
-        @Schema(description = "平均处置时长(小时)")
-        private Double avgHandleHours;
     }
 
     @Schema(description = "隐患统计项")
     @Data
     public static class HazardStatsItem {
-        @Schema(description = "总数")
+        @Schema(description = "总数（含已取消）")
         private Integer total;
-        @Schema(description = "待整改")
+        @Schema(description = "待整改（待整改+整改中）")
         private Integer pending;
-        @Schema(description = "已整改")
+        @Schema(description = "已整改（整改中已提交，待验收）")
         private Integer rectified;
-        @Schema(description = "已关闭")
+        @Schema(description = "已闭环")
         private Integer closed;
-        @Schema(description = "整改率(%)")
+        @Schema(description = "超期未整改数（期限已过且未闭环/未关闭，当前值时点指标）")
+        private Integer hazardOverdue;
+        @Schema(description = "整改率(%)=(已整改+已闭环)/(总数-已取消)")
         private Double rectificationRate;
     }
 

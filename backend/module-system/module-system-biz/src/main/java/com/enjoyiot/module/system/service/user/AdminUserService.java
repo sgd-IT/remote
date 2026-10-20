@@ -81,14 +81,6 @@ public interface AdminUserService {
     void updateUserLogin(Long id, String loginIp);
 
     /**
-     * 更新用户类型
-     *
-     * @param id 用户编号
-     * @param userType 用户类型：1.Web 2.App 3.Wx
-     */
-    void updateUserType(Long id, Integer userType);
-
-    /**
      * 修改用户个人信息
      *
      * @param id 用户编号

@@ -1,5 +1,4 @@
 {
-  "miniprogramRoot": "unpackage/dist/dev/mp-weixin/",
   "setting": {
     "urlCheck": false,
     "es6": true,

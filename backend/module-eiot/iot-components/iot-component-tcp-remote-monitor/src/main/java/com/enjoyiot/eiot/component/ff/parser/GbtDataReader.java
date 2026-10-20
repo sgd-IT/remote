@@ -9,13 +9,13 @@ import java.util.function.Consumer;
 
 /**
  * GB/T 26875.3-2011 帧解析器
- *
+ * <p>
  * 从 TCP 字节流中提取完整的 @@...## 数据帧。
  * 使用四阶段状态机：
- *   Phase 0 — 逐字节扫描，等待第一个 0x40 (@)
- *   Phase 1 — 验证第二个 0x40 (@)，确认帧头
- *   Phase 2 — 读取固定 24 字节控制头（流水号→数据长度）
- *   Phase 3 — 读取 command(1) + data(L) + checksum(1) + ##(2) = L+4 字节
+ * Phase 0 — 逐字节扫描，等待第一个 0x40 (@)
+ * Phase 1 — 验证第二个 0x40 (@)，确认帧头
+ * Phase 2 — 读取固定 24 字节控制头（流水号→数据长度）
+ * Phase 3 — 读取 command(1) + data(L) + checksum(1) + ##(2) = L+4 字节
  */
 @Slf4j
 public class GbtDataReader {
@@ -101,9 +101,11 @@ public class GbtDataReader {
                             receiveHandler.accept(fullPacket);
                         } catch (Exception e) {
                             log.error("处理GBT数据包异常", e);
+                        } finally {
+                            // 必须复位：处理逻辑抛出 Error（如类版本错配的 NoSuchMethodError）时
+                            // catch(Exception) 拦不住，若不复位，残留的帧头和固定长度模式会吞掉下一帧
+                            resetState();
                         }
-
-                        resetState();
                         break;
 
                     default:

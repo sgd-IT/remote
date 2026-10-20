@@ -107,4 +107,7 @@ public class UserRespVO{
     @Schema(description = "区域编码（省/市/区中文名称路径）", example = "浙江省/杭州市/西湖区")
     private String areaCode;
 
+    @Schema(description = "登录平台：1=PC 端 2=移动端 3=双端（位掩码）", example = "1")
+    private Integer userType;
+
 }

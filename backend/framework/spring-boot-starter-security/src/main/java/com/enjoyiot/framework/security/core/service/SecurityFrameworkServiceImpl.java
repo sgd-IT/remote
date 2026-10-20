@@ -27,6 +27,8 @@ import cn.hutool.core.collection.CollUtil;
 import com.enjoyiot.framework.security.core.LoginUser;
 import com.enjoyiot.framework.security.core.util.SecurityFrameworkUtils;
 import com.enjoyiot.module.system.api.permission.PermissionApi;
+import com.enjoyiot.module.system.api.user.AdminUserApi;
+import com.enjoyiot.module.system.api.user.dto.AdminUserRespDTO;
 import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
@@ -41,7 +43,13 @@ import static com.enjoyiot.framework.security.core.util.SecurityFrameworkUtils.g
 @AllArgsConstructor
 public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
 
+    /** system_users.user_type 平台位：1=PC端、2=移动端 */
+    private static final int PLATFORM_BIT_PC = 1;
+    private static final int PLATFORM_BIT_MOBILE = 2;
+
     private final PermissionApi permissionApi;
+
+    private final AdminUserApi adminUserApi;
 
     @Override
     public boolean hasPermission(String permission) {
@@ -83,6 +91,25 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
             return false;
         }
         return CollUtil.containsAny(user.getScopes(), Arrays.asList(scope));
+    }
+
+    /**
+     * 确认是否是移动端账号
+     * @return
+     */
+    @Override
+    public boolean hasMobilePlatformAccess() {
+        Long userId = getLoginUserId();
+        if (userId == null) {
+            return false;
+        }
+        AdminUserRespDTO user = adminUserApi.getUser(userId);
+        if (user == null) {
+            return false;
+        }
+        // null 按 PC 端兜底：存量账号没显式配移动位就不放行，口径与登录门禁一致
+        int bits = user.getUserType() == null ? PLATFORM_BIT_PC : user.getUserType();
+        return (bits & PLATFORM_BIT_MOBILE) != 0;
     }
 
 }

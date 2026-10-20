@@ -38,8 +38,8 @@ public class FireDashboardController {
     @GetMapping("/dashboard/statistics")
     @Operation(summary = "获取监控大屏统计数据")
     @PreAuthorize("@ss.hasPermission('eiot:firewatch:dashboard:query')")
-    public CommonResult<DashboardStatisticsRespVO> getDashboardStatistics() {
-        return success(fireDashboardService.getDashboardStatistics());
+    public CommonResult<DashboardStatisticsRespVO> getDashboardStatistics(@RequestParam(value = "tenantId", required = false) Long tenantId) {
+        return success(fireDashboardService.getDashboardStatistics(tenantId));
     }
 
     @GetMapping("/dashboard/device-status")

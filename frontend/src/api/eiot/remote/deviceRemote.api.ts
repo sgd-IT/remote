@@ -62,8 +62,10 @@ export interface AlertRecordVO {
   id: number
   /** 告警名称（火警/故障等） */
   name?: string
-  /** 告警严重度（1-5：1=火警 2=故障 3=隐患 4=离线 5=误报） */
+  /** 告警等级/类型编码（双读）：新数据=等级 1/2/3（1 最急）；旧数据=类型编码 1-5 */
   level?: string
+  /** 报警类型（新语义）：1=火警 2=故障 3=隐患 4=离线 5=误报 6=信息；NULL=过渡期旧数据 */
+  alarmKind?: number
   alertTime: number
   /** 告警详情 */
   details?: string

@@ -79,4 +79,11 @@ public interface SecurityFrameworkService {
      * @return 是否
      */
     boolean hasAnyScopes(String... scope);
+
+    /**
+     * 判断当前登录账号是否允许在移动端使用（移动端接口的准入口径）
+     *
+     * @return 是否
+     */
+    boolean hasMobilePlatformAccess();
 }

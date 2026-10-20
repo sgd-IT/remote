@@ -62,9 +62,14 @@ public class AlertConfigDO extends TenantBaseDO {
      */
     private Long messageTemplateId;
     /**
-     * 规则引擎id
+     * 规则引擎id（未选择算法报警类型时必填）
      */
     private Long ruleInfoId;
+    /**
+     * 算法报警类型：1=高温事件报警 2=热成像事件报警 3=烟火事件报警
+     * 4=离岗事件报警 5=消防通道占用事件报警；NULL=通用规则配置
+     */
+    private Integer algorithmAlertType;
     /**
      * 告警等级
      */

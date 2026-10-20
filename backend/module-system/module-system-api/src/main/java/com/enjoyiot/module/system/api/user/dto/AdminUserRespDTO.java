@@ -54,6 +54,10 @@ public class AdminUserRespDTO {
      * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
+    /**
+     * 登录平台位掩码：1=PC 端、2=移动端、3=双端（1|2 按位或），null 按 PC 端兜底
+     */
+    private Integer userType;
 
     /**
      * 是否允许消息推送

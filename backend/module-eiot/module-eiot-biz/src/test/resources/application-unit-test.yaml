@@ -1,0 +1,18 @@
+# FireDataCenterMapperTest 专用测试配置（@ActiveProfiles("unit-test") 自动加载）
+# 直连开发 MySQL：本项目业务模块无 H2 先例，且 FROM_UNIXTIME / TIMESTAMP(date, time) 等 MySQL 方言与 H2 不兼容；
+# 测试数据由 @Transactional 回滚，不落库、不污染数据。
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.250.160:3306/anwei_fire_remote_monitor?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: **
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 与 server/application.yaml 对齐（MyBatis 3.5.17 的 Map 结果键名不受该项影响，保持 SQL 别名原样）
+
+# EnjoyMybatisAutoConfiguration 的 @MapperScan 需要该配置项才能扫描 Mapper
+platform:
+  info:
+    base-package: com.enjoyiot

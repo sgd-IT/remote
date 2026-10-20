@@ -50,11 +50,11 @@ public class CameraAlertOpenController {
         }
 
         // 2. 上传抓拍到文件存储，获取图片 URL
-        String alertImageUrl = null;
-        if (file != null && !file.isEmpty()) {
-            alertImageUrl = fileApi.createFile(file.getOriginalFilename(), null, file.getBytes());
-            log.info("摄像头报警图片上传成功：{}", alertImageUrl);
-        }
+        // String alertImageUrl = null;
+        // if (file != null && !file.isEmpty()) {
+        //     alertImageUrl = fileApi.createFile(file.getOriginalFilename(), null, file.getBytes());
+        //     log.info("摄像头报警图片上传成功：{}", alertImageUrl);
+        // }
 
         // 3. 解析事件数据
         CameraAlertReportReqVO reqVO = JsonUtils.parseObject(data, CameraAlertReportReqVO.class);
@@ -65,7 +65,9 @@ public class CameraAlertOpenController {
 
         // 4. 写入报警记录
         reqVO.setEventDate(reqVO.getEventDate() != null ? reqVO.getEventDate() : System.currentTimeMillis());
-        deviceAlertConfigService.reportCameraAlert(reqVO, alertImageUrl);
+        reqVO.setFile(file);
+        
+        deviceAlertConfigService.reportCameraAlert(reqVO);
 
         return success(true);
     }
@@ -91,19 +93,9 @@ public class CameraAlertOpenController {
 
         cameraAlertReportReqVO.setEventType(ObjectUtils.isEmpty(cameraAlarmInfoVo.getEventType()) ? 4 : cameraAlarmInfoVo.getEventType());
 
-        String alertImageUrl = null;
-        try {
-            // 2. 上传抓拍到文件存储，获取图片 URL
-            if (file != null && !file.isEmpty()) {
-                alertImageUrl = fileApi.createFile(file.getOriginalFilename(), null, file.getBytes());
-                log.info("摄像头报警图片上传成功：{}", alertImageUrl);
-            }
+        cameraAlertReportReqVO.setFile(file);
 
-        } catch (Exception e) {
-            log.error("图片转换失败");
-        }
-
-        deviceAlertConfigService.reportCameraAlert(cameraAlertReportReqVO, alertImageUrl);
+        deviceAlertConfigService.reportCameraAlert(cameraAlertReportReqVO);
 
         return success(true);
     }

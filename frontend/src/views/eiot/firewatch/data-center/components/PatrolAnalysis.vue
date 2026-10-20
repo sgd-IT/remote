@@ -1,70 +1,126 @@
 <template>
   <div class="analysis-grid">
-    <!-- 巡检统计摘要 -->
-    <div class="stat-cards-row">
-      <div class="stat-card">
-        <div class="stat-num">{{ patrolStats.total || 0 }}</div>
-        <div class="stat-label">总任务数</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" style="color:#52c41a">{{ patrolStats.completed || 0 }}</div>
-        <div class="stat-label">已完成</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" style="color:#1890ff">{{ patrolStats.inProgress || 0 }}</div>
-        <div class="stat-label">进行中</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" style="color:#ff4d4f">{{ patrolStats.overdue || 0 }}</div>
-        <div class="stat-label">超期</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" style="color:#4FC3F7">{{ patrolStats.completeRate ? patrolStats.completeRate + '%' : '--' }}</div>
-        <div class="stat-label">完成率</div>
-      </div>
-    </div>
+    <!-- 巡检摘要（数字卡组，统计范围=时间筛选的近 N 天） -->
+    <ChartCard title="巡检摘要" :icon="DataBoard" :loading="loading" :empty="statsEmpty" height="150px">
+      <template #extra><span class="card-note">超期=截至当前仍未完成且已过期限</span></template>
+      <StatGrid :items="statItems" :cols="3" />
+    </ChartCard>
 
-    <!-- 巡检任务趋势 -->
-    <ChartCard title="巡检任务趋势" :icon="DataBoard" :loading="loading" :empty="!patrolTrend.length" height="360px">
-      <div class="data-list">
-        <div v-for="d in patrolTrend.slice(-14)" :key="d.date" class="data-row">
-          <span class="data-label">{{ d.date?.substring(5) }}</span>
-          <span class="data-val blue">创建 {{ d.createdCount || 0 }}</span>
-          <span class="data-val green">完成 {{ d.completedCount || 0 }}</span>
-        </div>
+    <!-- 巡检任务趋势（创建/完成双折线；plan_date 为空的"每天"重复任务不计入） -->
+    <ChartCard
+      title="巡检任务趋势"
+      :icon="TrendCharts"
+      :loading="loading"
+      :empty="isSeriesEmpty(trend, (d) => (d.createdCount || 0) + (d.completedCount || 0))"
+      height="330px"
+    >
+      <div :style="{ flex: 1, minWidth: 0, minHeight: 0 }">
+        <div ref="trendEl" :style="{ width: '100%', height: '100%' }"></div>
       </div>
     </ChartCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
-import { DataBoard } from '@element-plus/icons-vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import { DataBoard, TrendCharts } from '@element-plus/icons-vue'
 import ChartCard from './ChartCard.vue'
+import StatGrid from './StatGrid.vue'
+import { useChart, isSeriesEmpty, fmtInt, fmtRate, darkTooltip, darkAxis } from '../useChart'
 import { getPatrolStats, getPatrolTrend } from '@/api/eiot/firewatch/dataCenter.api'
+// @deprecated 第二轮退场：mock 兜底为过渡期保留，逐 Tab 核对通过后随 mock.ts 一并删除
 import { mockPatrolStats, mockPatrolTrend } from '../mock'
 
 const props = defineProps<{ propertyId?: number; days: number }>()
 
-const loading = ref(false)
+const { renderChart } = useChart()
+
+// loading 仅用于首屏（刷新时不切 loading，保持图表容器 DOM 稳定，避免实例随 slot 重建）
+const loading = ref(true)
 const patrolStats = ref<any>({})
-const patrolTrend = ref<any[]>([])
+const trend = ref<any[]>([])
+
+const trendEl = ref<HTMLDivElement>()
+
+const statItems = computed(() => {
+  const s = patrolStats.value || {}
+  return [
+    { label: '总任务', value: fmtInt(s.total), color: '#fff' },
+    { label: '已完成', value: fmtInt(s.completed), color: '#52c41a' },
+    { label: '进行中', value: fmtInt(s.inProgress), color: '#1890ff' },
+    { label: '超期', value: fmtInt(s.overdue), color: '#ff4d4f' },
+    { label: '完成率', value: fmtRate(s.completeRate), color: '#4FC3F7' },
+  ]
+})
+
+const statsEmpty = computed(() => !Number(patrolStats.value?.total))
 
 const safe = async (fn: () => Promise<any>) => {
-  try { return await fn() } catch { return null }
+  try {
+    return await fn()
+  } catch {
+    return null
+  }
+}
+
+const renderCharts = () => {
+  renderChart(trendEl.value, {
+    tooltip: { trigger: 'axis', ...darkTooltip },
+    legend: {
+      data: ['创建', '完成'],
+      top: 0,
+      right: 0,
+      itemWidth: 12,
+      itemHeight: 8,
+      textStyle: { color: '#8b9dc5', fontSize: 11 },
+    },
+    grid: { left: 40, right: 12, top: 28, bottom: 24 },
+    xAxis: {
+      type: 'category',
+      data: trend.value.map((d) => String(d.date || '').substring(5)),
+      ...darkAxis,
+      axisLabel: { ...darkAxis.axisLabel, hideOverlap: true },
+    },
+    yAxis: { type: 'value', minInterval: 1, ...darkAxis },
+    series: [
+      {
+        name: '创建',
+        type: 'line',
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 5,
+        itemStyle: { color: '#4FC3F7' },
+        lineStyle: { width: 2 },
+        areaStyle: { color: 'rgba(79,195,247,0.12)' },
+        data: trend.value.map((d) => d.createdCount || 0),
+      },
+      {
+        name: '完成',
+        type: 'line',
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 5,
+        itemStyle: { color: '#52c41a' },
+        lineStyle: { width: 2 },
+        areaStyle: { color: 'rgba(82,196,26,0.10)' },
+        data: trend.value.map((d) => d.completedCount || 0),
+      },
+    ],
+  })
 }
 
 const loadData = async () => {
-  loading.value = true
   try {
     const [s, t] = await Promise.all([
-      safe(() => getPatrolStats(props.propertyId)),
+      safe(() => getPatrolStats(props.days, props.propertyId)),
       safe(() => getPatrolTrend(props.days, props.propertyId)),
     ])
-    patrolStats.value = (s && s.total) ? s : mockPatrolStats
-    patrolTrend.value = (t && t.length) ? t : mockPatrolTrend
+    patrolStats.value = s && s.total ? s : mockPatrolStats
+    trend.value = t?.length ? t : mockPatrolTrend
   } finally {
     loading.value = false
+    await nextTick()
+    renderCharts()
   }
 }
 
@@ -73,9 +129,6 @@ onMounted(() => loadData())
 </script>
 
 <style lang="scss" scoped>
-$bg-card: linear-gradient(170deg, rgba(14,44,78,0.70) 0%, rgba(10,36,66,0.65) 35%, rgba(8,30,56,0.70) 100%);
-$bd: rgba(79,195,247,0.1);
-
 .analysis-grid {
   display: flex;
   flex-direction: column;
@@ -83,52 +136,8 @@ $bd: rgba(79,195,247,0.1);
   width: 100%;
 }
 
-.stat-cards-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-}
-
-.stat-card {
-  background: $bg-card;
-  border: 1px solid $bd;
-  border-radius: 8px;
-  padding: 20px 16px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.18);
-
-  .stat-num {
-    font-size: 28px;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 6px;
-  }
-  .stat-label {
-    font-size: 13px;
-    color: #8b9dc5;
-  }
-}
-
-.data-list {
-  flex: 1;
-  overflow-y: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
-}
-
-.data-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 0;
-  border-bottom: 1px solid rgba(79,195,247,0.06);
-  font-size: 12px;
-
-  .data-label { color: #8b9dc5; }
-  .data-val {
-    font-weight: 500;
-    &.blue { color: #1890ff; }
-    &.green { color: #52c41a; }
-  }
+.card-note {
+  font-size: 11px;
+  color: #8b9dc5;
 }
 </style>

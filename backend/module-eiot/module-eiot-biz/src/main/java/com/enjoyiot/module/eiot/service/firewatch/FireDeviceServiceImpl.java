@@ -70,8 +70,8 @@ public class FireDeviceServiceImpl implements FireDeviceService {
         PageResult<EiotDeviceInfoDO> pageResult = TenantUtils.executeIgnoreWithResult(() ->
                 eiotDeviceInfoMapper.selectPage(pageParam, new LambdaQueryWrapper<EiotDeviceInfoDO>()
                         .eq(EiotDeviceInfoDO::getParentId, parentId)
+                        .eq(EiotDeviceInfoDO::getVisible, false)
                         .in(!lineTypes.isEmpty(), EiotDeviceInfoDO::getLineType, lineTypes)
-                        .and(w -> w.isNull(EiotDeviceInfoDO::getVisible).or().eq(EiotDeviceInfoDO::getVisible, true))
                         .orderByAsc(EiotDeviceInfoDO::getDn)));
         List<DeviceListItemRespVO> list = convertToList(pageResult.getList(), null);
         return new PageResult<>(list, pageResult.getTotal());

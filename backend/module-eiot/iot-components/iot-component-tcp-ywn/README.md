@@ -167,7 +167,7 @@ java -jar target/ywn-protocol-v2-2.0.0.jar 9000
 java -cp target/ywn-protocol-v2-2.0.0.jar com.anwei.ywn.client.YwnClient 127.0.0.1 8839 1001
 
 # 连接YWN平台
-java -cp target/ywn-protocol-v2-2.0.0.jar com.anwei.ywn.client.YwnClient ** 8839 1001
+java -cp target/ywn-protocol-v2-2.0.0.jar com.anwei.ywn.client.YwnClient 39.107.153.92 8839 1001
 ```
 
 ### 客户端交互命令

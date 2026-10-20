@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -91,5 +92,13 @@ public class RemoteConsoleController {
             @PathVariable("action") String action,
             @Valid @RequestBody ValveControlReqVO reqVO) {
         return success(remoteConsoleService.valveControl(action, reqVO));
+    }
+
+    @GetMapping("/valve/command/{deviceId}")
+    @Operation(summary = "拉取并消费智能空开控制命令")
+    @PermitAll // 外部空开控制服务（ValveCommandTask）轮询拉取，免登录；配合 platform.tenant.ignore-urls 忽略租户校验
+    public CommonResult<ValveCommandRespVO> consumeValveCommand(
+            @PathVariable("deviceId") Long deviceId) {
+        return success(remoteConsoleService.consumeValveCommand(deviceId));
     }
 }

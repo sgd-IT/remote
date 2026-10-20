@@ -84,10 +84,12 @@ public class DeviceInfoSaveReqVO {
     @Schema(description = "地址信息")
 
     private String addr;
+    @Schema(description = "空间ID（关联 eiot_space.id）")
+    private Long spaceId;
     @Schema(description = "固件版本")
     private String firmVersion;
 
-    @Schema(description = "设备类型：transfer-用传，camera-摄像头，smoke-烟感等", example = "transfer")
+    @Schema(description = "设备类型：transfer=用传, camera=摄像头, smoke=烟感, temperature=温感, temp_humidity=温湿度, door_magnet=门磁, gas=燃气, hydrant=消火栓, manual=手报", example = "transfer")
     private String deviceType;
 
     @Schema(description = "是否显示：true-显示，false-隐藏", example = "true")

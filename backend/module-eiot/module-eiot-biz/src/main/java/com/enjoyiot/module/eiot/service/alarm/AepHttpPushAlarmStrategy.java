@@ -1,5 +1,6 @@
 package com.enjoyiot.module.eiot.service.alarm;
 
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +31,17 @@ public class AepHttpPushAlarmStrategy implements AlarmProcessingStrategy {
     static final String CTX_KEY_MESSAGE_TYPE = "aepMessageType";
     /** 上下文中存放 dataReport 属性快照的 key */
     static final String CTX_KEY_PAYLOAD = "aepPayload";
+    /** 上下文中存放 eventReport 事件内容的 key（与 AepCallbackServiceImpl 的 put key 一致） */
+    static final String CTX_KEY_EVENT_CONTENT = "eventContent";
     /** AEP messageType: 事件上报 */
     static final String MSG_EVENT_REPORT = "eventReport";
     /** AEP messageType: 数据变化上报 */
     static final String MSG_DATA_REPORT = "dataReport";
+
+    /** dataReport/eventReport 共用的告警属性判定键（用于区分"状态正常的恢复态"与"无法解析的事件内容"） */
+    private static final List<String> ALARM_ATTRIBUTE_KEYS = List.of(
+            "disable_status", "smoke_state", "error", "fault",
+            "tamper_alarm", "humidity_state", "temperature_state");
 
     @Override
     public AlarmSourceType supportedSourceType() {
@@ -72,7 +80,11 @@ public class AepHttpPushAlarmStrategy implements AlarmProcessingStrategy {
     /**
      * 解析 AEP eventReport 消息
      * <p>
-     * eventType=1(信息) → 不告警，返回空列表
+     * 优先解析 {@code eventContent} 中的具体事件内容（与 dataReport 共用 {@link #alarmsFromAttributes} 判定）：
+     * 识别出报警 → 产出具体描述（如"防拆报警"/"烟感报警"）；识别为恢复态 → 不生成告警；
+     * 无法识别 → 回退按 eventType 泛化描述。
+     * <p>
+     * 泛化回退口径：eventType=1(信息) → 不告警，返回空列表
      * eventType=2(警告) → alarmType=risk, alarmLevel=warning
      * eventType=3(故障) → alarmType=fault, alarmLevel=major
      */
@@ -82,15 +94,35 @@ public class AepHttpPushAlarmStrategy implements AlarmProcessingStrategy {
             return Collections.emptyList();
         }
 
+        // 信息类事件不生成告警
+        if (eventType == EVENT_TYPE_INFO) {
+            log.debug("[AEP告警解析] eventReport eventType=1(信息)，不生成告警, deviceId={}",
+                    context.getDeviceId());
+            return Collections.emptyList();
+        }
+
+        // 优先按 eventContent 判定具体事件（如 {"tamper_alarm":1,"serviceid":1005} → 防拆报警）
+        Map<?, ?> content = toContentMap(context.getEventParams().get(CTX_KEY_EVENT_CONTENT));
+        if (content != null && !content.isEmpty()) {
+            List<AlarmMessage> specific = alarmsFromAttributes(context, content);
+            if (!specific.isEmpty()) {
+                log.debug("[AEP告警解析] eventReport 解析出具体事件 {} 条, deviceId={}, content={}",
+                        specific.size(), context.getDeviceId(), content);
+                return specific;
+            }
+            if (hasAlarmAttribute(content)) {
+                // 恢复态事件（如 tamper_alarm=0 / smoke_state=1）：不生成告警，与 dataReport 口径一致
+                log.debug("[AEP告警解析] eventReport 为恢复态事件，不生成告警, deviceId={}, content={}",
+                        context.getDeviceId(), content);
+                return Collections.emptyList();
+            }
+        }
+
+        // 回退：无法解析具体内容时按 eventType 泛化生成（保持原行为）
         String alarmType;
         String alarmLevel;
 
         switch (eventType) {
-            case EVENT_TYPE_INFO:
-                // 信息类事件不生成告警
-                log.debug("[AEP告警解析] eventReport eventType=1(信息)，不生成告警, deviceId={}",
-                        context.getDeviceId());
-                return Collections.emptyList();
             case EVENT_TYPE_WARNING:
                 alarmType = "risk";
                 alarmLevel = "warning";
@@ -116,6 +148,19 @@ public class AepHttpPushAlarmStrategy implements AlarmProcessingStrategy {
     /**
      * 解析 AEP dataReport 属性快照（NB 烟感周期/变化上报）
      * <p>
+     * 判定逻辑与 eventReport 的 eventContent 共用 {@link #alarmsFromAttributes}
+     */
+    private List<AlarmMessage> parseDataReport(AlarmParseContext context) {
+        if (!(context.getEventParams().get(CTX_KEY_PAYLOAD) instanceof Map<?, ?> payload)) {
+            log.warn("[AEP告警解析] dataReport 缺少 payload 或非对象, deviceId={}", context.getDeviceId());
+            return Collections.emptyList();
+        }
+        return alarmsFromAttributes(context, payload);
+    }
+
+    /**
+     * 从属性集判定告警（dataReport 属性快照与 eventReport 事件内容共用同一套判定）
+     * <p>
      * 告警映射（仅报报警态，解除态不产生告警）：
      * smoke_state=0 → fire/critical；error=1 烟感故障 / =3 低压故障；
      * fault ∈ {1,3,4,5,6,7,9} → fault/major；tamper_alarm=1 → risk/warning；
@@ -128,24 +173,19 @@ public class AepHttpPushAlarmStrategy implements AlarmProcessingStrategy {
      * ponytail: 持续报警态下设备每个上报周期都会重推同一属性，仅靠 AlarmRecordService 的
      * 5 分钟去重窗口压制；要彻底消噪得加告警自动关闭/按状态变化触发，那时再改。
      */
-    private List<AlarmMessage> parseDataReport(AlarmParseContext context) {
-        if (!(context.getEventParams().get(CTX_KEY_PAYLOAD) instanceof Map<?, ?> payload)) {
-            log.warn("[AEP告警解析] dataReport 缺少 payload 或非对象, deviceId={}", context.getDeviceId());
-            return Collections.emptyList();
-        }
-
-        Integer disabled = toInteger(payload.get("disable_status"));
+    private List<AlarmMessage> alarmsFromAttributes(AlarmParseContext context, Map<?, ?> attrs) {
+        Integer disabled = toInteger(attrs.get("disable_status"));
         if (disabled != null && disabled == 1) {
             return Collections.singletonList(
                     buildAlarmMessage(context, "shield", "info", "设备已屏蔽"));
         }
 
         List<AlarmMessage> alarms = new ArrayList<>();
-        Integer smoke = toInteger(payload.get("smoke_state"));
+        Integer smoke = toInteger(attrs.get("smoke_state"));
         if (smoke != null && smoke == 0) {
-            alarms.add(buildAlarmMessage(context, "fire", "critical", "烟雾报警"));
+            alarms.add(buildAlarmMessage(context, "fire", "critical", "烟感报警"));
         }
-        Integer error = toInteger(payload.get("error"));
+        Integer error = toInteger(attrs.get("error"));
         if (error != null) {
             if (error == 1) {
                 alarms.add(buildAlarmMessage(context, "fault", "major", "烟感故障"));
@@ -153,20 +193,20 @@ public class AepHttpPushAlarmStrategy implements AlarmProcessingStrategy {
                 alarms.add(buildAlarmMessage(context, "power_fault", "major", "低压故障"));
             }
         }
-        Integer fault = toInteger(payload.get("fault"));
+        Integer fault = toInteger(attrs.get("fault"));
         String faultLabel = fault == null ? null : getFaultLabel(fault);
         if (faultLabel != null) {
             alarms.add(buildAlarmMessage(context, "fault", "major", faultLabel));
         }
-        Integer tamper = toInteger(payload.get("tamper_alarm"));
+        Integer tamper = toInteger(attrs.get("tamper_alarm"));
         if (tamper != null && tamper == 1) {
             alarms.add(buildAlarmMessage(context, "risk", "warning", "防拆报警"));
         }
-        Integer humidity = toInteger(payload.get("humidity_state"));
+        Integer humidity = toInteger(attrs.get("humidity_state"));
         if (humidity != null && humidity == 1) {
             alarms.add(buildAlarmMessage(context, "risk", "warning", "湿度过高"));
         }
-        Integer temperature = toInteger(payload.get("temperature_state"));
+        Integer temperature = toInteger(attrs.get("temperature_state"));
         if (temperature != null && temperature == 1) {
             alarms.add(buildAlarmMessage(context, "temperature", "warning", "温度过高"));
         }
@@ -201,11 +241,6 @@ public class AepHttpPushAlarmStrategy implements AlarmProcessingStrategy {
                 ? context.getOccurredTime()
                 : System.currentTimeMillis();
 
-        StringBuilder description = new StringBuilder(alarmDescPrefix);
-        if (context.getDeviceName() != null) {
-            description.append(" - ").append(context.getDeviceName());
-        }
-
         return AlarmMessage.builder()
                 .sourceType(AlarmSourceType.AEP_HTTP_PUSH)
                 .alarmType(alarmType)
@@ -214,12 +249,42 @@ public class AepHttpPushAlarmStrategy implements AlarmProcessingStrategy {
                 .deviceName(context.getDeviceName())
                 .productKey(context.getProductKey())
                 .alarmTime(alarmTime)
-                .alarmDescription(description.toString())
+                // 描述保持纯事件名（如"烟感报警"）；设备名/租户名由名称与详情各自拼接，不再拼进描述
+                .alarmDescription(alarmDescPrefix)
                 .rawData(context.getRawData())
                 .build();
     }
 
     // ==================== 工具方法 ====================
+
+    /**
+     * eventContent 归一为 Map（兼容对象与 JSON 字符串两种形态；无法解析返回 null）
+     */
+    private Map<?, ?> toContentMap(Object eventContent) {
+        if (eventContent instanceof Map<?, ?> map) {
+            return map;
+        }
+        if (eventContent instanceof String str && str.trim().startsWith("{")) {
+            try {
+                return JSONUtil.parseObj(str);
+            } catch (Exception e) {
+                log.warn("[AEP告警解析] eventContent 字符串解析失败: {}", str);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 属性集中是否含任一已知告警属性（区分"状态正常的恢复态"与"无法解析的事件内容"）
+     */
+    private boolean hasAlarmAttribute(Map<?, ?> attrs) {
+        for (String key : ALARM_ATTRIBUTE_KEYS) {
+            if (attrs.containsKey(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 安全转换为 Integer
